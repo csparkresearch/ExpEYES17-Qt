@@ -22,7 +22,9 @@ class expeyesWidgets():
 		plot=pg.PlotWidget(enableMenu = False)
 		plot.setMouseEnabled(False,True)
 		if 'x' in kwargs.get('disableAutoRange',''):plot.disableAutoRange(axis = plot.plotItem.vb.XAxis)
-		if 'y' in kwargs.get('disableAutoRange',''):plot.disableAutoRange(axis = plot.plotItem.vb.YAxis)
+		if 'y' in kwargs.get('disableAutoRange',''):
+			plot.disableAutoRange(axis = plot.plotItem.vb.YAxis)
+			print ('YAxis disabled')
 		plot.getAxis('left').setGrid(170);
 		plot.getAxis('bottom').setGrid(170); plot.getAxis('bottom').setLabel('time', units='S')
 		limitargs = {a:kwargs.get(a) for a in ['xMin','xMax','yMin','yMax'] if a in kwargs}
@@ -32,6 +34,15 @@ class expeyesWidgets():
 		self.plotDict[plot] = []
 		return plot
 		
+	def addInfiniteLine(self,plot,**kwargs):
+		line = pg.InfiniteLine(angle=kwargs.get('angle',0), movable=kwargs.get('movable',True))
+		if 'cursor' in kwargs:line.setCursor(QtGui.QCursor(kwargs.get('cursor'))); 
+		if 'tooltip' in kwargs:line.setToolTip(kwargs.get('tooltip'))
+
+		if 'value' in kwargs:line.setPos(kwargs.get('value'))
+		plot.addItem(line, ignoreBounds=kwargs.get('ignoreBounds'))
+		return line
+
 
 	class utils:
 		def __init__(self):

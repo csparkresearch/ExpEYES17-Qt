@@ -94,6 +94,7 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 		self.plot   = self.addPlot(xMin=0,xMax=self.xmax,yMin=-4,yMax=4, disableAutoRange = 'y',bottomLabel = 'time',bottomUnits='S',leftAxis = stringaxis,enableMenu=False)
 		self.plot.setMouseEnabled(False,True)
 		self.plot_area.addWidget(self.plot)
+		self.xaxis = self.plot.getAxis('bottom')
 
 		self.trace_colors=[(0,255,0),(255,0,0),(255,255,100),(10,255,255)]
 		self.trace_names = ['A1','A2','A3','MIC']
@@ -149,10 +150,8 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 
 		##### SET TIMING INTERVAL BOX CONTENTS
 
-		
-		self.trig = pg.InfiniteLine(angle=0, movable=True)
-		self.trig.setPos(0)
-		self.plot.addItem(self.trig, ignoreBounds=False)
+		self.trig = self.addInfiniteLine(self.plot,angle=0, movable=True,cursor = QtCore.Qt.SizeVerCursor,tooltip="Trigger level. Enable the trigger checkbox, and drag up/down to set the level",value = 0,ignoreBounds=False)
+
 		self.currentPeak = None
 		self.trigger = False
 		self.trigger_channel=0
@@ -160,7 +159,7 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 		self.trigger_level=0
 		self.trig.sigPositionChanged.connect(self.setTrigger)
 		self.setTrigger(self.trig)
-		self.labelTexts=[]
+		self.labelTexts={}
 		self.setLabels()
 
 		#### Set initial configuration
@@ -186,24 +185,40 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 			self.CH.configure_trigger(self.trigger_channel,self.triggerChannelName,self.trigger_level,resolution=10,prescaler=5)
 
 	def setLabels(self):
-		for a in self.labelTexts:self.plot.removeItem(a)		
-		self.labelTexts=[]
+		for a in self.labelTexts:
+			for b in self.labelTexts[a]:
+				self.plot.removeItem(b)		
+		self.labelTexts={}
 
-		R= self.plot.getAxis('bottom').range
-		xshift=R[0]
+		xshift=self.xaxis.range[0]
 		positions = np.linspace(-4,4,9)
 		for a in range(4):
-			if self.channelButtons[a].isChecked():
+			self.labelTexts[a]=[]
+			V = self.currentRange[a]
+			#name = self.trace_names[a]
+			#source = self.CH.I.analogInputSources[name]
+			vpd=V/4
+			for ypos in positions:
+				txt ='''<span style="color: rgb%s; font-size: 8pt;">%.2f </span>'''%(self.trace_colors[a],ypos*vpd)
+				lbl = pg.TextItem(html=txt, anchor=(-.5,0),angle=45);lbl.setPos(xshift, ypos)
+				self.plot.addItem(lbl)
+				self.labelTexts[a].append(lbl)
+			xshift+=self.xaxis.range[1]*.03
+
+	def repositionLabels(self):
+		xshift=self.xaxis.range[0]
+		positions = np.linspace(-4,4,9)
+		for a in range(4):
 				V = self.currentRange[a]
-				#name = self.trace_names[a]
-				#source = self.CH.I.analogInputSources[name]
 				vpd=V/4
+				num=0
 				for ypos in positions:
-					txt ='''<span style="color: rgb%s; font-size: 8pt;">%.2f </span>'''%(self.trace_colors[a],ypos*vpd)
-					lbl = pg.TextItem(html=txt, anchor=(-.5,0),angle=45);lbl.setPos(xshift, ypos)
-					self.plot.addItem(lbl)
-					self.labelTexts.append(lbl)
-				xshift+=R[1]*.03
+					if self.channelButtons[a].isChecked():self.labelTexts[a][num].setVisible(True)
+					else:self.labelTexts[a][num].setVisible(False)
+					self.labelTexts[a][num].setPos(xshift, ypos)
+					num+=1
+				if self.channelButtons[a].isChecked():xshift+=self.xaxis.range[1]*.03
+
 
 	def autoScale(self,plot,xMin,xMax,yMin,yMax):
 			plot.setLimits(xMin=xMin,xMax=xMax,yMin=yMin,yMax=yMax);plot.setXRange(xMin,xMax);self.plot.setYRange(yMin,yMax)
@@ -355,6 +370,9 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 				x =vals[A*2]
 				y = 4.*vals[A*2+1]/R
 				self.curves[A].setData(x,y)
+		#t=time.time()
+		self.repositionLabels()
+		#print (time.time()-t)
 		self.timer.singleShot(10,self.update)
 
 	def genericDataReceived(self,name,res):
@@ -421,57 +439,6 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 		info = plotSaveWindow.AppWindow(self,self.curves,self.plot)
 		info.show()
 
-
-
-	'''	
-	def generateThumbnails(self,directory='.'):
-		if directory=='.':directory = os.path.expanduser(os.path.join('~','Documents'))
-		global app
-		app.processEvents()
-		P2=pg.PlotWidget(enableMenu = False)
-		curves = []
-		for name,col in zip(self.trace_names,self.trace_colors):
-			C=pg.PlotCurveItem(name = name);C.setPen(color=col, width=3)
-			P2.addItem(C)
-			curves.append(C)
-
-		self.textfiles = []
-		homedir = os.path.expanduser('~')
-		thumbdir = os.path.join(homedir,'ExpEYES_thumbnails')
-		if not os.path.isdir(thumbdir):
-			print ('Directory missing. Will create')
-			os.makedirs(thumbdir)
-		thumbFormat = 'png'
-
-		self.exporter = pg.exporters.ImageExporter(P2.plotItem)
-
-
-		for a in os.listdir(directory):
-			pcs = a.split('.')
-			if pcs[-1] in ['dat','csv','txt']:  #check if extension is acceptable 
-				fname = string.join(pcs[:-1],'.')
-				filepath = os.path.join(directory,a)
-				timestamp = int(os.path.getctime(filepath))
-				thumbpath = os.path.join(thumbdir,fname+str(timestamp)+'.'+thumbFormat)
-
-				if not os.path.exists(thumbpath):  #need to create fresh thumbnail
-					try:
-						self.browserPath.setText('Generating thumbnail for %s'%(filepath));app.processEvents()
-						map(os.remove, glob.glob(os.path.join(thumbdir,fname)+'*.'+thumbFormat)) #remove old thumbnails (different timestamp) if any
-						self.loadFromFile(P2,curves,filepath) 
-						self.exporter.export(thumbpath)
-					except Exception as e:
-						continue
-				try:
-					self.browserPath.setText('Loading thumbnail for %s'%(filepath));app.processEvents()
-					x = QtGui.QIcon(thumbpath)
-					a = QtGui.QListWidgetItem(x,fname)
-					self.thumbs.addItem(a)
-					self.thumbList[fname] = [a,filepath]
-				except:
-					print 'failed to load thumbnail for ',fname
-		self.browserPath.setText('Current path : %s'%directory)
-	'''
 
 
 

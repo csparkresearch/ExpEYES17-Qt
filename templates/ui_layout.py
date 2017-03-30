@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'layout.ui'
 #
-# Created: Thu Mar 30 18:57:01 2017
+# Created: Thu Mar 30 21:56:42 2017
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -385,6 +385,8 @@ class Ui_MainWindow(object):
         self.line_7.setFrameShadow(QtGui.QFrame.Sunken)
         self.line_7.setObjectName(_fromUtf8("line_7"))
         self.verticalLayout.addWidget(self.line_7)
+        spacerItem = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        self.verticalLayout.addItem(spacerItem)
         self.pushButton_6 = QtGui.QPushButton(self.widgets)
         self.pushButton_6.setObjectName(_fromUtf8("pushButton_6"))
         self.verticalLayout.addWidget(self.pushButton_6)

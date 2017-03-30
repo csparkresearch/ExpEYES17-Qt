@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'SliderAndSpinbox.ui'
 #
-# Created: Thu Mar 30 18:57:02 2017
+# Created: Thu Mar 30 21:56:43 2017
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -31,13 +31,13 @@ class Ui_Form(object):
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setMargin(0)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.horizontalLayout_5 = QtGui.QHBoxLayout()
-        self.horizontalLayout_5.setSpacing(8)
-        self.horizontalLayout_5.setContentsMargins(-1, 0, -1, -1)
-        self.horizontalLayout_5.setObjectName(_fromUtf8("horizontalLayout_5"))
+        self.widgetLayout = QtGui.QHBoxLayout()
+        self.widgetLayout.setSpacing(8)
+        self.widgetLayout.setContentsMargins(-1, 0, -1, -1)
+        self.widgetLayout.setObjectName(_fromUtf8("widgetLayout"))
         self.label = QtGui.QLabel(Form)
         self.label.setObjectName(_fromUtf8("label"))
-        self.horizontalLayout_5.addWidget(self.label)
+        self.widgetLayout.addWidget(self.label)
         self.slider = QtGui.QSlider(Form)
         self.slider.setMaximumSize(QtCore.QSize(16777215, 15))
         self.slider.setCursor(QtGui.QCursor(QtCore.Qt.SizeVerCursor))
@@ -50,7 +50,7 @@ class Ui_Form(object):
         self.slider.setTickPosition(QtGui.QSlider.NoTicks)
         self.slider.setTickInterval(0)
         self.slider.setObjectName(_fromUtf8("slider"))
-        self.horizontalLayout_5.addWidget(self.slider)
+        self.widgetLayout.addWidget(self.slider)
         self.spinbox = QtGui.QDoubleSpinBox(Form)
         self.spinbox.setMinimumSize(QtCore.QSize(75, 0))
         font = QtGui.QFont()
@@ -64,8 +64,8 @@ class Ui_Form(object):
         self.spinbox.setMaximum(3300.0)
         self.spinbox.setProperty("value", 0.0)
         self.spinbox.setObjectName(_fromUtf8("spinbox"))
-        self.horizontalLayout_5.addWidget(self.spinbox)
-        self.verticalLayout.addLayout(self.horizontalLayout_5)
+        self.widgetLayout.addWidget(self.spinbox)
+        self.verticalLayout.addLayout(self.widgetLayout)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
