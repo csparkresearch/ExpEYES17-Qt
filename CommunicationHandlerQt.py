@@ -86,7 +86,7 @@ class communicationHandler(QtCore.QObject):
 					elif self.buflen==4:self.sigPlot.emit([X,self.I.achans[0].get_yaxis(),X,self.I.achans[1].get_yaxis(),X,self.I.achans[2].get_yaxis(),X,self.I.achans[3].get_yaxis()])
 
 				except Exception as e:
-					self.sigError.emit('fetching : ',e.message)
+					self.sigError.emit(name,e.message)
 			elif name == 'HX711':
 				res = self.I.HX711.read(*args)
 				self.sigGeneric.emit(name,res)

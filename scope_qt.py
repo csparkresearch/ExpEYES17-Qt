@@ -368,7 +368,8 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 
 	def handleError(self,name,err):
 		self.showStatus(name+err,True)
-		if 'capture' in name: self.timer.singleShot(10,self.update)
+		print ('packet drop')
+		if 'fetch' in name: self.timer.singleShot(10,self.update)
 
 	##############  HANDLE DATA RETURNED FROM WORKER THREAD   #####################
 
