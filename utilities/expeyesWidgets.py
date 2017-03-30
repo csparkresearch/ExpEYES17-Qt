@@ -63,6 +63,20 @@ class expeyesWidgets():
 				return '%.*f %s%s' % (precision, value,PREFIXES[si_level + prefix_levels],unit)
 
 
+	def addPV1(self,handler):
+		return self.sliderWidget(min = -5,max = 5, label = 'PV1' ,units = 'Hz', callback = handler.set_pv1) 
+
+	def addPV2(self,handler):
+		return self.sliderWidget(min = -3.3,max = 3.3, label = 'PV2' , units = 'Hz',callback = handler.set_pv2) 
+
+	def addSQR1(self,handler):
+		return self.sliderWidget(min = 5,max = 50000, label = 'SQR1' ,units = 'Hz', callback = handler.set_sqr1) 
+
+	def addSine(self,handler):
+		W = self.sliderWidget(min = 5,max = 5000, label = 'SINE' ,units = 'Hz', callback = handler.set_sine)
+		return W
+
+
 	class sliderWidget(QtGui.QWidget,SliderAndSpinbox.Ui_Form,utils):
 		'''
 		slider : 10x the range of dial. End values are divided by ten before passing to callback. This is because QSlider does not have a Double option
@@ -77,7 +91,7 @@ class expeyesWidgets():
 			self.label.setText(kwargs.get('label','_'))
 			self.min = kwargs.get('min',0)
 			self.max = kwargs.get('max',100)
-			
+			self.spinbox.setSuffix(kwargs.get('units',''))
 			self.spinbox.setMinimum(self.min);self.spinbox.setMaximum(self.max);
 			self.slider.setMinimum(self.min*10);self.slider.setMaximum(self.max*10);
 

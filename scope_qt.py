@@ -173,12 +173,11 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 
 		### Test some new widgets
 		#Do not provide callbacks to the eyes17 instance. It will break the threaded environment
-		self.pv1Widget = self.sliderWidget(min = -5,max = 5, label = 'PV1' , callback = self.CH.set_pv1) 
-		self.controlLayout.addWidget(self.pv1Widget)
-		self.pv2Widget = self.sliderWidget(min = -3.3,max = 3.3, label = 'PV2' , callback = self.CH.set_pv2)
-		self.controlLayout.addWidget(self.pv2Widget)
-		self.sq1Widget = self.sliderWidget(min = 5,max = 50000, label = 'SQR1' , callback = self.CH.set_sqr1) 
-		self.controlLayout.addWidget(self.sq1Widget)
+		self.controlLayout.addWidget(self.addSine(self.CH))
+		self.controlLayout.addWidget(self.addSQR1(self.CH))
+		self.controlLayout.addWidget(self.addPV1(self.CH) )
+		self.controlLayout.addWidget(self.addPV2(self.CH))
+
 
 	def setTrigger(self,value):
 			#print (value.pos())
