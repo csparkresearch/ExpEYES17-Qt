@@ -749,7 +749,7 @@ class Interface():
 
 				self.achans[0].set_params(channel=channel_one_input,length=samples,timebase=self.timebase,resolution=10,source=self.analogInputSources[channel_one_input])
 				self.H.__sendByte__(CP.CAPTURE_ONE)        #read 1 channel
-				self.H.__sendByte__(CHOSA|triggerornot)     #channelk number
+				self.H.__sendByte__(CHOSA|triggerornot)     #channel number
 
 			elif(num==2):
 				if(self.timebase<1.75):self.timebase=int(1.75*8)/8.

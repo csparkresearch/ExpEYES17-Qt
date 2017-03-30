@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'fileBrowser.ui'
 #
-# Created: Wed Mar 29 21:28:04 2017
+# Created: Thu Mar 30 18:57:02 2017
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!

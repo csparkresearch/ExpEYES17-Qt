@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>920</width>
+    <width>956</width>
     <height>641</height>
    </rect>
   </property>
@@ -228,96 +228,6 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
                 </item>
                </widget>
               </item>
-              <item row="9" column="0" colspan="4">
-               <layout class="QHBoxLayout" name="horizontalLayout_5">
-                <property name="topMargin">
-                 <number>0</number>
-                </property>
-                <item>
-                 <widget class="QLabel" name="label_4">
-                  <property name="text">
-                   <string>PV2</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QSlider" name="SQ1SLIDER">
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>15</height>
-                   </size>
-                  </property>
-                  <property name="cursor">
-                   <cursorShape>SizeVerCursor</cursorShape>
-                  </property>
-                  <property name="minimum">
-                   <number>-3300</number>
-                  </property>
-                  <property name="maximum">
-                   <number>3300</number>
-                  </property>
-                  <property name="singleStep">
-                   <number>10</number>
-                  </property>
-                  <property name="pageStep">
-                   <number>100</number>
-                  </property>
-                  <property name="value">
-                   <number>0</number>
-                  </property>
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="tickPosition">
-                   <enum>QSlider::NoTicks</enum>
-                  </property>
-                  <property name="tickInterval">
-                   <number>0</number>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QDoubleSpinBox" name="SQ1BOX">
-                  <property name="minimumSize">
-                   <size>
-                    <width>55</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>9</pointsize>
-                   </font>
-                  </property>
-                  <property name="frame">
-                   <bool>true</bool>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                  <property name="buttonSymbols">
-                   <enum>QAbstractSpinBox::NoButtons</enum>
-                  </property>
-                  <property name="suffix">
-                   <string>mV</string>
-                  </property>
-                  <property name="decimals">
-                   <number>1</number>
-                  </property>
-                  <property name="minimum">
-                   <double>-3300.000000000000000</double>
-                  </property>
-                  <property name="maximum">
-                   <double>3300.000000000000000</double>
-                  </property>
-                  <property name="value">
-                   <double>0.000000000000000</double>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
               <item row="4" column="0">
                <widget class="QLabel" name="label_3">
                 <property name="text">
@@ -410,171 +320,6 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
                 </property>
                </widget>
               </item>
-              <item row="7" column="0" colspan="4">
-               <layout class="QHBoxLayout" name="horizontalLayout_7">
-                <property name="topMargin">
-                 <number>0</number>
-                </property>
-                <item>
-                 <widget class="QLabel" name="label_6">
-                  <property name="text">
-                   <string>SQ1</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QSlider" name="SQ1SLIDER_3">
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>15</height>
-                   </size>
-                  </property>
-                  <property name="cursor">
-                   <cursorShape>SizeVerCursor</cursorShape>
-                  </property>
-                  <property name="minimum">
-                   <number>5</number>
-                  </property>
-                  <property name="maximum">
-                   <number>50000</number>
-                  </property>
-                  <property name="value">
-                   <number>1500</number>
-                  </property>
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QSpinBox" name="SQ1BOX_3">
-                  <property name="minimumSize">
-                   <size>
-                    <width>70</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>9</pointsize>
-                   </font>
-                  </property>
-                  <property name="frame">
-                   <bool>true</bool>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                  <property name="buttonSymbols">
-                   <enum>QAbstractSpinBox::NoButtons</enum>
-                  </property>
-                  <property name="suffix">
-                   <string> Hz</string>
-                  </property>
-                  <property name="minimum">
-                   <number>5</number>
-                  </property>
-                  <property name="maximum">
-                   <number>50000</number>
-                  </property>
-                  <property name="singleStep">
-                   <number>10</number>
-                  </property>
-                  <property name="value">
-                   <number>5</number>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item row="8" column="0" colspan="4">
-               <layout class="QHBoxLayout" name="horizontalLayout_8">
-                <property name="topMargin">
-                 <number>0</number>
-                </property>
-                <item>
-                 <widget class="QLabel" name="label_7">
-                  <property name="text">
-                   <string>PV1</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QSlider" name="SQ1SLIDER_4">
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>15</height>
-                   </size>
-                  </property>
-                  <property name="cursor">
-                   <cursorShape>SizeVerCursor</cursorShape>
-                  </property>
-                  <property name="minimum">
-                   <number>-5000</number>
-                  </property>
-                  <property name="maximum">
-                   <number>5000</number>
-                  </property>
-                  <property name="singleStep">
-                   <number>10</number>
-                  </property>
-                  <property name="pageStep">
-                   <number>100</number>
-                  </property>
-                  <property name="value">
-                   <number>0</number>
-                  </property>
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QDoubleSpinBox" name="SQ1BOX_4">
-                  <property name="minimumSize">
-                   <size>
-                    <width>55</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>9</pointsize>
-                   </font>
-                  </property>
-                  <property name="frame">
-                   <bool>true</bool>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                  <property name="buttonSymbols">
-                   <enum>QAbstractSpinBox::NoButtons</enum>
-                  </property>
-                  <property name="suffix">
-                   <string>mV</string>
-                  </property>
-                  <property name="decimals">
-                   <number>1</number>
-                  </property>
-                  <property name="minimum">
-                   <double>-5000.000000000000000</double>
-                  </property>
-                  <property name="maximum">
-                   <double>5000.000000000000000</double>
-                  </property>
-                  <property name="singleStep">
-                   <double>1.000000000000000</double>
-                  </property>
-                  <property name="value">
-                   <double>0.000000000000000</double>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
               <item row="0" column="0" colspan="4">
                <widget class="QLabel" name="label">
                 <property name="maximumSize">
@@ -614,6 +359,9 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
                  <enum>Qt::Horizontal</enum>
                 </property>
                </widget>
+              </item>
+              <item row="7" column="0" colspan="4">
+               <layout class="QVBoxLayout" name="controlLayout"/>
               </item>
              </layout>
             </item>
@@ -1166,7 +914,7 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_3">
+      <widget class="QWidget" name="controlTab">
        <attribute name="title">
         <string>Measurement and Controls</string>
        </attribute>
@@ -2035,6 +1783,11 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
         </layout>
        </widget>
       </widget>
+      <widget class="QWidget" name="experimentTab">
+       <attribute name="title">
+        <string>Experiments</string>
+       </attribute>
+      </widget>
       <widget class="QWidget" name="saveTab">
        <attribute name="icon">
         <iconset resource="res.qrc">
@@ -2078,22 +1831,6 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
     <hint type="destinationlabel">
      <x>0</x>
      <y>431</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>SQ1SLIDER_3</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>SQ1BOX_3</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>834</x>
-     <y>188</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>910</x>
-     <y>193</y>
     </hint>
    </hints>
   </connection>
@@ -2168,7 +1905,7 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
    <slot>setLabels()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>700</x>
+     <x>736</x>
      <y>326</y>
     </hint>
     <hint type="destinationlabel">
@@ -2232,12 +1969,12 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
    <slot>setSineAmp(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>911</x>
-     <y>152</y>
+     <x>941</x>
+     <y>136</y>
     </hint>
     <hint type="destinationlabel">
-     <x>919</x>
-     <y>136</y>
+     <x>948</x>
+     <y>120</y>
     </hint>
    </hints>
   </connection>

@@ -1,21 +1,48 @@
 from PyQt4 import QtGui,QtCore
-import time,sys
+import time,sys,inspect,copy
+
+import expeyes.eyes17 as eyes
 
 class communicationHandler(QtCore.QObject):
 	sigStat = QtCore.pyqtSignal(str,bool)
 	sigPlot = QtCore.pyqtSignal(object)
 	sigGeneric = QtCore.pyqtSignal(str,object)
 	sigError = QtCore.pyqtSignal(str,str)
+
+	sigExec = QtCore.pyqtSignal(str,object,object)
+	connected = False
 	def __init__(self, parent=None,**kwargs):
 		super(self.__class__, self).__init__(parent)
-		self.I = kwargs.get('interface',None)
+		self.I = eyes.open()
+		if self.I.connected:self.connected = True
 		self.I.set_sine(1000)
+		self.sigExec.connect(self.process)
 		self.evalGlobals = {k: getattr(self.I, k) for k in dir(self.I)}
+		
+		#Add methods dynamically from I into this threaded module.
+		self.functionList = {}
+		
+		class functionContainer:
+			def __init__(self,fname,sig):
+				self.sigExec = sig
+				self.fname = fname
+			def func(self,*args,**kwargs):
+				self.sigExec.emit(self.fname,args,kwargs)
+				
+		
+		for a in dir(self.I):
+			attr = getattr(self.I,a)
+			if inspect.ismethod(attr) and a!='__init__':
+				F = functionContainer(a,self.sigExec)
+				self.functionList[a] = F.func
+				setattr(self,a,F.func)
 		
 		self.timer = QtCore.QTimer()
 		self.buflen = 0
 		self.trigPre = 0 # prescaler for trigger waiting for the oscilloscope
 		self.channels_enabled=[0,0,0,0]
+		
+		
 
 	@QtCore.pyqtSlot(str,object,object)
 	def process(self,name,args,kwargs):
@@ -74,5 +101,12 @@ class communicationHandler(QtCore.QObject):
 		except Exception as e:
 			self.sigError.emit(name,e.message)
 
+
 	def fetchData(self):
 			self.process('fetchData',[],{})
+
+	'''
+	def set_pv1(self,val):
+		self.sigExec.emit('set_pv1',[val],{})
+	'''
+

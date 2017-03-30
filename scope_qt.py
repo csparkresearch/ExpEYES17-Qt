@@ -1,6 +1,6 @@
 import os,string,time,glob
 from collections import OrderedDict
-import expeyes.eyes17 as eyes, time, os, commands
+import time, os, commands
 from CommunicationHandlerQt import communicationHandler
 import numpy as np
 from PyQt4 import QtGui,QtCore
@@ -9,11 +9,12 @@ import pyqtgraph.exporters
 
 from templates import ui_layout as layout
 from utilities.imageHandler import imageHandler as imageHandler
+from utilities.expeyesWidgets import expeyesWidgets as expeyesWidgets
 
 
 import sys,time
 
-class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow):
+class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 	sigExec = QtCore.pyqtSignal(str,object,object)
 	xmax = 20 #mS
 	expts = OrderedDict([
@@ -53,26 +54,25 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow):
 		self.imageHandler = imageHandler(thumbnail_directory = 'ExpEYES_thumbnails',app=app,clickCallback = self.loadPlot)
 		self.saveLayout.addWidget(self.imageHandler)
 
-		self.p = eyes.open()
-		#self.p.set_sine(1000)
-		#self.p.set_state(OD1=0,SQR1=0)
-		if self.p.connected==False:
+		### Prepare the communication handler, and move it to a thread.
+		self.CH = communicationHandler()
+		self.worker_thread = QtCore.QThread()
+		self.CH.moveToThread(self.worker_thread)
+
+		self.sigExec.connect(self.CH.process)
+
+		self.CH.sigStat.connect(self.showStatus)
+		self.CH.sigPlot.connect(self.drawPlot)
+		self.CH.sigGeneric.connect(self.genericDataReceived)
+		self.CH.sigError.connect(self.handleError)
+
+		self.worker_thread.start()
+		self.worker_thread.setPriority(QtCore.QThread.HighPriority)
+
+		if self.CH.connected==False:
 			self.showStatus("System Status | Device not found. Dummy mode.",True)
 		else:
-			self.showStatus("System Status | Connected to device. Version : SJ-1.0")#%s")%self.p.get_version())
-			self.CH = communicationHandler(interface=self.p)
-			self.worker_thread = QtCore.QThread()
-			self.CH.moveToThread(self.worker_thread)
-
-			self.sigExec.connect(self.CH.process)
-
-			self.CH.sigStat.connect(self.showStatus)
-			self.CH.sigPlot.connect(self.drawPlot)
-			self.CH.sigGeneric.connect(self.genericDataReceived)
-			self.CH.sigError.connect(self.handleError)
-
-			self.worker_thread.start()
-			self.worker_thread.setPriority(QtCore.QThread.HighPriority)
+			self.showStatus("System Status | Connected to device. Version : %s"%str(self.CH.get_version()))
 
 		if self.CH.I.timestamp is not None:self.setWindowTitle(self.CH.I.generic_name + ' : '+self.CH.I.H.version_string.decode("utf-8")+' : '+str(self.CH.I.timestamp))
 		else:self.setWindowTitle(self.CH.I.generic_name + ' : '+self.CH.I.H.version_string.decode("utf-8")+' : Not calibrated')
@@ -91,13 +91,9 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow):
 		stringaxis.setLabel('Voltage',**{'color': '#FFF', 'font-size': '9pt'})
 		stringaxis.setWidth(15)
 		
-		self.plot=pg.PlotWidget(enableMenu = False,axisItems={'left': stringaxis})
+		self.plot   = self.addPlot(xMin=0,xMax=self.xmax,yMin=-4,yMax=4, disableAutoRange = 'y',bottomLabel = 'time',bottomUnits='S',leftAxis = stringaxis,enableMenu=False)
 		self.plot.setMouseEnabled(False,True)
-		self.plot.disableAutoRange(axis = self.plot.plotItem.vb.YAxis)
 		self.plot_area.addWidget(self.plot)
-		self.plot.getAxis('left').setGrid(170);
-		self.plot.getAxis('bottom').setGrid(170); self.plot.getAxis('bottom').setLabel('time', units='S')
-		self.plot.setLimits(xMin=0,xMax=self.xmax,yMin=-4,yMax=4);self.plot.setXRange(0,self.xmax);self.plot.setYRange(-4,4)
 
 		self.trace_colors=[(0,255,0),(255,0,0),(255,255,100),(10,255,255)]
 		self.trace_names = ['A1','A2','A3','MIC']
@@ -175,11 +171,20 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow):
 		self.timer = QtCore.QTimer()
 		self.timer.singleShot(10,self.update)
 
+		### Test some new widgets
+		#Do not provide callbacks to the eyes17 instance. It will break the threaded environment
+		self.pv1Widget = self.sliderWidget(min = -5,max = 5, label = 'PV1' , callback = self.CH.set_pv1) 
+		self.controlLayout.addWidget(self.pv1Widget)
+		self.pv2Widget = self.sliderWidget(min = -3.3,max = 3.3, label = 'PV2' , callback = self.CH.set_pv2)
+		self.controlLayout.addWidget(self.pv2Widget)
+		self.sq1Widget = self.sliderWidget(min = 5,max = 50000, label = 'SQR1' , callback = self.CH.set_sqr1) 
+		self.controlLayout.addWidget(self.sq1Widget)
+
 	def setTrigger(self,value):
 			#print (value.pos())
 			self.trigger_level=self.currentRange[0]*value.pos()[1]/4.
 			#print('trying at',self.trigger_level)
-			self.sigExec.emit('configure_trigger',[self.trigger_channel,self.triggerChannelName,self.trigger_level],{'resolution':10,'prescaler':5})
+			self.CH.configure_trigger(self.trigger_channel,self.triggerChannelName,self.trigger_level,resolution=10,prescaler=5)
 
 	def setLabels(self):
 		for a in self.labelTexts:self.plot.removeItem(a)		
@@ -227,19 +232,18 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow):
 		self.WGBOX.setValue(f)
 
 	def setWave(self,f):
-		self.sigExec.emit('set_wave',[f],{})
-
+		self.CH.set_wave(f)
 		
 	def setGainA1(self,val):
 		v = self.rangevals12[val]
 		self.currentRange[0] = v
-		self.sigExec.emit('select_range',['A1',v],{})
+		self.CH.select_range('A1',v)
 		self.setLabels()
 		
 	def setGainA2(self,val):
 		v = self.rangevals12[val]
 		self.currentRange[1] = v
-		self.sigExec.emit('select_range',['A2',v],{})
+		self.CH.select_range('A2',v)
 		self.setLabels()
 	def setGainA3(self,val):
 		v = self.rangevals34[val]
@@ -253,7 +257,7 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow):
 	def update(self):
 		if self.tabWidget.currentIndex()!=0: #oscilloscope window inactive
 			if self.tabWidget.currentIndex()==1:
-				self.sigExec.emit('get_states',[],{})
+				self.CH.get_states()
 			self.timer.singleShot(100,self.update)
 			return
 		elif self.pauseBox.isChecked(): #Paused scope
@@ -278,10 +282,7 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow):
 		self.channels_enabled=[a,b,c,d]
 		
 		if self.active_channels:
-			#self.I.configure_trigger(self.trigger_channel,self.triggerChannelName,self.trigger_level,resolution=10,prescaler=self.prescalerValue)
-			#self.I.capture_traces(self.active_channels,self.samples,self.timebase,self.chan1remap,self.ch123sa,trigger=self.trigBox.isChecked())
-			self.sigExec.emit('capture_traces',[self.active_channels,self.samples,self.timebase,self.chan1remap],{'trigger':self.trigBox.isChecked(),'chans':self.channels_enabled})
-			#self.sigExec.emit('capture_action',[self.chan1remap,self.samples,self.timebase,'FIRE_PULSE'],{'pulse_width':20})
+			self.CH.capture_traces(self.active_channels,self.samples,self.timebase,self.chan1remap,trigger = self.trigBox.isChecked(),chans = self.channels_enabled)
 		else:
 			self.timer.singleShot(10,self.update)
 
