@@ -44,7 +44,7 @@
         </size>
        </property>
        <property name="cursor">
-        <cursorShape>SizeVerCursor</cursorShape>
+        <cursorShape>ArrowCursor</cursorShape>
        </property>
        <property name="minimum">
         <number>-3300</number>

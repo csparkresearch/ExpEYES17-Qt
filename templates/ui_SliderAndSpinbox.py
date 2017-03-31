@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'SliderAndSpinbox.ui'
 #
-# Created: Thu Mar 30 21:56:43 2017
+# Created: Thu Mar 30 23:35:10 2017
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -40,7 +40,7 @@ class Ui_Form(object):
         self.widgetLayout.addWidget(self.label)
         self.slider = QtGui.QSlider(Form)
         self.slider.setMaximumSize(QtCore.QSize(16777215, 15))
-        self.slider.setCursor(QtGui.QCursor(QtCore.Qt.SizeVerCursor))
+        self.slider.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
         self.slider.setMinimum(-3300)
         self.slider.setMaximum(3300)
         self.slider.setSingleStep(10)

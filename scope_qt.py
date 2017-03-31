@@ -1,4 +1,4 @@
-import os,string,time,glob
+import os,string,time
 from collections import OrderedDict
 import time, os, commands
 from CommunicationHandlerQt import communicationHandler
@@ -8,8 +8,8 @@ import pyqtgraph as pg
 import pyqtgraph.exporters
 
 from templates import ui_layout as layout
-from utilities.imageHandler import imageHandler as imageHandler
-from utilities.expeyesWidgets import expeyesWidgets as expeyesWidgets
+from utilities.fileBrowser import fileBrowser
+from utilities.expeyesWidgets import expeyesWidgets
 
 
 import sys,time
@@ -51,8 +51,8 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 		self.setupUi(self)
 		self.statusBar = self.statusBar()
 		global app
-		self.imageHandler = imageHandler(thumbnail_directory = 'ExpEYES_thumbnails',app=app,clickCallback = self.loadPlot)
-		self.saveLayout.addWidget(self.imageHandler)
+		self.fileBrowser = fileBrowser(thumbnail_directory = 'ExpEYES_thumbnails',app=app)#,clickCallback = self.showNewPlot)
+		self.saveLayout.addWidget(self.fileBrowser)
 
 		### Prepare the communication handler, and move it to a thread.
 		self.CH = communicationHandler()
@@ -398,40 +398,8 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 
 	def loadPlot(self,fname):
 		self.showStatus("Loaded data from file | %s"%fname)
-		self.loadFromFile( self.plot,self.curves,fname )
+		self.fileBrowser.loadFromFile( self.plot,self.curves,fname ) 
 		self.tabWidget.setCurrentIndex(0)
-
-	def loadFromFile(self,plot,curves,filename):
-		try:
-			try:                                                        #Load text file with columns
-				ar = np.loadtxt(filename)
-			except:                                                     #If that fails , assume first row contains headers
-				with open(filename) as f:
-					header = f.readline()
-					try:                                                #parse headers and set them as axis labels
-						header = header.replace(' ',',')
-						p=header.split(',')
-						plot.getAxis('bottom').setLabel(p[0])
-						plot.getAxis('left').setLabel(p[1])
-					except:
-						plot.getAxis('bottom').setLabel('time')
-						plot.getAxis('left').setLabel('Voltage')
-				ar = np.loadtxt(filename,skiprows=1)                    #skip the header row and start loading
-
-			XR = [0,0];YR=[0,0]
-			for A in range(len(ar[0])/2): #integer division
-				self.x =ar[:,A*2]
-				self.y =ar[:,A*2+1]
-				curves[A].setData(self.x,self.y)
-				if( min(self.x) < XR[0] ):XR[0] = min(self.x)-abs(min(self.x))*.1
-				if( max(self.x) > XR[1] ):XR[1] = max(self.x)+abs(max(self.x))*.1
-				if( min(self.y) < YR[0] ):YR[0] = min(self.y)-abs(min(self.y))*.1
-				if( max(self.y) > YR[1] ):YR[1] = max(self.y)+abs(max(self.y))*.1
-			self.autoScale(self.plot,XR[0],XR[1],YR[0],YR[1]);
-
-		except Exception as e:
-			print (e)
-
 
 
 	def save(self):
