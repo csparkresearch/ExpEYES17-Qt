@@ -176,7 +176,15 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 		self.controlLayout.addWidget(self.addSQR1(self.CH))
 		self.controlLayout.addWidget(self.addPV1(self.CH) )
 		self.controlLayout.addWidget(self.addPV2(self.CH))
+		#self.loadExperiment()
 
+
+	def loadExperiment(self):
+		self.tabWidget.setCurrentIndex(2); time.sleep(0.3)
+		from halfwave import AppWindow
+		self.expt = AppWindow(handler = self.CH.I)
+		self.experimentLayout.addWidget(self.expt)
+		self.expt.show()
 
 	def setTrigger(self,value):
 			#print (value.pos())
@@ -272,6 +280,7 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 		if self.tabWidget.currentIndex()!=0: #oscilloscope window inactive
 			if self.tabWidget.currentIndex()==1:
 				self.CH.get_states()
+			#Add stuff for other tabs
 			self.timer.singleShot(100,self.update)
 			return
 		elif self.pauseBox.isChecked(): #Paused scope
@@ -403,7 +412,7 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 
 
 	def save(self):
-		import plotSaveWindow
+		from utilities import plotSaveWindow
 		info = plotSaveWindow.AppWindow(self,self.curves,self.plot)
 		info.show()
 

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'layout.ui'
 #
-# Created: Thu Mar 30 23:35:09 2017
+# Created: Sat Apr  1 19:42:59 2017
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -761,6 +761,9 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.controlTab, _fromUtf8(""))
         self.experimentTab = QtGui.QWidget()
         self.experimentTab.setObjectName(_fromUtf8("experimentTab"))
+        self.experimentLayout = QtGui.QVBoxLayout(self.experimentTab)
+        self.experimentLayout.setMargin(0)
+        self.experimentLayout.setObjectName(_fromUtf8("experimentLayout"))
         self.tabWidget.addTab(self.experimentTab, _fromUtf8(""))
         self.saveTab = QtGui.QWidget()
         self.saveTab.setObjectName(_fromUtf8("saveTab"))

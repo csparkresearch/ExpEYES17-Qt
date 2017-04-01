@@ -1,4 +1,4 @@
-from templates import ui_SliderAndSpinbox as SliderAndSpinbox
+from .templates import ui_SliderAndSpinbox as SliderAndSpinbox
 from PyQt4 import QtGui,QtCore
 import pyqtgraph as pg
 

@@ -1800,6 +1800,11 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
        <attribute name="title">
         <string>Experiments</string>
        </attribute>
+       <layout class="QVBoxLayout" name="experimentLayout">
+        <property name="margin">
+         <number>0</number>
+        </property>
+       </layout>
       </widget>
       <widget class="QWidget" name="saveTab">
        <attribute name="icon">

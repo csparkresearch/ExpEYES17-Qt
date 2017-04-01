@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 from PyQt4 import QtCore, QtGui
-import templates.ui_plotSave as plotSave
+from .templates import ui_plotSave as plotSave
 import sys,os,time
 import pyqtgraph as pg
 
