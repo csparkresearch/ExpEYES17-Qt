@@ -3,6 +3,7 @@ from PyQt4 import QtGui,QtCore
 import pyqtgraph as pg
 
 
+
 class expeyesWidgets():
 	"""
 	This class contains methods that simplify setting up and running
@@ -13,10 +14,35 @@ class expeyesWidgets():
 	"""
 
 	plotDict = {}
+	timers = []
+	trace_colors=[(0,255,0),(255,0,0),(255,255,100),(10,255,255)]
+	trace_names = ['A1','A2','A3','MIC']
+	curves={}
 	def __init__(self,*args,**kwargs):
 		#sys.path.append('/usr/share/seelablet')
 		pass
 	
+	def setTimeout(self,delay,fn):
+		'''
+		Execute a function after a certain time interval
+		'''
+		timer = QtCore.QTimer()
+		timer.singleShot(delay,fn)
+		self.timers.append(timer)
+		return timer
+
+	def setInterval(self,delay,fn):
+		'''
+		Execute a function every x milliseconds
+		'''
+		timer = QtCore.QTimer()
+		timer.timeout.connect(fn)
+		timer.start(delay)
+		self.timers.append(timer)
+		return timer
+
+
+		
 	def addPlot(self,**kwargs):
 		if 'leftAxis' in kwargs: kwargs['axisItems'] = {'left':kwargs.pop('leftAxis')}
 		plot=pg.PlotWidget(enableMenu = False)
@@ -25,6 +51,8 @@ class expeyesWidgets():
 		if 'y' in kwargs.get('disableAutoRange',''):
 			plot.disableAutoRange(axis = plot.plotItem.vb.YAxis)
 			print ('YAxis disabled')
+		if kwargs.get('legend',False):plot.addLegend(offset=(-10,30))
+
 		plot.getAxis('left').setGrid(170);
 		plot.getAxis('bottom').setGrid(170); plot.getAxis('bottom').setLabel('time', units='S')
 		limitargs = {a:kwargs.get(a) for a in ['xMin','xMax','yMin','yMax'] if a in kwargs}
@@ -32,7 +60,15 @@ class expeyesWidgets():
 		plot.setXRange(kwargs.get('xMin',0),kwargs.get('xMax',10));
 		plot.setYRange(kwargs.get('yMin',-5),kwargs.get('yMax',-5));
 		self.plotDict[plot] = []
+		self.curves[plot] = []
 		return plot
+
+	def addCurve(self,plot,name,col):
+		C=pg.PlotCurveItem(name = name,pen = col)
+		self.plot.addItem(C)
+		self.curves[plot].append(C)
+		return C
+		
 		
 	def addInfiniteLine(self,plot,**kwargs):
 		line = pg.InfiniteLine(angle=kwargs.get('angle',0), movable=kwargs.get('movable',True))
@@ -75,10 +111,10 @@ class expeyesWidgets():
 
 
 	def addPV1(self,handler):
-		return self.sliderWidget(min = -5,max = 5, label = 'PV1' ,units = 'Hz', callback = handler.set_pv1) 
+		return self.sliderWidget(min = -5,max = 5, label = 'PV1' ,units = 'V', callback = handler.set_pv1) 
 
 	def addPV2(self,handler):
-		return self.sliderWidget(min = -3.3,max = 3.3, label = 'PV2' , units = 'Hz',callback = handler.set_pv2) 
+		return self.sliderWidget(min = -3.3,max = 3.3, label = 'PV2' , units = 'V',callback = handler.set_pv2) 
 
 	def addSQR1(self,handler):
 		return self.sliderWidget(min = 5,max = 50000, label = 'SQR1' ,units = 'Hz', callback = handler.set_sqr1) 
