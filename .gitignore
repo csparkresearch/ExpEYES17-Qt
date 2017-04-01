@@ -1,0 +1,9 @@
+# emacs backups
+*~
+# python compiled files
+*.pyc
+__pycache__/
+# user interface generated python files
+ui_*.py
+# resource generated python files
+rc_*.py
