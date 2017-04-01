@@ -28,7 +28,7 @@ import serial,string,inspect
 import time
 import sys
 import numpy as np
-import eyemath17
+from . import eyemath17
 
 def open(**kwargs):
     '''
