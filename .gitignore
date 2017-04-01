@@ -6,4 +6,4 @@ __pycache__/
 # user interface generated python files
 ui_*.py
 # resource generated python files
-rc_*.py
+*_rc.py
