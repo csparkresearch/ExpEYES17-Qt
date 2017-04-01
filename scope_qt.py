@@ -400,7 +400,7 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 				y = 4.*vals[A*2+1]/R
 				self.curves[self.plot][A].setData(x,y)
                                 if A in self.fitted:
-                                        self.displayFit(A, x, y)
+                                        self.displayFit(A, x, y*self.currentRange[A]/4)
                                 else:
                                         self.displayFit(A)
 		#t=time.time()
