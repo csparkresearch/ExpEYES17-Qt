@@ -1,6 +1,7 @@
+from __future__ import print_function
 import os,string,time
 from collections import OrderedDict
-import time, os, commands
+import time, os
 from CommunicationHandlerQt import communicationHandler
 import numpy as np
 from PyQt4 import QtGui,QtCore
@@ -8,7 +9,7 @@ import pyqtgraph as pg
 import pyqtgraph.exporters
 
 from templates import ui_layout as layout
-from utilities.fileBrowser import fileBrowser
+# from utilities.fileBrowser import fileBrowser
 from utilities.expeyesWidgets import expeyesWidgets
 
 
@@ -51,8 +52,8 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 		self.setupUi(self)
 		self.statusBar = self.statusBar()
 		global app
-		self.fileBrowser = fileBrowser(thumbnail_directory = 'ExpEYES_thumbnails',app=app)#,clickCallback = self.showNewPlot)
-		self.saveLayout.addWidget(self.fileBrowser)
+		# self.fileBrowser = fileBrowser(thumbnail_directory = 'ExpEYES_thumbnails',app=app)#,clickCallback = self.showNewPlot)
+		# self.saveLayout.addWidget(self.fileBrowser)
 
 		### Prepare the communication handler, and move it to a thread.
 		self.CH = communicationHandler()
@@ -382,7 +383,7 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 		elif name == 'configure_trigger':
 			pass
 		else:
-			print name,res
+			print (name,res)
 
 	def handleError(self,name,err):
 		self.showStatus(name+err,True)
@@ -398,7 +399,7 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 
 	def loadPlot(self,fname):
 		self.showStatus("Loaded data from file | %s"%fname)
-		self.fileBrowser.loadFromFile( self.plot,self.curves,fname ) 
+		# self.fileBrowser.loadFromFile( self.plot,self.curves,fname ) 
 		self.tabWidget.setCurrentIndex(0)
 
 
