@@ -6,10 +6,10 @@ RC_COMPILED = $(patsubst %.qrc, %_rc.py, $(RC_FILES))
 PYUIC = pyuic4
 PYRCC = pyrcc4
 
-all: $(UI_COMPILED) $(RC_COMPILED)
+all: $(UI_COMPILED)
 
 clean:
-	rm -f $(UI_COMPILED) $(RC_COMPILED)
+	rm -f $(UI_COMPILED)
 	rm -rf *.pyc *~ __pycache__
 
 ui_%.py:  %.ui
