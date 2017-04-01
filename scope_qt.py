@@ -97,8 +97,6 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 		self.plot_area.addWidget(self.plot)
 		self.xaxis = self.plot.getAxis('bottom')
 
-		self.trace_colors=[(0,255,0),(255,0,0),(255,255,100),(10,255,255)]
-		self.trace_names = ['A1','A2','A3','MIC']
 		self.channels_enabled=[1,1,1,1]
 		self.channelButtons = [self.A1,self.A2,self.A3,self.MIC]
 		self.chan1Box.setStyleSheet("QComboBox::down-arrow{  top: 1px;left: 1px;}border-radius: 3px;border: 1px solid rgb%s"%str(self.trace_colors[0]))
@@ -111,16 +109,8 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 		self.chan1Box.addItems(self.CH.I.allAnalogChannels)
 		
 		self.plot.addLegend(offset=(-10,30))
-		self.curves = []
 		for name,col in zip(self.trace_names,self.trace_colors):
-			C=pg.PlotCurveItem(name = name,pen = col)
-			self.plot.addItem(C)
-			self.curves.append(C)
-		#X=np.linspace(0,20,1000)
-		#self.curves[0].setData(X,3.1*np.sin(60*2*np.pi*.05*X+np.pi/10)*np.exp(-X/5))
-		#self.curves[1].setData(X,3.1*np.sin(2*np.pi*.05*X+np.pi/2+np.pi/10))
-		#self.curves[2].setData(X,[0]*1000)
-		#self.curves[3].setData(X,[0]*1000)
+			self.addCurve(self.plot,name,col)
 
 		##### SET GAIN COMBOBOX VALUES
 		self.Ranges12 = ['16 V', '8 V','4 V', '2 V', '1 V', '.5V']	# Voltage ranges for A1 and A2
@@ -182,15 +172,20 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 
 	def loadExperiment(self):
 		self.tabWidget.setCurrentIndex(2); time.sleep(0.3)
-		from halfwave import AppWindow
+		from experiments.halfwave import AppWindow
 		self.expt = AppWindow(handler = self.CH.I)
 		self.experimentLayout.addWidget(self.expt)
 		self.expt.show()
 
+	def tabChanged(self,index):
+		print (index)
+		if index!=2: #changed from experiments tab. remove it.
+			for a in reversed(self.timers):
+				a.stop()
+				self.timers.remove(a)
+
 	def setTrigger(self,value):
-			#print (value.pos())
 			self.trigger_level=self.currentRange[0]*value.pos()[1]/4.
-			#print('trying at',self.trigger_level)
 			self.CH.configure_trigger(self.trigger_channel,self.triggerChannelName,self.trigger_level,resolution=10,prescaler=5)
 
 	def setLabels(self):
@@ -379,7 +374,7 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 				R = self.currentRange[A]
 				x =vals[A*2]
 				y = 4.*vals[A*2+1]/R
-				self.curves[A].setData(x,y)
+				self.curves[self.plot][A].setData(x,y)
 		#t=time.time()
 		self.repositionLabels()
 		#print (time.time()-t)
@@ -404,17 +399,17 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 
 	def clearPlot(self):
 		self.x = [];self.y=[];
-		for a in self.curves:a.clear()
+		for a in self.curves[self.plot]:a.clear()
 
 	def loadPlot(self,fname):
 		self.showStatus("Loaded data from file | %s"%fname)
-		self.fileBrowser.loadFromFile( self.plot,self.curves,fname ) 
+		self.fileBrowser.loadFromFile( self.plot,self.curves[self.plot],fname ) 
 		self.tabWidget.setCurrentIndex(0)
 
 
 	def save(self):
 		from utilities import plotSaveWindow
-		info = plotSaveWindow.AppWindow(self,self.curves,self.plot)
+		info = plotSaveWindow.AppWindow(self,self.curves[self.plot],self.plot)
 		info.show()
 
 

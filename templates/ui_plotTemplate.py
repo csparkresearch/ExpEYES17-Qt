@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'plotTemplate.ui'
 #
-# Created: Sat Apr  1 19:42:59 2017
+# Created: Sat Apr  1 22:49:57 2017
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -35,16 +35,15 @@ class Ui_Form(object):
         self.splitter.setOrientation(QtCore.Qt.Horizontal)
         self.splitter.setObjectName(_fromUtf8("splitter"))
         self.widgets = QtGui.QFrame(self.splitter)
+        self.widgets.setMaximumSize(QtCore.QSize(250, 16777215))
+        self.widgets.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.widgets.setFrameShape(QtGui.QFrame.StyledPanel)
         self.widgets.setFrameShadow(QtGui.QFrame.Raised)
         self.widgets.setObjectName(_fromUtf8("widgets"))
         self.widgetLayout = QtGui.QVBoxLayout(self.widgets)
-        self.widgetLayout.setSpacing(3)
-        self.widgetLayout.setMargin(2)
+        self.widgetLayout.setSpacing(0)
+        self.widgetLayout.setMargin(0)
         self.widgetLayout.setObjectName(_fromUtf8("widgetLayout"))
-        self.comboBox_2 = QtGui.QComboBox(self.widgets)
-        self.comboBox_2.setObjectName(_fromUtf8("comboBox_2"))
-        self.widgetLayout.addWidget(self.comboBox_2)
         self.plotFrame = QtGui.QFrame(self.splitter)
         self.plotFrame.setFrameShape(QtGui.QFrame.StyledPanel)
         self.plotFrame.setFrameShadow(QtGui.QFrame.Raised)
@@ -53,9 +52,6 @@ class Ui_Form(object):
         self.plotLayout.setSpacing(0)
         self.plotLayout.setMargin(0)
         self.plotLayout.setObjectName(_fromUtf8("plotLayout"))
-        self.comboBox = QtGui.QComboBox(self.plotFrame)
-        self.comboBox.setObjectName(_fromUtf8("comboBox"))
-        self.plotLayout.addWidget(self.comboBox)
         self.verticalLayout.addWidget(self.splitter)
 
         self.retranslateUi(Form)

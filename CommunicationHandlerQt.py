@@ -10,6 +10,7 @@ class communicationHandler(QtCore.QObject):
 	sigError = QtCore.pyqtSignal(str,str)
 
 	sigExec = QtCore.pyqtSignal(str,object,object)
+	execThread = QtCore.pyqtSignal(str,object,object,object)
 	connected = False
 	def __init__(self, parent=None,**kwargs):
 		super(self.__class__, self).__init__(parent)
@@ -17,6 +18,7 @@ class communicationHandler(QtCore.QObject):
 		if self.I.connected:self.connected = True
 		self.I.set_sine(1000)
 		self.sigExec.connect(self.process)
+		self.execThread.connect(self.processAndForward)
 		self.evalGlobals = {k: getattr(self.I, k) for k in dir(self.I)}
 		
 		#Add methods dynamically from I into this threaded module.
@@ -100,6 +102,17 @@ class communicationHandler(QtCore.QObject):
 					self.sigError.emit(name,' : unknown function')
 		except Exception as e:
 			self.sigError.emit(name,e.message)
+
+
+	@QtCore.pyqtSlot(str,object,object,object)
+	def processAndForward(self,name,args,kwargs,returnFunction):
+		name = str(name)
+		if name in self.evalGlobals:
+			returnFunction(self.evalGlobals[name](*args,**kwargs))
+		else:
+			returnFunction(None)
+
+
 
 
 	def fetchData(self):

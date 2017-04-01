@@ -86,6 +86,9 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
        <attribute name="toolTip">
         <string>Data Acquisition and controls</string>
        </attribute>
+       <attribute name="whatsThis">
+        <string>4 - Channel oscilloscope!</string>
+       </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <property name="spacing">
          <number>0</number>
@@ -1859,8 +1862,8 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
    <slot>setGainA1()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>813</x>
-     <y>325</y>
+     <x>849</x>
+     <y>234</y>
     </hint>
     <hint type="destinationlabel">
      <x>876</x>
@@ -1875,8 +1878,8 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
    <slot>setGainA2()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>811</x>
-     <y>337</y>
+     <x>849</x>
+     <y>267</y>
     </hint>
     <hint type="destinationlabel">
      <x>888</x>
@@ -1891,8 +1894,8 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
    <slot>setGainA3()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>813</x>
-     <y>390</y>
+     <x>849</x>
+     <y>299</y>
     </hint>
     <hint type="destinationlabel">
      <x>911</x>
@@ -1907,8 +1910,8 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
    <slot>setGainMIC()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>813</x>
-     <y>422</y>
+     <x>849</x>
+     <y>331</y>
     </hint>
     <hint type="destinationlabel">
      <x>919</x>
@@ -1924,7 +1927,7 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
    <hints>
     <hint type="sourcelabel">
      <x>736</x>
-     <y>326</y>
+     <y>235</y>
     </hint>
     <hint type="destinationlabel">
      <x>868</x>
@@ -1939,8 +1942,8 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
    <slot>setLabels()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>728</x>
-     <y>359</y>
+     <x>764</x>
+     <y>268</y>
     </hint>
     <hint type="destinationlabel">
      <x>887</x>
@@ -1955,8 +1958,8 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
    <slot>setLabels()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>728</x>
-     <y>391</y>
+     <x>764</x>
+     <y>300</y>
     </hint>
     <hint type="destinationlabel">
      <x>912</x>
@@ -1971,8 +1974,8 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
    <slot>setLabels()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>728</x>
-     <y>423</y>
+     <x>764</x>
+     <y>332</y>
     </hint>
     <hint type="destinationlabel">
      <x>884</x>
@@ -2003,8 +2006,8 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
    <slot>setCH1Remap(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>756</x>
-     <y>325</y>
+     <x>792</x>
+     <y>234</y>
     </hint>
     <hint type="destinationlabel">
      <x>919</x>
@@ -2019,8 +2022,8 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
    <slot>setTimebase(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>845</x>
-     <y>447</y>
+     <x>881</x>
+     <y>356</y>
     </hint>
     <hint type="destinationlabel">
      <x>919</x>
@@ -2035,8 +2038,8 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
    <slot>measure_interval()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>301</x>
-     <y>221</y>
+     <x>111</x>
+     <y>135</y>
     </hint>
     <hint type="destinationlabel">
      <x>0</x>
@@ -2051,12 +2054,28 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
    <slot>DoubleInputInterval()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>611</x>
-     <y>221</y>
+     <x>421</x>
+     <y>135</y>
     </hint>
     <hint type="destinationlabel">
      <x>511</x>
      <y>0</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tabWidget</sender>
+   <signal>currentChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>tabChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>189</x>
+     <y>12</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>214</x>
+     <y>-12</y>
     </hint>
    </hints>
   </connection>
@@ -2086,5 +2105,6 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
   <slot>measure_interval()</slot>
   <slot>DoubleInputInterval()</slot>
   <slot>hx_tare()</slot>
+  <slot>tabChanged(int)</slot>
  </slots>
 </ui>

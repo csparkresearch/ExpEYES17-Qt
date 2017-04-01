@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'layout.ui'
 #
-# Created: Sat Apr  1 19:42:59 2017
+# Created: Sat Apr  1 22:49:57 2017
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -804,6 +804,7 @@ class Ui_MainWindow(object):
         QtCore.QObject.connect(self.SQ1SLIDER_5, QtCore.SIGNAL(_fromUtf8("valueChanged(int)")), MainWindow.setTimebase)
         QtCore.QObject.connect(self.pushButton_7, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.measure_interval)
         QtCore.QObject.connect(self.pushButton_8, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.DoubleInputInterval)
+        QtCore.QObject.connect(self.tabWidget, QtCore.SIGNAL(_fromUtf8("currentChanged(int)")), MainWindow.tabChanged)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
