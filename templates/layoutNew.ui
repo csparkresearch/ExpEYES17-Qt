@@ -198,8 +198,30 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
      <string>Load</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menuOptions">
+    <property name="title">
+     <string>options</string>
+    </property>
+    <addaction name="actionSave"/>
+   </widget>
    <addaction name="menuLoad"/>
+   <addaction name="menuOptions"/>
   </widget>
+  <action name="actionSave">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/control/saved.svg</normaloff>:/control/saved.svg</iconset>
+   </property>
+   <property name="text">
+    <string>save</string>
+   </property>
+   <property name="toolTip">
+    <string>save plot data</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="res.qrc"/>

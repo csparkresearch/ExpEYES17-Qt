@@ -31,16 +31,23 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgetsNew):
 		self.SCOPEPLOT(['A1','A2','A3','MIC'],leftAxis = stringaxis)   #You can also make up your own curve names.
 		self.xaxis = self.plot.getAxis('bottom')
 
+		self.trig = self.addInfiniteLine(self.plot,angle=0, movable=True,cursor = QtCore.Qt.SizeVerCursor,tooltip="Trigger level. Enable the trigger checkbox, and drag up/down to set the level",value = 0,ignoreBounds=False)
+
 		#Add a spacer
 		self.SPACER(20)
 
 		# ADD A SINE WIDGET SLIDER WITH NUMBERIC INPUT to the widgetLayout
 		self.SINE()
+		self.SQR1()
+		self.PV1()
+		self.PV2()
+
 		
 		self.setInterval(100,self.tmp)
 		#self.setTimeout(1000,functools.partial(self.capture,'A1',200,3),self.update)
 
 	def tmp(self):
+		if self.CH.busy:return
 		self.CAPTURE()
 		print ('capturing')
 	

@@ -149,6 +149,79 @@ class expeyesWidgets():
 				self.traceData[A] = [x,y]
 				self.myCurves[A].setData(x,y)
 
+	def makeLabels(self):
+		self.labelTexts={}
+		xshift=self.xaxis.range[0]
+		positions = np.linspace(-4,4,9)
+		for a,name in zip(range(4),['A1','A2','A3','MIC']):
+			self.labelTexts[a]=[]
+			vpd=self.currentRange[name]/4
+			for ypos in positions:
+				txt ='''<span style="color: rgb%s; font-size: 8pt;">%.2f </span>'''%(self.trace_colors[a],ypos*vpd)
+				lbl = pg.TextItem(html=txt, anchor=(-.5,0),angle=45);lbl.setPos(xshift, ypos)
+				self.plot.addItem(lbl)
+				self.labelTexts[a].append(lbl)
+			xshift+=self.xaxis.range[1]*.03
+
+	def renameLabels(self):
+		positions = np.linspace(-4,4,9)
+		for a,name in zip(range(4),['A1','A2','A3','MIC']):
+			vpd=self.currentRange[name]/4
+			num=0;
+			for ypos in positions:
+				txt ='''<span style="color: rgb%s; font-size: 8pt;">%.2f </span>'''%(self.trace_colors[a],ypos*vpd)
+				self.labelTexts[a][num].setHtml(txt)
+				num+=1
+
+
+	def repositionLabels(self):
+		xshift=self.xaxis.range[0]
+		positions = np.linspace(-4,4,9)
+		for a,name in zip(range(4),['A1','A2','A3','MIC']):
+				V = self.currentRange[name]
+				vpd=V/4
+				num=0
+				for ypos in positions:
+					if self.channelButtons[a].isChecked():self.labelTexts[a][num].setVisible(True)
+					else:self.labelTexts[a][num].setVisible(False)
+					self.labelTexts[a][num].setPos(xshift, ypos)
+					num+=1
+				if self.channelButtons[a].isChecked():xshift+=self.xaxis.range[1]*.03
+
+
+
+	def setGainA1(self,val):
+		v = self.rangevals12[val]
+		self.currentRange['A1'] = v
+		self.p.select_range('A1',v)
+		self.renameLabels()
+		
+	def setGainA2(self,val):
+		v = self.rangevals12[val]
+		self.currentRange['A2'] = v
+		self.p.select_range('A2',v)
+		self.renameLabels()
+	def setGainA3(self,val):
+		v = self.rangevals34[val]
+		self.currentRange['A3'] = v
+		self.renameLabels()
+	def setGainMIC(self,val):
+		v = self.rangevals34[val]
+		self.currentRange['A4'] = v
+		self.renameLabels()
+
+
+	##########################controls##########################
+	def setTimebase(self,tg):
+		vals = [2,4,6,8,10,20,50,100,200,500]
+		self.timebase = vals[tg]
+		T = self.samples*self.timebase
+		self.tgLabel.setText('%s'%pg.siFormat(T*1e-6, precision=3, suffix='S', space=True))
+
+
+
+
+
 	class channelWidget(QtGui.QWidget,channelSelector.Ui_Form,constants):
 		'''
 		assumes self.p
@@ -352,5 +425,11 @@ class expeyesWidgets():
 		if newhandler is not None:
 			signal.connect(newhandler)
 		
+
+
+	def save(self):
+		from . import plotSaveWindow
+		info = plotSaveWindow.AppWindow(self,self.curves[self.plot],self.plot)
+		info.show()
 
 
