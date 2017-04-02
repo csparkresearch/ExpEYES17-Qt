@@ -52,6 +52,7 @@ class AppWindow(QtGui.QMainWindow, layoutNew.Ui_MainWindow,expeyesWidgets):
 		if self.CH.I.timestamp is not None:self.setWindowTitle(self.CH.I.generic_name + ' : '+self.CH.I.H.version_string.decode("utf-8")+' : '+str(self.CH.I.timestamp))
 		else:self.setWindowTitle(self.CH.I.generic_name + ' : '+self.CH.I.H.version_string.decode("utf-8")+' : Not calibrated')
 
+		############ MAKE AN EXIT BUTTON AND STYLE IT. SHOULD IDEALLY BE DONE IN THE LAYOUT.UI FILE USING QT4-DESIGNER.
 		self.exitBtn = QtGui.QPushButton("EXIT")
 		self.exitBtn.clicked.connect(self.askBeforeQuit)
 		self.exitBtn.setStyleSheet("height: 10px;padding:3px;color: #FF2222;")
@@ -68,9 +69,10 @@ class AppWindow(QtGui.QMainWindow, layoutNew.Ui_MainWindow,expeyesWidgets):
 			self.menuLoad.addAction(a,functools.partial(self.launchExperiment,a))
 		self.expt=None
 		self.actionSave.triggered.connect(self.save)
+		self.launchExperiment('Half-wave rectifier')
 
 	def save(self):
-		print ('wrong save fnction. inheritance not working properly. save from expeyesWidgetsNew must be called')
+		print ('wrong save fnction. inheritance not working properly. save from expeyesWidgetsNew must be called. Georges? . This is defined in expeyesWidgetsNew')
 
 	def launchExperiment(self,name):
 		fname = self.expts[name]
@@ -86,6 +88,7 @@ class AppWindow(QtGui.QMainWindow, layoutNew.Ui_MainWindow,expeyesWidgets):
 
 		FILE = importlib.import_module('experiments.'+fname)
 		self.expt = FILE.AppWindow(handler = self.CH)
+		self.tabWidget.setTabText(self.tabWidget.indexOf(self.experimentTab),name)
 		
 		#from experiments.halfwave import AppWindow
 		#self.expt = AppWindow(handler = self.CH)

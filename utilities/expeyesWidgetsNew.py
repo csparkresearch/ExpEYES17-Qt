@@ -1,11 +1,14 @@
 from .templates import ui_SliderAndSpinbox as SliderAndSpinbox
 from .templates import ui_channelSelector as channelSelector
 from .templates import ui_flexibleChannelSelector as flexibleChannelSelector
+from .templates import ui_triggerWidget as triggerWidgetUi
+from .templates import ui_timebaseWidget as timebaseWidgetUi
 
 from PyQt4 import QtGui,QtCore
 import pyqtgraph as pg
+import numpy as np
 from collections import OrderedDict
-import random
+import random,functools
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -39,16 +42,50 @@ class expeyesWidgets():
 	gainAvailables = ['A1','A2']
 	MAX_SAMPLES=2000
 	max_samples_per_channel=[0,MAX_SAMPLES/4,MAX_SAMPLES/4,MAX_SAMPLES/4,MAX_SAMPLES/4]
+	samples = MAX_SAMPLES/4
 
 	Ranges12 = ['16 V', '8 V','4 V', '2.5 V','1.5 V', '1 V', '.5 V', '.25 V']	# Voltage ranges for A1 and A2
 	rangevals12 = [16.,8.,4.,2.5,1.5,1.,0.5,0.25]
 	Ranges34 = ['4 V', '2 V', '1 V', '.5V']					# Voltage ranges for A3 and MIC
 	rangevals34 = [4,2,1,0.5]
 
-	self.currentRange={'A1':4,'A2':4,'A3':4,'MIC':4}
+	currentRange={'A1':4,'A2':4,'A3':4,'MIC':4}
+	trig=None
+	activeTriggerWidget = None
+	activeTimebaseWidget = None
 	def __init__(self,*args,**kwargs):
 		#sys.path.append('/usr/share/seelablet')
 		pass
+
+	class utils:
+		def __init__(self):
+			pass
+
+		def applySIPrefix(self,value, unit='',precision=2 ):
+				neg = False
+				if value < 0.:
+					value *= -1; neg = True
+				elif value == 0.:  return '0 '  # Mantissa & exponent both 0
+				exponent = int(np.log10(value))
+				if exponent > 0:
+					exponent = (exponent // 3) * 3
+				else:
+					exponent = (-1*exponent + 3) // 3 * (-3)
+
+				value *= (10 ** (-exponent) )
+				if value >= 1000.:
+					value /= 1000.0
+					exponent += 3
+				if neg:
+					value *= -1
+				exponent = int(exponent)
+				PREFIXES = "yzafpnum kMGTPEZY"
+				prefix_levels = (len(PREFIXES) - 1) // 2
+				si_level = exponent // 3
+				if abs(si_level) > prefix_levels:
+					raise ValueError("Exponent out range of available prefixes.")
+				return '%.*f %s%s' % (precision, value,PREFIXES[si_level + prefix_levels],unit)
+
 	
 
 	####################################################################################
@@ -88,10 +125,13 @@ class expeyesWidgets():
 		for a in curvenames:
 			self.myCurves[a] = self.addCurve(self.plot,a,self.trace_colors[num])
 			if(num==0 and kwargs.get('flexibleChan1',True)):
-				self.myCurveWidgets[a] = self.flexibleChannelWidget(self.p,a,self.trace_colors[num])
-			else :self.myCurveWidgets[a] = self.channelWidget(self.p,a,self.trace_colors[num])
+				self.myCurveWidgets[a] = self.flexibleChannelWidget(a,self.changeGain,self.p.I.allAnalogChannels,self.trace_colors[num])
+			else :self.myCurveWidgets[a] = self.channelWidget(a,self.changeGain,self.trace_colors[num])
 			self.widgetLayout.addWidget(self.myCurveWidgets[a])
 			num+=1
+		self.makeLabels()
+		if 'rangeA1' in kwargs:self.changeGain('A1',kwargs.pop('rangeA1'))
+		if 'rangeA2' in kwargs:self.changeGain('A2',kwargs.pop('rangeA2'))
 		self.p.sigPlot.connect(self.updatePlot)
 
 
@@ -126,7 +166,15 @@ class expeyesWidgets():
 		
 		if self.active_channels:
 			#self.CH.capture_traces(self.active_channels,self.samples,self.timebase,self.chan1remap,trigger = self.trigBox.isChecked(),chans = self.channels_enabled)
-			self.p.capture_traces(self.active_channels,self.samples,2,'A1',trigger = False,chans = self.channels_enabled)
+			trig = False
+			timebase = 2
+			chanRemap = 'A1'
+			if self.activeTriggerWidget:
+				trig = self.activeTriggerWidget.enable.isChecked()
+			if self.activeTimebaseWidget:
+				timebase = self.activeTimebaseWidget.timebase
+			chanRemap = str(self.myCurveWidgets['A1'].chan1Box.currentText())
+			self.p.capture_traces(self.active_channels,self.samples,timebase,chanRemap,trigger = trig,chans = self.channels_enabled)
 
 	
 	def updatePlot(self,vals):
@@ -143,21 +191,22 @@ class expeyesWidgets():
 		#print ('got plot',len(vals),vals.keys())
 		plotnum=0
 		for A in vals:
-				#R = self.currentRange[A]
+				R = self.currentRange[A]
 				x = vals[A][0]
-				y = vals[A][1] # 4.*vals[A][1]/R
+				y = 4.*vals[A][1]/R
 				self.traceData[A] = [x,y]
 				self.myCurves[A].setData(x,y)
+		self.repositionLabels()
 
 	def makeLabels(self):
 		self.labelTexts={}
 		xshift=self.xaxis.range[0]
 		positions = np.linspace(-4,4,9)
-		for a,name in zip(range(4),['A1','A2','A3','MIC']):
+		for a in self.myCurveWidgets:
 			self.labelTexts[a]=[]
-			vpd=self.currentRange[name]/4
+			vpd=self.currentRange[a]/4
 			for ypos in positions:
-				txt ='''<span style="color: rgb%s; font-size: 8pt;">%.2f </span>'''%(self.trace_colors[a],ypos*vpd)
+				txt ='''<span style="color: rgb%s; font-size: 8pt;">%.2f </span>'''%(self.myCurveWidgets[a].col,ypos*vpd)
 				lbl = pg.TextItem(html=txt, anchor=(-.5,0),angle=45);lbl.setPos(xshift, ypos)
 				self.plot.addItem(lbl)
 				self.labelTexts[a].append(lbl)
@@ -165,11 +214,11 @@ class expeyesWidgets():
 
 	def renameLabels(self):
 		positions = np.linspace(-4,4,9)
-		for a,name in zip(range(4),['A1','A2','A3','MIC']):
-			vpd=self.currentRange[name]/4
+		for a in self.myCurveWidgets:
+			vpd=self.currentRange[a]/4
 			num=0;
 			for ypos in positions:
-				txt ='''<span style="color: rgb%s; font-size: 8pt;">%.2f </span>'''%(self.trace_colors[a],ypos*vpd)
+				txt ='''<span style="color: rgb%s; font-size: 8pt;">%.2f </span>'''%(self.myCurveWidgets[a].col,ypos*vpd)
 				self.labelTexts[a][num].setHtml(txt)
 				num+=1
 
@@ -177,96 +226,70 @@ class expeyesWidgets():
 	def repositionLabels(self):
 		xshift=self.xaxis.range[0]
 		positions = np.linspace(-4,4,9)
-		for a,name in zip(range(4),['A1','A2','A3','MIC']):
-				V = self.currentRange[name]
-				vpd=V/4
+		for a in self.myCurveWidgets:
+				vpd=self.currentRange[a]/4
 				num=0
+				state = self.myCurveWidgets[a].enable.isChecked()
 				for ypos in positions:
-					if self.channelButtons[a].isChecked():self.labelTexts[a][num].setVisible(True)
+					if state:self.labelTexts[a][num].setVisible(True)
 					else:self.labelTexts[a][num].setVisible(False)
 					self.labelTexts[a][num].setPos(xshift, ypos)
 					num+=1
-				if self.channelButtons[a].isChecked():xshift+=self.xaxis.range[1]*.03
+				if state:xshift+=self.xaxis.range[1]*.03
 
 
-
-	def setGainA1(self,val):
-		v = self.rangevals12[val]
-		self.currentRange['A1'] = v
-		self.p.select_range('A1',v)
+	def changeGain(self,chan,val):
+		val = float(val[:-1]) #remove 'V'
+		chan  = str(chan)
+		print (chan,val)
+		if chan in ['A1','A2']:
+			#v = self.rangevals12[val]
+			self.currentRange[chan] = val
+			self.p.select_range(chan,val)
+		else:
+			self.currentRange[chan] = val
 		self.renameLabels()
-		
-	def setGainA2(self,val):
-		v = self.rangevals12[val]
-		self.currentRange['A2'] = v
-		self.p.select_range('A2',v)
-		self.renameLabels()
-	def setGainA3(self,val):
-		v = self.rangevals34[val]
-		self.currentRange['A3'] = v
-		self.renameLabels()
-	def setGainMIC(self,val):
-		v = self.rangevals34[val]
-		self.currentRange['A4'] = v
-		self.renameLabels()
-
 
 	##########################controls##########################
-	def setTimebase(self,tg):
-		vals = [2,4,6,8,10,20,50,100,200,500]
-		self.timebase = vals[tg]
-		T = self.samples*self.timebase
-		self.tgLabel.setText('%s'%pg.siFormat(T*1e-6, precision=3, suffix='S', space=True))
-
-
-
-
 
 	class channelWidget(QtGui.QWidget,channelSelector.Ui_Form,constants):
-		'''
-		assumes self.p
-		'''
-		def __init__(self,handler,name,col=None):
+		def __init__(self,name,callback,col=None):
 			super(expeyesWidgets.channelWidget, self).__init__()
 			self.setupUi(self)
-			self.p = handler
+			self.col = col
 			self.name = name
+			self.callback = callback
 			self.enable.setText(self.name)
-			if self.name not in self.gainAvailables:
-				self.gain.setEnabled(False)
-			else:
-				QtCore.QObject.connect(self.gain, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), self.gainChanged)
+			QtCore.QObject.connect(self.gain, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), functools.partial(self.callback,self.name))
 			if col : self.enable.setStyleSheet("color:rgb%s"%str(col))
 
-		def gainChanged(self,val):
-			val = float(val[:-1]) #remove 'V'
-			self.p.select_range(self.name,val)
 
 	class flexibleChannelWidget(QtGui.QWidget,flexibleChannelSelector.Ui_Form,constants):
-		'''
-		assumes self.p
-		'''
-		def __init__(self,handler,name,options,col=None):
+		def __init__(self,name,callback,chans,col=None):
 			super(expeyesWidgets.flexibleChannelWidget, self).__init__()
 			self.setupUi(self)
-			self.p = handler
-			self.chan1Box.addItems(self.p.I.allAnalogChannels)
+			self.col = col
+			self.chan1Box.addItems(chans)
 			self.name = name
-			self.enable.setText(self.name)
-			if self.name not in self.gainAvailables:
-				self.gain.setEnabled(False)
-			else:
-				QtCore.QObject.connect(self.gain, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), self.gainChanged)
+			self.callback = callback
+			QtCore.QObject.connect(self.gain, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), self.modifiedCallback)
 			if col : self.chan1Box.setStyleSheet("color:rgb%s"%str(col))
 
-		def gainChanged(self,val):
-			val = float(val[:-1]) #remove 'V'
-			self.p.select_range(self.name,val)
+		def modifiedCallback(self,val):
+			self.callback(self.chan1Box.currentText(),val)
 
 
 
 	def SPACER(self,size):
 		self.widgetLayout.addItem(QtGui.QSpacerItem(size, size, QtGui.QSizePolicy.Minimum))
+
+	def TITLE(self,text):
+		line = QtGui.QFrame()
+		line.setFrameShape(QtGui.QFrame.HLine);	line.setMinimumSize(QtCore.QSize(0, 8));line.setFrameShadow(QtGui.QFrame.Sunken)
+		label = QtGui.QLabel(text)
+		label.setStyleSheet("color:rgb(100,255,255)")
+		self.widgetLayout.addWidget(label)
+		self.widgetLayout.addWidget(line)
 
 
 	def setTimeout(self,delay,fn):
@@ -294,21 +317,25 @@ class expeyesWidgets():
 			a.stop()
 			self.timers.remove(a)
 			print ('deleted',a)
+		self.trig=None
+		self.activeTriggerWidget=None
+		self.activeTimebaseWidget = None
 		self.p.sigPlot.disconnect(self.updatePlot)
 	####################################################################################
 		
 	def addPlot(self,**kwargs):
 		if 'leftAxis' in kwargs: kwargs['axisItems'] = {'left':kwargs.pop('leftAxis')}
-		plot=pg.PlotWidget(enableMenu = False)
+		plot=pg.PlotWidget(**kwargs)
 		plot.setMouseEnabled(False,True)
-		if 'x' in kwargs.get('disableAutoRange',''):plot.disableAutoRange(axis = plot.plotItem.vb.XAxis)
+		if 'x' in kwargs.get('disableAutoRange',''):
+			plot.disableAutoRange(axis = plot.plotItem.vb.XAxis)
 		if 'y' in kwargs.get('disableAutoRange',''):
 			plot.disableAutoRange(axis = plot.plotItem.vb.YAxis)
-			print ('YAxis disabled')
 		if kwargs.get('legend',False):plot.addLegend(offset=(-10,30))
+		self.xaxis = plot.getAxis('bottom')
 
 		plot.getAxis('left').setGrid(170);
-		plot.getAxis('bottom').setGrid(170); plot.getAxis('bottom').setLabel('time', units='S')
+		self.xaxis.setGrid(170); self.xaxis.setLabel('time', units='S')
 		limitargs = {a:kwargs.get(a) for a in ['xMin','xMax','yMin','yMax'] if a in kwargs}
 		plot.setLimits(**limitargs);
 		plot.setXRange(kwargs.get('xMin',0),kwargs.get('xMax',10));
@@ -324,6 +351,37 @@ class expeyesWidgets():
 		return C
 		
 		
+	###############################  TRIGGERING THE OSCILLOSCOPE ######################
+	def TRIGGER(self):
+		self.TITLE('Trigger')
+		self.activeTriggerWidget  =self.triggerWidget(self.trace_names)
+		self.widgetLayout.addWidget(self.activeTriggerWidget)
+		self.trigLine = self.addInfiniteLine(self.plot,angle=0, movable=True,cursor = QtCore.Qt.SizeVerCursor,tooltip="Trigger level. Enable the trigger checkbox, and drag up/down to set the level",value = 0,ignoreBounds=False)
+		self.trigLine.sigPositionChanged.connect(self.setTrigger)
+		self.activeTriggerWidget.chanBox.currentIndexChanged.connect(self.setTrigger)
+		self.setTrigger()
+
+	class triggerWidget(QtGui.QWidget,triggerWidgetUi.Ui_Form):
+		'''
+		slider : 10x the range of dial. End values are divided by ten before passing to callback. This is because QSlider does not have a Double option
+		spinbox : numeric entry widget . double precision
+		
+		keyword arguments : min , max , callback, label
+		'''
+		def __init__(self,chans):
+			super(expeyesWidgets.triggerWidget, self).__init__()
+			self.setupUi(self)
+			self.chanBox.addItems(chans)
+
+	def setTrigger(self):
+		self.trigger_level=self.currentRange['A1']*self.trigLine.pos()[1]/4.
+		trignum = self.activeTriggerWidget.chanBox.currentIndex()
+		if trignum==-1 : #Index not found.
+			return
+		trigName = str(self.activeTriggerWidget.chanBox.currentText())
+		self.p.configure_trigger(trignum,trigName,self.trigger_level,resolution=10,prescaler=5)
+
+
 	def addInfiniteLine(self,plot,**kwargs):
 		line = pg.InfiniteLine(angle=kwargs.get('angle',0), movable=kwargs.get('movable',True))
 		if 'cursor' in kwargs:line.setCursor(QtGui.QCursor(kwargs.get('cursor'))); 
@@ -333,35 +391,34 @@ class expeyesWidgets():
 		plot.addItem(line, ignoreBounds=kwargs.get('ignoreBounds'))
 		return line
 
+	############################### ############################### 
 
-	class utils:
-		def __init__(self):
-			pass
 
-		def applySIPrefix(self,value, unit='',precision=2 ):
-				neg = False
-				if value < 0.:
-					value *= -1; neg = True
-				elif value == 0.:  return '0 '  # Mantissa & exponent both 0
-				exponent = int(np.log10(value))
-				if exponent > 0:
-					exponent = (exponent // 3) * 3
-				else:
-					exponent = (-1*exponent + 3) // 3 * (-3)
+	###############################  TIMEBASE CONTROL FOR THE OSCILLOSCOPE ######################
 
-				value *= (10 ** (-exponent) )
-				if value >= 1000.:
-					value /= 1000.0
-					exponent += 3
-				if neg:
-					value *= -1
-				exponent = int(exponent)
-				PREFIXES = "yzafpnum kMGTPEZY"
-				prefix_levels = (len(PREFIXES) - 1) // 2
-				si_level = exponent // 3
-				if abs(si_level) > prefix_levels:
-					raise ValueError("Exponent out range of available prefixes.")
-				return '%.*f %s%s' % (precision, value,PREFIXES[si_level + prefix_levels],unit)
+	def TIMEBASE(self):
+		self.TITLE('Time Base')
+		self.activeTimebaseWidget  =self.timebaseWidget(self.getSamples)
+		self.widgetLayout.addWidget(self.activeTimebaseWidget)
+
+	def getSamples(self):
+		return self.samples
+
+	class timebaseWidget(QtGui.QWidget,timebaseWidgetUi.Ui_Form):
+		def __init__(self,getSamples):
+			super(expeyesWidgets.timebaseWidget, self).__init__()
+			self.setupUi(self)
+			self.getSamples = getSamples
+			self.timebase = 2
+
+		def valueChanged(self,val):
+			vals = [2,4,6,8,10,20,50,100,200,500]
+			self.timebase = vals[val]
+			T = self.getSamples()*self.timebase
+			self.value.setText('%s'%pg.siFormat(T*1e-6, precision=3, suffix='S', space=True))
+
+	############################### ############################### 
+
 
 
 	def addPV1(self,handler):
@@ -411,8 +468,6 @@ class expeyesWidgets():
 
 
 
-
-
 	def connectSlot(self,signal, newhandler=None, oldhandler=None):
 		while True:
 			try:
@@ -425,8 +480,6 @@ class expeyesWidgets():
 		if newhandler is not None:
 			signal.connect(newhandler)
 		
-
-
 	def save(self):
 		from . import plotSaveWindow
 		info = plotSaveWindow.AppWindow(self,self.curves[self.plot],self.plot)

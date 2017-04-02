@@ -37,7 +37,7 @@
         </size>
        </property>
        <property name="text">
-        <string>_</string>
+        <string/>
        </property>
        <property name="checked">
         <bool>true</bool>

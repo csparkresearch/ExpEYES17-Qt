@@ -1,12 +1,12 @@
 from PyQt4 import QtGui,QtCore
 
 from templates import ui_plotTemplate as plotTemplate
-from utilities.expeyesWidgetsNew import expeyesWidgetsNew
+from utilities.expeyesWidgetsNew import expeyesWidgets
 
 
 import sys,time,functools
 
-class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgetsNew):
+class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	def __init__(self, parent=None,**kwargs):
 		super(AppWindow, self).__init__(parent)
 		self.setupUi(self)
@@ -31,7 +31,6 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgetsNew):
 		self.SCOPEPLOT(['A1','A2','A3','MIC'],leftAxis = stringaxis)   #You can also make up your own curve names.
 		self.xaxis = self.plot.getAxis('bottom')
 
-		self.trig = self.addInfiniteLine(self.plot,angle=0, movable=True,cursor = QtCore.Qt.SizeVerCursor,tooltip="Trigger level. Enable the trigger checkbox, and drag up/down to set the level",value = 0,ignoreBounds=False)
 
 		#Add a spacer
 		self.SPACER(20)
