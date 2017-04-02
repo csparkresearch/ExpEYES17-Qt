@@ -11,9 +11,13 @@ import pyqtgraph.exporters
 from templates import ui_layout as layout
 from utilities.fileBrowser import fileBrowser
 from utilities.expeyesWidgets import expeyesWidgets
+from expeyes import eyemath17 as eyemath
 
 
-import sys,time
+import gettext, sys,time
+gettext.bindtextdomain("expeyes")
+gettext.textdomain('expeyes')
+_ = gettext.gettext
 
 class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 	sigExec = QtCore.pyqtSignal(str,object,object)
@@ -54,6 +58,8 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 	def __init__(self, parent=None,**kwargs):
 		super(AppWindow, self).__init__(parent)
 		self.setupUi(self)
+		# set of fitted channels, initially empty
+		self.fitted=set()
 		self.statusBar = self.statusBar()
 		global app
 		self.fileBrowser = fileBrowser(thumbnail_directory = 'ExpEYES_thumbnails',app=app)#,clickCallback = self.showNewPlot)
@@ -142,7 +148,13 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 
 
 
-
+                ##### connect signals for FIT checkboxes
+                
+                self.FITA1.stateChanged.connect(self.FITchanged('A1'))
+                self.FITA2.stateChanged.connect(self.FITchanged('A2'))
+                self.FITA3.stateChanged.connect(self.FITchanged('A3'))
+                self.FITMIC.stateChanged.connect(self.FITchanged('MIC'))
+                
 		##### SET TIMING INTERVAL BOX CONTENTS
 
 		self.trig = self.addInfiniteLine(self.plot,angle=0, movable=True,cursor = QtCore.Qt.SizeVerCursor,tooltip="Trigger level. Enable the trigger checkbox, and drag up/down to set the level",value = 0,ignoreBounds=False)
@@ -207,6 +219,18 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 			self.trigger_level=self.currentRange['A1']*value.pos()[1]/4.
 			self.CH.configure_trigger(self.trigger_channel,self.triggerChannelName,self.trigger_level,resolution=10,prescaler=5)
 
+	def FITchanged(self, channel):
+			"""
+			returns a callback function with the given channel
+			"""
+			def cbFitChanged(state):
+					if state:
+							self.fitted.add(channel)
+					else:
+							self.fitted.remove(channel)
+					return
+			return cbFitChanged
+        
 	def makeLabels(self):
 		self.labelTexts={}
 		xshift=self.xaxis.range[0]
@@ -401,11 +425,38 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 				y = 4.*vals[A][1]/R
 				self.curveDict[A].setData(x,y)
 				#print (A,R)
-				
+				if A in self.fitted:
+						self.displayFit(A, x, y*self.currentRange[A]/4)
+				else:
+						self.displayFit(A)
+
 		#t=time.time()
 		self.repositionLabels()
 		#print (time.time()-t)
 		self.timer.singleShot(10,self.update)
+
+	def displayFit(self, channel, x=[], y=[]):
+			"""
+			displays fitted data when and where requested
+			x and y are data used for the plot
+			"""
+			# select the relevant checkbox
+			cb={'A1':self.FITA1, 'A2':self.FITA2, 'A3':self.FITA3, 'MIC':self.FITMIC}[channel]
+			if not len(x):
+					cb.setText('')
+					return
+			# make the fit
+			try:
+					fa=eyemath.fit_sine(x,y)
+					if fa:
+							amp=abs(fa[1][0])
+							freq=fa[1][1]
+							s = _('%5.2f V, %5.0f Hz')%(amp,freq)
+							cb.setText(s)
+			except Exception as e:
+					print (e.message)
+					pass
+			return
 
 	def genericDataReceived(self,name,res):
 		if name == 'get_states':

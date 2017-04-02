@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>956</width>
+    <width>982</width>
     <height>641</height>
    </rect>
   </property>
@@ -52,7 +52,16 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
     <property name="spacing">
      <number>0</number>
     </property>
-    <property name="margin">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
      <number>0</number>
     </property>
     <item>
@@ -93,7 +102,16 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
         <property name="spacing">
          <number>0</number>
         </property>
-        <property name="margin">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
          <number>0</number>
         </property>
         <item>
@@ -118,7 +136,16 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
             <property name="spacing">
              <number>0</number>
             </property>
-            <property name="margin">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
              <number>0</number>
             </property>
            </layout>
@@ -158,7 +185,16 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
             <property name="spacing">
              <number>5</number>
             </property>
-            <property name="margin">
+            <property name="leftMargin">
+             <number>5</number>
+            </property>
+            <property name="topMargin">
+             <number>5</number>
+            </property>
+            <property name="rightMargin">
+             <number>5</number>
+            </property>
+            <property name="bottomMargin">
              <number>5</number>
             </property>
             <item>
@@ -401,13 +437,13 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
                <widget class="QComboBox" name="comboBox_4">
                 <property name="maximumSize">
                  <size>
-                  <width>50</width>
+                  <width>45</width>
                   <height>16777215</height>
                  </size>
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>9</pointsize>
+                  <pointsize>8</pointsize>
                  </font>
                 </property>
                 <item>
@@ -436,11 +472,11 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
                <widget class="QCheckBox" name="FITA1">
                 <property name="font">
                  <font>
-                  <pointsize>9</pointsize>
+                  <pointsize>7</pointsize>
                  </font>
                 </property>
                 <property name="text">
-                 <string>FIT</string>
+                 <string/>
                 </property>
                </widget>
               </item>
@@ -448,11 +484,11 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
                <widget class="QCheckBox" name="FITA2">
                 <property name="font">
                  <font>
-                  <pointsize>9</pointsize>
+                  <pointsize>7</pointsize>
                  </font>
                 </property>
                 <property name="text">
-                 <string>FIT</string>
+                 <string/>
                 </property>
                </widget>
               </item>
@@ -473,13 +509,13 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
                <widget class="QComboBox" name="A1RANGEBOX">
                 <property name="maximumSize">
                  <size>
-                  <width>50</width>
+                  <width>45</width>
                   <height>16777215</height>
                  </size>
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>9</pointsize>
+                  <pointsize>8</pointsize>
                  </font>
                 </property>
                 <property name="currentIndex">
@@ -547,13 +583,13 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
                <widget class="QComboBox" name="A1RANGEBOX_2">
                 <property name="maximumSize">
                  <size>
-                  <width>50</width>
+                  <width>45</width>
                   <height>16777215</height>
                  </size>
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>9</pointsize>
+                  <pointsize>8</pointsize>
                  </font>
                 </property>
                 <property name="currentIndex">
@@ -618,13 +654,13 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
                <widget class="QComboBox" name="comboBox_5">
                 <property name="maximumSize">
                  <size>
-                  <width>50</width>
+                  <width>45</width>
                   <height>16777215</height>
                  </size>
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>9</pointsize>
+                  <pointsize>8</pointsize>
                  </font>
                 </property>
                 <item>
@@ -653,11 +689,11 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
                <widget class="QCheckBox" name="FITA3">
                 <property name="font">
                  <font>
-                  <pointsize>9</pointsize>
+                  <pointsize>7</pointsize>
                  </font>
                 </property>
                 <property name="text">
-                 <string>FIT</string>
+                 <string/>
                 </property>
                </widget>
               </item>
@@ -665,11 +701,11 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
                <widget class="QCheckBox" name="FITMIC">
                 <property name="font">
                  <font>
-                  <pointsize>9</pointsize>
+                  <pointsize>7</pointsize>
                  </font>
                 </property>
                 <property name="text">
-                 <string>FIT</string>
+                 <string/>
                 </property>
                </widget>
               </item>
@@ -710,13 +746,13 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
                   </property>
                   <property name="maximumSize">
                    <size>
-                    <width>50</width>
+                    <width>45</width>
                     <height>16777215</height>
                    </size>
                   </property>
                   <property name="font">
                    <font>
-                    <pointsize>9</pointsize>
+                    <pointsize>8</pointsize>
                    </font>
                   </property>
                   <property name="currentIndex">
@@ -725,6 +761,27 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
                  </widget>
                 </item>
                </layout>
+              </item>
+              <item row="0" column="2">
+               <widget class="QLabel" name="label_4">
+                <property name="text">
+                 <string>FIT</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLabel" name="label_6">
+                <property name="text">
+                 <string>Range</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_7">
+                <property name="text">
+                 <string>Input</string>
+                </property>
+               </widget>
               </item>
              </layout>
             </item>
@@ -1016,14 +1073,23 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
             <string>PeripheralCollectionInner</string>
            </property>
            <layout class="QGridLayout" name="gridLayout_4">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
             <property name="horizontalSpacing">
              <number>3</number>
             </property>
             <property name="verticalSpacing">
              <number>1</number>
-            </property>
-            <property name="margin">
-             <number>0</number>
             </property>
             <item row="4" column="2">
              <widget class="QSpinBox" name="timeoutBox">
@@ -1298,14 +1364,23 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
             <string>PeripheralCollectionInner</string>
            </property>
            <layout class="QGridLayout" name="gridLayout_6">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
             <property name="horizontalSpacing">
              <number>3</number>
             </property>
             <property name="verticalSpacing">
              <number>1</number>
-            </property>
-            <property name="margin">
-             <number>0</number>
             </property>
             <item row="4" column="2">
              <widget class="QSpinBox" name="TimeoutBox">
@@ -1590,14 +1665,23 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
             <string>PeripheralCollectionInner</string>
            </property>
            <layout class="QGridLayout" name="gridLayout_8">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
             <property name="horizontalSpacing">
              <number>3</number>
             </property>
             <property name="verticalSpacing">
              <number>1</number>
-            </property>
-            <property name="margin">
-             <number>0</number>
             </property>
             <item row="3" column="2">
              <widget class="QSpinBox" name="timeoutBox_3">
@@ -1785,7 +1869,16 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
          <property name="spacing">
           <number>1</number>
          </property>
-         <property name="margin">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
           <number>0</number>
          </property>
          <item>
@@ -1834,7 +1927,16 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
         <string>Experiments</string>
        </attribute>
        <layout class="QVBoxLayout" name="experimentLayout">
-        <property name="margin">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
          <number>0</number>
         </property>
        </layout>
@@ -1854,7 +1956,16 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
         <property name="spacing">
          <number>0</number>
         </property>
-        <property name="margin">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
          <number>0</number>
         </property>
        </layout>
