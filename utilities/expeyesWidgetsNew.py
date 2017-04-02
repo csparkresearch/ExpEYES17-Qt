@@ -8,7 +8,7 @@ from PyQt4 import QtGui,QtCore
 import pyqtgraph as pg
 import numpy as np
 from collections import OrderedDict
-import random,functools
+import random,functools,os
 
 
 try:
@@ -455,7 +455,24 @@ class expeyesWidgets():
 
 	############################### ############################### 
 
-
+	def IMAGE(self,path):
+		if not os.path.exists(path): 
+			print ('Path not found',path)
+			return
+		try:
+			self.TITLE(path)
+			label = QtGui.QLabel() 
+			self.widgetLayout.addWidget(label)
+			label.setScaledContents(True)
+			pixmap = QtGui.QPixmap(path)
+			#print (label.size())
+			#scaledPixmap = pixmap.scaled(label.size(), QtCore.Qt.KeepAspectRatio)
+			label.setPixmap(pixmap.scaledToHeight(50))
+			#x = QtGui.QIcon(path)
+			#a = QtGui.QListWidgetItem(x,fname)
+			#self.listWidget.addItem(a)
+		except Exception as e:
+			print (e)
 
 	def addPV1(self,handler):
 		return self.sliderWidget(min = -5,max = 5, label = 'PV1' ,units = 'V', callback = handler.set_pv1) 

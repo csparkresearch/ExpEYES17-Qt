@@ -28,7 +28,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		stringaxis.setLabel('Voltage',**{'color': '#FFF', 'font-size': '9pt'})
 		stringaxis.setWidth(15)
 		
-		self.SCOPEPLOT(['A1','A2','A3','MIC'],leftAxis = stringaxis)   #You can also make up your own curve names.
+		self.SCOPEPLOT(['A1','A2','A3','MIC'],leftAxis = stringaxis)   #You can also make up your own curve names. WORK IN PROGRESS [ e.g. A1+A2  should make a channel that automatically shows the sum]
 		self.xaxis = self.plot.getAxis('bottom')
 
 
