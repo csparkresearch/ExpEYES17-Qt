@@ -10,6 +10,23 @@ import numpy as np
 from collections import OrderedDict
 import random,functools
 
+
+try:
+	import scipy.optimize as optimize
+except ImportError:
+	optimize = None
+else:
+	optimize = optimize
+
+try:
+	import scipy.fftpack as fftpack
+except ImportError:
+	fftpack = None
+else:
+	fftpack = fftpack
+
+
+
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
@@ -196,6 +213,24 @@ class expeyesWidgets():
 				y = 4.*vals[A][1]/R
 				self.traceData[A] = [x,y]
 				self.myCurves[A].setData(x,y)
+
+				# make the fit
+				if self.myCurveWidgets[A].fit.isChecked():
+					try:
+							fitres=self.sineFit(vals[A][0],vals[A][1])
+							if fitres:
+									amp=abs(fitres[0])
+									freq=fitres[1]
+									offset=fitres[2]
+									ph=fitres[3]
+									frequency = freq/1e6
+									
+									s = ('%5.2f V, %5.0f Hz')%(amp,frequency)
+									self.myCurveWidgets[A].fit.setText(s)
+					except Exception as e:
+							print (e.message)
+							pass
+
 		self.repositionLabels()
 
 	def makeLabels(self):
@@ -284,6 +319,7 @@ class expeyesWidgets():
 		self.widgetLayout.addItem(QtGui.QSpacerItem(size, size, QtGui.QSizePolicy.Minimum))
 
 	def TITLE(self,text):
+		self.SPACER(5)
 		line = QtGui.QFrame()
 		line.setFrameShape(QtGui.QFrame.HLine);	line.setMinimumSize(QtCore.QSize(0, 8));line.setFrameShadow(QtGui.QFrame.Sunken)
 		label = QtGui.QLabel(text)
@@ -486,3 +522,40 @@ class expeyesWidgets():
 		info.show()
 
 
+	#-------------------------- Sine Fit ------------------------------------------------
+	def sineFunc(self,x, a1, a2, a3,a4):
+	    return a4 + a1*np.sin(abs(a2*(2*np.pi))*x + a3)
+
+	def sineFit(self,xReal,yReal,**kwargs):
+		if not optimize:return None
+		N=len(xReal)
+		OFFSET = (yReal.max()+yReal.min())/2.
+		yhat = fftpack.rfft(yReal-OFFSET)
+		idx = (yhat**2).argmax()
+		freqs = fftpack.rfftfreq(N, d = (xReal[1]-xReal[0])/(2*np.pi))
+		frequency = kwargs.get('freq',freqs[idx])  
+		frequency/=(2*np.pi) #Convert angular velocity to freq
+		amplitude = kwargs.get('amp',(yReal.max()-yReal.min())/2.0)
+		phase=kwargs.get('phase',0) #.5*np.pi*((yReal[0]-offset)/amplitude)
+		guess = [amplitude, frequency, phase,0]
+		try:
+			(amplitude, frequency, phase,offset), pcov = optimize.curve_fit(self.sineFunc, xReal, yReal-OFFSET, guess)
+			offset+=OFFSET
+			ph = ((phase)*180/(np.pi))
+			if(frequency<0):
+				#print ('negative frq')
+				return False
+
+			if(amplitude<0):
+				ph-=180
+
+			if(ph<0):ph = (ph+720)%360
+			freq=1e6*abs(frequency)
+			amp=abs(amplitude)
+			pcov[0]*=1e6
+			#print (pcov)
+			if(abs(pcov[-1][0])>1e-6):
+				False
+			return [amp, freq, offset,ph]
+		except:
+			return False

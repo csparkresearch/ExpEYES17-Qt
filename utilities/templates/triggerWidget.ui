@@ -28,6 +28,9 @@
      <property name="topMargin">
       <number>0</number>
      </property>
+     <property name="bottomMargin">
+      <number>5</number>
+     </property>
      <item>
       <widget class="QCheckBox" name="enable">
        <property name="sizePolicy">

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'plotTemplate.ui'
 #
-# Created: Sun Apr  2 10:01:52 2017
+# Created: Mon Apr  3 02:07:37 2017
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -35,7 +35,7 @@ class Ui_Form(object):
         self.splitter.setOrientation(QtCore.Qt.Horizontal)
         self.splitter.setObjectName(_fromUtf8("splitter"))
         self.widgets = QtGui.QFrame(self.splitter)
-        self.widgets.setMaximumSize(QtCore.QSize(250, 16777215))
+        self.widgets.setMaximumSize(QtCore.QSize(300, 16777215))
         self.widgets.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.widgets.setFrameShape(QtGui.QFrame.StyledPanel)
         self.widgets.setFrameShadow(QtGui.QFrame.Raised)

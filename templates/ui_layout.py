@@ -2,6 +2,8 @@
 
 # Form implementation generated from reading ui file 'layout.ui'
 #
+# Created: Mon Apr  3 02:07:36 2017
+#      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -60,8 +62,8 @@ class Ui_MainWindow(object):
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         self.verticalLayout_2 = QtGui.QVBoxLayout(self.centralwidget)
-        self.verticalLayout_2.setMargin(0)
         self.verticalLayout_2.setSpacing(0)
+        self.verticalLayout_2.setMargin(0)
         self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
         self.tabWidget = QtGui.QTabWidget(self.centralwidget)
         self.tabWidget.setTabPosition(QtGui.QTabWidget.North)
@@ -72,8 +74,8 @@ class Ui_MainWindow(object):
         self.tab = QtGui.QWidget()
         self.tab.setObjectName(_fromUtf8("tab"))
         self.horizontalLayout_2 = QtGui.QHBoxLayout(self.tab)
-        self.horizontalLayout_2.setMargin(0)
         self.horizontalLayout_2.setSpacing(0)
+        self.horizontalLayout_2.setMargin(0)
         self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
         self.splitter = QtGui.QSplitter(self.tab)
         self.splitter.setOrientation(QtCore.Qt.Horizontal)
@@ -84,8 +86,8 @@ class Ui_MainWindow(object):
         self.plots.setFrameShadow(QtGui.QFrame.Raised)
         self.plots.setObjectName(_fromUtf8("plots"))
         self.plot_area = QtGui.QVBoxLayout(self.plots)
-        self.plot_area.setMargin(0)
         self.plot_area.setSpacing(0)
+        self.plot_area.setMargin(0)
         self.plot_area.setObjectName(_fromUtf8("plot_area"))
         self.widgets = QtGui.QFrame(self.splitter)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Preferred)
@@ -100,8 +102,8 @@ class Ui_MainWindow(object):
         self.widgets.setFrameShadow(QtGui.QFrame.Raised)
         self.widgets.setObjectName(_fromUtf8("widgets"))
         self.verticalLayout = QtGui.QVBoxLayout(self.widgets)
-        self.verticalLayout.setMargin(5)
         self.verticalLayout.setSpacing(5)
+        self.verticalLayout.setMargin(5)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
         self.gridLayout = QtGui.QGridLayout()
         self.gridLayout.setObjectName(_fromUtf8("gridLayout"))
@@ -136,8 +138,8 @@ class Ui_MainWindow(object):
         self.WGSLIDER.setObjectName(_fromUtf8("WGSLIDER"))
         self.gridLayout.addWidget(self.WGSLIDER, 4, 1, 1, 1)
         self.horizontalLayout_4 = QtGui.QHBoxLayout()
-        self.horizontalLayout_4.setContentsMargins(-1, 0, -1, -1)
         self.horizontalLayout_4.setSpacing(10)
+        self.horizontalLayout_4.setContentsMargins(-1, 0, -1, -1)
         self.horizontalLayout_4.setObjectName(_fromUtf8("horizontalLayout_4"))
         self.checkBox_2 = QtGui.QCheckBox(self.widgets)
         self.checkBox_2.setObjectName(_fromUtf8("checkBox_2"))
@@ -760,8 +762,8 @@ class Ui_MainWindow(object):
         self.groupBox.setFont(font)
         self.groupBox.setObjectName(_fromUtf8("groupBox"))
         self.horizontalLayout_11 = QtGui.QHBoxLayout(self.groupBox)
-        self.horizontalLayout_11.setMargin(0)
         self.horizontalLayout_11.setSpacing(1)
+        self.horizontalLayout_11.setMargin(0)
         self.horizontalLayout_11.setObjectName(_fromUtf8("horizontalLayout_11"))
         self.DIN_IN2 = QtGui.QLabel(self.groupBox)
         self.DIN_IN2.setStyleSheet(_fromUtf8(""))
@@ -789,8 +791,8 @@ class Ui_MainWindow(object):
         self.saveTab = QtGui.QWidget()
         self.saveTab.setObjectName(_fromUtf8("saveTab"))
         self.saveLayout = QtGui.QVBoxLayout(self.saveTab)
-        self.saveLayout.setMargin(0)
         self.saveLayout.setSpacing(0)
+        self.saveLayout.setMargin(0)
         self.saveLayout.setObjectName(_fromUtf8("saveLayout"))
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/control/saved.svg")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
