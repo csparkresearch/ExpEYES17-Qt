@@ -8,49 +8,22 @@ from PyQt4 import QtGui,QtCore
 import pyqtgraph as pg
 import pyqtgraph.exporters
 
-from templates import ui_layout as layout
+from templates import ui_newLayout as newLayout
 from utilities.fileBrowser import fileBrowser
 from utilities.expeyesWidgets import expeyesWidgets
 
 
 import sys,time
 
-class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
+class AppWindow(QtGui.QMainWindow, newLayout.Ui_MainWindow,expeyesWidgets):
 	sigExec = QtCore.pyqtSignal(str,object,object)
 	xmax = 20 #mS
 	expts = OrderedDict([
 	('Half-wave rectifier','halfwave'),
+	('Oscilloscope','scope'),
 	 ])
 
-	'''
-	('Control PVS','change-pvs'),
-	('Study of AC Circuits','ac-circuit'),
-	('RC Circuit','RCcircuit'),
-	('RL Circuit','RLcircuit'),
-	('RLC Discharge','RLCdischarge'),
-	('EM Induction','induction'),
-	('Diode IV','diode_iv'),
-	('Transistor CE','transistor'),
-	('AM and FM', 'amfm'),
-	('Frequency Response','freq-response'),
-	('Velocity of Sound','velocity-sound'),
-	('Interference of Sound', 'interference-sound'),
-	('Capture Burst of Sound','sound-burst'),
-	('Driven Pendulum','driven-pendulum'),
-	('Rod Pendulum','rodpend'),
-	('Pendulum Wavefrorm','pendulum'),
-	('PT100 Sensor', 'pt100'),
-	('Stroboscope', 'stroboscope'),
-	('Data Logger', 'logger'),
-	('HY-SRF05 Echo module', 'gecho'),
-	('Calibrate','calibrate')
-	'''
 
-	chan4 = [ [1, [], [],0,[],0,0,0,None,None,0.0, 2],\
-		  [0, [], [],0,[],0,0,0,None,None,0.0, 2],\
-		  [0, [], [],0,[],0,0,0,None,None,0.0, 0],\
-		  [0, [], [],0,[],0,0,0,None,None,0.0, 0] \
-		] # Source, t, v, fitflag, vfit, amp, freq, phase, widget1, widget2, display offset in volts
 	def __init__(self, parent=None,**kwargs):
 		super(AppWindow, self).__init__(parent)
 		self.setupUi(self)
@@ -66,9 +39,6 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 		self.sigExec.connect(self.CH.process)
 
 		self.CH.sigStat.connect(self.showStatus)
-		self.CH.sigPlot.connect(self.drawPlot)
-		self.CH.sigGeneric.connect(self.genericDataReceived)
-		self.CH.sigError.connect(self.handleError)
 
 		self.worker_thread.start()
 		self.worker_thread.setPriority(QtCore.QThread.HighPriority)
@@ -85,46 +55,7 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 		self.exitBtn.clicked.connect(self.askBeforeQuit)
 		self.exitBtn.setStyleSheet("height: 10px;padding:3px;color: #FF2222;")
 		self.statusBar.addPermanentWidget(self.exitBtn)
-
 		
-		stringaxis = pg.AxisItem(orientation='left')
-		#ydict = {-4:'-4\n-2',-3:'-3',-2:'-2',-1:'-1',0:'0',1:'1',2:'2',3:'3',4:''}
-		ydict = {-4:'',-3:'',-2:'',-1:'',0:'',1:'',2:'',3:'',4:''}
-		stringaxis.setTicks([ydict.items()])
-		stringaxis.setLabel('Voltage',**{'color': '#FFF', 'font-size': '9pt'})
-		stringaxis.setWidth(15)
-		
-		self.plot   = self.addPlot(xMin=0,xMax=self.xmax,yMin=-4,yMax=4, disableAutoRange = 'y',bottomLabel = 'time',bottomUnits='S',leftAxis = stringaxis,enableMenu=False)
-		self.plot.setMouseEnabled(False,True)
-		self.plot_area.addWidget(self.plot)
-		self.xaxis = self.plot.getAxis('bottom')
-
-		self.channels_enabled=[1,1,1,1]
-		self.channelButtons = [self.A1,self.A2,self.A3,self.MIC]
-		self.chan1Box.setStyleSheet("QComboBox::down-arrow{  top: 1px;left: 1px;}border-radius: 3px;border: 1px solid rgb%s"%str(self.trace_colors[0]))
-		for a,col in zip(self.channelButtons,self.trace_colors):
-			a.setStyleSheet("color:rgb%s"%str(col))
-
-		self.MAX_SAMPLES=2000
-		self.max_samples_per_channel=[0,self.MAX_SAMPLES/4,self.MAX_SAMPLES/4,self.MAX_SAMPLES/4,self.MAX_SAMPLES/4]
-		self.samples = [self.MAX_SAMPLES/4];self.timebase=2;self.chan1remap='A1'
-		self.chan1Box.addItems(self.CH.I.allAnalogChannels)
-		
-		self.plot.addLegend(offset=(-10,30))
-		self.curveDict = {}
-		for name,col in zip(self.trace_names,self.trace_colors):
-			self.addCurve(self.plot,name,col)
-			self.curveDict[name] = self.curves[self.plot][-1]
-
-		##### SET GAIN COMBOBOX VALUES
-		self.Ranges12 = ['16 V', '8 V','4 V', '2.5 V','1.5 V', '1 V', '.5 V', '.25 V']	# Voltage ranges for A1 and A2
-		self.rangevals12 = [16.,8.,4.,2.5,1.5,1.,0.5,0.25]
-		self.Ranges34 = ['4 V', '2 V', '1 V', '.5V']					# Voltage ranges for A3 and MIC
-		self.rangevals34 = [4,2,1,0.5]
-
-		self.currentRange={'A1':4,'A2':4,'A3':4,'MIC':4}
-		##### SET GAIN COMBOBOX VALUES
-
 		##### SET TIMING INTERVAL BOX CONTENTS
 		for a in [self.edge1chan,self.edge2chan]: 
 			a.addItems(self.CH.I.digital_inputs)
@@ -141,21 +72,7 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 				item = QtGui.QTableWidgetItem();self.TimingResults.setItem(x, 1, item);item.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEnabled)
 
 
-
-
-		##### SET TIMING INTERVAL BOX CONTENTS
-
 		self.trig = self.addInfiniteLine(self.plot,angle=0, movable=True,cursor = QtCore.Qt.SizeVerCursor,tooltip="Trigger level. Enable the trigger checkbox, and drag up/down to set the level",value = 0,ignoreBounds=False)
-
-		self.currentPeak = None
-		self.trigger = False
-		self.trigger_channel=0
-		self.triggerChannelName='A1'
-		self.trigger_level=0
-		self.trig.sigPositionChanged.connect(self.setTrigger)
-		self.setTrigger(self.trig)
-		self.labelTexts={}
-		self.makeLabels()
 
 		#### Set initial configuration
 		self.setGainA1(2);self.setGainA2(2)

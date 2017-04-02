@@ -1160,7 +1160,7 @@ class Interface():
 			g = self.analogRanges.get(voltage_range)
 			return self.set_gain( channel, g)
 		else:
-			print ('not a valid range. try : ',ranges.keys())
+			print ('not a valid range. try : ',self.analogRanges.keys())
 			return None
 
 	def __calcCHOSA__(self,name):

@@ -1,5 +1,6 @@
 from .templates import ui_SliderAndSpinbox as SliderAndSpinbox
 from .templates import ui_channelSelector as channelSelector
+from .templates import ui_flexibleChannelSelector as flexibleChannelSelector
 
 from PyQt4 import QtGui,QtCore
 import pyqtgraph as pg
@@ -38,6 +39,13 @@ class expeyesWidgets():
 	gainAvailables = ['A1','A2']
 	MAX_SAMPLES=2000
 	max_samples_per_channel=[0,MAX_SAMPLES/4,MAX_SAMPLES/4,MAX_SAMPLES/4,MAX_SAMPLES/4]
+
+	Ranges12 = ['16 V', '8 V','4 V', '2.5 V','1.5 V', '1 V', '.5 V', '.25 V']	# Voltage ranges for A1 and A2
+	rangevals12 = [16.,8.,4.,2.5,1.5,1.,0.5,0.25]
+	Ranges34 = ['4 V', '2 V', '1 V', '.5V']					# Voltage ranges for A3 and MIC
+	rangevals34 = [4,2,1,0.5]
+
+	self.currentRange={'A1':4,'A2':4,'A3':4,'MIC':4}
 	def __init__(self,*args,**kwargs):
 		#sys.path.append('/usr/share/seelablet')
 		pass
@@ -69,17 +77,19 @@ class expeyesWidgets():
 		self.widgetLayout.addWidget(widget)
 		return widget
 
-	def SCOPEPLOT(self,curvenames):
+	def SCOPEPLOT(self,curvenames,**kwargs):
 		self.xmax = 1e-3 #assume 1mS
-		self.plot   = self.addPlot(xMin=0,xMax=self.xmax,yMin=-4,yMax=4, disableAutoRange = 'y',bottomLabel = 'time',bottomUnits='S',enableMenu=False,legend=True)
+		self.plot   = self.addPlot(xMin=0,xMax=self.xmax,yMin=-4,yMax=4, disableAutoRange = 'y',bottomLabel = 'time',bottomUnits='S',enableMenu=False,legend=True,**kwargs)
 		self.plot.setMouseEnabled(False,True)
 		self.plotLayout.addWidget(self.plot)
-		self.myCurves=OrderedDict();num=0
+		self.myCurves=OrderedDict()
 		self.myCurveWidgets = OrderedDict()
-
+		num=0
 		for a in curvenames:
 			self.myCurves[a] = self.addCurve(self.plot,a,self.trace_colors[num])
-			self.myCurveWidgets[a] = self.channelWidget(self.p,a,self.trace_colors[num])
+			if(num==0 and kwargs.get('flexibleChan1',True)):
+				self.myCurveWidgets[a] = self.flexibleChannelWidget(self.p,a,self.trace_colors[num])
+			else :self.myCurveWidgets[a] = self.channelWidget(self.p,a,self.trace_colors[num])
 			self.widgetLayout.addWidget(self.myCurveWidgets[a])
 			num+=1
 		self.p.sigPlot.connect(self.updatePlot)
@@ -94,17 +104,18 @@ class expeyesWidgets():
 		b = self.myCurveWidgets['A2'].enable.isChecked() if 'A2' in self.myCurveWidgets else False
 		c = self.myCurveWidgets['A3'].enable.isChecked() if 'A3' in self.myCurveWidgets else False
 		d = self.myCurveWidgets['MIC'].enable.isChecked() if 'MIC' in self.myCurveWidgets else False
+		self.chan1remap = str(self.myCurveWidgets['A1'].chan1Box.currentText())
 		if c or d:
-			self.traceOrder =['A1','A2','A3','MIC']
+			self.traceOrder =[self.chan1remap,'A2','A3','MIC']
 			self.active_channels=4
 			if not d:
 				self.active_channels=3
-				self.traceOrder =['A1','A2','A3']
+				self.traceOrder =[self.chan1remap,'A2','A3']
 		elif b:
-			self.traceOrder =['A1','A2']
+			self.traceOrder =[self.chan1remap,'A2']
 			self.active_channels=2
 		elif a:
-			self.traceOrder =['A1']
+			self.traceOrder =[self.chan1remap]
 			self.active_channels=1
 		else:
 			self.active_channels=0
@@ -157,6 +168,28 @@ class expeyesWidgets():
 		def gainChanged(self,val):
 			val = float(val[:-1]) #remove 'V'
 			self.p.select_range(self.name,val)
+
+	class flexibleChannelWidget(QtGui.QWidget,flexibleChannelSelector.Ui_Form,constants):
+		'''
+		assumes self.p
+		'''
+		def __init__(self,handler,name,options,col=None):
+			super(expeyesWidgets.flexibleChannelWidget, self).__init__()
+			self.setupUi(self)
+			self.p = handler
+			self.chan1Box.addItems(self.p.I.allAnalogChannels)
+			self.name = name
+			self.enable.setText(self.name)
+			if self.name not in self.gainAvailables:
+				self.gain.setEnabled(False)
+			else:
+				QtCore.QObject.connect(self.gain, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), self.gainChanged)
+			if col : self.chan1Box.setStyleSheet("color:rgb%s"%str(col))
+
+		def gainChanged(self,val):
+			val = float(val[:-1]) #remove 'V'
+			self.p.select_range(self.name,val)
+
 
 
 	def SPACER(self,size):

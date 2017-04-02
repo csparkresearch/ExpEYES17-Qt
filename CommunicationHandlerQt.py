@@ -15,6 +15,7 @@ class communicationHandler(QtCore.QObject):
 	def __init__(self, parent=None,**kwargs):
 		super(self.__class__, self).__init__(parent)
 		self.I = eyes.open()
+		self.busy=False
 		if self.I.connected:self.connected = True
 		self.I.set_sine(1000)
 		self.sigExec.connect(self.process)
@@ -30,6 +31,8 @@ class communicationHandler(QtCore.QObject):
 				self.fname = fname
 			def func(self,*args,**kwargs):
 				self.sigExec.emit(self.fname,args,kwargs)
+			def funcForward(self,fwdfunc,*args,**kwargs):
+				self.execThread.emit(self.fname,args,kwargs,fwdfunc)
 				
 		
 		for a in dir(self.I):
@@ -38,6 +41,9 @@ class communicationHandler(QtCore.QObject):
 				F = functionContainer(a,self.sigExec)
 				self.functionList[a] = F.func
 				setattr(self,a,F.func)
+				self.functionList[a+'_fwd'] = F.funcForward
+				setattr(self,a+'_fwd',F.funcForward)
+
 		
 		self.timer = QtCore.QTimer()
 		self.buflen = 0
@@ -54,17 +60,18 @@ class communicationHandler(QtCore.QObject):
 			if name == 'capture1':                          #blocking call . Acquire data , and immediately signal to plot
 				x,y = self.I.capture1(*args,**kwargs)
 				self.sigStat.emit('acquired data',False)
-				self.sigPlot.emit([x,y])
+				self.sigPlot.emit({args[0]:[x,y]})
 			elif name == 'capture2':
 				x,y,x2,y2 = self.I.capture2(*args,**kwargs)
-				self.sigPlot.emit([x,y,x2,y2])
+				self.sigPlot.emit({self.I.achans[0].channel:[x,y],args['A2']:[x2,y2]})
 			elif name == 'capture_action':
 				x,y = self.I.capture_action(*args,**kwargs)
-				self.sigPlot.emit([x,y])
+				self.sigPlot.emit({self.I.achans[0].channel:[x,y]})
 			elif name == 'capture_traces':	                #non - blocking call. Start acquisition , and fetch data when it's ready.
 				self.I.capture_traces(*args,**kwargs)
 				self.buflen = args[0]
 				self.channels_enabled=kwargs.get('chans',[0,0,0,0])
+				self.busy=True
 				self.timer.singleShot(args[1]*args[2]*1e-3+10+self.trigPre*20,self.fetchData)
 			elif name == 'fetchData':	                #non - blocking call. Start acquisition , and fetch data when it's ready.
 				n=0
@@ -77,15 +84,20 @@ class communicationHandler(QtCore.QObject):
 							raise Exception
 
 					t=time.time()
+					returnData = {}
+					X=None
 					for a in range(self.buflen):
 						if self.channels_enabled[a]:
 							self.I.__fetch_channel__(a+1)
+							if X is None:X = self.I.achans[a].get_xaxis()*1e-6
+							returnData[self.I.achans[a].channel]=[X,self.I.achans[a].get_yaxis()]
 					#print ('traces...ordered',time.time()-t)
-					X = self.I.achans[0].get_xaxis()*1e-6
-					if self.buflen==1:self.sigPlot.emit([X,self.I.achans[0].get_yaxis()])
-					elif self.buflen==2:self.sigPlot.emit([X,self.I.achans[0].get_yaxis(),X,self.I.achans[1].get_yaxis()])
-					elif self.buflen==3:self.sigPlot.emit([X,self.I.achans[0].get_yaxis(),X,self.I.achans[1].get_yaxis(),X,self.I.achans[2].get_yaxis()])
-					elif self.buflen==4:self.sigPlot.emit([X,self.I.achans[0].get_yaxis(),X,self.I.achans[1].get_yaxis(),X,self.I.achans[2].get_yaxis(),X,self.I.achans[3].get_yaxis()])
+					self.busy=False
+					self.sigPlot.emit(returnData)
+					#if self.buflen==1:self.sigPlot.emit([X,self.I.achans[0].get_yaxis()])
+					#elif self.buflen==2:self.sigPlot.emit([X,self.I.achans[0].get_yaxis(),X,self.I.achans[1].get_yaxis()])
+					#elif self.buflen==3:self.sigPlot.emit([X,self.I.achans[0].get_yaxis(),X,self.I.achans[1].get_yaxis(),X,self.I.achans[2].get_yaxis()])
+					#elif self.buflen==4:self.sigPlot.emit([X,self.I.achans[0].get_yaxis(),X,self.I.achans[1].get_yaxis(),X,self.I.achans[2].get_yaxis(),X,self.I.achans[3].get_yaxis()])
 
 				except Exception as e:
 					self.sigError.emit(name,e.message)
