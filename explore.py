@@ -58,13 +58,6 @@ class AppWindow(QtGui.QMainWindow, layoutNew.Ui_MainWindow,expeyesWidgets):
 		self.exitBtn.setStyleSheet("height: 10px;padding:3px;color: #FF2222;")
 		self.statusBar.addPermanentWidget(self.exitBtn)
 		
-
-		#### Set initial configuration
-		#self.setGainA1(2);self.setGainA2(2)
-
-		### Test some new widgets
-		#Do not provide callbacks to the eyes17 instance. It will break the threaded environment
-		
 		for a in self.expts:
 			self.menuLoad.addAction(a,functools.partial(self.launchExperiment,a))
 		self.expt=None
@@ -96,19 +89,16 @@ class AppWindow(QtGui.QMainWindow, layoutNew.Ui_MainWindow,expeyesWidgets):
 		self.expt.show()
 		print (name,fname)
 
-	def tabChanged(self,index):
-		print (index)
-
-	def setTrigger(self,value):
-			self.trigger_level=self.currentRange['A1']*value.pos()[1]/4.
-			self.CH.configure_trigger(self.trigger_channel,self.triggerChannelName,self.trigger_level,resolution=10,prescaler=5)
-
+	def tabChanged(self,val):
+		pass
+		
 	def closeEvent(self, evnt):
-		#evnt.ignore()
+		evnt.ignore()
 		#self.askBeforeQuit()
 		if self.worker_thread.isRunning():
 			self.worker_thread.quit()
 			self.worker_thread.wait()
+		sys.exit(0)
 	
 	def askBeforeQuit(self):
 		reply = QtGui.QMessageBox.question(self, 'Warning', 'Really quit?', QtGui.QMessageBox.No, QtGui.QMessageBox.Yes)

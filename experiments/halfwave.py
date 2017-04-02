@@ -20,7 +20,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.SCOPEPLOT(['A1','A2','A3'],rangeA1='4V',rangeA2='4V')   #You can also make up your own curve names.
 		#self.changeGain('A1',4);self.changeGain('A2',4);
 
-		#Add a spacer
+		#Add a vertical spacer in the widgetLayout . about 0.5cm
 		self.SPACER(20)
 
 		# ADD A SINE WIDGET SLIDER WITH NUMBERIC INPUT to the widgetLayout
@@ -29,10 +29,9 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.TITLE('Controls')
 		self.SINE()
 		
-		self.setInterval(200,self.tmp)
+		self.setInterval(200,self.acquire)
 		#self.setTimeout(1000,functools.partial(self.capture,'A1',200,3),self.update)
 
-	def tmp(self):
+	def acquire(self):
 		self.CAPTURE()  #This assumes self.TRIGGER , self.SCOPEPLOT etc were used to initialize. Uses default values wherever possible
-		#print ('capturing')
 	
