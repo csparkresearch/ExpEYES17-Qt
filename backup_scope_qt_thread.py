@@ -1,3 +1,4 @@
+# -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
 import layout,os,string,time,glob
 from collections import OrderedDict
 import expeyes.eyes17 as eyes, expeyes.eyemath as eyemath, time, os, commands

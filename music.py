@@ -1,3 +1,4 @@
+# -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
 C_6 = 1046
 #D_6 = 1174
 #D_6s = 1244

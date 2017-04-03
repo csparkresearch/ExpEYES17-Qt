@@ -1,3 +1,4 @@
+# -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
 '''
 Plotting libray, using Tkinter for expEYES
 Author  : Ajith Kumar B.P, bpajith@gmail.com

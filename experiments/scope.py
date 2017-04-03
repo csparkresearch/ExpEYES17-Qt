@@ -1,3 +1,4 @@
+# -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
 from PyQt4 import QtGui,QtCore
 
 from templates import ui_plotTemplate as plotTemplate

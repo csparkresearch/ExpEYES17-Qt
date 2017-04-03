@@ -1,3 +1,4 @@
+# -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
 from __future__ import print_function
 import os,string,time
 from collections import OrderedDict
@@ -148,13 +149,13 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 
 
 
-                ##### connect signals for FIT checkboxes
-                
-                self.FITA1.stateChanged.connect(self.FITchanged('A1'))
-                self.FITA2.stateChanged.connect(self.FITchanged('A2'))
-                self.FITA3.stateChanged.connect(self.FITchanged('A3'))
-                self.FITMIC.stateChanged.connect(self.FITchanged('MIC'))
-                
+		##### connect signals for FIT checkboxes
+		
+		self.FITA1.stateChanged.connect(self.FITchanged('A1'))
+		self.FITA2.stateChanged.connect(self.FITchanged('A2'))
+		self.FITA3.stateChanged.connect(self.FITchanged('A3'))
+		self.FITMIC.stateChanged.connect(self.FITchanged('MIC'))
+		
 		##### SET TIMING INTERVAL BOX CONTENTS
 
 		self.trig = self.addInfiniteLine(self.plot,angle=0, movable=True,cursor = QtCore.Qt.SizeVerCursor,tooltip="Trigger level. Enable the trigger checkbox, and drag up/down to set the level",value = 0,ignoreBounds=False)
@@ -230,7 +231,7 @@ class AppWindow(QtGui.QMainWindow, layout.Ui_MainWindow,expeyesWidgets):
 							self.fitted.remove(channel)
 					return
 			return cbFitChanged
-        
+	
 	def makeLabels(self):
 		self.labelTexts={}
 		xshift=self.xaxis.range[0]
@@ -498,5 +499,3 @@ if __name__ == "__main__":
 	myapp = AppWindow()
 	myapp.show()
 	sys.exit(app.exec_())
-
-
