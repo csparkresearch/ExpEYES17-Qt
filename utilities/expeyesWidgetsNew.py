@@ -132,9 +132,18 @@ class expeyesWidgets():
 		self.widgetLayout.addWidget(widget)
 		return widget
 
+
 	def SCOPEPLOT(self,curvenames,**kwargs):
 		self.xmax = 1e-3 #assume 1mS
-		self.plot   = self.addPlot(xMin=0,xMax=self.xmax,yMin=-4,yMax=4, disableAutoRange = 'y',bottomLabel = 'time',bottomUnits='S',enableMenu=False,legend=True,**kwargs)
+
+		stringaxis = pg.AxisItem(orientation='left')
+		#ydict = {-4:'-4\n-2',-3:'-3',-2:'-2',-1:'-1',0:'0',1:'1',2:'2',3:'3',4:''}
+		ydict = {-4:'',-3:'',-2:'',-1:'',0:'',1:'',2:'',3:'',4:''}
+		stringaxis.setTicks([ydict.items()])
+		stringaxis.setLabel('Voltage',**{'color': '#FFF', 'font-size': '9pt'})
+		stringaxis.setWidth(15)
+
+		self.plot   = self.addPlot(xMin=0,xMax=self.xmax,yMin=-4,yMax=4, disableAutoRange = 'y',bottomLabel = 'time',bottomUnits='S',enableMenu=False,legend=True,leftAxis=stringaxis,**kwargs)
 		self.plot.setMouseEnabled(False,True)
 		self.plotLayout.addWidget(self.plot)
 		self.myCurves=OrderedDict()
@@ -349,6 +358,7 @@ class expeyesWidgets():
 		self.timers.append(timer)
 		return timer
 
+	
 
 	def windUp(self):
 		for a in reversed(self.timers):
@@ -396,7 +406,14 @@ class expeyesWidgets():
 		self.widgetLayout.addWidget(self.activeTriggerWidget)
 		self.trigLine = self.addInfiniteLine(self.plot,angle=0, movable=True,cursor = QtCore.Qt.SizeVerCursor,tooltip="Trigger level. Enable the trigger checkbox, and drag up/down to set the level",value = 0,ignoreBounds=False)
 		self.trigLine.sigPositionChanged.connect(self.setTrigger)
+		self.activeTriggerWidget.pushButton.clicked.connect(self.locateTrigger)
+
 		self.activeTriggerWidget.chanBox.currentIndexChanged.connect(self.setTrigger)
+
+		self.triggerArrow = pg.ArrowItem(angle=-60,tipAngle = 90, headLen=10, tailLen=13, tailWidth=5, pen={'color': 'g', 'width': 1}) 
+		self.plot.addItem(self.triggerArrow)
+		self.triggerArrow.setPos(-1,0)
+
 		self.setTrigger()
 
 	class triggerWidget(QtGui.QWidget,triggerWidgetUi.Ui_Form):
@@ -429,6 +446,21 @@ class expeyesWidgets():
 		plot.addItem(line, ignoreBounds=kwargs.get('ignoreBounds'))
 		return line
 
+	def locateTrigger(self):
+		self.trigAnimationPos = 0
+		try: self.trigTimer.stop()
+		except:pass
+		self.trigTimer = self.setInterval(10,self.animateTrigger)
+
+	def animateTrigger(self):
+		_,y=self.trigLine.getPos()
+		self.trigAnimationPos+=1e-6
+		self.triggerArrow.setPos(self.trigAnimationPos,y)
+		if self.trigAnimationPos>=100e-6:
+			self.triggerArrow.setPos(-1,0)
+			self.trigTimer.stop()
+		
+		
 	############################### ############################### 
 
 

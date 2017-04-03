@@ -16,7 +16,7 @@ from utilities.expeyesWidgets import expeyesWidgets
 
 import sys,time
 
-class AppWindow(QtGui.QMainWindow, layoutNew.Ui_MainWindow,expeyesWidgets):
+class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	sigExec = QtCore.pyqtSignal(str,object,object)
 	xmax = 20 #mS
 	expts = OrderedDict([
@@ -63,7 +63,7 @@ class AppWindow(QtGui.QMainWindow, layoutNew.Ui_MainWindow,expeyesWidgets):
 			self.menuLoad.addAction(a,functools.partial(self.launchExperiment,a))
 		self.expt=None
 		self.actionSave.triggered.connect(self.save)
-		self.launchExperiment('Half-wave rectifier')
+		self.launchExperiment('Oscilloscope')
 
 	def save(self):
 		print ('wrong save fnction. inheritance not working properly. save from expeyesWidgetsNew must be called. Georges? . This is defined in expeyesWidgetsNew')
@@ -112,23 +112,18 @@ class AppWindow(QtGui.QMainWindow, layoutNew.Ui_MainWindow,expeyesWidgets):
 		else: self.statusBar.setStyleSheet("color:#000000")
 		self.statusBar.showMessage(msg)
 
-
-
 	##############  HANDLE DATA RETURNED FROM WORKER THREAD   #####################
 
 	def genericDataReceived(self,name,res):
 		if name == 'get_states':
 			for nm,wid in zip(['IN2','SQR1_OUT','OD1_OUT','SEN','CCS'],[self.DIN_IN2,self.DIN_SQR1,self.DIN_OD1,self.DIN_SEN,self.DIN_CCS]):
 				wid.setStyleSheet('''background-color: %s;'''%('#0F0' if res[nm] else '#F00'))
-		elif name == 'configure_trigger':
-			pass
 		else:
 			print (name,res)
 
 	def handleError(self,name,err):
 		self.showStatus(name+err,True)
 		print ('packet drop',name,err)
-		if 'fetch' in name: self.timer.singleShot(10,self.update)
 
 	##############  HANDLE DATA RETURNED FROM WORKER THREAD   #####################
 

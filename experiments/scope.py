@@ -22,15 +22,9 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		# ADD AN OSCILLOSCOPE PLOT TO THE plotLayout
 		# This assumes self.plotLayout, and makes a dictionary self.curves with keys 'A1','A2','A3','MIC'
 		#You should be able to access after executing this function. self.myCurves is a dictionary of curves with 4 Elements
-		stringaxis = pg.AxisItem(orientation='left')
-		#ydict = {-4:'-4\n-2',-3:'-3',-2:'-2',-1:'-1',0:'0',1:'1',2:'2',3:'3',4:''}
-		ydict = {-4:'',-3:'',-2:'',-1:'',0:'',1:'',2:'',3:'',4:''}
-		stringaxis.setTicks([ydict.items()])
-		stringaxis.setLabel('Voltage',**{'color': '#FFF', 'font-size': '9pt'})
-		stringaxis.setWidth(15)
 		
 		self.TITLE('4-Channel Oscilloscope')
-		self.SCOPEPLOT(['A1','A2','A3','MIC'],leftAxis = stringaxis)   #You can also make up your own curve names. WORK IN PROGRESS [ e.g. A1+A2  should make a channel that automatically shows the sum]
+		self.SCOPEPLOT(['A1','A2','A3','MIC'],rangeA1='4V',rangeA2='4V')   #You can also make up your own curve names. WORK IN PROGRESS [ e.g. A1+A2  should make a channel that automatically shows the sum]
 		self.xaxis = self.plot.getAxis('bottom')
 
 		self.TIMEBASE()
