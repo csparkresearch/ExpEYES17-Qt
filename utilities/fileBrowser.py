@@ -1,3 +1,4 @@
+# -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
 import os,string,glob
 from PyQt4 import QtGui,QtCore
 import numpy as np

@@ -1,3 +1,4 @@
+# -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
 from __future__ import print_function
 import os,string,time
 from collections import OrderedDict
@@ -498,5 +499,3 @@ if __name__ == "__main__":
 	myapp = AppWindow()
 	myapp.show()
 	sys.exit(app.exec_())
-
-

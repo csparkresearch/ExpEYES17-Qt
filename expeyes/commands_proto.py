@@ -1,3 +1,4 @@
+# -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
 import math,sys,time, struct
 
 # allows to pack numeric values into byte strings

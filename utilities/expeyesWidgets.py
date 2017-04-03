@@ -1,3 +1,4 @@
+# -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
 from .templates import ui_SliderAndSpinbox as SliderAndSpinbox
 from .templates import ui_channelSelector as channelSelector
 

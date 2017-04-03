@@ -1,3 +1,4 @@
+# -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
 '''
 expEYES-17  Oscilloscope program
 Author  : Ajith Kumar B.P, bpajith@gmail.com

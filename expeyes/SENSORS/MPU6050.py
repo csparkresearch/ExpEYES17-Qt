@@ -1,3 +1,4 @@
+# -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
 from numpy import int16,std
 from Kalman import KalmanFilter
 

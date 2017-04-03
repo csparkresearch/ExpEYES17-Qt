@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
 
 """
 

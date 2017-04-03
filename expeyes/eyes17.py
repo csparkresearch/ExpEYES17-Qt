@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
 # eyes17 - software stack to support the eyesj2.
 #
 # Copyright (C) 2016 by Jithin B.P. <jithinbp@gmail.com>

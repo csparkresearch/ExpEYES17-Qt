@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
 
 from PyQt4 import QtCore, QtGui
 from .templates import ui_plotSave as plotSave
