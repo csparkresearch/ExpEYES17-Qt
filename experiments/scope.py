@@ -4,7 +4,7 @@ from PyQt4 import QtGui,QtCore
 from templates import ui_plotTemplate as plotTemplate
 from utilities.expeyesWidgetsNew import expeyesWidgets
 
-
+import pyqtgraph as pg
 import sys,time,functools
 
 class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
@@ -14,9 +14,9 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.p = kwargs.get('handler',None)
 		self.widgetLayout.setAlignment(QtCore.Qt.AlignTop)
 
-		self.p.sigPlot.connect(self.drawPlot)
-		self.p.sigGeneric.connect(self.genericDataReceived)
-		self.p.sigError.connect(self.handleError)
+		#self.p.sigPlot.connect(self.drawPlot)
+		#self.p.sigGeneric.connect(self.genericDataReceived)
+		#self.p.sigError.connect(self.handleError)
 
 		
 		# ADD AN OSCILLOSCOPE PLOT TO THE plotLayout
@@ -29,14 +29,18 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		stringaxis.setLabel('Voltage',**{'color': '#FFF', 'font-size': '9pt'})
 		stringaxis.setWidth(15)
 		
+		self.TITLE('4-Channel Oscilloscope')
 		self.SCOPEPLOT(['A1','A2','A3','MIC'],leftAxis = stringaxis)   #You can also make up your own curve names. WORK IN PROGRESS [ e.g. A1+A2  should make a channel that automatically shows the sum]
 		self.xaxis = self.plot.getAxis('bottom')
 
+		self.TIMEBASE()
+		self.TRIGGER()
 
 		#Add a spacer
 		self.SPACER(20)
 
 		# ADD A SINE WIDGET SLIDER WITH NUMBERIC INPUT to the widgetLayout
+		self.TITLE('Output Controls')
 		self.SINE()
 		self.SQR1()
 		self.PV1()
@@ -47,7 +51,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		#self.setTimeout(1000,functools.partial(self.capture,'A1',200,3),self.update)
 
 	def tmp(self):
-		if self.CH.busy:return
+		if self.p.busy:return
 		self.CAPTURE()
 		print ('capturing')
 	

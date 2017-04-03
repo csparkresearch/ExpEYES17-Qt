@@ -120,7 +120,7 @@ class expeyesWidgets():
 		self.widgetLayout.addWidget(widget)
 		return widget
 	def SQR1(self):
-		widget = self.addSqr1(self.p)
+		widget = self.addSQR1(self.p)
 		self.widgetLayout.addWidget(widget)
 		return widget
 	def PV1(self):
@@ -231,6 +231,7 @@ class expeyesWidgets():
 					except Exception as e:
 							print (e.message)
 							pass
+				else: self.myCurveWidgets[A].fit.setText('Fit')
 
 		self.repositionLabels()
 
@@ -411,11 +412,11 @@ class expeyesWidgets():
 			self.chanBox.addItems(chans)
 
 	def setTrigger(self):
-		self.trigger_level=self.currentRange['A1']*self.trigLine.pos()[1]/4.
+		trigName = str(self.activeTriggerWidget.chanBox.currentText())
+		self.trigger_level=self.currentRange[trigName]*self.trigLine.pos()[1]/4.
 		trignum = self.activeTriggerWidget.chanBox.currentIndex()
 		if trignum==-1 : #Index not found.
 			return
-		trigName = str(self.activeTriggerWidget.chanBox.currentText())
 		self.p.configure_trigger(trignum,trigName,self.trigger_level,resolution=10,prescaler=5)
 
 
