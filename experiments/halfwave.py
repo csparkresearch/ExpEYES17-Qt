@@ -30,9 +30,9 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.SINE()
 		self.IMAGE(os.path.join('pics','halfwave.png'))
 		
-		self.setInterval(200,self.acquire)
+		self.setInterval(200,self.update)
 		#self.setTimeout(1000,functools.partial(self.capture,'A1',200,3),self.update)
 
-	def acquire(self):
+	def update(self):
 		self.CAPTURE()  #This assumes self.TRIGGER , self.SCOPEPLOT etc were used to initialize. Uses default values wherever possible
 	
