@@ -14,11 +14,6 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.p = kwargs.get('handler',None)
 		self.widgetLayout.setAlignment(QtCore.Qt.AlignTop)
 
-		#self.p.sigPlot.connect(self.drawPlot)
-		#self.p.sigGeneric.connect(self.genericDataReceived)
-		#self.p.sigError.connect(self.handleError)
-
-		
 		# ADD AN OSCILLOSCOPE PLOT TO THE plotLayout
 		# This assumes self.plotLayout, and makes a dictionary self.curves with keys 'A1','A2','A3','MIC'
 		#You should be able to access after executing this function. self.myCurves is a dictionary of curves with 4 Elements

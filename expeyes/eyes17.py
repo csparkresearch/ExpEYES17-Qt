@@ -81,7 +81,7 @@ class Interface():
 	def __init__(self,timeout=1.0,**kwargs):
 		self.verbose=kwargs.get('verbose',False)
 		self.initialArgs = kwargs
-		self.generic_name = 'eyesj2'
+		self.generic_name = 'ExpEYES17'
 		self.timebase = 40
 		self.MAX_SAMPLES = CP.MAX_SAMPLES
 		self.samples=self.MAX_SAMPLES

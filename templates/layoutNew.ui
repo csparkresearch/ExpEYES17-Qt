@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>ExpEYES - 17</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="res.qrc">
+    <normaloff>:/control/eyes17-logo.png</normaloff>:/control/eyes17-logo.png</iconset>
+  </property>
   <property name="styleSheet">
    <string notr="true">*{outline:none;}
 

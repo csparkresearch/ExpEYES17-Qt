@@ -72,7 +72,7 @@ class communicationHandler(QtCore.QObject):
 				self.I.capture_traces(*args,**kwargs)
 				self.buflen = args[0]
 				self.channels_enabled=kwargs.get('chans',[0,0,0,0])
-				self.busy=True
+				self.busy=True ##########  SET A BUSY FLAG
 				self.timer.singleShot(args[1]*args[2]*1e-3+10+self.trigPre*20,self.fetchData)
 			elif name == 'fetchData':	                #non - blocking call. Start acquisition , and fetch data when it's ready.
 				n=0
@@ -91,14 +91,10 @@ class communicationHandler(QtCore.QObject):
 						if self.channels_enabled[a]:
 							self.I.__fetch_channel__(a+1)
 							if X is None:X = self.I.achans[a].get_xaxis()*1e-6
-							returnData[self.I.achans[a].channel]=[X,self.I.achans[a].get_yaxis()]
-					#print ('traces...ordered',time.time()-t)
-					self.busy=False
+							returnData[self.I.achans[a].channel]=[X,self.I.achans[a].get_yaxis()] #returnData is a dict of the form {'A1':[xarray,yarray],'A2':...}
+
+					self.busy=False ##########  CLEAR THE BUSY FLAG
 					self.sigPlot.emit(returnData)
-					#if self.buflen==1:self.sigPlot.emit([X,self.I.achans[0].get_yaxis()])
-					#elif self.buflen==2:self.sigPlot.emit([X,self.I.achans[0].get_yaxis(),X,self.I.achans[1].get_yaxis()])
-					#elif self.buflen==3:self.sigPlot.emit([X,self.I.achans[0].get_yaxis(),X,self.I.achans[1].get_yaxis(),X,self.I.achans[2].get_yaxis()])
-					#elif self.buflen==4:self.sigPlot.emit([X,self.I.achans[0].get_yaxis(),X,self.I.achans[1].get_yaxis(),X,self.I.achans[2].get_yaxis(),X,self.I.achans[3].get_yaxis()])
 
 				except Exception as e:
 					self.sigError.emit(name,e.message)
