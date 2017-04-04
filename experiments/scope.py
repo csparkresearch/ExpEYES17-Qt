@@ -36,7 +36,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.PV2()
 
 		self.PUSHBUTTON('click me' , self.dummy)
-		self.setInterval(100,self.tmp)
+		self.setInterval(10,self.tmp)
 		#self.setTimeout(1000,functools.partial(self.capture,'A1',200,3),self.update)
 
 

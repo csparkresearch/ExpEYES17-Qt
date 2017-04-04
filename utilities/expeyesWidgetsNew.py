@@ -440,10 +440,9 @@ class expeyesWidgets():
 
 
 	def addInfiniteLine(self,plot,**kwargs):
-		line = pg.InfiniteLine(angle=kwargs.get('angle',0), movable=kwargs.get('movable',True))
+		line = pg.InfiniteLine(angle=kwargs.get('angle',0), movable=kwargs.get('movable',True),pen=kwargs.get('pen',{'color':'#FFF','width':2,'style': QtCore.Qt.DashLine}) )
 		if 'cursor' in kwargs:line.setCursor(QtGui.QCursor(kwargs.get('cursor'))); 
 		if 'tooltip' in kwargs:line.setToolTip(kwargs.get('tooltip'))
-
 		if 'value' in kwargs:line.setPos(kwargs.get('value'))
 		plot.addItem(line, ignoreBounds=kwargs.get('ignoreBounds'))
 		return line
