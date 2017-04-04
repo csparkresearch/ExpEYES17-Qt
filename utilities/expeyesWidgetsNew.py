@@ -54,6 +54,7 @@ class expeyesWidgets():
 
 	plotDict = {}
 	timers = []
+	widgetArray = []
 	trace_colors=[(0,255,0),(255,0,0),(255,255,100),(10,255,255)]+[(50+200*random.random(),50+200*random.random(),150+100*random.random()) for a in range(10)]
 	trace_names = ['A1','A2','A3','MIC']
 	curves={}
@@ -488,7 +489,24 @@ class expeyesWidgets():
 			T = self.getSamples()*self.timebase
 			self.value.setText('%s'%pg.siFormat(T*1e-6, precision=3, suffix='S', space=True))
 
+
 	############################### ############################### 
+
+	###############################  PUSHBUTTON WIDGET ######################
+
+	def PUSHBUTTON(self,name, callback,**kwargs):
+		widget  =self.pushButtonWidget(name, callback,**kwargs)
+		self.widgetArray.append(widget)
+		self.widgetLayout.addWidget(widget)
+
+	class pushButtonWidget(QtGui.QPushButton):
+		def __init__(self,name,callback,**kwargs):
+			super(expeyesWidgets.pushButtonWidget, self).__init__()
+			self.setText(name)
+			self.callback = callback
+			self.clicked.connect(self.callback)
+
+	###############################  IMAGE WIDGET ######################
 
 	def IMAGE(self,path):
 		if not os.path.exists(path): 

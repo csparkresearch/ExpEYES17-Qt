@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'plotTemplate.ui'
 #
-# Created: Mon Apr  3 02:07:37 2017
+# Created: Tue Apr  4 14:15:47 2017
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -41,8 +41,8 @@ class Ui_Form(object):
         self.widgets.setFrameShadow(QtGui.QFrame.Raised)
         self.widgets.setObjectName(_fromUtf8("widgets"))
         self.widgetLayout = QtGui.QVBoxLayout(self.widgets)
-        self.widgetLayout.setSpacing(0)
-        self.widgetLayout.setMargin(0)
+        self.widgetLayout.setSpacing(2)
+        self.widgetLayout.setMargin(2)
         self.widgetLayout.setObjectName(_fromUtf8("widgetLayout"))
         self.plotFrame = QtGui.QFrame(self.splitter)
         self.plotFrame.setFrameShape(QtGui.QFrame.StyledPanel)

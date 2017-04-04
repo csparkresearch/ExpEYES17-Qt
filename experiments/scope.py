@@ -40,10 +40,13 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.PV1()
 		self.PV2()
 
-		
+		self.PUSHBUTTON('click me' , self.dummy)
 		self.setInterval(100,self.tmp)
 		#self.setTimeout(1000,functools.partial(self.capture,'A1',200,3),self.update)
 
+
+	def dummy(self):
+		print ('Clicked')
 	def tmp(self):
 		if self.p.busy:return
 		self.CAPTURE()
