@@ -53,6 +53,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	 ])
 	electrical = OrderedDict([
 	('Half-wave rectifier','halfwave'),
+	('Diode IV','diodeIV'),
 	 ])
 	examples = OrderedDict([
 	('Plotting etc','example'),
@@ -119,7 +120,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 
 		self.expt=None
 		self.actionSave.triggered.connect(self.save)
-		self.launchExperiment('Oscilloscope')
+		self.launchExperiment('Diode IV')
 
 	def save(self):
 		print ('wrong save fnction. inheritance not working properly. save from expeyesWidgetsNew must be called. Georges? . This is defined in expeyesWidgetsNew')

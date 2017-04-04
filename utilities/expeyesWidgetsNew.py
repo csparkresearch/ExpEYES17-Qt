@@ -1,6 +1,7 @@
 # -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
 from .templates import ui_SliderAndSpinbox as SliderAndSpinbox
 from .templates import ui_channelSelector as channelSelector
+from .templates import ui_allTraces as allTraces
 from .templates import ui_flexibleChannelSelector as flexibleChannelSelector
 from .templates import ui_triggerWidget as triggerWidgetUi
 from .templates import ui_timebaseWidget as timebaseWidgetUi
@@ -72,6 +73,7 @@ class expeyesWidgets():
 	trig=None
 	activeTriggerWidget = None
 	activeTimebaseWidget = None
+	myTracesWidget = None
 	def __init__(self,*args,**kwargs):
 		#sys.path.append('/usr/share/seelablet')
 		pass
@@ -133,6 +135,20 @@ class expeyesWidgets():
 		self.widgetLayout.addWidget(widget)
 		return widget
 
+
+	def newPlot(self,curvenames,**kwargs):
+		plot   = self.addPlot(**kwargs)
+		plot.setMouseEnabled(False,True)
+		self.plotLayout.addWidget(plot)
+		self.myCurves=OrderedDict()
+		self.myTracesWidget = self.tracesWidget()
+		self.TITLE('Acquired Data')
+		self.widgetLayout.addWidget(self.myTracesWidget)
+		num=0
+		for a in curvenames:
+			self.addCurve(plot,a,self.trace_colors[num])
+			num+=1
+		return plot
 
 	def SCOPEPLOT(self,curvenames,**kwargs):
 		self.xmax = 1e-3 #assume 1mS
@@ -342,6 +358,21 @@ class expeyesWidgets():
 
 	##########################   controls  ##########################
 
+	class tracesWidget(QtGui.QWidget,allTraces.Ui_Form,constants):
+		def __init__(self,col=None):
+			super(expeyesWidgets.tracesWidget, self).__init__()
+			self.setupUi(self)
+			self.enableButton.setToolTip("Display/hide the selected trace")
+			self.curveRefs={}
+		def addCurve(self,name,c):
+			self.curveRefs[name] = c
+			self.traceList.addItem(name)
+		def traceChanged(self,name):
+			self.enableButton.setChecked(self.curveRefs[str(name)].isVisible())
+		def traceToggled(self,state):
+			self.curveRefs[str(self.traceList.currentText())].setVisible(state)
+
+
 	class channelWidget(QtGui.QWidget,channelSelector.Ui_Form,constants):
 		def __init__(self,name,callback,col=None):
 			super(expeyesWidgets.channelWidget, self).__init__()
@@ -413,6 +444,7 @@ class expeyesWidgets():
 		self.trig=None
 		self.activeTriggerWidget=None
 		self.activeTimebaseWidget = None
+		self.myTracesWidget = None
 		self.p.sigPlot.disconnect(self.updatePlot)
 	####################################################################################
 		
@@ -441,6 +473,8 @@ class expeyesWidgets():
 		C=pg.PlotCurveItem(name = name,pen = col)
 		self.plot.addItem(C)
 		self.curves[plot].append(C)
+		if self.myTracesWidget:
+			self.myTracesWidget.addCurve(name,C)
 		return C
 		
 		
