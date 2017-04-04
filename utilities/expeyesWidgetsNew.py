@@ -151,6 +151,7 @@ class expeyesWidgets():
 		self.myCurveWidgets = OrderedDict()
 		num=0
 		for a in curvenames:
+			if a not in self.currentRange:self.currentRange[a] = 4
 			self.myCurves[a] = self.addCurve(self.plot,a,self.trace_colors[num])
 			if(num==0 and kwargs.get('flexibleChan1',True)):
 				self.myCurveWidgets[a] = self.flexibleChannelWidget(a,self.changeGain,self.p.I.allAnalogChannels,self.trace_colors[num])
@@ -210,20 +211,31 @@ class expeyesWidgets():
 		Data sent from worker thread.
 		assume self.plot
 		'''
+		print ('plot called..............')
 		#self.showStatus(str(self.traceOrder))
 		for a in self.myCurves:self.myCurves[a].clear()
 		self.traceData={}
 		keys = vals.keys()
+
+		extraTraces =self.myCurves.keys()
+		for a in keys:
+			try:extraTraces.remove(a)
+			except:pass
+
 		self.xmax = vals[keys[0]][0][:-1]
 		self.plot.setLimits(xMin=0,xMax=vals[keys[0]][0][-1]);self.plot.setXRange(0,vals[keys[0]][0][-1])
 		#print ('got plot',len(vals),vals.keys())
 		plotnum=0
+		traceGlobals={'np':np}
+		
 		for A in vals:
 				R = self.currentRange[A]
 				x = vals[A][0]
 				y = 4.*vals[A][1]/R
 				self.traceData[A] = [x,y]
 				self.myCurves[A].setData(x,y)
+
+				if len(extraTraces):traceGlobals[A] = np.array(vals[A][1])
 
 				# make the fit
 				if self.myCurveWidgets[A].fit.isChecked():
@@ -243,6 +255,36 @@ class expeyesWidgets():
 							self.showStatus (e.message,True)
 							pass
 				else: self.myCurveWidgets[A].fit.setText('Fit')
+
+		if len(extraTraces):  #Evaluate derived traces 
+			x = vals[self.traceData.keys()[0]][0]
+			for A in extraTraces:
+				R = self.currentRange[A]
+				try:
+					y = 4.*eval(A,traceGlobals)/R
+				except:
+					continue
+				self.traceData[A] = [x,y]
+				self.myCurves[A].setData(x,y)
+				if self.myCurveWidgets[A].fit.isChecked():
+					try:
+							fitres=self.sineFit(x,R*y/4.)
+							if fitres:
+									amp=abs(fitres[0])
+									freq=fitres[1]
+									offset=fitres[2]
+									ph=fitres[3]
+									frequency = freq/1e6
+									
+									s = ('%5.2f V, %5.0f Hz')%(amp,frequency)
+									self.myCurveWidgets[A].fit.setText(s)
+					except Exception as e:
+							print (e.message)
+							self.showStatus (e.message,True)
+							pass
+				else: self.myCurveWidgets[A].fit.setText('Fit')
+
+
 
 		self.repositionLabels()
 
@@ -308,6 +350,7 @@ class expeyesWidgets():
 			self.name = name
 			self.callback = callback
 			self.enable.setText(self.name)
+			self.enable.setToolTip(self.name)
 			QtCore.QObject.connect(self.gain, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), functools.partial(self.callback,self.name))
 			if col : self.enable.setStyleSheet("color:rgb%s"%str(col))
 
