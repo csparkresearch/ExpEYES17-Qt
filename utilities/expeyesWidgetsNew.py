@@ -209,7 +209,7 @@ class expeyesWidgets():
 		Data sent from worker thread.
 		assume self.plot
 		'''
-		print (self.traceOrder)
+		#self.showStatus(str(self.traceOrder))
 		for a in self.myCurves:self.myCurves[a].clear()
 		self.traceData={}
 		keys = vals.keys()
@@ -239,6 +239,7 @@ class expeyesWidgets():
 									self.myCurveWidgets[A].fit.setText(s)
 					except Exception as e:
 							print (e.message)
+							self.showStatus (e.message,True)
 							pass
 				else: self.myCurveWidgets[A].fit.setText('Fit')
 
@@ -572,6 +573,8 @@ class expeyesWidgets():
 		info = plotSaveWindow.AppWindow(self,self.curves[self.plot],self.plot)
 		info.show()
 
+	def showStatus(self,txt,err=False):
+		self.p.sigStat.emit(txt,err)
 
 	#-------------------------- Sine Fit ------------------------------------------------
 	def sineFunc(self,x, a1, a2, a3,a4):

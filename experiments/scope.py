@@ -47,5 +47,5 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	def tmp(self):
 		if self.p.busy:return
 		self.CAPTURE()
-		print ('capturing')
+		self.showStatus('capturing at :%s'%time.ctime())
 	
