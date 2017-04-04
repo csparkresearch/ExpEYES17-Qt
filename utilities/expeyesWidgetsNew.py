@@ -9,7 +9,7 @@ from PyQt4 import QtGui,QtCore
 import pyqtgraph as pg
 import numpy as np
 from collections import OrderedDict
-import random,functools,os
+import random,functools,os,time
 
 
 try:
@@ -163,9 +163,9 @@ class expeyesWidgets():
 		self.p.sigPlot.connect(self.updatePlot)
 
 
-	def CAPTURE(self):
+	def CAPTURE(self,forwardingFunction=None):
 		if self.p.busy:
-			print ('busy')
+			self.showStatus('busy %s'%time.ctime(),True)
 			return
 		self.traceOrder=[]  #This will store the order of the returned data
 		a = self.myCurveWidgets['A1'].enable.isChecked() if 'A1' in self.myCurveWidgets else False
@@ -202,7 +202,7 @@ class expeyesWidgets():
 			if self.activeTimebaseWidget:
 				timebase = self.activeTimebaseWidget.timebase
 			chanRemap = str(self.myCurveWidgets['A1'].chan1Box.currentText())
-			self.p.capture_traces(self.active_channels,self.samples,timebase,chanRemap,trigger = trig,chans = self.channels_enabled)
+			self.p.capture_traces(self.active_channels,self.samples,timebase,chanRemap,trigger = trig,chans = self.channels_enabled, forwardingFunction =forwardingFunction)
 
 	
 	def updatePlot(self,vals):
@@ -298,7 +298,7 @@ class expeyesWidgets():
 			self.currentRange[chan] = val
 		self.renameLabels()
 
-	##########################controls##########################
+	##########################   controls  ##########################
 
 	class channelWidget(QtGui.QWidget,channelSelector.Ui_Form,constants):
 		def __init__(self,name,callback,col=None):
@@ -471,6 +471,7 @@ class expeyesWidgets():
 		self.TITLE('Time Base')
 		self.activeTimebaseWidget  =self.timebaseWidget(self.getSamples)
 		self.widgetLayout.addWidget(self.activeTimebaseWidget)
+		return self.activeTimebaseWidget
 
 	def getSamples(self):
 		return self.samples
@@ -497,6 +498,7 @@ class expeyesWidgets():
 		widget  =self.pushButtonWidget(name, callback,**kwargs)
 		self.widgetArray.append(widget)
 		self.widgetLayout.addWidget(widget)
+		return widget
 
 	class pushButtonWidget(QtGui.QPushButton):
 		def __init__(self,name,callback,**kwargs):
@@ -504,6 +506,23 @@ class expeyesWidgets():
 			self.setText(name)
 			self.callback = callback
 			self.clicked.connect(self.callback)
+
+	###############################  CHECKBOX WIDGET ######################
+
+	def CHECKBOX(self,name, callback=None,**kwargs):
+		widget  =self.checkBoxWidget(name, callback,**kwargs)
+		self.widgetArray.append(widget)
+		self.widgetLayout.addWidget(widget)
+		return widget
+
+	class checkBoxWidget(QtGui.QCheckBox):
+		def __init__(self,name,callback=None,**kwargs):
+			super(expeyesWidgets.checkBoxWidget, self).__init__()
+			self.setText(name)
+			self.callback = callback
+			if self.callback:self.clicked[bool].connect(self.callback)
+
+
 
 	###############################  IMAGE WIDGET ######################
 
@@ -520,6 +539,7 @@ class expeyesWidgets():
 			#print (label.size())
 			#scaledPixmap = pixmap.scaled(label.size(), QtCore.Qt.KeepAspectRatio)
 			label.setPixmap(pixmap.scaledToHeight(50))
+			return label
 			#x = QtGui.QIcon(path)
 			#a = QtGui.QListWidgetItem(x,fname)
 			#self.listWidget.addItem(a)

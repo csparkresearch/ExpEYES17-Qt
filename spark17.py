@@ -49,16 +49,20 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	sigExec = QtCore.pyqtSignal(str,object,object)
 	xmax = 20 #mS
 	TandM = OrderedDict([
-	('Oscilloscope','scope'),
+	('Oscilloscope','oscilloscope'),
 	 ])
 	electrical = OrderedDict([
 	('Half-wave rectifier','halfwave'),
+	 ])
+	examples = OrderedDict([
+	('Plotting etc','example'),
 	 ])
 
 
 	exptGroups = OrderedDict([
 	('Test And Measurement',TandM),
-	('Electrical',electrical)
+	('Electrical',electrical),
+	('examples',examples)
 	])
 
 	allExpts = {}
