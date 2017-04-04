@@ -36,17 +36,34 @@ from templates import ui_layoutNew as layoutNew
 from utilities.fileBrowser import fileBrowser
 from utilities.expeyesWidgets import expeyesWidgets
 
-
 import sys,time
+
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    def _fromUtf8(s):
+        return s
+
 
 class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	sigExec = QtCore.pyqtSignal(str,object,object)
 	xmax = 20 #mS
-	expts = OrderedDict([
-	('Half-wave rectifier','halfwave'),
+	TandM = OrderedDict([
 	('Oscilloscope','scope'),
 	 ])
+	electrical = OrderedDict([
+	('Half-wave rectifier','halfwave'),
+	 ])
 
+
+	exptGroups = OrderedDict([
+	('Test And Measurement',TandM),
+	('Electrical',electrical)
+	])
+
+	allExpts = {}
+	for a in exptGroups:
+		allExpts.update(exptGroups[a])
 
 	def __init__(self, parent=None,**kwargs):
 		super(AppWindow, self).__init__(parent)
@@ -81,9 +98,21 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		self.exitBtn.clicked.connect(self.askBeforeQuit)
 		self.exitBtn.setStyleSheet("height: 10px;padding:3px;color: #FF2222;")
 		self.statusBar.addPermanentWidget(self.exitBtn)
-		
-		for a in self.expts:
-			self.menuLoad.addAction(a,functools.partial(self.launchExperiment,a))
+
+        self.menuLoad = QtGui.QMenu(self.menuBar)
+        self.menuLoad.setObjectName(_fromUtf8("menuLoad"))
+
+		self.allMenus = []
+		for grp in self.exptGroups:
+			menu = QtGui.QMenu(self.menuBar)
+			menu.setTitle(grp)
+			for a in self.exptGroups[grp]:
+				print ('adding',grp,a)
+				menu.addAction(a,functools.partial(self.launchExperiment,a))
+			self.menuBar.addAction(menu.menuAction())
+			self.allMenus.append(menu)
+
+
 		self.expt=None
 		self.actionSave.triggered.connect(self.save)
 		self.launchExperiment('Oscilloscope')
@@ -92,8 +121,8 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		print ('wrong save fnction. inheritance not working properly. save from expeyesWidgetsNew must be called. Georges? . This is defined in expeyesWidgetsNew')
 
 	def launchExperiment(self,name):
-		fname = self.expts[name]
-		if name not in self.expts:
+		fname = self.allExpts[name]
+		if name not in self.allExpts:
 			print ('missing experiment',name)
 			return
 		if self.expt: #Close any running instance
@@ -142,7 +171,8 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 			for nm,wid in zip(['IN2','SQR1_OUT','OD1_OUT','SEN','CCS'],[self.DIN_IN2,self.DIN_SQR1,self.DIN_OD1,self.DIN_SEN,self.DIN_CCS]):
 				wid.setStyleSheet('''background-color: %s;'''%('#0F0' if res[nm] else '#F00'))
 		else:
-			print (name,res)
+			pass
+			#print (name,res)
 
 	def handleError(self,name,err):
 		self.showStatus(name+err,True)

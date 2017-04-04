@@ -30,7 +30,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 
 		# ADD A SINE WIDGET SLIDER WITH NUMBERIC INPUT to the widgetLayout
 		self.TITLE('Output Controls')
-		self.SINE()
+		self.SINE(value=2000)
 		self.SQR1()
 		self.PV1()
 		self.PV2()

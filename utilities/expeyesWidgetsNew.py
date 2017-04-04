@@ -116,20 +116,20 @@ class expeyesWidgets():
 	class constants:
 		gainAvailables = ['A1','A2']
 
-	def SINE(self):
-		widget = self.addSine(self.p)
+	def SINE(self,**kwargs):
+		widget = self.addSine(self.p,**kwargs)
 		self.widgetLayout.addWidget(widget)
 		return widget
-	def SQR1(self):
-		widget = self.addSQR1(self.p)
+	def SQR1(self,**kwargs):
+		widget = self.addSQR1(self.p,**kwargs)
 		self.widgetLayout.addWidget(widget)
 		return widget
-	def PV1(self):
-		widget = self.addPV1(self.p)
+	def PV1(self,**kwargs):
+		widget = self.addPV1(self.p,**kwargs)
 		self.widgetLayout.addWidget(widget)
 		return widget
-	def PV2(self):
-		widget = self.addPV2(self.p)
+	def PV2(self,**kwargs):
+		widget = self.addPV2(self.p,**kwargs)
 		self.widgetLayout.addWidget(widget)
 		return widget
 
@@ -527,17 +527,17 @@ class expeyesWidgets():
 		except Exception as e:
 			print (e)
 
-	def addPV1(self,handler):
-		return self.sliderWidget(min = -5,max = 5, label = 'PV1' ,units = 'V', callback = handler.set_pv1) 
+	def addPV1(self,handler,**kwargs):
+		return self.sliderWidget(min = -5,max = 5, label = 'PV1' ,units = 'V', callback = handler.set_pv1,**kwargs) 
 
-	def addPV2(self,handler):
-		return self.sliderWidget(min = -3.3,max = 3.3, label = 'PV2' , units = 'V',callback = handler.set_pv2) 
+	def addPV2(self,handler,**kwargs):
+		return self.sliderWidget(min = -3.3,max = 3.3, label = 'PV2' , units = 'V',callback = handler.set_pv2,**kwargs) 
 
-	def addSQR1(self,handler):
-		return self.sliderWidget(min = 5,max = 50000, label = 'SQR1' ,units = 'Hz', callback = handler.set_sqr1) 
+	def addSQR1(self,handler,**kwargs):
+		return self.sliderWidget(min = 5,max = 50000, label = 'SQR1' ,units = 'Hz', callback = handler.set_sqr1,**kwargs) 
 
-	def addSine(self,handler):
-		W = self.sliderWidget(min = 5,max = 5000, label = 'W1' ,units = 'Hz', callback = handler.set_sine)
+	def addSine(self,handler,**kwargs):
+		W = self.sliderWidget(min = 5,max = 5000, label = 'W1' ,units = 'Hz', callback = handler.set_sine,**kwargs)
 		return W
 
 
@@ -558,6 +558,14 @@ class expeyesWidgets():
 			self.spinbox.setSuffix(kwargs.get('units',''))
 			self.spinbox.setMinimum(self.min);self.spinbox.setMaximum(self.max);
 			self.slider.setMinimum(self.min*10);self.slider.setMaximum(self.max*10);
+
+			if 'value' in kwargs:
+				v = kwargs.get('value')
+				v = min( max(self.min,v) ,self.max )
+				self.spinbox.setValue(v)
+				self.slider.setValue(v*10)
+				self.callback(v)
+
 
 			self.slider.valueChanged.connect(self.sliderChanged)
 			self.spinbox.valueChanged.connect(self.spinboxChanged)
