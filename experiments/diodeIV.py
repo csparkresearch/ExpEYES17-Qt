@@ -16,7 +16,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.widgetLayout.setAlignment(QtCore.Qt.AlignTop)
 
 		
-		self.plot = self.newPlot([],xMin=0,xMax=5,yMin=-4,yMax=4, disableAutoRange = 'y',bottomLabel = 'time',bottomUnits='S',enableMenu=False,legend=True)
+		self.plot = self.newPlot([],xMin=0,xMax=np.pi*2,yMin=-6,yMax=6, disableAutoRange = 'y',bottomLabel = 'time',bottomUnits='S',enableMenu=False,legend=True)
 		self.c1 = self.addCurve(self.plot, 'trace 1' ,'#FFF')
 		self.c2 = self.addCurve(self.plot, 'trace 2' ,'#FF0')
 		self.c3 = self.addCurve(self.plot, 'trace 3' ,'#F0F')

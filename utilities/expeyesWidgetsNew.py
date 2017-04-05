@@ -138,10 +138,10 @@ class expeyesWidgets():
 
 	def newPlot(self,curvenames,**kwargs):
 		plot   = self.addPlot(**kwargs)
-		plot.setMouseEnabled(False,True)
 		self.plotLayout.addWidget(plot)
 		self.myCurves=OrderedDict()
-		self.myTracesWidget = self.tracesWidget()
+		self.myTracesWidget = self.tracesWidget(plot)
+		
 		self.TITLE('Acquired Data')
 		self.widgetLayout.addWidget(self.myTracesWidget)
 		num=0
@@ -227,7 +227,7 @@ class expeyesWidgets():
 		Data sent from worker thread.
 		assume self.plot
 		'''
-		print ('plot called..............')
+		T = time.time()
 		#self.showStatus(str(self.traceOrder))
 		for a in self.myCurves:self.myCurves[a].clear()
 		self.traceData={}
@@ -302,7 +302,10 @@ class expeyesWidgets():
 
 
 
+		print ('plot called..............',time.time()-T)
+		T = time.time()
 		self.repositionLabels()
+		print ('labels printed..............',time.time()-T)
 
 	def makeLabels(self):
 		self.labelTexts={}
@@ -359,18 +362,50 @@ class expeyesWidgets():
 	##########################   controls  ##########################
 
 	class tracesWidget(QtGui.QWidget,allTraces.Ui_Form,constants):
-		def __init__(self,col=None):
+		def __init__(self,plot = None):
 			super(expeyesWidgets.tracesWidget, self).__init__()
 			self.setupUi(self)
 			self.enableButton.setToolTip("Display/hide the selected trace")
 			self.curveRefs={}
+			self.plot = plot
+			#self.menubutton.setStyleSheet("height: 13px;padding:3px;color: #FFFFFF;")
+			self.menu = QtGui.QMenu()
+			self.menu.addAction('Save Trace', self.saveTrace)
+			self.menu.addAction('Save All Traces', self.saveTraces)
+			self.menu.addSeparator()
+			self.menu.addAction('Delete Trace', self.deleteTrace)
+			self.menuButton.setMenu(self.menu)
+
+
+
 		def addCurve(self,name,c):
 			self.curveRefs[name] = c
 			self.traceList.addItem(name)
+
 		def traceChanged(self,name):
 			self.enableButton.setChecked(self.curveRefs[str(name)].isVisible())
+
 		def traceToggled(self,state):
 			self.curveRefs[str(self.traceList.currentText())].setVisible(state)
+
+		def saveTrace(self):
+			from . import plotSaveWindow
+			info = plotSaveWindow.AppWindow(self,[self.curveRefs[str(self.traceList.currentText())]],self.plot)
+			info.show()
+
+		def saveTraces(self):
+			from . import plotSaveWindow
+			info = plotSaveWindow.AppWindow(self,self.curveRefs.values(),self.plot)
+			info.show()
+
+
+		def deleteTrace(self):
+			name = str(self.traceList.currentText())
+			if name not in self.curveRefs:
+				return
+			self.curveRefs.pop(name).setVisible(False)
+			self.traceList.removeItem(self.traceList.currentIndex())
+
 
 
 	class channelWidget(QtGui.QWidget,channelSelector.Ui_Form,constants):
@@ -451,7 +486,7 @@ class expeyesWidgets():
 	def addPlot(self,**kwargs):
 		if 'leftAxis' in kwargs: kwargs['axisItems'] = {'left':kwargs.pop('leftAxis')}
 		plot=pg.PlotWidget(**kwargs)
-		plot.setMouseEnabled(False,True)
+		plot.setMouseEnabled(kwargs.get('enableXAxis',True),kwargs.get('enableYAxis',True))
 		if 'x' in kwargs.get('disableAutoRange',''):
 			plot.disableAutoRange(axis = plot.plotItem.vb.XAxis)
 		if 'y' in kwargs.get('disableAutoRange',''):
@@ -690,10 +725,13 @@ class expeyesWidgets():
 		if newhandler is not None:
 			signal.connect(newhandler)
 		
-	def save(self):
+	def savePlots(self):
 		from . import plotSaveWindow
 		info = plotSaveWindow.AppWindow(self,self.curves[self.plot],self.plot)
 		info.show()
+
+
+
 
 	def showStatus(self,txt,err=False):
 		self.p.sigStat.emit(txt,err)

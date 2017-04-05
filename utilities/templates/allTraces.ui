@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>227</width>
-    <height>28</height>
+    <height>29</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,6 +29,24 @@
       <number>0</number>
      </property>
      <item>
+      <widget class="QCheckBox" name="enableButton">
+       <property name="maximumSize">
+        <size>
+         <width>80</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Visible</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QComboBox" name="traceList">
        <property name="maximumSize">
         <size>
@@ -47,20 +65,15 @@
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="enableButton">
+      <widget class="QPushButton" name="menuButton">
        <property name="maximumSize">
         <size>
-         <width>80</width>
+         <width>20</width>
          <height>16777215</height>
         </size>
        </property>
-       <property name="font">
-        <font>
-         <pointsize>9</pointsize>
-        </font>
-       </property>
        <property name="text">
-        <string>Visible</string>
+        <string/>
        </property>
       </widget>
      </item>

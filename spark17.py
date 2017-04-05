@@ -119,10 +119,10 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 
 
 		self.expt=None
-		self.actionSave.triggered.connect(self.save)
+		self.actionSave.triggered.connect(self.savePlots)
 		self.launchExperiment('Diode IV')
 
-	def save(self):
+	def savePlots(self):
 		print ('wrong save fnction. inheritance not working properly. save from expeyesWidgetsNew must be called. Georges? . This is defined in expeyesWidgetsNew')
 
 	def launchExperiment(self,name):
