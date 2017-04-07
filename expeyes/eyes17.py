@@ -127,14 +127,14 @@ class Interface():
 			self.connected = False
 			print(self.errmsg)#raise RuntimeError(msg)
 		
-		#try:
-		self.__runInitSequence__(**kwargs)
-		'''
+		try:
+			self.__runInitSequence__(**kwargs)
+
 		except Exception as ex:
 			self.errmsg = "failed to run init sequence. Check device connections\n"+str(ex)
 			self.connected = False
 			print(self.errmsg)#raise RuntimeError(msg)
-		'''
+
 	def __runInitSequence__(self,**kwargs):
 		self.aboutArray=[]
 		from .Peripherals import I2C,PWMDAC
