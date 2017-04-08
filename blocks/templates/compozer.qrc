@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="block">
+    <file>input.svg</file>
+    <file>modify.svg</file>
+  </qresource>
+</RCC>
