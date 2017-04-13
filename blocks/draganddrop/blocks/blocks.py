@@ -50,6 +50,7 @@ class BlockWidget(QtGui.QWidget):
         self.setMaximumSize(400, 400)
 
     def clear(self):
+        self.mimetypes = []
         self.piecePixmaps = []
         self.pieceRects = []
         self.highlightedRect = QtCore.QRect()
@@ -87,8 +88,10 @@ class BlockWidget(QtGui.QWidget):
             dataStream = QtCore.QDataStream(pieceData, QtCore.QIODevice.ReadOnly)
             square = self.targetSquare(event.pos())
             pixmap = QtGui.QPixmap()
-            dataStream >> pixmap
+            mimetype = QtCore.QString()
+            dataStream >> pixmap >> mimetype
 
+            self.mimetypes.append(mimetype)
             self.piecePixmaps.append(pixmap)
             self.pieceRects.append(square)
 
@@ -116,6 +119,8 @@ class BlockWidget(QtGui.QWidget):
             return
 
         pixmap = self.piecePixmaps[found]
+        mimetype = self.mimetypes[found]
+        del self.mimetypes[found]
         del self.piecePixmaps[found]
         del self.pieceRects[found]
 
@@ -124,7 +129,7 @@ class BlockWidget(QtGui.QWidget):
         itemData = QtCore.QByteArray()
         dataStream = QtCore.QDataStream(itemData, QtCore.QIODevice.WriteOnly)
 
-        dataStream << pixmap
+        dataStream << pixmap << mimetype
 
         mimeData = QtCore.QMimeData()
         mimeData.setData('image/x-Block-piece', itemData)
@@ -187,20 +192,22 @@ class componentsList(QtGui.QListWidget):
             pieceData = event.mimeData().data('image/x-Block-piece')
             dataStream = QtCore.QDataStream(pieceData, QtCore.QIODevice.ReadOnly)
             pixmap = QtGui.QPixmap()
-            dataStream >> pixmap
+            mimetype = QtCore.QString()
+            dataStream >> pixmap >> mimetype
 
-            self.addPiece(pixmap)
+            self.addPiece(pixmap, mimetype)
 
             event.setDropAction(QtCore.Qt.MoveAction)
             event.accept()
         else:
             event.ignore()
 
-    def addPiece(self, pixmap):
+    def addPiece(self, pixmap, mimetype="image/x-Block-1"):
         """
-        adds a pixmap, and returns the QListWidgetItem created
+        adds a pixmap with a mime-type, and returns the QListWidgetItem created
         """
         pieceItem = QtGui.QListWidgetItem(self)
+        pieceItem.mimetype = mimetype
         pieceItem.setIcon(QtGui.QIcon(pixmap))
         pieceItem.setData(QtCore.Qt.UserRole, pixmap)
         pieceItem.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsDragEnabled)
@@ -212,8 +219,9 @@ class componentsList(QtGui.QListWidget):
         itemData = QtCore.QByteArray()
         dataStream = QtCore.QDataStream(itemData, QtCore.QIODevice.WriteOnly)
         pixmap = QtGui.QPixmap(item.data(QtCore.Qt.UserRole))
+        mimetype = item.data(QtCore.Qt.UserRole+1)
 
-        dataStream << pixmap
+        dataStream << pixmap << mimetype
 
         mimeData = QtCore.QMimeData()
         mimeData.setData('image/x-Block-piece', itemData)
@@ -260,23 +268,21 @@ class MainWindow(QtGui.QMainWindow):
         return
         
     def loadComponents(self, path=None):
-        self.BlockImages=[]
+        self.componentsList.clear()
+        self.BlockWidget.clear()
         # browse top-level directories of the resource file
         for rcDir in sorted(QtCore.QDir(":/").entryList()):
             d=QtCore.QDir(":/"+rcDir)
             # browse SVG files contained in those directories
             for entry in sorted(d.entryList()):
                 imgPath=":/"+rcDir+"/"+entry
-                self.BlockImages.append(QtGui.QPixmap(imgPath))
-        self.setupBlock()
-        return
-
-    def setupBlock(self):
-        self.componentsList.clear()
-        for img in self.BlockImages:
-            item=self.componentsList.addPiece(img)
-            self.componentsList.insertItem(0, item)
-        self.BlockWidget.clear()
+                img=QtGui.QPixmap(imgPath)
+                if rcDir=="components1":
+                    mimetype = "image/x-Block-1"
+                elif rcDir=="components2":
+                    mimetype = "image/x-Block-2"
+                item=self.componentsList.addPiece(img,mimetype)
+                self.componentsList.insertItem(0, item)
         return
 
     def setupMenus(self):
