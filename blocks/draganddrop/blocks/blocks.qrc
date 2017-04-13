@@ -1,0 +1,6 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="/images">
+   <file>input.svg</file>
+   <file>modify.svg</file>
+</qresource>
+</RCC>
