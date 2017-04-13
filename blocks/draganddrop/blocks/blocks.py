@@ -205,7 +205,12 @@ class componentsList(QtGui.QListWidget):
             mimetype = QtCore.QString()
             dataStream >> pixmap >> mimetype
 
-            self.addPiece(pixmap, mimetype)
+            # components of type 1 can be duplicated
+            # so they should not be appended to the list
+            if mimetype.contains("image/x-Block-1"):
+                pass
+            else:
+                self.addPiece(pixmap, mimetype)
 
             event.setDropAction(QtCore.Qt.MoveAction)
             event.accept()
@@ -242,8 +247,13 @@ class componentsList(QtGui.QListWidget):
         drag.setHotSpot(QtCore.QPoint(pixmap.width()/2, pixmap.height()/2))
         drag.setPixmap(pixmap)
 
+        # components of type 1 can be duplicated
+        # so they should not be removed from the list
         if drag.exec_(QtCore.Qt.MoveAction) == QtCore.Qt.MoveAction:
-            self.takeItem(self.row(item))
+            if mimetype.contains("image/x-Block-1"):
+                pass
+            else:
+                self.takeItem(self.row(item))
 
 
 class MainWindow(QtGui.QMainWindow):
