@@ -139,9 +139,6 @@ class BlockWidget(QtGui.QWidget):
             self.pieceRects.insert(found, square)
             self.update(self.targetSquare(event.pos()))
 
-            if location == QtCore.QPoint(square.x() / 80, square.y() / 80):
-                self.inPlace += 1
-
     def paintEvent(self, event):
         painter = QtGui.QPainter()
         painter.begin(self)
@@ -263,32 +260,16 @@ class MainWindow(QtGui.QMainWindow):
         return
         
     def loadComponents(self, path=None):
-        if not path:
-            path = QtGui.QFileDialog.getExistingDirectory(self)
-
-        if path:
-            self.BlockImages=[]
-            newImage=None
-            for entry in sorted(os.listdir(path)):
-                if entry.endswith('.svg'):
-                    newImage = QtGui.QPixmap()
-                    if not newImage.load(entry):
-                        QtGui.QMessageBox.warning(self, "Open Image",
-                                "The image file %s could not be loaded." %entry,
-                                QtGui.QMessageBox.Cancel)
-                        continue
-                    else:
-                        self.BlockImages.append(newImage)
-            self.setupBlock()
-        return
-
-    def setCompleted(self):
-        QtGui.QMessageBox.information(self, "Block Completed",
-                "Congratulations! You have completed the Block!\nClick OK "
-                "to start again.",
-                QtGui.QMessageBox.Ok)
-
+        self.BlockImages=[]
+        # browse top-level directories of the resource file
+        for rcDir in sorted(QtCore.QDir(":/").entryList()):
+            d=QtCore.QDir(":/"+rcDir)
+            # browse SVG files contained in those directories
+            for entry in sorted(d.entryList()):
+                imgPath=":/"+rcDir+"/"+entry
+                self.BlockImages.append(QtGui.QPixmap(imgPath))
         self.setupBlock()
+        return
 
     def setupBlock(self):
         self.componentsList.clear()
@@ -335,6 +316,6 @@ if __name__ == '__main__':
 
     app = QtGui.QApplication(sys.argv)
     window = MainWindow()
-    window.loadComponents('.')
+    window.loadComponents()
     window.show()
     sys.exit(app.exec_())
