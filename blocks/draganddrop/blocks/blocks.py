@@ -29,7 +29,7 @@
 
 from __future__ import print_function
 
-import os
+import os, re
 from PyQt4 import QtCore, QtGui
 
 import blocks_rc
@@ -57,9 +57,13 @@ class BlockWidget(QtGui.QWidget):
         self.inPlace = 0
         self.update()
 
+    def acceptedFormats(self, event):
+        return [f for f in event.mimeData().formats() \
+                    if f.contains("image/x-Block-")]
+                    
     def dragEnterEvent(self, event):
-        if event.mimeData().hasFormat('image/x-Block-piece'):
-            event.accept()
+        if self.acceptedFormats(event):
+           event.accept()
         else:
             event.ignore()
 
@@ -72,7 +76,7 @@ class BlockWidget(QtGui.QWidget):
     def dragMoveEvent(self, event):
         updateRect = self.highlightedRect.unite(self.targetSquare(event.pos()))
 
-        if event.mimeData().hasFormat('image/x-Block-piece') and self.findPiece(self.targetSquare(event.pos())) == -1:
+        if self.acceptedFormats(event) and self.findPiece(self.targetSquare(event.pos())) == -1:
             self.highlightedRect = self.targetSquare(event.pos())
             event.setDropAction(QtCore.Qt.MoveAction)
             event.accept()
@@ -83,8 +87,9 @@ class BlockWidget(QtGui.QWidget):
         self.update(updateRect)
 
     def dropEvent(self, event):
-        if event.mimeData().hasFormat('image/x-Block-piece') and self.findPiece(self.targetSquare(event.pos())) == -1:
-            pieceData = event.mimeData().data('image/x-Block-piece')
+        f = self.acceptedFormats(event)
+        if f and self.findPiece(self.targetSquare(event.pos())) == -1:
+            pieceData = event.mimeData().data(f[0])
             dataStream = QtCore.QDataStream(pieceData, QtCore.QIODevice.ReadOnly)
             square = self.targetSquare(event.pos())
             pixmap = QtGui.QPixmap()
@@ -132,7 +137,7 @@ class BlockWidget(QtGui.QWidget):
         dataStream << pixmap << mimetype
 
         mimeData = QtCore.QMimeData()
-        mimeData.setData('image/x-Block-piece', itemData)
+        mimeData.setData(mimetype, itemData)
 
         drag = QtGui.QDrag(self)
         drag.setMimeData(mimeData)
@@ -174,22 +179,27 @@ class componentsList(QtGui.QListWidget):
         self.setAcceptDrops(True)
         self.setDropIndicatorShown(True)
 
+    def acceptedFormats(self, event):
+        return [f for f in event.mimeData().formats() \
+                    if f.contains("image/x-Block-")]
+                    
     def dragEnterEvent(self, event):
-        if event.mimeData().hasFormat('image/x-Block-piece'):
+        if self.acceptedFormats(event):
             event.accept()
         else:
             event.ignore()
 
     def dragMoveEvent(self, event):
-        if event.mimeData().hasFormat('image/x-Block-piece'):
+        if self.acceptedFormats(event):
             event.setDropAction(QtCore.Qt.MoveAction)
             event.accept()
         else:
             event.ignore()
 
     def dropEvent(self, event):
-        if event.mimeData().hasFormat('image/x-Block-piece'):
-            pieceData = event.mimeData().data('image/x-Block-piece')
+        f=self.acceptedFormats(event)
+        if f:
+            pieceData = event.mimeData().data(f[0])
             dataStream = QtCore.QDataStream(pieceData, QtCore.QIODevice.ReadOnly)
             pixmap = QtGui.QPixmap()
             mimetype = QtCore.QString()
@@ -202,7 +212,7 @@ class componentsList(QtGui.QListWidget):
         else:
             event.ignore()
 
-    def addPiece(self, pixmap, mimetype="image/x-Block-1"):
+    def addPiece(self, pixmap, mimetype):
         """
         adds a pixmap with a mime-type, and returns the QListWidgetItem created
         """
@@ -210,6 +220,7 @@ class componentsList(QtGui.QListWidget):
         pieceItem.mimetype = mimetype
         pieceItem.setIcon(QtGui.QIcon(pixmap))
         pieceItem.setData(QtCore.Qt.UserRole, pixmap)
+        pieceItem.setData(QtCore.Qt.UserRole+1, QtCore.QString(mimetype))
         pieceItem.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsDragEnabled)
         return pieceItem
 
@@ -219,12 +230,12 @@ class componentsList(QtGui.QListWidget):
         itemData = QtCore.QByteArray()
         dataStream = QtCore.QDataStream(itemData, QtCore.QIODevice.WriteOnly)
         pixmap = QtGui.QPixmap(item.data(QtCore.Qt.UserRole))
-        mimetype = item.data(QtCore.Qt.UserRole+1)
+        mimetype = item.data(QtCore.Qt.UserRole+1).toString()
 
         dataStream << pixmap << mimetype
 
         mimeData = QtCore.QMimeData()
-        mimeData.setData('image/x-Block-piece', itemData)
+        mimeData.setData(mimetype, itemData)
 
         drag = QtGui.QDrag(self)
         drag.setMimeData(mimeData)
@@ -270,18 +281,21 @@ class MainWindow(QtGui.QMainWindow):
     def loadComponents(self, path=None):
         self.componentsList.clear()
         self.BlockWidget.clear()
+        componentDirPattern = re.compile(r"components(.)")
         # browse top-level directories of the resource file
         for rcDir in sorted(QtCore.QDir(":/").entryList()):
+            # directory's name matches r"components(.)" ???
+            m=componentDirPattern.match(rcDir)
+            if not m:
+                continue
+            else:
+                mimetype = "image/x-Block-"+m.group(1)
             d=QtCore.QDir(":/"+rcDir)
             # browse SVG files contained in those directories
             for entry in sorted(d.entryList()):
                 imgPath=":/"+rcDir+"/"+entry
                 img=QtGui.QPixmap(imgPath)
-                if rcDir=="components1":
-                    mimetype = "image/x-Block-1"
-                elif rcDir=="components2":
-                    mimetype = "image/x-Block-2"
-                item=self.componentsList.addPiece(img,mimetype)
+                item=self.componentsList.addPiece(img, mimetype)
                 self.componentsList.insertItem(0, item)
         return
 
