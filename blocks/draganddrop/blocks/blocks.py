@@ -42,7 +42,6 @@ class BlockWidget(QtGui.QWidget):
 
         self.piecePixmaps = []
         self.pieceRects = []
-        self.pieceLocations = []
         self.highlightedRect = QtCore.QRect()
         self.inPlace = 0
 
@@ -51,7 +50,6 @@ class BlockWidget(QtGui.QWidget):
         self.setMaximumSize(400, 400)
 
     def clear(self):
-        self.pieceLocations = []
         self.piecePixmaps = []
         self.pieceRects = []
         self.highlightedRect = QtCore.QRect()
@@ -89,10 +87,8 @@ class BlockWidget(QtGui.QWidget):
             dataStream = QtCore.QDataStream(pieceData, QtCore.QIODevice.ReadOnly)
             square = self.targetSquare(event.pos())
             pixmap = QtGui.QPixmap()
-            location = QtCore.QPoint()
-            dataStream >> pixmap >> location
+            dataStream >> pixmap
 
-            self.pieceLocations.append(location)
             self.piecePixmaps.append(pixmap)
             self.pieceRects.append(square)
 
@@ -102,10 +98,6 @@ class BlockWidget(QtGui.QWidget):
             event.setDropAction(QtCore.Qt.MoveAction)
             event.accept()
 
-            if location == QtCore.QPoint(square.x() / 80, square.y() / 80):
-                self.inPlace += 1
-                if self.inPlace == 25:
-                    self.BlockCompleted.emit()
         else:
             self.highlightedRect = QtCore.QRect()
             event.ignore()
@@ -123,21 +115,16 @@ class BlockWidget(QtGui.QWidget):
         if found == -1:
             return
 
-        location = self.pieceLocations[found]
         pixmap = self.piecePixmaps[found]
-        del self.pieceLocations[found]
         del self.piecePixmaps[found]
         del self.pieceRects[found]
-
-        if location == QtCore.QPoint(square.x() / 80, square.y() / 80):
-            self.inPlace -= 1
 
         self.update(square)
 
         itemData = QtCore.QByteArray()
         dataStream = QtCore.QDataStream(itemData, QtCore.QIODevice.WriteOnly)
 
-        dataStream << pixmap << location
+        dataStream << pixmap
 
         mimeData = QtCore.QMimeData()
         mimeData.setData('image/x-Block-piece', itemData)
@@ -148,7 +135,6 @@ class BlockWidget(QtGui.QWidget):
         drag.setPixmap(pixmap)
 
         if drag.exec_(QtCore.Qt.MoveAction) != QtCore.Qt.MoveAction:
-            self.pieceLocations.insert(found, location)
             self.piecePixmaps.insert(found, pixmap)
             self.pieceRects.insert(found, square)
             self.update(self.targetSquare(event.pos()))
@@ -204,22 +190,24 @@ class componentsList(QtGui.QListWidget):
             pieceData = event.mimeData().data('image/x-Block-piece')
             dataStream = QtCore.QDataStream(pieceData, QtCore.QIODevice.ReadOnly)
             pixmap = QtGui.QPixmap()
-            location = QtCore.QPoint()
-            dataStream >> pixmap >> location
+            dataStream >> pixmap
 
-            self.addPiece(pixmap, location)
+            self.addPiece(pixmap)
 
             event.setDropAction(QtCore.Qt.MoveAction)
             event.accept()
         else:
             event.ignore()
 
-    def addPiece(self, pixmap, location):
+    def addPiece(self, pixmap):
+        """
+        adds a pixmap, and returns the QListWidgetItem created
+        """
         pieceItem = QtGui.QListWidgetItem(self)
         pieceItem.setIcon(QtGui.QIcon(pixmap))
         pieceItem.setData(QtCore.Qt.UserRole, pixmap)
-        pieceItem.setData(QtCore.Qt.UserRole+1, location)
         pieceItem.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsDragEnabled)
+        return pieceItem
 
     def startDrag(self, supportedActions):
         item = self.currentItem()
@@ -227,9 +215,8 @@ class componentsList(QtGui.QListWidget):
         itemData = QtCore.QByteArray()
         dataStream = QtCore.QDataStream(itemData, QtCore.QIODevice.WriteOnly)
         pixmap = QtGui.QPixmap(item.data(QtCore.Qt.UserRole))
-        location = item.data(QtCore.Qt.UserRole+1)
 
-        dataStream << pixmap << location
+        dataStream << pixmap
 
         mimeData = QtCore.QMimeData()
         mimeData.setData('image/x-Block-piece', itemData)
@@ -255,15 +242,34 @@ class MainWindow(QtGui.QMainWindow):
         self.setSizePolicy(QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed,
                 QtGui.QSizePolicy.Fixed))
         self.setWindowTitle("Block")
-
-    def openImage(self, path=None):
+        
+    def load(self):
+        """
+        Loads a component composition
+        """
+        return
+        
+    def save(self):
+        """
+        Saves the current component composition
+        """
+        return
+        
+    def saveAs(self, filename=None):
+        """
+        Saves the current component composition in a new file
+        @param filename name of the file, defaults to None
+        """
+        return
+        
+    def loadComponents(self, path=None):
         if not path:
             path = QtGui.QFileDialog.getExistingDirectory(self)
 
         if path:
             self.BlockImages=[]
             newImage=None
-            for entry in os.listdir(path):
+            for entry in sorted(os.listdir(path)):
                 if entry.endswith('.svg'):
                     newImage = QtGui.QPixmap()
                     if not newImage.load(entry):
@@ -286,11 +292,9 @@ class MainWindow(QtGui.QMainWindow):
 
     def setupBlock(self):
         self.componentsList.clear()
-        i=0
         for img in self.BlockImages:
-            self.componentsList.addPiece(img, QtCore.QPoint(0,80*i))
-            self.componentsList.insertItem(0, self.componentsList.takeItem(i))
-            i+=1
+            item=self.componentsList.addPiece(img)
+            self.componentsList.insertItem(0, item)
         self.BlockWidget.clear()
         return
 
@@ -300,16 +304,17 @@ class MainWindow(QtGui.QMainWindow):
         openAction = fileMenu.addAction("&Open...")
         openAction.setShortcut("Ctrl+O")
 
+        saveAction = fileMenu.addAction("&Save...")
+        openAction.setShortcut("Ctrl+S")
+
         exitAction = fileMenu.addAction("E&xit")
         exitAction.setShortcut("Ctrl+Q")
 
-        gameMenu = self.menuBar().addMenu("&Game")
 
-        restartAction = gameMenu.addAction("&Restart")
-
-        openAction.triggered.connect(self.openImage)
+        openAction.triggered.connect(self.load)
+        saveAction.triggered.connect(self.save)
         exitAction.triggered.connect(QtGui.qApp.quit)
-        restartAction.triggered.connect(self.setupBlock)
+        
 
     def setupWidgets(self):
         frame = QtGui.QFrame()
@@ -330,6 +335,6 @@ if __name__ == '__main__':
 
     app = QtGui.QApplication(sys.argv)
     window = MainWindow()
-    window.openImage('.')
+    window.loadComponents('.')
     window.show()
     sys.exit(app.exec_())
