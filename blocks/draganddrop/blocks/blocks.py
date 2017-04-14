@@ -145,13 +145,9 @@ class BlockWidget(QtGui.QWidget):
         comp=Component.unserialize(event)
         if comp:
             self.components.append(comp)
-
-            self.hightlightedRect = QtCore.QRect()
             self.update(comp.rect)
-
             event.setDropAction(QtCore.Qt.MoveAction)
             event.accept()
-
         else:
             event.ignore()
 
@@ -223,30 +219,15 @@ class componentsList(QtGui.QListWidget):
         else:
             event.ignore()
 
-    def readData(self, event, form):
-        """
-        reads data given by an event with a given mime format
-        """
-        pieceData = event.mimeData().data(form)
-        dataStream = QtCore.QDataStream(pieceData, QtCore.QIODevice.ReadOnly)
-        pixmap = QtGui.QPixmap()
-        mimetype = QtCore.QString()
-        hotspot = QtCore.QPoint()
-        ident = QtCore.QString()
-        dataStream >> pixmap >> mimetype >> hotspot >> ident
-        return pixmap, mimetype, hotspot, ident
-        
     def dropEvent(self, event):
-        f=self.acceptedFormats(event)
-        if f:
-            pixmap, mimetype, hotspot, ident = self.readData(event, f[0])
-
+        comp=Component.unserialize(event)
+        if comp:
             # components of type 1 can be duplicated
             # so they should not be appended to the list
-            if mimetype.contains("image/x-Block-1"):
+            if comp.mimetype.contains("image/x-Block-1"):
                 pass
-            elif mimetype.contains("image/x-Block-2"):
-                self.addPiece(pixmap, mimetype, ident)
+            elif comp.mimetype.contains("image/x-Block-2"):
+                self.addPiece(comp.pixmap, comp.mimetype, comp.ident)
 
             event.setDropAction(QtCore.Qt.MoveAction)
             event.accept()
