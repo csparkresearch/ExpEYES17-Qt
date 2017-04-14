@@ -53,11 +53,7 @@ class BlockWidget(QtGui.QWidget):
     def __init__(self, parent=None):
         super(BlockWidget, self).__init__(parent)
 
-        self.piecePixmaps = []
-        # rectangles contaning pixmaps
-        self.pieceRects = []
-        self.mimetypes = []
-        self.idents = []
+        self.components = []
         self.inPlace = 0
 
         self.setAcceptDrops(True)
@@ -65,10 +61,7 @@ class BlockWidget(QtGui.QWidget):
         self.setMaximumSize(400, 400)
 
     def clear(self):
-        self.mimetypes = []
-        self.piecePixmaps = []
-        self.pieceRects = []
-        self.idents = []
+        self.components = []
         self.inPlace = 0
         self.update()
 
