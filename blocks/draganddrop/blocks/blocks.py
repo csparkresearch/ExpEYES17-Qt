@@ -134,18 +134,15 @@ class BlockWidget(QtGui.QWidget):
 
         self.update(comp.rect)
 
-        itemData = QtCore.QByteArray()
-        dataStream = QtCore.QDataStream(itemData, QtCore.QIODevice.WriteOnly)
-        hot=QtCore.QPoint(event.pos() - comp.rect.topLeft())
-
-        dataStream << comp.pixmap << comp.mimetype << hot << comp.ident
+        comp.hotspot=QtCore.QPoint(event.pos() - comp.rect.topLeft())
+        itemData = comp.serialize()
 
         mimeData = QtCore.QMimeData()
         mimeData.setData(comp.mimetype, itemData)
 
         drag = QtGui.QDrag(self)
         drag.setMimeData(mimeData)
-        drag.setHotSpot(hot)
+        drag.setHotSpot(comp.hotspot)
         drag.setPixmap(comp.pixmap)
 
         if drag.exec_(QtCore.Qt.MoveAction) != QtCore.Qt.MoveAction:
