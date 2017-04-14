@@ -54,7 +54,6 @@ class BlockWidget(QtGui.QWidget):
         super(BlockWidget, self).__init__(parent)
 
         self.components = []
-        self.inPlace = 0
 
         self.setAcceptDrops(True)
         self.setMinimumSize(400, 400)
@@ -62,7 +61,6 @@ class BlockWidget(QtGui.QWidget):
 
     def clear(self):
         self.components = []
-        self.inPlace = 0
         self.update()
 
     def acceptedFormats(self, event):
@@ -76,7 +74,6 @@ class BlockWidget(QtGui.QWidget):
             event.ignore()
 
     def dragMoveEvent(self, event):
-        #if self.acceptedFormats(event) and self.findPiece(self.targetComps(event.pos())) == -1:
         if self.acceptedFormats(event):
             event.setDropAction(QtCore.Qt.MoveAction)
             event.accept()
@@ -86,7 +83,6 @@ class BlockWidget(QtGui.QWidget):
 
     def dropEvent(self, event):
         f = self.acceptedFormats(event)
-        #if f and self.findPiece(self.targetComps(event.pos())) == -1:
         if f:
             pieceData = event.mimeData().data(f[0])
             dataStream = QtCore.QDataStream(pieceData, QtCore.QIODevice.ReadOnly)
@@ -208,7 +204,7 @@ class componentsList(QtGui.QListWidget):
             # so they should not be appended to the list
             if mimetype.contains("image/x-Block-1"):
                 pass
-            else:
+            elif mimetype.contains("image/x-Block-2"):
                 self.addPiece(pixmap, mimetype, ident)
 
             event.setDropAction(QtCore.Qt.MoveAction)
