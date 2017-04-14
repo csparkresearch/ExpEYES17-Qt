@@ -34,6 +34,19 @@ from PyQt4 import QtCore, QtGui
 
 import blocks_rc
 
+class Component(object):
+    def __init__(self, pixmap, ident, mimetype, rect=None):
+        super(Component, self).__init__()
+        if rect:
+            self.rect=rect
+        else:
+            self.rect=pixmap.rect()
+        self.pixmap=pixmap
+        self.ident=ident
+        self.mimetype=mimetype
+        return
+    def __str__(self):
+        return "Component(%s, %s, %s)" %(self.ident, self.mimetype, self.rect)        
 
 class BlockWidget(QtGui.QWidget):
 
