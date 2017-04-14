@@ -184,16 +184,23 @@ class componentsList(QtGui.QListWidget):
         else:
             event.ignore()
 
+    def readData(self, event, form):
+        """
+        reads data given by an event with a given mime format
+        """
+        pieceData = event.mimeData().data(form)
+        dataStream = QtCore.QDataStream(pieceData, QtCore.QIODevice.ReadOnly)
+        pixmap = QtGui.QPixmap()
+        mimetype = QtCore.QString()
+        hotspot = QtCore.QPoint()
+        ident = QtCore.QString()
+        dataStream >> pixmap >> mimetype >> hotspot >> ident
+        return pixmap, mimetype, hotspot, ident
+        
     def dropEvent(self, event):
         f=self.acceptedFormats(event)
         if f:
-            pieceData = event.mimeData().data(f[0])
-            dataStream = QtCore.QDataStream(pieceData, QtCore.QIODevice.ReadOnly)
-            pixmap = QtGui.QPixmap()
-            mimetype = QtCore.QString()
-            hotspot = QtCore.QPoint()
-            ident = QtCore.QString()
-            dataStream >> pixmap >> mimetype >> hotspot >> ident
+            pixmap, mimetype, hotspot, ident = self.readData(event, f[0])
 
             # components of type 1 can be duplicated
             # so they should not be appended to the list
