@@ -34,6 +34,14 @@ from PyQt4 import QtCore, QtGui
 
 import blocks_rc
 
+def acceptedFormats(event):
+    """
+    acceptable formats start with "image/x-Block-"
+    returns a list of accepted formats.
+    """
+    return [f for f in event.mimeData().formats() \
+                if f.contains("image/x-Block-")]
+
 class Component(object):
     def __init__(self, pixmap, ident, mimetype, rect=None, hotspot=None):
         super(Component, self).__init__()
@@ -62,6 +70,28 @@ class Component(object):
         dataStream = QtCore.QDataStream(itemData, QtCore.QIODevice.WriteOnly)
         dataStream << self.pixmap << self.mimetype << self.hotspot << self.ident
         return itemData
+        
+    @staticmethod
+    def unserialize(event):
+        """
+        userialize the given event's data into a Component instance
+        """
+        f = acceptedFormats(event)
+        if f:
+            data = event.mimeData().data(f[0])
+            dataStream = QtCore.QDataStream(data, QtCore.QIODevice.ReadOnly)
+            pixmap = QtGui.QPixmap()
+            mimetype = QtCore.QString()
+            ident = QtCore.QString()
+            hotspot = QtCore.QPoint()
+            dataStream >> pixmap >> mimetype >> hotspot >> ident
+
+            rect = QtCore.QRect((event.pos()-hotspot), pixmap.size())
+
+            return Component(pixmap,ident,mimetype,rect)
+        else:
+            return None
+
         
     def makeDrag(self, parent):
         """
@@ -112,23 +142,12 @@ class BlockWidget(QtGui.QWidget):
         return
 
     def dropEvent(self, event):
-        f = self.acceptedFormats(event)
-        if f:
-            pieceData = event.mimeData().data(f[0])
-            dataStream = QtCore.QDataStream(pieceData, QtCore.QIODevice.ReadOnly)
-            pixmap = QtGui.QPixmap()
-            mimetype = QtCore.QString()
-            ident = QtCore.QString()
-            hotspot = QtCore.QPoint()
-            dataStream >> pixmap >> mimetype >> hotspot >> ident
-
-            rect = QtCore.QRect((event.pos()-hotspot), pixmap.size())
-
-            comp=Component(pixmap,ident,mimetype,rect)
+        comp=Component.unserialize(event)
+        if comp:
             self.components.append(comp)
 
             self.hightlightedRect = QtCore.QRect()
-            self.update(rect)
+            self.update(comp.rect)
 
             event.setDropAction(QtCore.Qt.MoveAction)
             event.accept()
