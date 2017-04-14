@@ -172,7 +172,7 @@ class BlockWidget(QtGui.QWidget):
         painter.end()
 
     def targetSquare(self, position):
-        return QtCore.QRect(position.x() // 80 * 80, position.y() // 80 * 80, 80, 80)
+        return [r for r in self.pieceRects if r.contains(position)]
 
 
 class componentsList(QtGui.QListWidget):
