@@ -43,6 +43,8 @@ class BlockWidget(QtGui.QWidget):
         self.piecePixmaps = []
         # rectangles contaning pixmaps
         self.pieceRects = []
+        self.mimetypes = []
+        self.idents = []
         self.inPlace = 0
 
         self.setAcceptDrops(True)
@@ -53,6 +55,7 @@ class BlockWidget(QtGui.QWidget):
         self.mimetypes = []
         self.piecePixmaps = []
         self.pieceRects = []
+        self.idents = []
         self.inPlace = 0
         self.update()
 
@@ -83,12 +86,14 @@ class BlockWidget(QtGui.QWidget):
             dataStream = QtCore.QDataStream(pieceData, QtCore.QIODevice.ReadOnly)
             pixmap = QtGui.QPixmap()
             mimetype = QtCore.QString()
+            ident = QtCore.QString()
             hotspot = QtCore.QPoint()
-            dataStream >> pixmap >> mimetype >> hotspot
+            dataStream >> pixmap >> mimetype >> hotspot >> ident
 
             rect = QtCore.QRect((event.pos()-hotspot), pixmap.size())
 
             self.mimetypes.append(mimetype)
+            self.idents.append(ident)
             self.piecePixmaps.append(pixmap)
             self.pieceRects.append(rect)
 
@@ -109,9 +114,11 @@ class BlockWidget(QtGui.QWidget):
             return
 
         pixmap = self.piecePixmaps[found]
+        ident = self.idents[found]
         mimetype = self.mimetypes[found]
         rect = QtCore.QRect(self.pieceRects[found])
         
+        del self.idents[found]
         del self.mimetypes[found]
         del self.piecePixmaps[found]
         del self.pieceRects[found]
@@ -122,7 +129,7 @@ class BlockWidget(QtGui.QWidget):
         dataStream = QtCore.QDataStream(itemData, QtCore.QIODevice.WriteOnly)
         hot=QtCore.QPoint(event.pos() - rect.topLeft())
 
-        dataStream << pixmap << mimetype << hot
+        dataStream << pixmap << mimetype << hot << ident
 
         mimeData = QtCore.QMimeData()
         mimeData.setData(mimetype, itemData)
@@ -135,6 +142,7 @@ class BlockWidget(QtGui.QWidget):
         if drag.exec_(QtCore.Qt.MoveAction) != QtCore.Qt.MoveAction:
             self.piecePixmaps.insert(found, pixmap)
             self.mimetypes.insert(found, mimetype)
+            self.idents.insert(found, ident)
             self.pieceRects.insert(found, rect)
             self.update(self.targetRects(event.pos()))
 
@@ -193,29 +201,37 @@ class componentsList(QtGui.QListWidget):
             pixmap = QtGui.QPixmap()
             mimetype = QtCore.QString()
             hotspot = QtCore.QPoint()
-            dataStream >> pixmap >> mimetype >> hotspot
+            ident = QtCore.QString()
+            dataStream >> pixmap >> mimetype >> hotspot >> ident
 
             # components of type 1 can be duplicated
             # so they should not be appended to the list
             if mimetype.contains("image/x-Block-1"):
                 pass
             else:
-                self.addPiece(pixmap, mimetype)
+                self.addPiece(pixmap, mimetype, ident)
 
             event.setDropAction(QtCore.Qt.MoveAction)
             event.accept()
         else:
             event.ignore()
 
-    def addPiece(self, pixmap, mimetype):
+    def addPiece(self, pixmap, mimetype, ident):
         """
-        adds a pixmap with a mime-type, and returns the QListWidgetItem created
+        adds a pixmap with a mime-type, an identifier,
+        and returns the QListWidgetItem created
         """
+        ident=QtCore.QString(ident)
+        for i in range(self.count()):
+            if self.item(i).data(QtCore.Qt.UserRole+2).toString()== ident:
+                self.item(i).setHidden(False)
+                return
         pieceItem = QtGui.QListWidgetItem(self)
         pieceItem.mimetype = mimetype
         pieceItem.setIcon(QtGui.QIcon(pixmap))
         pieceItem.setData(QtCore.Qt.UserRole, pixmap)
         pieceItem.setData(QtCore.Qt.UserRole+1, QtCore.QString(mimetype))
+        pieceItem.setData(QtCore.Qt.UserRole+2, ident)
         pieceItem.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsDragEnabled)
         return pieceItem
 
@@ -225,9 +241,10 @@ class componentsList(QtGui.QListWidget):
         dataStream = QtCore.QDataStream(itemData, QtCore.QIODevice.WriteOnly)
         pixmap = QtGui.QPixmap(item.data(QtCore.Qt.UserRole))
         mimetype = item.data(QtCore.Qt.UserRole+1).toString()
+        ident = item.data(QtCore.Qt.UserRole+2).toString()
         hot = QtCore.QPoint(QtCore.QPoint(pixmap.width()/2, pixmap.height()/2))
 
-        dataStream << pixmap << mimetype << hot
+        dataStream << pixmap << mimetype << hot << ident
 
         mimeData = QtCore.QMimeData()
         mimeData.setData(mimetype, itemData)
@@ -243,7 +260,8 @@ class componentsList(QtGui.QListWidget):
             if mimetype.contains("image/x-Block-1"):
                 pass
             else:
-                self.takeItem(self.row(item))
+                #self.takeItem(self.row(item))
+                item.setHidden(True)
 
 
 class MainWindow(QtGui.QMainWindow):
@@ -295,7 +313,7 @@ class MainWindow(QtGui.QMainWindow):
             for entry in sorted(d.entryList()):
                 imgPath=":/"+rcDir+"/"+entry
                 img=QtGui.QPixmap(imgPath)
-                item=self.componentsList.addPiece(img, mimetype)
+                item=self.componentsList.addPiece(img, mimetype, entry)
                 self.componentsList.insertItem(0, item)
         return
 
