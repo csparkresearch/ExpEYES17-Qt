@@ -35,18 +35,33 @@ from PyQt4 import QtCore, QtGui
 import blocks_rc
 
 class Component(object):
-    def __init__(self, pixmap, ident, mimetype, rect=None):
+    def __init__(self, pixmap, ident, mimetype, rect=None, hotspot=None):
         super(Component, self).__init__()
         if rect:
             self.rect=rect
         else:
             self.rect=pixmap.rect()
+        if hotspot:
+            self.hotspot=hospot
+        else:
+            self.hotspot=QtCore.QPoint(pixmap.width()/2, pixmap.height()/2)
         self.pixmap=pixmap
         self.ident=ident
         self.mimetype=mimetype
         return
+        
     def __str__(self):
-        return "Component(%s, %s, %s)" %(self.ident, self.mimetype, self.rect)        
+        return "Component(%s, %s, %s, %s)" %(self.ident, self.mimetype, self.rect, self.hotspot)        
+
+    def serialize(self):
+        """
+        serializes a component into a QDataStream
+        returns dta as a QByteArray instance
+        """
+        itemData = QtCore.QByteArray()
+        dataStream = QtCore.QDataStream(itemData, QtCore.QIODevice.WriteOnly)
+        dataStream << self.pixmap << self.mimetype << self.hotspot << self.ident
+        return itemData
 
 class BlockWidget(QtGui.QWidget):
 
@@ -233,33 +248,33 @@ class componentsList(QtGui.QListWidget):
         pieceItem.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsDragEnabled)
         return pieceItem
 
-    def startDrag(self, supportedActions):
+    def currentComponent(self):
         item = self.currentItem()
-        itemData = QtCore.QByteArray()
-        dataStream = QtCore.QDataStream(itemData, QtCore.QIODevice.WriteOnly)
         pixmap = QtGui.QPixmap(item.data(QtCore.Qt.UserRole))
         mimetype = item.data(QtCore.Qt.UserRole+1).toString()
         ident = item.data(QtCore.Qt.UserRole+2).toString()
-        hot = QtCore.QPoint(QtCore.QPoint(pixmap.width()/2, pixmap.height()/2))
-
-        dataStream << pixmap << mimetype << hot << ident
+        return Component(pixmap, ident, mimetype)
+        
+        
+    def startDrag(self, supportedActions):
+        component=self.currentComponent()
+        itemData=component.serialize()
 
         mimeData = QtCore.QMimeData()
-        mimeData.setData(mimetype, itemData)
+        mimeData.setData(component.mimetype, itemData)
 
         drag = QtGui.QDrag(self)
         drag.setMimeData(mimeData)
-        drag.setHotSpot(hot)
-        drag.setPixmap(pixmap)
+        drag.setHotSpot(component.hotspot)
+        drag.setPixmap(component.pixmap)
 
         # components of type 1 can be duplicated
-        # so they should not be removed from the list
+        # so they should not be hidden from the list
         if drag.exec_(QtCore.Qt.MoveAction) == QtCore.Qt.MoveAction:
-            if mimetype.contains("image/x-Block-1"):
+            if component.mimetype.contains("image/x-Block-1"):
                 pass
-            else:
-                #self.takeItem(self.row(item))
-                item.setHidden(True)
+            elif component.mimetype.contains("image/x-Block-2"):
+                self.currentItem().setHidden(True)
 
 
 class MainWindow(QtGui.QMainWindow):
