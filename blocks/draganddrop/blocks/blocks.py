@@ -62,6 +62,21 @@ class Component(object):
         dataStream = QtCore.QDataStream(itemData, QtCore.QIODevice.WriteOnly)
         dataStream << self.pixmap << self.mimetype << self.hotspot << self.ident
         return itemData
+        
+    def makeDrag(self, parent):
+        """
+        craetes and returns a drag object with the given parent
+        """
+        itemData = self.serialize()
+
+        mimeData = QtCore.QMimeData()
+        mimeData.setData(self.mimetype, itemData)
+
+        drag = QtGui.QDrag(parent)
+        drag.setMimeData(mimeData)
+        drag.setHotSpot(self.hotspot)
+        drag.setPixmap(self.pixmap)
+        return drag
 
 class BlockWidget(QtGui.QWidget):
 
@@ -136,14 +151,7 @@ class BlockWidget(QtGui.QWidget):
 
         comp.hotspot=QtCore.QPoint(event.pos() - comp.rect.topLeft())
         itemData = comp.serialize()
-
-        mimeData = QtCore.QMimeData()
-        mimeData.setData(comp.mimetype, itemData)
-
-        drag = QtGui.QDrag(self)
-        drag.setMimeData(mimeData)
-        drag.setHotSpot(comp.hotspot)
-        drag.setPixmap(comp.pixmap)
+        drag=comp.makeDrag(self)
 
         if drag.exec_(QtCore.Qt.MoveAction) != QtCore.Qt.MoveAction:
             self.components.insert(index, comp)
@@ -255,19 +263,11 @@ class componentsList(QtGui.QListWidget):
         
     def startDrag(self, supportedActions):
         component=self.currentComponent()
-        itemData=component.serialize()
+        drag=component.makeDrag(self)
 
-        mimeData = QtCore.QMimeData()
-        mimeData.setData(component.mimetype, itemData)
-
-        drag = QtGui.QDrag(self)
-        drag.setMimeData(mimeData)
-        drag.setHotSpot(component.hotspot)
-        drag.setPixmap(component.pixmap)
-
-        # components of type 1 can be duplicated
-        # so they should not be hidden from the list
         if drag.exec_(QtCore.Qt.MoveAction) == QtCore.Qt.MoveAction:
+            # components of type 1 can be duplicated
+            # so they should not be hidden from the list
             if component.mimetype.contains("image/x-Block-1"):
                 pass
             elif component.mimetype.contains("image/x-Block-2"):
