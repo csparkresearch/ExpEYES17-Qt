@@ -1,31 +1,18 @@
-#!/usr/bin/env python
-
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
 ############################################################################
 #
-#  Copyright (C) 2004-2005 Trolltech AS. All rights reserved.
+#  Copyright (C) 2017 Georges Khaznadar <georgesk@debian.org>
 #
-#  This file is part of the example classes of the Qt Toolkit.
 #
 #  This file may be used under the terms of the GNU General Public
-#  License version 2.0 as published by the Free Software Foundation
-#  and appearing in the file LICENSE.GPL included in the packaging of
-#  self file.  Please review the following information to ensure GNU
-#  General Public Licensing requirements will be met:
-#  http://www.trolltech.com/products/qt/opensource.html
-#
-#  If you are unsure which license is appropriate for your use, please
-#  review the following information:
-#  http://www.trolltech.com/products/qt/licensing.html or contact the
-#  sales department at sales@trolltech.com.
+#  License version 3.0 as published by the Free Software Foundation,
+#  or,at your preference, any later verion of the same
 #
 #  This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 #  WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 #
 ############################################################################
-
-# This is only needed for Python v2 but is harmless for Python v3.
-#import sip
-#sip.setapi('QVariant', 2)
 
 from __future__ import print_function
 
@@ -92,6 +79,28 @@ class Component(object):
         else:
             return None
 
+    @staticmethod
+    def listFromRC():
+        """
+        gets a list of components from the QRC file
+        """
+        componentDirPattern = re.compile(r"components(.)")
+        result=[]
+        # browse top-level directories of the resource file
+        for rcDir in sorted(QtCore.QDir(":/").entryList()):
+            # directory's name matches r"components(.)" ???
+            m=componentDirPattern.match(rcDir)
+            if not m:
+                continue
+            else:
+                mimetype = "image/x-Block-"+m.group(1)
+            d=QtCore.QDir(":/"+rcDir)
+            # browse SVG files contained in those directories
+            for entry in sorted(d.entryList()):
+                imgPath=":/"+rcDir+"/"+entry
+                img=QtGui.QPixmap(imgPath)
+                result.append(Component(img, entry, mimetype))
+        return result
         
     def makeDrag(self, parent):
         """
@@ -219,29 +228,34 @@ class componentsList(QtGui.QListWidget):
             if comp.mimetype.contains("image/x-Block-1"):
                 pass
             elif comp.mimetype.contains("image/x-Block-2"):
-                self.addPiece(comp.pixmap, comp.mimetype, comp.ident)
+                self.addPiece(comp)
 
             event.setDropAction(QtCore.Qt.MoveAction)
             event.accept()
         else:
             event.ignore()
 
-    def addPiece(self, pixmap, mimetype, ident):
+    def newComponent(self, comp):
+        item=self.addPiece(comp)
+        self.insertItem(0, item)
+        return
+
+    def addPiece(self, comp):
         """
-        adds a pixmap with a mime-type, an identifier,
+        adds a Component instance,
         and returns the QListWidgetItem created
         """
-        ident=QtCore.QString(ident)
+        ident=QtCore.QString(comp.ident)
         for i in range(self.count()):
             if self.item(i).data(QtCore.Qt.UserRole+2).toString()== ident:
                 self.item(i).setHidden(False)
                 return
         pieceItem = QtGui.QListWidgetItem(self)
-        pieceItem.mimetype = mimetype
-        pieceItem.setIcon(QtGui.QIcon(pixmap))
-        pieceItem.setData(QtCore.Qt.UserRole, pixmap)
-        pieceItem.setData(QtCore.Qt.UserRole+1, QtCore.QString(mimetype))
-        pieceItem.setData(QtCore.Qt.UserRole+2, ident)
+        pieceItem.mimetype = comp.mimetype
+        pieceItem.setIcon(QtGui.QIcon(comp.pixmap))
+        pieceItem.setData(QtCore.Qt.UserRole, comp.pixmap)
+        pieceItem.setData(QtCore.Qt.UserRole+1, QtCore.QString(comp.mimetype))
+        pieceItem.setData(QtCore.Qt.UserRole+2, comp.ident)
         pieceItem.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsDragEnabled)
         return pieceItem
 
@@ -301,22 +315,9 @@ class MainWindow(QtGui.QMainWindow):
     def loadComponents(self, path=None):
         self.componentsList.clear()
         self.BlockWidget.clear()
-        componentDirPattern = re.compile(r"components(.)")
-        # browse top-level directories of the resource file
-        for rcDir in sorted(QtCore.QDir(":/").entryList()):
-            # directory's name matches r"components(.)" ???
-            m=componentDirPattern.match(rcDir)
-            if not m:
-                continue
-            else:
-                mimetype = "image/x-Block-"+m.group(1)
-            d=QtCore.QDir(":/"+rcDir)
-            # browse SVG files contained in those directories
-            for entry in sorted(d.entryList()):
-                imgPath=":/"+rcDir+"/"+entry
-                img=QtGui.QPixmap(imgPath)
-                item=self.componentsList.addPiece(img, mimetype, entry)
-                self.componentsList.insertItem(0, item)
+        cList=Component.listFromRC()
+        for c in cList:
+            self.componentsList.newComponent(c)
         return
 
     def setupMenus(self):
