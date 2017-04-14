@@ -153,21 +153,13 @@ class componentsList(QtGui.QListWidget):
             if self.item(i).data(QtCore.Qt.UserRole+2).toString()== ident:
                 self.item(i).setHidden(False)
                 return
-        pieceItem = QtGui.QListWidgetItem(self)
-        pieceItem.mimetype = comp.mimetype
-        pieceItem.setIcon(QtGui.QIcon(comp.pixmap))
-        pieceItem.setData(QtCore.Qt.UserRole, comp.pixmap)
-        pieceItem.setData(QtCore.Qt.UserRole+1, QtCore.QString(comp.mimetype))
-        pieceItem.setData(QtCore.Qt.UserRole+2, comp.ident)
-        pieceItem.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsDragEnabled)
-        return pieceItem
+        blockItem = QtGui.QListWidgetItem(self)
+        comp.recordToListWidgetItem(blockItem)
+        return blockItem
 
     def currentComponent(self):
         item = self.currentItem()
-        pixmap = QtGui.QPixmap(item.data(QtCore.Qt.UserRole))
-        mimetype = item.data(QtCore.Qt.UserRole+1).toString()
-        ident = item.data(QtCore.Qt.UserRole+2).toString()
-        return Component(pixmap, ident, mimetype)
+        return Component.fromListWidgetItem(item)
         
         
     def startDrag(self, supportedActions):
@@ -220,6 +212,7 @@ class MainWindow(QtGui.QMainWindow):
         self.BlockWidget.clear()
         cList=Component.listFromRC()
         for c in cList:
+            print("GRRRRR, loading", c)
             self.componentsList.newComponent(c)
         return
 

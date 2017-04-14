@@ -91,9 +91,43 @@ class Component(object):
         dataStream << self.pixmap << self.mimetype \
                     << self.hotspot << self.ident \
                     << QtCore.QVariant(len(self.snapPoints))
+        print("GRRRR serializing", self)
         for sp in self.snapPoints:
             dataStream << QtCore.QPoint(sp) << QtCore.QString(sp.text)
+            print("GRRRR dataSteam <<", sp)
         return itemData
+        
+    @staticmethod
+    def fromListWidgetItem(lwi):
+        """
+        creates ans returns a Component instance read from
+        a QListWidgetItem instance
+        """
+        pixmap=QtGui.QPixmap(lwi.data(QtCore.Qt.UserRole))
+        mimetype=lwi.data(QtCore.Qt.UserRole+1).toString()
+        ident=lwi.data(QtCore.Qt.UserRole+2).toString()
+        length, report=QtCore.QVariant(QtCore.Qt.UserRole+3).toInt()
+        sp=[]
+        for i in range(length):
+            point=lwi.data(QtCore.Qt.UserRole+4+2*i).toPoint()
+            id_=lwi.data(QtCore.Qt.UserRole+5+2*i).toString()
+            sp.append(SnapPoint(point.x(), point.y(), id_))
+        return Component(pixmap,ident,mimetype,snapPoints=sp)
+        
+    def recordToListWidgetItem(self, lwi):
+        """
+        records custom data into a QListWidgetItem instance
+        """
+        lwi.mimetype = self.mimetype
+        lwi.setIcon(QtGui.QIcon(self.pixmap))
+        lwi.setData(QtCore.Qt.UserRole, self.pixmap)
+        lwi.setData(QtCore.Qt.UserRole+1, QtCore.QString(self.mimetype))
+        lwi.setData(QtCore.Qt.UserRole+2, self.ident)
+        lwi.setData(QtCore.Qt.UserRole+3, QtCore.QVariant(len(self.snapPoints)))
+        for i in range(len(self.snapPoints)):
+            lwi.setData(QtCore.Qt.UserRole+4+2*i, QtCore.QPoint(self.snapPoints[i]))
+            lwi.setData(QtCore.Qt.UserRole+5+2*i, QtCore.QString(self.snapPoints[i].text))
+        return
         
     @staticmethod
     def unserialize(event):
@@ -110,13 +144,24 @@ class Component(object):
             mimetype = QtCore.QString()
             ident = QtCore.QString()
             hotspot = QtCore.QPoint()
-            dataStream >> pixmap >> mimetype >> hotspot >> ident
-
+            length_ = QtCore.QVariant()
+            dataStream >> pixmap >> mimetype >> hotspot >> ident \
+                        >> length_
+            length, report=length_.toInt()
+            sp=[]
+            for i in range(length):
+                point=QtCore.QPoint()
+                text=QtCore.QString()
+                dataStream >> point >> text
+                sp.append(SnapPoint(point.x(), point.y(), text))
+                
             rect = QtCore.QRect((event.pos()-hotspot), pixmap.size())
 
-            return Component(pixmap,ident,mimetype,rect)
+            result = Component(pixmap,ident,mimetype,rect,snapPoints=sp)
         else:
-            return None
+            result = None
+        print("GRRRR", result)
+        return result
 
     @staticmethod
     def listFromRC():
