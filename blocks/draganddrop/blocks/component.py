@@ -28,7 +28,28 @@ def acceptedFormats(event):
                 if f.contains("image/x-Block-")]
 
 class Component(object):
+    """
+    This class describes a programmation component, which can be
+    organized with other instances. It features a widget, summarized
+    by an icon, and each icon has some points which can be linked
+    to other components.
+    
+    When a collection of components are organized on top of some
+    canvas, they can be compiled into some usable program.
+    """
     def __init__(self, pixmap, ident, mimetype, rect=None, hotspot=None):
+        """
+        The constructor
+        @param pixmap a drawing to make an icon, and able to suggest
+        the function of the component
+        @param ident an identifier
+        @param mimetype a type which decides some behaviors in the user
+        interface
+        @param rect the surrounding rectangle; defaults to None, which
+        will define rect as surrounding the given pixmap
+        @param hotspot the position of the mouse during the drag of
+        the pixmap
+        """
         super(Component, self).__init__()
         if rect:
             self.rect=rect
@@ -49,7 +70,7 @@ class Component(object):
     def serialize(self):
         """
         serializes a component into a QDataStream
-        returns dta as a QByteArray instance
+        returns data as a QByteArray instance
         """
         itemData = QtCore.QByteArray()
         dataStream = QtCore.QDataStream(itemData, QtCore.QIODevice.WriteOnly)
@@ -59,7 +80,9 @@ class Component(object):
     @staticmethod
     def unserialize(event):
         """
-        userialize the given event's data into a Component instance
+        userialize given QEvent's data into a Component instance
+        @param event a QEvent, presumably due to a drop.
+        @return an instance of Component 
         """
         f = acceptedFormats(event)
         if f:
@@ -80,7 +103,7 @@ class Component(object):
     @staticmethod
     def listFromRC():
         """
-        gets a list of components from the QRC file
+        gets a list of components from the application's QRC file
         """
         componentDirPattern = re.compile(r"components(.)")
         result=[]
@@ -102,7 +125,9 @@ class Component(object):
         
     def makeDrag(self, parent):
         """
-        craetes and returns a drag object with the given parent
+        creates and returns a QDrag object with the given parent
+        @param parent a window, where a drag is starting
+        @return the DQrag instance
         """
         itemData = self.serialize()
 
