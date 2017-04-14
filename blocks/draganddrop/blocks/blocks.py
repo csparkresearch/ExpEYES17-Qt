@@ -43,7 +43,6 @@ class BlockWidget(QtGui.QWidget):
         self.piecePixmaps = []
         # rectangles contaning pixmaps
         self.pieceRects = []
-        self.highlightedRect = QtCore.QRect()
         self.inPlace = 0
 
         self.setAcceptDrops(True)
@@ -54,7 +53,6 @@ class BlockWidget(QtGui.QWidget):
         self.mimetypes = []
         self.piecePixmaps = []
         self.pieceRects = []
-        self.highlightedRect = QtCore.QRect()
         self.inPlace = 0
         self.update()
 
@@ -68,28 +66,19 @@ class BlockWidget(QtGui.QWidget):
         else:
             event.ignore()
 
-    def dragLeaveEvent(self, event):
-        updateRect = self.highlightedRect
-        self.highlightedRect = QtCore.QRect()
-        self.update(updateRect)
-        event.accept()
-
     def dragMoveEvent(self, event):
-        updateRect = self.highlightedRect.unite(self.targetSquare(event.pos()))
-
-        if self.acceptedFormats(event) and self.findPiece(self.targetSquare(event.pos())) == -1:
-            self.highlightedRect = self.targetSquare(event.pos())
+        #if self.acceptedFormats(event) and self.findPiece(self.targetRects(event.pos())) == -1:
+        if self.acceptedFormats(event):
             event.setDropAction(QtCore.Qt.MoveAction)
             event.accept()
         else:
-            self.highlightedRect = QtCore.QRect()
             event.ignore()
-
-        self.update(updateRect)
+        return
 
     def dropEvent(self, event):
         f = self.acceptedFormats(event)
-        if f and self.findPiece(self.targetSquare(event.pos())) == -1:
+        #if f and self.findPiece(self.targetRects(event.pos())) == -1:
+        if f:
             pieceData = event.mimeData().data(f[0])
             dataStream = QtCore.QDataStream(pieceData, QtCore.QIODevice.ReadOnly)
             pixmap = QtGui.QPixmap()
@@ -97,13 +86,10 @@ class BlockWidget(QtGui.QWidget):
             hotspot = QtCore.QPoint()
             dataStream >> pixmap >> mimetype >> hotspot
 
+            rect = QtCore.QRect((event.pos()-hotspot), pixmap.size())
+
             self.mimetypes.append(mimetype)
             self.piecePixmaps.append(pixmap)
-            x=event.pos().x()-hotspot.x()
-            y=event.pos().y()-hotspot.y()
-            w=pixmap.size().width()
-            h=pixmap.size().height()
-            rect = QtCore.QRect(x,y,w,h)
             self.pieceRects.append(rect)
 
             self.hightlightedRect = QtCore.QRect()
@@ -113,33 +99,28 @@ class BlockWidget(QtGui.QWidget):
             event.accept()
 
         else:
-            self.highlightedRect = QtCore.QRect()
             event.ignore()
 
-    def findPiece(self, pieceRect):
-        try:
-            return self.pieceRects.index(pieceRect)
-        except ValueError:
-            return -1
 
     def mousePressEvent(self, event):
-        square = self.targetSquare(event.pos())
-        found = self.findPiece(square)
-
-        if found == -1:
+        try:
+            found = self.targetRects(event.pos())[-1]
+        except:
             return
 
         pixmap = self.piecePixmaps[found]
         mimetype = self.mimetypes[found]
+        rect = QtCore.QRect(self.pieceRects[found])
+        
         del self.mimetypes[found]
         del self.piecePixmaps[found]
         del self.pieceRects[found]
 
-        self.update(square)
+        self.update(rect)
 
         itemData = QtCore.QByteArray()
         dataStream = QtCore.QDataStream(itemData, QtCore.QIODevice.WriteOnly)
-        hot=QtCore.QPoint(event.pos() - square.topLeft())
+        hot=QtCore.QPoint(event.pos() - rect.topLeft())
 
         dataStream << pixmap << mimetype << hot
 
@@ -153,27 +134,28 @@ class BlockWidget(QtGui.QWidget):
 
         if drag.exec_(QtCore.Qt.MoveAction) != QtCore.Qt.MoveAction:
             self.piecePixmaps.insert(found, pixmap)
-            self.pieceRects.insert(found, square)
-            self.update(self.targetSquare(event.pos()))
+            self.mimetypes.insert(found, mimetype)
+            self.pieceRects.insert(found, rect)
+            self.update(self.targetRects(event.pos()))
 
     def paintEvent(self, event):
         painter = QtGui.QPainter()
         painter.begin(self)
         painter.fillRect(event.rect(), QtCore.Qt.white)
 
-        if self.highlightedRect.isValid():
-            painter.setBrush(QtGui.QColor("#ffcccc"))
-            painter.setPen(QtCore.Qt.NoPen)
-            painter.drawRect(self.highlightedRect.adjusted(0, 0, -1, -1))
-
         for rect, pixmap in zip(self.pieceRects, self.piecePixmaps):
             painter.drawPixmap(rect, pixmap)
 
         painter.end()
 
-    def targetSquare(self, position):
-        return [r for r in self.pieceRects if r.contains(position)]
-
+    def targetRects(self, position):
+        """
+        returns the list of indexes of rectangles decorated with
+        a pixmaps, under a mouse click; the topmost rectangle come last.
+        """
+        rects = [i for i in range(len(self.pieceRects)) \
+                    if self.pieceRects[i].contains(position)]
+        return rects
 
 class componentsList(QtGui.QListWidget):
     def __init__(self, parent=None):
