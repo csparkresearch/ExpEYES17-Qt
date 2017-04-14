@@ -41,6 +41,7 @@ class BlockWidget(QtGui.QWidget):
         super(BlockWidget, self).__init__(parent)
 
         self.piecePixmaps = []
+        # rectangles contaning pixmaps
         self.pieceRects = []
         self.highlightedRect = QtCore.QRect()
         self.inPlace = 0
@@ -91,17 +92,22 @@ class BlockWidget(QtGui.QWidget):
         if f and self.findPiece(self.targetSquare(event.pos())) == -1:
             pieceData = event.mimeData().data(f[0])
             dataStream = QtCore.QDataStream(pieceData, QtCore.QIODevice.ReadOnly)
-            square = self.targetSquare(event.pos())
             pixmap = QtGui.QPixmap()
             mimetype = QtCore.QString()
-            dataStream >> pixmap >> mimetype
+            hotspot = QtCore.QPoint()
+            dataStream >> pixmap >> mimetype >> hotspot
 
             self.mimetypes.append(mimetype)
             self.piecePixmaps.append(pixmap)
-            self.pieceRects.append(square)
+            x=event.pos().x()-hotspot.x()
+            y=event.pos().y()-hotspot.y()
+            w=pixmap.size().width()
+            h=pixmap.size().height()
+            rect = QtCore.QRect(x,y,w,h)
+            self.pieceRects.append(rect)
 
             self.hightlightedRect = QtCore.QRect()
-            self.update(square)
+            self.update(rect)
 
             event.setDropAction(QtCore.Qt.MoveAction)
             event.accept()
@@ -133,15 +139,16 @@ class BlockWidget(QtGui.QWidget):
 
         itemData = QtCore.QByteArray()
         dataStream = QtCore.QDataStream(itemData, QtCore.QIODevice.WriteOnly)
+        hot=QtCore.QPoint(event.pos() - square.topLeft())
 
-        dataStream << pixmap << mimetype
+        dataStream << pixmap << mimetype << hot
 
         mimeData = QtCore.QMimeData()
         mimeData.setData(mimetype, itemData)
 
         drag = QtGui.QDrag(self)
         drag.setMimeData(mimeData)
-        drag.setHotSpot(event.pos() - square.topLeft())
+        drag.setHotSpot(hot)
         drag.setPixmap(pixmap)
 
         if drag.exec_(QtCore.Qt.MoveAction) != QtCore.Qt.MoveAction:
@@ -203,7 +210,8 @@ class componentsList(QtGui.QListWidget):
             dataStream = QtCore.QDataStream(pieceData, QtCore.QIODevice.ReadOnly)
             pixmap = QtGui.QPixmap()
             mimetype = QtCore.QString()
-            dataStream >> pixmap >> mimetype
+            hotspot = QtCore.QPoint()
+            dataStream >> pixmap >> mimetype >> hotspot
 
             # components of type 1 can be duplicated
             # so they should not be appended to the list
@@ -231,20 +239,20 @@ class componentsList(QtGui.QListWidget):
 
     def startDrag(self, supportedActions):
         item = self.currentItem()
-
         itemData = QtCore.QByteArray()
         dataStream = QtCore.QDataStream(itemData, QtCore.QIODevice.WriteOnly)
         pixmap = QtGui.QPixmap(item.data(QtCore.Qt.UserRole))
         mimetype = item.data(QtCore.Qt.UserRole+1).toString()
+        hot = QtCore.QPoint(QtCore.QPoint(pixmap.width()/2, pixmap.height()/2))
 
-        dataStream << pixmap << mimetype
+        dataStream << pixmap << mimetype << hot
 
         mimeData = QtCore.QMimeData()
         mimeData.setData(mimetype, itemData)
 
         drag = QtGui.QDrag(self)
         drag.setMimeData(mimeData)
-        drag.setHotSpot(QtCore.QPoint(pixmap.width()/2, pixmap.height()/2))
+        drag.setHotSpot(hot)
         drag.setPixmap(pixmap)
 
         # components of type 1 can be duplicated
