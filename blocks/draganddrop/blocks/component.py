@@ -16,6 +16,7 @@ from __future__ import print_function
 
 import os, re
 from PyQt4 import QtCore, QtGui
+from xml.dom.minidom import parseString
 
 import blocks_rc
 
@@ -27,6 +28,14 @@ def acceptedFormats(event):
     return [f for f in event.mimeData().formats() \
                 if f.contains("image/x-Block-")]
 
+class SnapPoint(QtCore.QPoint):
+    def __init__(self, x, y, text):
+        QtCore.QPoint.__init__(self, x, y)
+        self.text=text
+        return
+    def __str__(self):
+        return "snapPoint((%s,%s),%s)" %(self.x(), self.y(), self.text)
+        
 class Component(object):
     """
     This class describes a programmation component, which can be
@@ -37,7 +46,8 @@ class Component(object):
     When a collection of components are organized on top of some
     canvas, they can be compiled into some usable program.
     """
-    def __init__(self, pixmap, ident, mimetype, rect=None, hotspot=None):
+    def __init__(self, pixmap, ident, mimetype, rect=None, hotspot=None,
+                    snapPoints=[]):
         """
         The constructor
         @param pixmap a drawing to make an icon, and able to suggest
@@ -62,10 +72,14 @@ class Component(object):
         self.pixmap=pixmap
         self.ident=ident
         self.mimetype=mimetype
+        self.snapPoints=snapPoints
         return
         
     def __str__(self):
-        return "Component(%s, %s, %s, %s)" %(self.ident, self.mimetype, self.rect, self.hotspot)        
+        return "Component(%s, %s, %s, %s, %s)" \
+                    %(self.ident, self.mimetype, self.rect, self.hotspot,
+                        self.snapPoints
+                    )        
 
     def serialize(self):
         """
@@ -120,7 +134,8 @@ class Component(object):
             for entry in sorted(d.entryList()):
                 imgPath=":/"+rcDir+"/"+entry
                 img=QtGui.QPixmap(imgPath)
-                result.append(Component(img, entry, mimetype))
+                sp=snapPoints(imgPath)
+                result.append(Component(img, entry, mimetype, snapPoints=sp))
         return result
         
     def makeDrag(self, parent):
@@ -139,3 +154,33 @@ class Component(object):
         drag.setHotSpot(self.hotspot)
         drag.setPixmap(self.pixmap)
         return drag
+        
+def snapPoints(rcpath):
+    """
+    @result a list of snapPoints. Those are centers of circles
+    available in the SVG picture, denoted byids which begin with
+    "block-";those circles may be invisible in the pixmap.
+    """
+    f=QtCore.QFile(rcpath)
+    f.open(QtCore.QIODevice.ReadOnly | QtCore.QIODevice.Text)
+    svg=f.readAll()
+    f.close()
+    svgDoc=parseString(svg)
+    firstgroup=svgDoc.getElementsByTagName("g")[0]
+    trans=firstgroup.getAttribute("transform")
+    xt,yt=re.match(r"translate\((.*),(.*)\)",trans).groups()
+    xt=float(xt);yt=float(yt)
+    circles=svgDoc.getElementsByTagName("circle")
+    snapCircles=[c for c in circles if re.match(r"^block-",c.getAttribute("id"))]
+    result=[]
+    for c in circles:
+        xc=float(c.getAttribute("cx"))
+        yc=float(c.getAttribute("cy"))
+        id_=c.getAttribute("id")
+        result.append(SnapPoint(xc-xt, yc-yt, id_))
+    return result
+    
+if __name__=="__main__":
+    import sys
+    app = QtGui.QApplication(sys.argv)
+    Component.listFromRC()
