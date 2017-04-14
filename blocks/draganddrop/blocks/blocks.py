@@ -76,7 +76,7 @@ class BlockWidget(QtGui.QWidget):
             event.ignore()
 
     def dragMoveEvent(self, event):
-        #if self.acceptedFormats(event) and self.findPiece(self.targetRects(event.pos())) == -1:
+        #if self.acceptedFormats(event) and self.findPiece(self.targetComps(event.pos())) == -1:
         if self.acceptedFormats(event):
             event.setDropAction(QtCore.Qt.MoveAction)
             event.accept()
@@ -86,7 +86,7 @@ class BlockWidget(QtGui.QWidget):
 
     def dropEvent(self, event):
         f = self.acceptedFormats(event)
-        #if f and self.findPiece(self.targetRects(event.pos())) == -1:
+        #if f and self.findPiece(self.targetComps(event.pos())) == -1:
         if f:
             pieceData = event.mimeData().data(f[0])
             dataStream = QtCore.QDataStream(pieceData, QtCore.QIODevice.ReadOnly)
@@ -98,10 +98,8 @@ class BlockWidget(QtGui.QWidget):
 
             rect = QtCore.QRect((event.pos()-hotspot), pixmap.size())
 
-            self.mimetypes.append(mimetype)
-            self.idents.append(ident)
-            self.piecePixmaps.append(pixmap)
-            self.pieceRects.append(rect)
+            comp=Component(pixmap,ident,mimetype,rect)
+            self.components.append(comp)
 
             self.hightlightedRect = QtCore.QRect()
             self.update(rect)
@@ -114,20 +112,19 @@ class BlockWidget(QtGui.QWidget):
 
 
     def mousePressEvent(self, event):
-        try:
-            found = self.targetRects(event.pos())[-1]
-        except:
+        comps=self.targetComps(event.pos())
+        if not comps:
             return
+        else:
+            comp = comps[-1]
 
-        pixmap = self.piecePixmaps[found]
-        ident = self.idents[found]
-        mimetype = self.mimetypes[found]
-        rect = QtCore.QRect(self.pieceRects[found])
+        pixmap = comp.pixmap
+        ident = comp.ident
+        mimetype = comp.mimetype
+        rect = QtCore.QRect(comp.rect) # makes a copy
+        index=self.components.index(comp)
         
-        del self.idents[found]
-        del self.mimetypes[found]
-        del self.piecePixmaps[found]
-        del self.pieceRects[found]
+        del self.components[index]
 
         self.update(rect)
 
@@ -146,30 +143,27 @@ class BlockWidget(QtGui.QWidget):
         drag.setPixmap(pixmap)
 
         if drag.exec_(QtCore.Qt.MoveAction) != QtCore.Qt.MoveAction:
-            self.piecePixmaps.insert(found, pixmap)
-            self.mimetypes.insert(found, mimetype)
-            self.idents.insert(found, ident)
-            self.pieceRects.insert(found, rect)
-            self.update(self.targetRects(event.pos()))
+            self.components.insert(index, comp)
+            self.update()
 
     def paintEvent(self, event):
         painter = QtGui.QPainter()
         painter.begin(self)
         painter.fillRect(event.rect(), QtCore.Qt.white)
-
-        for rect, pixmap in zip(self.pieceRects, self.piecePixmaps):
+        
+        l=[(c.rect, c.pixmap) for c in self.components]
+        for rect, pixmap in l:
             painter.drawPixmap(rect, pixmap)
 
         painter.end()
 
-    def targetRects(self, position):
+    def targetComps(self, position):
         """
-        returns the list of indexes of rectangles decorated with
-        a pixmaps, under a mouse click; the topmost rectangle come last.
+        returns the list of components
+        under a mouse click; the topmost component comes last.
         """
-        rects = [i for i in range(len(self.pieceRects)) \
-                    if self.pieceRects[i].contains(position)]
-        return rects
+        comps = [c for c in self.components if c.rect.contains(position)]
+        return comps
 
 class componentsList(QtGui.QListWidget):
     def __init__(self, parent=None):
