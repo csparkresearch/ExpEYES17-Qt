@@ -123,18 +123,14 @@ class BlockWidget(QtGui.QWidget):
         self.components = []
         self.update()
 
-    def acceptedFormats(self, event):
-        return [f for f in event.mimeData().formats() \
-                    if f.contains("image/x-Block-")]
-                    
     def dragEnterEvent(self, event):
-        if self.acceptedFormats(event):
+        if acceptedFormats(event):
            event.accept()
         else:
             event.ignore()
 
     def dragMoveEvent(self, event):
-        if self.acceptedFormats(event):
+        if acceptedFormats(event):
             event.setDropAction(QtCore.Qt.MoveAction)
             event.accept()
         else:
@@ -202,18 +198,14 @@ class componentsList(QtGui.QListWidget):
         self.setAcceptDrops(True)
         self.setDropIndicatorShown(True)
 
-    def acceptedFormats(self, event):
-        return [f for f in event.mimeData().formats() \
-                    if f.contains("image/x-Block-")]
-                    
     def dragEnterEvent(self, event):
-        if self.acceptedFormats(event):
+        if acceptedFormats(event):
             event.accept()
         else:
             event.ignore()
 
     def dragMoveEvent(self, event):
-        if self.acceptedFormats(event):
+        if acceptedFormats(event):
             event.setDropAction(QtCore.Qt.MoveAction)
             event.accept()
         else:
