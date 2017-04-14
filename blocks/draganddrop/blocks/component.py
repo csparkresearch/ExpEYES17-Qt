@@ -88,7 +88,11 @@ class Component(object):
         """
         itemData = QtCore.QByteArray()
         dataStream = QtCore.QDataStream(itemData, QtCore.QIODevice.WriteOnly)
-        dataStream << self.pixmap << self.mimetype << self.hotspot << self.ident
+        dataStream << self.pixmap << self.mimetype \
+                    << self.hotspot << self.ident \
+                    << QtCore.QVariant(len(self.snapPoints))
+        for sp in self.snapPoints:
+            dataStream << QtCore.QPoint(sp) << QtCore.QString(sp.text)
         return itemData
         
     @staticmethod
