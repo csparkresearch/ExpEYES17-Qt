@@ -29,7 +29,7 @@
 
 from __future__ import print_function
 
-import os, re
+import os, re, copy
 from PyQt4 import QtCore, QtGui
 
 import blocks_rc
@@ -111,32 +111,27 @@ class BlockWidget(QtGui.QWidget):
         comps=self.targetComps(event.pos())
         if not comps:
             return
-        else:
-            comp = comps[-1]
-
-        pixmap = comp.pixmap
-        ident = comp.ident
-        mimetype = comp.mimetype
-        rect = QtCore.QRect(comp.rect) # makes a copy
+        comp = comps[-1]
         index=self.components.index(comp)
-        
+        comp=copy.copy(comp)
+
         del self.components[index]
 
-        self.update(rect)
+        self.update(comp.rect)
 
         itemData = QtCore.QByteArray()
         dataStream = QtCore.QDataStream(itemData, QtCore.QIODevice.WriteOnly)
-        hot=QtCore.QPoint(event.pos() - rect.topLeft())
+        hot=QtCore.QPoint(event.pos() - comp.rect.topLeft())
 
-        dataStream << pixmap << mimetype << hot << ident
+        dataStream << comp.pixmap << comp.mimetype << hot << comp.ident
 
         mimeData = QtCore.QMimeData()
-        mimeData.setData(mimetype, itemData)
+        mimeData.setData(comp.mimetype, itemData)
 
         drag = QtGui.QDrag(self)
         drag.setMimeData(mimeData)
         drag.setHotSpot(hot)
-        drag.setPixmap(pixmap)
+        drag.setPixmap(comp.pixmap)
 
         if drag.exec_(QtCore.Qt.MoveAction) != QtCore.Qt.MoveAction:
             self.components.insert(index, comp)
