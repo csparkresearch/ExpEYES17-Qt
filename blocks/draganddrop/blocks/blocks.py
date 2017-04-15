@@ -26,13 +26,17 @@ class BlockWidget(QtGui.QWidget):
         super(BlockWidget, self).__init__(parent)
 
         self.components = []
+        self.hot = None # when it is a QPoint, something is hot there
 
         self.setAcceptDrops(True)
         self.setMinimumSize(400, 400)
-        #self.setMaximumSize(400, 400)
+        self.hotPx={
+            "red": QtGui.QPixmap(":/hot/hot-red.svg"),
+        }
 
     def clear(self):
         self.components = []
+        self.hot=QtCore.QPoint(200,200)
         self.update()
 
     def dragEnterEvent(self, event):
@@ -89,6 +93,16 @@ class BlockWidget(QtGui.QWidget):
         for rect, pixmap in l:
             painter.drawPixmap(rect, pixmap)
 
+        # hot indicator
+        if self.hot:
+            # paint a circle around
+            px=self.hotPx["red"]
+            w,h = px.size().width(), px.size().height()
+            painter.drawPixmap(
+                QtCore.QRect(
+                    QtCore.QPoint(self.hot.x()-w/2, self.hot.y()-h/2),
+                    px.size()),
+                px)
         painter.end()
 
     def targetComps(self, position):
