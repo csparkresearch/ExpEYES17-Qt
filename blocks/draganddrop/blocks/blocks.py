@@ -29,7 +29,7 @@ class BlockWidget(QtGui.QWidget):
 
         self.setAcceptDrops(True)
         self.setMinimumSize(400, 400)
-        self.setMaximumSize(400, 400)
+        #self.setMaximumSize(400, 400)
 
     def clear(self):
         self.components = []
@@ -109,6 +109,10 @@ class componentsList(QtGui.QListWidget):
         self.setSpacing(10)
         self.setAcceptDrops(True)
         self.setDropIndicatorShown(True)
+        self.setSizePolicy(QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed,
+                QtGui.QSizePolicy.Expanding))
+        self.setMinimumSize(200, 400)
+        self.setMaximumSize(200, 4000)
 
     def dragEnterEvent(self, event):
         if acceptedFormats(event):
@@ -184,8 +188,6 @@ class MainWindow(QtGui.QMainWindow):
         self.setupMenus()
         self.setupWidgets()
 
-        self.setSizePolicy(QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed,
-                QtGui.QSizePolicy.Fixed))
         self.setWindowTitle("Block")
         
     def load(self):
