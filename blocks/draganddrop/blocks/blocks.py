@@ -47,6 +47,7 @@ class BlockWidget(QtGui.QWidget):
 
     def dragMoveEvent(self, event):
         if acceptedFormats(event):
+            print(dir(event))
             event.setDropAction(QtCore.Qt.MoveAction)
             event.accept()
         else:
