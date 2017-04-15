@@ -50,7 +50,7 @@ class BlockWidget(QtGui.QWidget):
         return
 
     def dropEvent(self, event):
-        comp=Component.unserialize(event)
+        comp=Component.unserializeFromEvent(event)
         if comp:
             self.components.append(comp)
             self.update(comp.rect)
@@ -124,7 +124,7 @@ class componentsList(QtGui.QListWidget):
             event.ignore()
 
     def dropEvent(self, event):
-        comp=Component.unserialize(event)
+        comp=Component.unserializeFromEvent(event)
         if comp:
             # components of type 1 can be duplicated
             # so they should not be appended to the list
@@ -150,11 +150,11 @@ class componentsList(QtGui.QListWidget):
         """
         ident=QtCore.QString(comp.ident)
         for i in range(self.count()):
-            if self.item(i).data(QtCore.Qt.UserRole+2).toString()== ident:
+            if self.item(i).ident == ident:
                 self.item(i).setHidden(False)
                 return
         blockItem = QtGui.QListWidgetItem(self)
-        comp.recordToListWidgetItem(blockItem)
+        comp.toListWidgetItem(blockItem)
         return blockItem
 
     def currentComponent(self):
@@ -212,7 +212,6 @@ class MainWindow(QtGui.QMainWindow):
         self.BlockWidget.clear()
         cList=Component.listFromRC()
         for c in cList:
-            print("GRRRRR, loading", c)
             self.componentsList.newComponent(c)
         return
 
