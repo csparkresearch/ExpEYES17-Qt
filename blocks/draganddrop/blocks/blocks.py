@@ -18,7 +18,7 @@ from __future__ import print_function
 
 import copy
 from PyQt4 import QtCore, QtGui
-from component import Component, acceptedFormats
+from component import Component, TimeComponent, acceptedFormats
 
 class BlockWidget(QtGui.QWidget):
 
@@ -133,24 +133,51 @@ class BlockWidget(QtGui.QWidget):
 		self.update()
 
 	def mousePressEvent(self, event):
-		comps=self.targetComps(event.pos())
-		if not comps:
-			return
-		comp = comps[-1]
-		index=self.components.index(comp)
-		comp=copy.copy(comp)
+		if event.buttons() == QtCore.Qt.LeftButton:
+			comps=self.targetComps(event.pos())
+			if not comps:
+				return
+			comp = comps[-1]
+			index=self.components.index(comp)
+			comp=copy.copy(comp)
 
-		del self.components[index]
+			del self.components[index]
 
-		self.update(comp.rect)
+			self.update(comp.rect)
 
-		comp.hotspot=QtCore.QPoint(event.pos() - comp.rect.topLeft())
-		itemData = comp.serialize()
-		drag=comp.makeDrag(self)
+			comp.hotspot=QtCore.QPoint(event.pos() - comp.rect.topLeft())
+			itemData = comp.serialize()
+			drag=comp.makeDrag(self)
 
-		if drag.exec_(QtCore.Qt.MoveAction) != QtCore.Qt.MoveAction:
-			self.components.insert(index, self.comp)
-			self.update()
+			if drag.exec_(QtCore.Qt.MoveAction) != QtCore.Qt.MoveAction:
+				self.components.insert(index, self.comp)
+				self.update()
+		elif event.buttons() == QtCore.Qt.RightButton:
+			b=self.blockAt(event.pos())
+			if b:
+				i = self.components.index(b)
+				print("GRRRR index =", self.components.index(b))
+				b=TimeComponent.fromOther(b)
+				print("GRRRR", type(b), b)
+				self.components[i]=b
+				self.update()
+
+	def blockAt(self, pos):
+		"""
+		@param pos a QPoint instance
+		@return the component at the given position if any, else None
+		"""
+		result=None
+		for c in self.components:
+			if c.rect.contains(pos):
+				mask=c.pixmap.mask()
+				color=QtGui.QColor(mask.toImage().pixel(
+						pos-c.rect.topLeft())
+				).getRgb()
+				if color[0]==0:
+					# not masked pixel
+					return c	
+		return None
 
 	def paintEvent(self, event):
 		painter = QtGui.QPainter()
@@ -325,7 +352,6 @@ class MainWindow(QtGui.QMainWindow):
 		frameLayout.addWidget(self.componentsList)
 		frameLayout.addWidget(self.BlockWidget)
 		self.setCentralWidget(frame)
-
 
 if __name__ == '__main__':
 

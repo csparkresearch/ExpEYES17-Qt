@@ -259,6 +259,38 @@ def snapPoints(rcpath):
 		result.append(SnapPoint(xc+xt, yc+yt, id_))
 	return result
 	
+class TimeComponent(Component):
+	"""
+	A component to implement a time base for an oscilloscope
+	"""
+	# standard numbers of points
+	np = [11, 101, 501, 1001, 2001]
+
+	def __init__(*args,**kw):
+		Component.__init__(*args,**kw)
+		self=args[0]
+		self.npoints = TimeComponent.np[2]
+		self.delay   = 1000 # µs
+		self.duration = (self.npoints-1)*self.delay
+
+	@classmethod
+	def fromOther(cls, c):
+		"""
+		alternate constructor
+		@param c a component
+		"""
+		self=cls(c.pixmap, c.ident, c.mimetype, c.rect, c.hotspot, c.snapPoints)
+		self.npoints = TimeComponent.np[2]
+		self.delay   = 1000 # µs
+		self.duration = (self.npoints-1)*self.delay		
+		return self
+
+	def draw(self, painter):
+		super(TimeComponent, self).draw(painter)
+		titlePos=QtCore.QPoint(30,10)
+		painter.drawText(self.rect.topLeft()+titlePos,"Time Base")
+
+
 if __name__=="__main__":
 	import sys
 	app = QtGui.QApplication(sys.argv)
