@@ -140,7 +140,7 @@ class Component(object):
 		itemData = QtCore.QByteArray()
 		dataStream = QtCore.QDataStream(itemData, QtCore.QIODevice.WriteOnly)
 		className = re.match(
-			r"<class 'component\.(.*)'>",
+			r"<class '.*component\.(.*)'>",
 			str(self.__class__)
 		).group(1)
 		dataStream << QtCore.QString(className) \
@@ -187,6 +187,9 @@ class Component(object):
 		@return a new Component instance, a dataStream to get further data,
 		and the className to restore
 		"""
+		from timecomponent import TimeComponent
+		from modifcomponent import ModifComponent
+		from channelcomponent import ChannelComponent
 		dataStream = QtCore.QDataStream(data, QtCore.QIODevice.ReadOnly)
 		className=QtCore.QString()
 		pixmap = QtGui.QPixmap()
@@ -216,6 +219,9 @@ class Component(object):
 		@param event a QEvent, presumably due to a drop.
 		@return an instance of Component and a dataStream to get more data
 		"""
+		from timecomponent import TimeComponent
+		from modifcomponent import ModifComponent
+		from channelcomponent import ChannelComponent
 		f = Component.acceptedFormats(event)
 		if f:
 			data = event.mimeData().data(f[0])
