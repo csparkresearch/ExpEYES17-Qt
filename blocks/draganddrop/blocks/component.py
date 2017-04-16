@@ -287,8 +287,20 @@ class TimeComponent(Component):
 
 	def draw(self, painter):
 		super(TimeComponent, self).draw(painter)
-		titlePos=QtCore.QPoint(30,10)
-		painter.drawText(self.rect.topLeft()+titlePos,"Time Base")
+		lh=12 # lineheight
+		x=10;y=15
+		pos=self.rect.topLeft()
+		titlePos=pos+QtCore.QPoint(x,y)
+		x=15; y+=lh
+		delayPos=pos+QtCore.QPoint(x,y)
+		y+=lh
+		durationPos=pos+QtCore.QPoint(x,y)
+		y+=lh
+		pointsPos=pos+QtCore.QPoint(x,y)
+		painter.drawText(titlePos,"Time Base")
+		painter.drawText(delayPos,"delay: %s s" %(self.delay/1e6))
+		painter.drawText(durationPos,"duration: %s s" %(self.duration/1e6))
+		painter.drawText(pointsPos,"(%s points)" %self.npoints)
 
 
 if __name__=="__main__":
