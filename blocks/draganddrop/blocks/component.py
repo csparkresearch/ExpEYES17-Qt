@@ -266,7 +266,7 @@ class InputComponent(Component):
 	def __init__(*args,**kw):
 		Component.__init__(*args,**kw)
 	
-class TimeComponent(InitComponent):
+class TimeComponent(InputComponent):
 	"""
 	A component to implement a time base for an oscilloscope
 	"""
@@ -274,7 +274,7 @@ class TimeComponent(InitComponent):
 	np = [11, 101, 501, 1001, 2001]
 
 	def __init__(*args,**kw):
-		InitComponent.__init__(*args,**kw)
+		InputComponent.__init__(*args,**kw)
 		self=args[0]
 		self.npoints = TimeComponent.np[2]
 		self.delay   = 1000 # µs
