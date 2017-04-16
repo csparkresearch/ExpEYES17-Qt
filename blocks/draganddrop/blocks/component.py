@@ -100,6 +100,22 @@ class Component(object):
 		self.touched_=touched
 		return
 
+	@classmethod
+	def fromOther(cls, c):
+		"""
+		alternate constructor
+		@param c a component
+		"""
+		self=cls(c.pixmap, c.ident, c.mimetype, c.rect, c.hotspot, c.snapPoints)
+		self.initDefaults()	
+		return self
+
+	def initDefaults(self):
+		"""
+		abstract method to override by subclasses, to init more properties
+		"""
+		return
+
 	def __str__(self):
 		return "Component(\n  %s,\n  %s,\n  rect: %s,\n  hotspot: %s,\n  snaps: %s)" \
 					%(self.ident, self.mimetype, self.rect, self.hotspot,
@@ -322,16 +338,6 @@ class TimeComponent(InputComponent):
 		self.delay   = 1000 # µs
 		self.duration = (self.npoints-1)*self.delay
 
-
-	@classmethod
-	def fromOther(cls, c):
-		"""
-		alternate constructor
-		@param c a component
-		"""
-		self=cls(c.pixmap, c.ident, c.mimetype, c.rect, c.hotspot, c.snapPoints)
-		self.initDefaults()	
-		return self
 
 	def draw(self, painter):
 		super(TimeComponent, self).draw(painter)
