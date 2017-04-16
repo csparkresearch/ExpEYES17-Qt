@@ -156,9 +156,7 @@ class BlockWidget(QtGui.QWidget):
 			b=self.blockAt(event.pos())
 			if b:
 				i = self.components.index(b)
-				print("GRRRR index =", self.components.index(b))
 				b=TimeComponent.fromOther(b)
-				print("GRRRR", type(b), b)
 				self.components[i]=b
 				self.update()
 
