@@ -314,20 +314,6 @@ class InputComponent(Component):
 	def __init__(*args,**kw):
 		Component.__init__(*args,**kw)
 	
-class ModifComponent(Component):
-	"""
-	An abstract class which can be used for signal modifiers
-	"""	
-	def __init__(*args,**kw):
-		Component.__init__(*args,**kw)
-	
-class ChannelComponent(Component):
-	"""
-	An abstract class which can be used for channels (and abscissa)
-	"""	
-	def __init__(*args,**kw):
-		Component.__init__(*args,**kw)
-	
 if __name__=="__main__":
 	import sys
 	app = QtGui.QApplication(sys.argv)

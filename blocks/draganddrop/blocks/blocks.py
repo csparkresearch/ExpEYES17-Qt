@@ -20,6 +20,8 @@ import copy
 from PyQt4 import QtCore, QtGui
 from component import Component, InputComponent
 from timecomponent import TimeComponent
+from modifcomponent import ModifComponent
+from channelcomponent import ChannelComponent
 
 class BlockWidget(QtGui.QWidget):
 
