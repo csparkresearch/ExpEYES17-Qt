@@ -53,7 +53,7 @@ class BlockWidget(QtGui.QWidget):
 		f=acceptedFormats(event)
 		if f:
 			data = event.mimeData().data(f[0])
-			comp, dataStream=Component.unserialize(data)
+			comp, dataStream, className = Component.unserialize(data)
 			offset=comp.hotspot
 			# temporarily erase previous hot marks
 			previouslyHots=self.hots
@@ -98,7 +98,7 @@ class BlockWidget(QtGui.QWidget):
 
 
 	def dropEvent(self, event):
-		comp, dataStream=Component.unserializeFromEvent(event)
+		comp, dataStream, className = Component.unserializeFromEvent(event)
 		print("GRRRR dropping class", comp.__class__)
 		if comp:
 			self.components.append(comp)
@@ -236,7 +236,7 @@ class componentsList(QtGui.QListWidget):
 			event.ignore()
 
 	def dropEvent(self, event):
-		comp, dataStream=Component.unserializeFromEvent(event)
+		comp, dataStream, className = Component.unserializeFromEvent(event)
 		if comp:
 			# components of type 1 can be duplicated
 			# so they should not be appended to the list

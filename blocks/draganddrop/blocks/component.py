@@ -157,6 +157,12 @@ class Component(object):
 		"""
 		return
 		
+	def getMoreData(self, dataStream):
+		"""
+		abstract metho to be overriden by subclasses
+		"""
+		return
+		
 	@staticmethod
 	def fromListWidgetItem(lwi):
 		"""
@@ -177,7 +183,8 @@ class Component(object):
 	def unserialize(data):
 		"""
 		unserialize frome a byteArray,
-		@return a new Component instance, and a dataStream to get further data
+		@return a new Component instance, a dataStream to get further data,
+		and the className to restore
 		"""
 		dataStream = QtCore.QDataStream(data, QtCore.QIODevice.ReadOnly)
 		className=QtCore.QString()
@@ -199,7 +206,7 @@ class Component(object):
 		result=eval(
 			"%s(pixmap,ident,mimetype,hotspot=hotspot,snapPoints=sp)" %className
 		)
-		return result, dataStream
+		return result, dataStream, className
 		
 	@staticmethod
 	def unserializeFromEvent(event):
@@ -211,14 +218,16 @@ class Component(object):
 		f = acceptedFormats(event)
 		if f:
 			data = event.mimeData().data(f[0])
-			result, dataStream = Component.unserialize(data)
+			result, dataStream, className = Component.unserialize(data)
 			result.rect = QtCore.QRect(
 					(event.pos()-result.hotspot),
 					result.pixmap.size()
 			)
+			result=eval("%s.fromOther(result)" %className)
+			result.getMoreData(dataStream)
 		else:
 			result = None; dataStream=None
-		return result, dataStream
+		return result, dataStream, className
 
 	@staticmethod
 	def listFromRC():
@@ -361,37 +370,15 @@ class TimeComponent(InputComponent):
 		duration=QtCore.QVariant()
 		npoints=QtCore.QVariant()
 		dataStream >> delay >> duration >> npoints
-		self.delay=delay.toInt()
-		self.duration=delay.toInt()
-		self.npoints=npoints.toInt()
+		self.delay, report=delay.toInt()
+		self.duration, report=delay.toInt()
+		self.npoints, report=npoints.toInt()
 		return
 
 	def putMoreData(self, dataStream):
 		dataStream << QtCore.QVariant(self.delay) << QtCore.QVariant(self.duration) << QtCore.QVariant(self.npoints)
 		return
 
-	@staticmethod
-	def unserializeFromEvent(event):
-		"""
-		userialize given QEvent's data into a Component instance
-		@param event a QEvent, presumably due to a drop.
-		@return an instance of Component and a dataStream to get more data
-		"""
-		f = acceptedFormats(event)
-		if f:
-			data = event.mimeData().data(f[0])
-			result, dataStream = Component.unserialize(data)
-			result.rect = QtCore.QRect(
-					(event.pos()-result.hotspot),
-					result.pixmap.size()
-			)
-			result=TimeComponent.fromOther(result)
-			result.getMoreData(dataStream)
-		else:
-			result = None; dataStream=None
-		return result, dataStream
-
-		
 if __name__=="__main__":
 	import sys
 	app = QtGui.QApplication(sys.argv)
