@@ -27,7 +27,7 @@ class BlockWidget(QtGui.QWidget):
 
 		self.comp = None #dragged component
 		self.components = []
-		self.hot = None # when it is a QPoint, something is hot there
+		self.hots = [] # list of matching snap points
 
 		self.setAcceptDrops(True)
 		self.setMinimumSize(400, 400)
@@ -37,7 +37,7 @@ class BlockWidget(QtGui.QWidget):
 
 	def clear(self):
 		self.components = []
-		self.hot=None
+		self.hots=[]
 		self.update()
 
 	def dragEnterEvent(self, event):
@@ -52,16 +52,9 @@ class BlockWidget(QtGui.QWidget):
 			data = event.mimeData().data(f[0])
 			comp=Component.unserialize(data)
 			offset=comp.hotspot
-			"""
-			# temporarily erase a previous hot mark
-			if self.hot:
-				rect=self.hotPx["red"].rect();
-				rect.setTopLeft(self.hot)
-				self.hot=None
-				self.update(rect)
-			"""
-			previouslyHot=self.hot
-			self.hot=None
+			# temporarily erase previous hot marks
+			previouslyHots=self.hots
+			self.hots=[]
 			match=False
 			for sp in comp.snapPoints:
 				hovering=event.pos()-offset+sp
@@ -70,9 +63,9 @@ class BlockWidget(QtGui.QWidget):
 					]
 				for flavors in flavorsList:
 					for m in self.matchingComponentSnap(hovering,sp,flavors):
-						self.hot=m[0].rect.topLeft()+m[1]
+						self.hots.append(m[0].rect.topLeft()+m[1])
 						match=True
-			if match or previouslyHot:
+			if match or len(previouslyHots) != len(self.hots):
 				self.update()
 				
 							
@@ -144,16 +137,18 @@ class BlockWidget(QtGui.QWidget):
 		for rect, pixmap in l:
 			painter.drawPixmap(rect, pixmap)
 
-		# hot indicator
-		if self.hot:
-			# paint a circle around
+		# hot indicators
+		if self.hots:
 			px=self.hotPx["red"]
-			w,h = px.size().width(), px.size().height()
+			w,h = px.size().width(), px.size().height()			
+		for hot in self.hots:
+			# paint a circle around
 			painter.drawPixmap(
 				QtCore.QRect(
-					QtCore.QPoint(self.hot.x()-w/2, self.hot.y()-h/2),
+					QtCore.QPoint(hot.x()-w/2, hot.y()-h/2),
 					px.size()),
 				px)
+			
 		painter.end()
 
 	def targetComps(self, position):
