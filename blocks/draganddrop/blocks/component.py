@@ -80,7 +80,16 @@ class Component(object):
 		return "Component(\n  %s,\n  %s,\n  rect: %s,\n  hotspot: %s,\n  snaps: %s)" \
 					%(self.ident, self.mimetype, self.rect, self.hotspot,
 						self.snapPoints
-					)		
+					)
+
+	def draw(self, painter):
+		"""
+		draws a component inside a widget with the help of a painter
+		@param painter a working QPainter instance
+		"""
+		painter.drawPixmap(self.rect, self.pixmap)
+		return
+			
 
 	def serialize(self):
 		"""
@@ -197,12 +206,14 @@ class Component(object):
 		drag.setHotSpot(self.hotspot)
 		drag.setPixmap(self.pixmap)
 		return drag
+
+
 		
 def snapPoints(rcpath):
 	"""
-	@result a list of snapPoints. Those are centers of circles
-	available in the SVG picture, denoted byids which begin with
-	"block-";those circles may be invisible in the pixmap.
+	@return a list of snapPoints. Those are centers of circles
+	available in the SVG picture, denoted by ids which begin with
+	"block-"; those circles may be invisible in the pixmap.
 	"""
 	f=QtCore.QFile(rcpath)
 	f.open(QtCore.QIODevice.ReadOnly | QtCore.QIODevice.Text)

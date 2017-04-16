@@ -133,21 +133,16 @@ class BlockWidget(QtGui.QWidget):
 		painter.begin(self)
 		painter.fillRect(event.rect(), QtCore.Qt.white)
 		
-		l=[(c.rect, c.pixmap) for c in self.components]
-		for rect, pixmap in l:
-			painter.drawPixmap(rect, pixmap)
+		for c in self.components:
+			c.draw(painter)
 
 		# hot indicators
 		if self.hots:
 			px=self.hotPx["red"]
-			w,h = px.size().width(), px.size().height()			
+			middle = QtCore.QPoint(px.size().width()/2, px.size().height()/2)
 		for hot in self.hots:
 			# paint a circle around
-			painter.drawPixmap(
-				QtCore.QRect(
-					QtCore.QPoint(hot.x()-w/2, hot.y()-h/2),
-					px.size()),
-				px)
+			painter.drawPixmap(QtCore.QRect(hot-middle,px.size()),px)
 			
 		painter.end()
 
