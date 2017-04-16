@@ -52,16 +52,38 @@ class BlockWidget(QtGui.QWidget):
 			data = event.mimeData().data(f[0])
 			comp=Component.unserialize(data)
 			offset=comp.hotspot
-			print("GRRR===============", comp, event.pos(), -offset)
 			for sp in comp.snapPoints:
 				hovering=event.pos()-offset+sp
-				print("GRRR", sp.text,"hover", hovering)
+				flavors=("block-in-signal", "block-out-signal")
+				for m in self.matchingComponentSnap(hovering,sp,flavors):
+					print("GRRRR", m[1].text, m[0])
 				
+							
 			event.setDropAction(QtCore.Qt.MoveAction)
 			event.accept()
 		else:
 			event.ignore()
 		return
+
+	def matchingComponentSnap(self, pos, snapPoint, flavors):
+		"""
+		finds components underlying a snap point, with given position
+		and a couple of flavors
+		@param pos the current position of the snap point
+		@param snapPoint the snap point
+		@param flavors a couple of texts for matching snap points
+		@return a list of matching component and its snapPoint
+		"""
+		result=[]
+		if str(snapPoint.text).startswith(flavors[0]):
+			for c in self.components:
+				for s in c.snapPoints:
+					if str(s.text).startswith(flavors[1]):
+						gap=c.rect.topLeft()+s-pos
+						if gap.manhattanLength() < 10:
+							result.append((c, s))
+		return result
+
 
 	def dropEvent(self, event):
 		comp=Component.unserializeFromEvent(event)
