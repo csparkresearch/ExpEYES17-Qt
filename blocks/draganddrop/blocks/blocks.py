@@ -18,7 +18,10 @@ from __future__ import print_function
 
 import copy
 from PyQt4 import QtCore, QtGui
-from component import Component, TimeComponent, acceptedFormats
+from component import Component, InputComponent, \
+		ModifComponent, ChannelComponent, \
+		TimeComponent, \
+		acceptedFormats
 
 class BlockWidget(QtGui.QWidget):
 
@@ -96,6 +99,7 @@ class BlockWidget(QtGui.QWidget):
 
 	def dropEvent(self, event):
 		comp=Component.unserializeFromEvent(event)
+		print("GRRRR dropping class", comp.__class__)
 		if comp:
 			self.components.append(comp)
 			self.update(comp.rect)
@@ -146,7 +150,6 @@ class BlockWidget(QtGui.QWidget):
 			self.update(comp.rect)
 
 			comp.hotspot=QtCore.QPoint(event.pos() - comp.rect.topLeft())
-			itemData = comp.serialize()
 			drag=comp.makeDrag(self)
 
 			if drag.exec_(QtCore.Qt.MoveAction) != QtCore.Qt.MoveAction:
@@ -156,8 +159,9 @@ class BlockWidget(QtGui.QWidget):
 			b=self.blockAt(event.pos())
 			if b:
 				i = self.components.index(b)
-				b=TimeComponent.fromOther(b)
-				self.components[i]=b
+				print("GRRRR", type(b))
+				if isinstance(b, InputComponent):
+					self.components[i]=TimeComponent.fromOther(b)
 				self.update()
 
 	def blockAt(self, pos):
@@ -318,6 +322,7 @@ class MainWindow(QtGui.QMainWindow):
 		self.BlockWidget.clear()
 		cList=Component.listFromRC()
 		for c in cList:
+			print("GRRR in loadComponents:", c.__class__)	
 			self.componentsList.newComponent(c)
 		return
 

@@ -118,16 +118,21 @@ class Component(object):
 	def serialize(self):
 		"""
 		serializes a component into a QDataStream
-		returns data as a QByteArray instance
+		returns data as a QByteArray instance and a writeStream to feed it on
 		"""
 		itemData = QtCore.QByteArray()
 		dataStream = QtCore.QDataStream(itemData, QtCore.QIODevice.WriteOnly)
-		dataStream << self.pixmap << self.mimetype \
+		className = re.match(
+			r"<class 'component\.(.*)'>",
+			str(self.__class__)
+		).group(1)
+		dataStream << QtCore.QString(className) \
+		        << self.pixmap << self.mimetype \
 				<< self.hotspot << self.ident \
 				<< QtCore.QVariant(len(self.snapPoints))
 		for sp in self.snapPoints:
 			dataStream << QtCore.QPoint(sp) << QtCore.QString(sp.text)
-		return itemData
+		return itemData, dataStream
 		
 	@staticmethod
 	def fromListWidgetItem(lwi):
@@ -143,10 +148,6 @@ class Component(object):
 		"""
 		lwi.component=self
 		lwi.setIcon(QtGui.QIcon(self.pixmap))
-		"""
-		byteArray=self.serialize()
-		lwi.setData(QtCore.Qt.UserRole, byteArray)
-		"""
 		return
 		
 	@staticmethod
@@ -156,12 +157,14 @@ class Component(object):
 		@return a new Component instance
 		"""
 		dataStream = QtCore.QDataStream(data, QtCore.QIODevice.ReadOnly)
+		className=QtCore.QString()
 		pixmap = QtGui.QPixmap()
 		mimetype = QtCore.QString()
 		ident = QtCore.QString()
 		hotspot = QtCore.QPoint()
 		length = QtCore.QVariant()
-		dataStream >> pixmap >> mimetype >> hotspot >> ident >> length
+		dataStream >> className >> pixmap >> mimetype >> hotspot >> ident \
+			>> length
 		length, report = length.toInt()
 		sp=[]
 		for i in range(length):
@@ -169,7 +172,11 @@ class Component(object):
 			text=QtCore.QString()
 			dataStream >> point >> text
 			sp.append(SnapPoint(point.x(), point.y(), text))
-		return Component(pixmap,ident,mimetype,hotspot=hotspot,snapPoints=sp)
+		# carefully restore the class of the dropped object	
+		result=eval(
+			"%s(pixmap,ident,mimetype,hotspot=hotspot,snapPoints=sp)" %className
+		)
+		return result
 		
 	@staticmethod
 	def unserializeFromEvent(event):
@@ -211,7 +218,15 @@ class Component(object):
 				imgPath=":/"+rcDir+"/"+entry
 				img=QtGui.QPixmap(imgPath)
 				sp=snapPoints(imgPath)
-				result.append(Component(img, entry, mimetype, snapPoints=sp))
+				if "input" in entry:
+					result.append(InputComponent(img, entry, mimetype, snapPoints=sp))
+				elif "modif" in entry:
+					result.append(ModifComponent(img, entry, mimetype, snapPoints=sp))
+				elif "channel" in entry or "abscissa" in entry:
+					result.append(ChannelComponent(img, entry, mimetype, snapPoints=sp))
+				else:
+					print("Error, this should not happen:", entry)	
+					result.append(Component(img, entry, mimetype, snapPoints=sp))
 		return result
 		
 	def makeDrag(self, parent):
@@ -220,7 +235,7 @@ class Component(object):
 		@param parent a window, where a drag is starting
 		@return the DQrag instance
 		"""
-		itemData = self.serialize()
+		itemData, writeStream = self.serialize()
 
 		mimeData = QtCore.QMimeData()
 		mimeData.setData(self.mimetype, itemData)
@@ -262,6 +277,20 @@ def snapPoints(rcpath):
 class InputComponent(Component):
 	"""
 	An abstract class which can be used for time, and voltage inputs
+	"""	
+	def __init__(*args,**kw):
+		Component.__init__(*args,**kw)
+	
+class ModifComponent(Component):
+	"""
+	An abstract class which can be used for signal modifiers
+	"""	
+	def __init__(*args,**kw):
+		Component.__init__(*args,**kw)
+	
+class ChannelComponent(Component):
+	"""
+	An abstract class which can be used for channels (and abscissa)
 	"""	
 	def __init__(*args,**kw):
 		Component.__init__(*args,**kw)
