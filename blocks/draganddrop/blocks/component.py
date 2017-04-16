@@ -132,7 +132,14 @@ class Component(object):
 				<< QtCore.QVariant(len(self.snapPoints))
 		for sp in self.snapPoints:
 			dataStream << QtCore.QPoint(sp) << QtCore.QString(sp.text)
+		self.putMoreData(dataStream)
 		return itemData, dataStream
+
+	def putMoreData(self, dataStream):
+		"""
+		abstract metho to be overriden by subclasses
+		"""
+		return
 		
 	@staticmethod
 	def fromListWidgetItem(lwi):
@@ -194,7 +201,7 @@ class Component(object):
 					result.pixmap.size()
 			)
 		else:
-			result = None
+			result = None; dataStream=None
 		return result, dataStream
 
 	@staticmethod
@@ -305,9 +312,16 @@ class TimeComponent(InputComponent):
 	def __init__(*args,**kw):
 		InputComponent.__init__(*args,**kw)
 		self=args[0]
+		self.initDefaults()
+		for a in ("npoints","delay","duration"):
+			if a in kw:
+				setattribute(self, a, kw[a])
+
+	def initDefaults(self):
 		self.npoints = TimeComponent.np[2]
 		self.delay   = 1000 # µs
 		self.duration = (self.npoints-1)*self.delay
+
 
 	@classmethod
 	def fromOther(cls, c):
@@ -316,9 +330,7 @@ class TimeComponent(InputComponent):
 		@param c a component
 		"""
 		self=cls(c.pixmap, c.ident, c.mimetype, c.rect, c.hotspot, c.snapPoints)
-		self.npoints = TimeComponent.np[2]
-		self.delay   = 1000 # µs
-		self.duration = (self.npoints-1)*self.delay		
+		self.initDefaults()	
 		return self
 
 	def draw(self, painter):
@@ -338,7 +350,42 @@ class TimeComponent(InputComponent):
 		painter.drawText(durationPos,"duration: %s s" %(self.duration/1e6))
 		painter.drawText(pointsPos,"(%s points)" %self.npoints)
 
+	def getMoreData(self, dataStream):
+		delay=QtCore.QVariant()
+		duration=QtCore.QVariant()
+		npoints=QtCore.QVariant()
+		dataStream >> delay >> duration >> npoints
+		self.delay=delay.toInt()
+		self.duration=delay.toInt()
+		self.npoints=npoints.toInt()
+		return
 
+	def putMoreData(self, dataStream):
+		dataStream << QtCore.QVariant(self.delay) << QtCore.QVariant(self.duration) << QtCore.QVariant(self.npoints)
+		return
+
+	@staticmethod
+	def unserializeFromEvent(event):
+		"""
+		userialize given QEvent's data into a Component instance
+		@param event a QEvent, presumably due to a drop.
+		@return an instance of Component and a dataStream to get more data
+		"""
+		f = acceptedFormats(event)
+		if f:
+			data = event.mimeData().data(f[0])
+			result, dataStream = Component.unserialize(data)
+			result.rect = QtCore.QRect(
+					(event.pos()-result.hotspot),
+					result.pixmap.size()
+			)
+			result=TimeComponent.fromOther(result)
+			result.getMoreData(dataStream)
+		else:
+			result = None; dataStream=None
+		return result, dataStream
+
+		
 if __name__=="__main__":
 	import sys
 	app = QtGui.QApplication(sys.argv)
