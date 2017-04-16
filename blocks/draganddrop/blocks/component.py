@@ -154,7 +154,7 @@ class Component(object):
 	def unserialize(data):
 		"""
 		unserialize frome a byteArray,
-		@return a new Component instance
+		@return a new Component instance, and a dataStream to get further data
 		"""
 		dataStream = QtCore.QDataStream(data, QtCore.QIODevice.ReadOnly)
 		className=QtCore.QString()
@@ -176,26 +176,26 @@ class Component(object):
 		result=eval(
 			"%s(pixmap,ident,mimetype,hotspot=hotspot,snapPoints=sp)" %className
 		)
-		return result
+		return result, dataStream
 		
 	@staticmethod
 	def unserializeFromEvent(event):
 		"""
 		userialize given QEvent's data into a Component instance
 		@param event a QEvent, presumably due to a drop.
-		@return an instance of Component 
+		@return an instance of Component and a dataStream to get more data
 		"""
 		f = acceptedFormats(event)
 		if f:
 			data = event.mimeData().data(f[0])
-			result=Component.unserialize(data)
+			result, dataStream = Component.unserialize(data)
 			result.rect = QtCore.QRect(
 					(event.pos()-result.hotspot),
 					result.pixmap.size()
 			)
 		else:
 			result = None
-		return result
+		return result, dataStream
 
 	@staticmethod
 	def listFromRC():
