@@ -52,11 +52,28 @@ class BlockWidget(QtGui.QWidget):
 			data = event.mimeData().data(f[0])
 			comp=Component.unserialize(data)
 			offset=comp.hotspot
+			"""
+			# temporarily erase a previous hot mark
+			if self.hot:
+				rect=self.hotPx["red"].rect();
+				rect.setTopLeft(self.hot)
+				self.hot=None
+				self.update(rect)
+			"""
+			previouslyHot=self.hot
+			self.hot=None
+			match=False
 			for sp in comp.snapPoints:
 				hovering=event.pos()-offset+sp
-				flavors=("block-in-signal", "block-out-signal")
-				for m in self.matchingComponentSnap(hovering,sp,flavors):
-					print("GRRRR", m[1].text, m[0])
+				flavorsList=[
+					("block-in-signal", "block-out-signal"),
+					]
+				for flavors in flavorsList:
+					for m in self.matchingComponentSnap(hovering,sp,flavors):
+						self.hot=m[0].rect.topLeft()+m[1]
+						match=True
+			if match or previouslyHot:
+				self.update()
 				
 							
 			event.setDropAction(QtCore.Qt.MoveAction)
@@ -75,13 +92,15 @@ class BlockWidget(QtGui.QWidget):
 		@return a list of matching component and its snapPoint
 		"""
 		result=[]
-		if str(snapPoint.text).startswith(flavors[0]):
-			for c in self.components:
-				for s in c.snapPoints:
-					if str(s.text).startswith(flavors[1]):
-						gap=c.rect.topLeft()+s-pos
-						if gap.manhattanLength() < 10:
-							result.append((c, s))
+		# to implement symmetry in the flavor's relation
+		for f in flavors, (flavors[1], flavors[0]):
+			if str(snapPoint.text).startswith(f[0]):
+				for c in self.components:
+					for s in c.snapPoints:
+						if str(s.text).startswith(f[1]):
+							gap=c.rect.topLeft()+s-pos
+							if gap.manhattanLength() < 10:
+								result.append((c, s))
 		return result
 
 
