@@ -58,10 +58,7 @@ class BlockWidget(QtGui.QWidget):
 			match=False
 			for sp in comp.snapPoints:
 				hovering=event.pos()-offset+sp
-				flavorsList=[
-					("block-in-signal", "block-out-signal"),
-					]
-				for flavors in flavorsList:
+				for flavors in Component.matchingFlavors:
 					for m in self.matchingComponentSnap(hovering,sp,flavors):
 						self.hots.append(m[0].rect.topLeft()+m[1])
 						match=True
@@ -102,11 +99,38 @@ class BlockWidget(QtGui.QWidget):
 		if comp:
 			self.components.append(comp)
 			self.update(comp.rect)
+			self.connectSnaps()
 			event.setDropAction(QtCore.Qt.MoveAction)
 			event.accept()
 		else:
 			event.ignore()
 
+	def connectSnaps(self):
+		"""
+		moves components until every connected snaps overlap
+		"""
+		toMove=[] # list of components to move
+		for c in self.components: c.reset()
+		for c in self.components:
+			c.touch()
+			for s in c.snapPoints:
+				p=c.rect.topLeft()+s
+				for flavors in Component.matchingFlavors:
+					for c1, s1 in self.matchingComponentSnap(p,s,flavors):
+						# do not move already touched components
+						if c1.touched_: continue
+						toMove.append((c,s,c1,s1))
+						c1.touch()
+		for c,s,c1,s1 in toMove:
+			delta=c.rect.topLeft()+s-c1.rect.topLeft()-s1
+			c1.rect.translate(delta)
+		self.update()
+		QtCore.QTimer.singleShot(1000, self.hideHots)
+		return
+
+	def hideHots(self):
+		self.hots=[]
+		self.update()
 
 	def mousePressEvent(self, event):
 		comps=self.targetComps(event.pos())

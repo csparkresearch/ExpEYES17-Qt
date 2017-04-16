@@ -47,6 +47,14 @@ class Component(object):
 	When a collection of components are organized on top of some
 	canvas, they can be compiled into some usable program.
 	"""
+
+	"""
+	pairs of maching flavors for snap points
+	"""
+	matchingFlavors=[
+		("block-in-signal", "block-out-signal"),
+	]
+	
 	def __init__(self, pixmap, ident, mimetype, rect=None, hotspot=None,
 					snapPoints=[]):
 		"""
@@ -74,8 +82,24 @@ class Component(object):
 		self.ident=ident
 		self.mimetype=mimetype
 		self.snapPoints=snapPoints
+		self.touched_=False
 		return
-		
+
+	def reset(self):
+		"""
+		resets the touched_ flag
+		"""
+		self.touch(False)
+		return
+
+	def touch(self, touched=True):
+		"""
+		sets the touch_ flag
+		@param touched value for the flag; True by default
+		"""
+		self.touched_=touched
+		return
+
 	def __str__(self):
 		return "Component(\n  %s,\n  %s,\n  rect: %s,\n  hotspot: %s,\n  snaps: %s)" \
 					%(self.ident, self.mimetype, self.rect, self.hotspot,
