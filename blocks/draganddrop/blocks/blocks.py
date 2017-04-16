@@ -18,10 +18,8 @@ from __future__ import print_function
 
 import copy
 from PyQt4 import QtCore, QtGui
-from component import Component, InputComponent, \
-		ModifComponent, ChannelComponent, \
-		TimeComponent, \
-		acceptedFormats
+from component import Component, InputComponent
+from timecomponent import TimeComponent
 
 class BlockWidget(QtGui.QWidget):
 
@@ -44,13 +42,13 @@ class BlockWidget(QtGui.QWidget):
 		self.update()
 
 	def dragEnterEvent(self, event):
-		if acceptedFormats(event):
+		if Component.acceptedFormats(event):
 		   event.accept()
 		else:
 			event.ignore()
 
 	def dragMoveEvent(self, event):
-		f=acceptedFormats(event)
+		f=Component.acceptedFormats(event)
 		if f:
 			data = event.mimeData().data(f[0])
 			comp, dataStream, className = Component.unserialize(data)
@@ -223,13 +221,13 @@ class componentsList(QtGui.QListWidget):
 		self.setMaximumSize(200, 4000)
 
 	def dragEnterEvent(self, event):
-		if acceptedFormats(event):
+		if Component.acceptedFormats(event):
 			event.accept()
 		else:
 			event.ignore()
 
 	def dragMoveEvent(self, event):
-		if acceptedFormats(event):
+		if Component.acceptedFormats(event):
 			event.setDropAction(QtCore.Qt.MoveAction)
 			event.accept()
 		else:
