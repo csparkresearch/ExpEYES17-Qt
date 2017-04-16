@@ -235,6 +235,10 @@ class Component(object):
 		"""
 		gets a list of components from the application's QRC file
 		"""
+		#import modifcomponent
+		from modifcomponent import ModifComponent
+		from channelcomponent import ChannelComponent
+
 		componentDirPattern = re.compile(r"components(.)")
 		result=[]
 		# browse top-level directories of the resource file

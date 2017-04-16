@@ -15,12 +15,12 @@
 from __future__ import print_function
 
 from PyQt4 import QtCore, QtGui
-from component import InputComponent, Component
+import component
 
-class ModifComponent(Component):
+class ModifComponent(component.Component):
 	"""
 	An abstract class which can be used for signal modifiers
 	"""	
 	def __init__(*args,**kw):
-		Component.__init__(*args,**kw)
+		component.Component.__init__(*args,**kw)
 	
