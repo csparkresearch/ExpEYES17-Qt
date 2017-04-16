@@ -258,8 +258,15 @@ def snapPoints(rcpath):
 		id_=c.getAttribute("id")
 		result.append(SnapPoint(xc+xt, yc+yt, id_))
 	return result
+
+class InputComponent(Component):
+	"""
+	An abstract class which can be used for time, and voltage inputs
+	"""	
+	def __init__(*args,**kw):
+		Component.__init__(*args,**kw)
 	
-class TimeComponent(Component):
+class TimeComponent(InitComponent):
 	"""
 	A component to implement a time base for an oscilloscope
 	"""
@@ -267,7 +274,7 @@ class TimeComponent(Component):
 	np = [11, 101, 501, 1001, 2001]
 
 	def __init__(*args,**kw):
-		Component.__init__(*args,**kw)
+		InitComponent.__init__(*args,**kw)
 		self=args[0]
 		self.npoints = TimeComponent.np[2]
 		self.delay   = 1000 # µs
