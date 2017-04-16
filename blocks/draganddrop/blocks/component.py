@@ -278,7 +278,6 @@ class Component(object):
 		@param parent a window, where a drag is starting
 		@return the DQrag instance
 		"""
-		print("GRRRR", self, type(self))
 		itemData, writeStream = self.serialize()
 
 		mimeData = QtCore.QMimeData()

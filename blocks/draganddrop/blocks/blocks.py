@@ -99,7 +99,6 @@ class BlockWidget(QtGui.QWidget):
 
 	def dropEvent(self, event):
 		comp, dataStream, className = Component.unserializeFromEvent(event)
-		print("GRRRR dropping class", comp.__class__)
 		if comp:
 			self.components.append(comp)
 			self.update(comp.rect)
@@ -159,7 +158,6 @@ class BlockWidget(QtGui.QWidget):
 			b=self.blockAt(event.pos())
 			if b:
 				i = self.components.index(b)
-				print("GRRRR", type(b))
 				if isinstance(b, InputComponent):
 					self.components[i]=TimeComponent.fromOther(b)
 				self.update()
@@ -322,7 +320,6 @@ class MainWindow(QtGui.QMainWindow):
 		self.BlockWidget.clear()
 		cList=Component.listFromRC()
 		for c in cList:
-			print("GRRR in loadComponents:", c.__class__)	
 			self.componentsList.newComponent(c)
 		return
 
