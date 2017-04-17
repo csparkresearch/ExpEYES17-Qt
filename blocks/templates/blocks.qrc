@@ -1,0 +1,16 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="/components1">
+   <file>1-input.svg</file>
+   <file>1-modify.svg</file>
+</qresource>
+<qresource prefix="/components2">
+   <file>2-channel1.svg</file>
+   <file>2-channel2.svg</file>
+   <file>2-channel3.svg</file>
+   <file>2-channel4.svg</file>
+   <file>2-abscissa.svg</file>
+</qresource>
+<qresource prefix="/hot">
+    <file>hot-red.svg</file>
+</qresource>
+</RCC>
