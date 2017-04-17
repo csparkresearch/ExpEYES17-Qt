@@ -17,13 +17,19 @@
 from __future__ import print_function
 
 import copy
-from PyQt4 import QtCore, QtGui
+
+from PyQt4.QtCore import QPoint, QRect, Qt, QSize, QString, QTimer
+
+from PyQt4.QtGui import QWidget, QPixmap, QSizePolicy, QColor, \
+		QPainter, QListWidget, QListWidgetItem, QMainWindow, \
+		qApp, QFrame, QApplication, QHBoxLayout, QListView
+
 from component import Component, InputComponent
 from timecomponent import TimeComponent
 #from modifcomponent import ModifComponent
 #from channelcomponent import ChannelComponent
 
-class BlockWidget(QtGui.QWidget):
+class BlockWidget(QWidget):
 
 	def __init__(self, parent=None):
 		super(BlockWidget, self).__init__(parent)
@@ -35,7 +41,7 @@ class BlockWidget(QtGui.QWidget):
 		self.setAcceptDrops(True)
 		self.setMinimumSize(400, 400)
 		self.hotPx={
-			"red": QtGui.QPixmap(":/hot/hot-red.svg"),
+			"red": QPixmap(":/hot/hot-red.svg"),
 		}
 
 	def clear(self):
@@ -69,7 +75,7 @@ class BlockWidget(QtGui.QWidget):
 				self.update()
 				
 							
-			event.setDropAction(QtCore.Qt.MoveAction)
+			event.setDropAction(Qt.MoveAction)
 			event.accept()
 		else:
 			event.ignore()
@@ -92,7 +98,7 @@ class BlockWidget(QtGui.QWidget):
 					for s in c.snapPoints:
 						if str(s.text).startswith(f[1]):
 							gap=c.rect.topLeft()+s-pos
-							if gap.manhattanLength() < 10:
+							if gap.manhattanLength() < 60:
 								result.append((c, s))
 		return result
 
@@ -103,7 +109,7 @@ class BlockWidget(QtGui.QWidget):
 			self.components.append(comp)
 			self.update(comp.rect)
 			self.connectSnaps()
-			event.setDropAction(QtCore.Qt.MoveAction)
+			event.setDropAction(Qt.MoveAction)
 			event.accept()
 		else:
 			event.ignore()
@@ -128,7 +134,7 @@ class BlockWidget(QtGui.QWidget):
 			delta=c.rect.topLeft()+s-c1.rect.topLeft()-s1
 			c1.rect.translate(delta)
 		self.update()
-		QtCore.QTimer.singleShot(1000, self.hideHots)
+		QTimer.singleShot(1000, self.hideHots)
 		return
 
 	def hideHots(self):
@@ -136,7 +142,7 @@ class BlockWidget(QtGui.QWidget):
 		self.update()
 
 	def mousePressEvent(self, event):
-		if event.buttons() == QtCore.Qt.LeftButton:
+		if event.buttons() == Qt.LeftButton:
 			comps=self.targetComps(event.pos())
 			if not comps:
 				return
@@ -148,13 +154,13 @@ class BlockWidget(QtGui.QWidget):
 
 			self.update(comp.rect)
 
-			comp.hotspot=QtCore.QPoint(event.pos() - comp.rect.topLeft())
+			comp.hotspot=QPoint(event.pos() - comp.rect.topLeft())
 			drag=comp.makeDrag(self)
 
-			if drag.exec_(QtCore.Qt.MoveAction) != QtCore.Qt.MoveAction:
+			if drag.exec_(Qt.MoveAction) != Qt.MoveAction:
 				self.components.insert(index, self.comp)
 				self.update()
-		elif event.buttons() == QtCore.Qt.RightButton:
+		elif event.buttons() == Qt.RightButton:
 			b=self.blockAt(event.pos())
 			if b:
 				i = self.components.index(b)
@@ -171,7 +177,7 @@ class BlockWidget(QtGui.QWidget):
 		for c in self.components:
 			if c.rect.contains(pos):
 				mask=c.pixmap.mask()
-				color=QtGui.QColor(mask.toImage().pixel(
+				color=QColor(mask.toImage().pixel(
 						pos-c.rect.topLeft())
 				).getRgb()
 				if color[0]==0:
@@ -180,9 +186,9 @@ class BlockWidget(QtGui.QWidget):
 		return None
 
 	def paintEvent(self, event):
-		painter = QtGui.QPainter()
+		painter = QPainter()
 		painter.begin(self)
-		painter.fillRect(event.rect(), QtCore.Qt.white)
+		painter.fillRect(event.rect(), Qt.white)
 		
 		for c in self.components:
 			c.draw(painter)
@@ -190,10 +196,10 @@ class BlockWidget(QtGui.QWidget):
 		# hot indicators
 		if self.hots:
 			px=self.hotPx["red"]
-			middle = QtCore.QPoint(px.size().width()/2, px.size().height()/2)
+			middle = QPoint(px.size().width()/2, px.size().height()/2)
 		for hot in self.hots:
 			# paint a circle around
-			painter.drawPixmap(QtCore.QRect(hot-middle,px.size()),px)
+			painter.drawPixmap(QRect(hot-middle,px.size()),px)
 			
 		painter.end()
 
@@ -205,18 +211,18 @@ class BlockWidget(QtGui.QWidget):
 		comps = [c for c in self.components if c.rect.contains(position)]
 		return comps
 
-class componentsList(QtGui.QListWidget):
+class componentsList(QListWidget):
 	def __init__(self, parent=None):
 		super(componentsList, self).__init__(parent)
 
 		self.setDragEnabled(True)
-		self.setViewMode(QtGui.QListView.IconMode)
-		self.setIconSize(QtCore.QSize(60, 60))
+		self.setViewMode(QListView.IconMode)
+		self.setIconSize(QSize(60, 60))
 		self.setSpacing(10)
 		self.setAcceptDrops(True)
 		self.setDropIndicatorShown(True)
-		self.setSizePolicy(QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed,
-				QtGui.QSizePolicy.Expanding))
+		self.setSizePolicy(QSizePolicy(QSizePolicy.Fixed,
+				QSizePolicy.Expanding))
 		self.setMinimumSize(200, 400)
 		self.setMaximumSize(200, 4000)
 
@@ -228,7 +234,7 @@ class componentsList(QtGui.QListWidget):
 
 	def dragMoveEvent(self, event):
 		if Component.acceptedFormats(event):
-			event.setDropAction(QtCore.Qt.MoveAction)
+			event.setDropAction(Qt.MoveAction)
 			event.accept()
 		else:
 			event.ignore()
@@ -243,7 +249,7 @@ class componentsList(QtGui.QListWidget):
 			elif comp.mimetype.contains("image/x-Block-2"):
 				self.addPiece(comp)
 
-			event.setDropAction(QtCore.Qt.MoveAction)
+			event.setDropAction(Qt.MoveAction)
 			event.accept()
 		else:
 			event.ignore()
@@ -258,12 +264,12 @@ class componentsList(QtGui.QListWidget):
 		adds a Component instance,
 		and returns the QListWidgetItem created
 		"""
-		ident=QtCore.QString(comp.ident)
+		ident=QString(comp.ident)
 		for i in range(self.count()):
 			if self.item(i).component.ident == ident:
 				self.item(i).setHidden(False)
 				return
-		blockItem = QtGui.QListWidgetItem(self)
+		blockItem = QListWidgetItem(self)
 		comp.toListWidgetItem(blockItem)
 		return blockItem
 
@@ -276,7 +282,7 @@ class componentsList(QtGui.QListWidget):
 		component=self.currentComponent()
 		drag=component.makeDrag(self)
 
-		if drag.exec_(QtCore.Qt.MoveAction) == QtCore.Qt.MoveAction:
+		if drag.exec_(Qt.MoveAction) == Qt.MoveAction:
 			# components of type 1 can be duplicated
 			# so they should not be hidden from the list
 			if component.mimetype.contains("image/x-Block-1"):
@@ -285,11 +291,11 @@ class componentsList(QtGui.QListWidget):
 				self.currentItem().setHidden(True)
 
 
-class MainWindow(QtGui.QMainWindow):
+class MainWindow(QMainWindow):
 	def __init__(self, parent=None):
 		super(MainWindow, self).__init__(parent)
 
-		self.BlockImage = QtGui.QPixmap()
+		self.BlockImage = QPixmap()
 
 		self.setupMenus()
 		self.setupWidgets()
@@ -338,12 +344,12 @@ class MainWindow(QtGui.QMainWindow):
 
 		openAction.triggered.connect(self.load)
 		saveAction.triggered.connect(self.save)
-		exitAction.triggered.connect(QtGui.qApp.quit)
+		exitAction.triggered.connect(qApp.quit)
 		
 
 	def setupWidgets(self):
-		frame = QtGui.QFrame()
-		frameLayout = QtGui.QHBoxLayout(frame)
+		frame = QFrame()
+		frameLayout = QHBoxLayout(frame)
 
 		self.componentsList = componentsList()
 
@@ -357,7 +363,7 @@ if __name__ == '__main__':
 
 	import sys
 
-	app = QtGui.QApplication(sys.argv)
+	app = QApplication(sys.argv)
 	window = MainWindow()
 	window.loadComponents()
 	window.show()
