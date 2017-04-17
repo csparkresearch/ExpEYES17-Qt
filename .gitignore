@@ -7,3 +7,6 @@ __pycache__/
 ui_*.py
 # resource generated python files
 *_rc.py
+# Expeyes-Blocks data files
+*.eyeblk
+
