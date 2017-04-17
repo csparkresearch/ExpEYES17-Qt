@@ -93,8 +93,24 @@
     <addaction name="action_About"/>
     <addaction name="actionAbout_Qt"/>
    </widget>
+   <widget class="QMenu" name="menu_Build">
+    <property name="title">
+     <string>B&amp;uild</string>
+    </property>
+    <widget class="QMenu" name="menu_Targetted_box">
+     <property name="title">
+      <string>&amp;Targetted box</string>
+     </property>
+     <addaction name="actionExpeyes_17"/>
+    </widget>
+    <addaction name="action_Compile"/>
+    <addaction name="action_Run"/>
+    <addaction name="separator"/>
+    <addaction name="menu_Targetted_box"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menu_Help"/>
+   <addaction name="menu_Build"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionSave">
@@ -137,6 +153,27 @@
   <action name="actionAbout_Qt">
    <property name="text">
     <string>About &amp;Qt ...</string>
+   </property>
+  </action>
+  <action name="action_Compile">
+   <property name="text">
+    <string>&amp;Compile (F9)</string>
+   </property>
+   <property name="shortcut">
+    <string>F9</string>
+   </property>
+  </action>
+  <action name="action_Run">
+   <property name="text">
+    <string>&amp;Run (F5)</string>
+   </property>
+   <property name="shortcut">
+    <string>F5</string>
+   </property>
+  </action>
+  <action name="actionExpeyes_17">
+   <property name="text">
+    <string>Expeyes-1&amp;7</string>
    </property>
   </action>
  </widget>

@@ -36,6 +36,7 @@ from component import Component, InputComponent
 from timecomponent import TimeComponent
 from modifcomponent import ModifComponent
 from channelcomponent import ChannelComponent
+import wizard
 
 
 class BlockMainWindow(QMainWindow, Ui_MainWindow):
@@ -47,6 +48,7 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		self.connectSignals()
 		self.fileName=None
 		self.dirty="" # may become "*"
+		self.boxModel="expeyes-17"
 		return
 
 	def loadComponents(self, path=None):
@@ -67,7 +69,52 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		self.action_About.triggered.connect(self.about)
 		self.actionAbout_Qt.triggered.connect(self.aboutQt)
 		self.widget.blocksChanged.connect(self.makeDirty)
+		self.action_Compile.triggered.connect(self.compile_)
+		self.action_Run.triggered.connect(self.run)
+		self.actionExpeyes_17.triggered.connect(self.chooseBox("expeyes-17"))
 		
+	def compile_(self):
+		"""
+		Compile the current scheme to a working application
+		"""
+		import os, os.path
+		# save the file if necessary
+		if self.dirty=="*": self.save()
+		directory=os.path.join("build", self.fileName.replace(".eyeblk",""))
+		try:
+			os.makedirs(directory, mode=0o755)
+		except:
+			pass
+		l=os.listdir(directory)
+		ok=True
+		if l:
+			ok=QMessageBox.question(self,
+				"OK to erase a previous build?",
+				"Here are some previous built files:\n %s\nDo you really want to overwrite them?" %", ".join(l),
+				QMessageBox.No|QMessageBox.Yes
+			) == QMessageBox.Yes
+		if not ok: return
+		wizard.compile_(self.widget.components, directory, self.boxModel)
+		return
+		
+	def run(self):
+		"""
+		Compile the current scheme to a working application,
+		and run it in a detached thread
+		"""
+		return
+		
+	def chooseBox(self, model):
+		"""
+		choose the targetted box
+		@param model the target model
+		"""
+		def callBack():
+			self.boxModel=model
+			QMessageBox.warning(self,"Expeyes box choice","You chose: %s.\n" %model)
+			return
+		return callBack
+				
 	def about(self):
 		"""
 		brings up the About dialog
