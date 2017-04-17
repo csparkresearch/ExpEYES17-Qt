@@ -18,7 +18,8 @@ from __future__ import print_function
 
 import copy
 
-from PyQt4.QtCore import QPoint, QRect, Qt, QSize, QString, QTimer
+from PyQt4.QtCore import QPoint, QRect, Qt, QSize, QString, \
+	QTimer, pyqtSignal
 
 from PyQt4.QtGui import QWidget, QPixmap, QSizePolicy, QColor, \
 		QPainter, QListWidget, QListWidgetItem, QMainWindow, \
@@ -29,7 +30,10 @@ from timecomponent import TimeComponent
 #from modifcomponent import ModifComponent
 #from channelcomponent import ChannelComponent
 
+
 class BlockWidget(QWidget):
+
+	blocksChanged = pyqtSignal()
 
 	def __init__(self, parent=None):
 		super(BlockWidget, self).__init__(parent)
@@ -111,6 +115,7 @@ class BlockWidget(QWidget):
 			self.connectSnaps()
 			event.setDropAction(Qt.MoveAction)
 			event.accept()
+			self.blocksChanged.emit()
 		else:
 			event.ignore()
 
@@ -158,8 +163,11 @@ class BlockWidget(QWidget):
 			drag=comp.makeDrag(self)
 
 			if drag.exec_(Qt.MoveAction) != Qt.MoveAction:
-				self.components.insert(index, self.comp)
+				self.components.insert(index, comp)
 				self.update()
+			else:
+				self.blocksChanged.emit()
+
 		elif event.buttons() == Qt.RightButton:
 			b=self.blockAt(event.pos())
 			if b:

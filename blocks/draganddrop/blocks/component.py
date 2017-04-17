@@ -130,7 +130,23 @@ class Component(object):
 		"""
 		painter.drawPixmap(self.rect, self.pixmap)
 		return
-			
+		
+	def save(self, outstream):
+		"""
+		saving to an open binary stream
+		"""
+		itemData, dataStream = self.serialize()
+		outstream.write("Class Name (%s bytes)\n" %len(self.className()))
+		outstream.write("%s\n" %self.className())
+		outstream.write("Blob (%s bytes)\n" %len(itemData))
+		outstream.write(itemData)
+		return
+		
+	def className(self):
+		return re.match(
+			r"<class '.*component\.(.*)'>",
+			str(self.__class__)
+		).group(1)
 
 	def serialize(self):
 		"""
@@ -139,11 +155,7 @@ class Component(object):
 		"""
 		itemData = QtCore.QByteArray()
 		dataStream = QtCore.QDataStream(itemData, QtCore.QIODevice.WriteOnly)
-		className = re.match(
-			r"<class '.*component\.(.*)'>",
-			str(self.__class__)
-		).group(1)
-		dataStream << QtCore.QString(className) \
+		dataStream << QtCore.QString(self.className()) \
 		        << self.pixmap << self.mimetype \
 				<< self.hotspot << self.ident \
 				<< QtCore.QVariant(len(self.snapPoints))

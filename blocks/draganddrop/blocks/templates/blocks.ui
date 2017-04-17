@@ -93,7 +93,10 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionSave">
    <property name="text">
-    <string>&amp;Save</string>
+    <string>&amp;Save (Ctrl-S)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
   <action name="actionSave_as">

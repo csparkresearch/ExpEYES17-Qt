@@ -20,19 +20,22 @@ license="""\
   FITNESS FOR A PARTICULAR PURPOSE.
 """
 
+version="0.4"
+
 import copy
+from os.path import basename
 
-from PyQt4.QtCore import QPoint, QRect, Qt, QSize, QString, QTimer
+from PyQt4.QtCore import QPoint, QRect, Qt, QSize, QString, \
+	QTimer, QFileInfo, SIGNAL
 
-from PyQt4.QtGui import QWidget, QPixmap, QSizePolicy, QColor, \
-		QPainter, QListWidget, QListWidgetItem, QMainWindow, \
-		qApp, QFrame, QApplication, QHBoxLayout, QListView, QMessageBox
+from PyQt4.QtGui import QMainWindow, QApplication, \
+	QMessageBox, QFileDialog
 
 from templates.ui_blocks import Ui_MainWindow
 from component import Component, InputComponent
 from timecomponent import TimeComponent
-#from modifcomponent import ModifComponent
-#from channelcomponent import ChannelComponent
+from modifcomponent import ModifComponent
+from channelcomponent import ChannelComponent
 
 
 class BlockMainWindow(QMainWindow, Ui_MainWindow):
@@ -42,6 +45,8 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		self.setupUi(self)
 		self.loadComponents()
 		self.connectSignals()
+		self.fileName=None
+		self.dirty="" # may become "*"
 		return
 
 	def loadComponents(self, path=None):
@@ -61,6 +66,7 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		self.action_Open.triggered.connect(self.load)
 		self.action_About.triggered.connect(self.about)
 		self.actionAbout_Qt.triggered.connect(self.aboutQt)
+		self.widget.blocksChanged.connect(self.makeDirty)
 		
 	def about(self):
 		"""
@@ -86,6 +92,23 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		"""
 		Saves the current component composition
 		"""
+		if not self.fileName:
+			self.fileName = "untitled.eyeblk"
+			self.fileName=QFileDialog.getSaveFileName(
+				self, "Save to file", self.fileName,
+				filter = "Expeyes-Blocks:  *.eyeblk (*.eyeblk);;All files: * (*)"
+			)
+		with open(self.fileName,"wb") as outstream:
+			outstream.write("Expeyes-Blocks version %s\n" %version)
+			for c in self.widget.components:
+				c.save(outstream)
+		self.dirty=""
+		self.setWindowTitle(self.currentTitle())
+		return
+		
+	def makeDirty(self):
+		self.dirty="*"
+		self.setWindowTitle(self.currentTitle())
 		return
 		
 	def saveAs(self, filename=None):
@@ -94,6 +117,14 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		@param filename name of the file, defaults to None
 		"""
 		return
+
+	def currentTitle(self):
+		"""
+		@return curren title of the main window, taking in account
+		the file name and a dirty flag
+		"""
+		return "Blocks (%s)%s" %(basename(str(self.fileName)), self.dirty)
+		
 		
 if __name__ == '__main__':
 
@@ -101,6 +132,5 @@ if __name__ == '__main__':
 
 	app = QApplication(sys.argv)
 	window = BlockMainWindow()
-	#window.loadComponents()
 	window.show()
 	sys.exit(app.exec_())
