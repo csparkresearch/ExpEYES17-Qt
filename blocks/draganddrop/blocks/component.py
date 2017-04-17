@@ -18,7 +18,7 @@ import os, re
 from PyQt4 import QtCore, QtGui
 from xml.dom.minidom import parseString
 
-import blocks_rc
+from templates import blocks_rc
 
 class SnapPoint(QtCore.QPoint):
 	def __init__(self, x, y, text):

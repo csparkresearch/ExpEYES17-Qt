@@ -1,21 +1,14 @@
-#UI_FILES = $(shell ls *.ui)
-#UI_COMPILED = $(patsubst %.ui, ui_%.py, $(UI_FILES))
-RC_FILES = $(shell ls *.qrc)
-RC_COMPILED = $(patsubst %.qrc, %_rc.py, $(RC_FILES))
+SUBDIRS = templates
 
-PYUIC = pyuic4
-PYRCC = pyrcc4
+all: recursive_all
 
-all: $(RC_COMPILED) #$(UI_COMPILED) 
+recursive_all:
+	for d in $(SUBDIRS); do make -C $$d all; done
 
-clean:
-	rm -f $(RC_COMPILED) #$(UI_COMPILED) 
+clean: recursive_clean
 	rm -rf *.pyc *~ __pycache__
 
-ui_%.py:  %.ui
-	$(PYUIC) $< -o $@
+recursive_clean:
+	for d in $(SUBDIRS); do make -C $$d clean; done
 
-%_rc.py: %.qrc
-	$(PYRCC) $< -o $@
-
-.PHONY: all clean
+.PHONY: all recursive_all clean recursive_clean
