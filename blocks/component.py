@@ -156,7 +156,7 @@ class Component(object):
 		itemData = QtCore.QByteArray()
 		dataStream = QtCore.QDataStream(itemData, QtCore.QIODevice.WriteOnly)
 		dataStream << QtCore.QString(self.className()) \
-		        << self.pixmap << self.mimetype \
+		        << self.rect << self.pixmap << self.mimetype \
 				<< self.hotspot << self.ident \
 				<< QtCore.QVariant(len(self.snapPoints))
 		for sp in self.snapPoints:
@@ -204,13 +204,14 @@ class Component(object):
 		from channelcomponent import ChannelComponent
 		dataStream = QtCore.QDataStream(data, QtCore.QIODevice.ReadOnly)
 		className=QtCore.QString()
+		rect=QtCore.QRect()
 		pixmap = QtGui.QPixmap()
 		mimetype = QtCore.QString()
 		ident = QtCore.QString()
 		hotspot = QtCore.QPoint()
 		length = QtCore.QVariant()
-		dataStream >> className >> pixmap >> mimetype >> hotspot >> ident \
-			>> length
+		dataStream >> className >> rect >> pixmap >> mimetype >> \
+			hotspot >> ident >> length
 		length, report = length.toInt()
 		sp=[]
 		for i in range(length):
@@ -220,7 +221,7 @@ class Component(object):
 			sp.append(SnapPoint(point.x(), point.y(), text))
 		# carefully restore the class of the dropped object	
 		result=eval(
-			"%s(pixmap,ident,mimetype,hotspot=hotspot,snapPoints=sp)" %className
+			"%s(pixmap,ident,mimetype,rect=rect,hotspot=hotspot,snapPoints=sp)" %className
 		)
 		return result, dataStream, className
 		

@@ -22,11 +22,11 @@ license="""\
 
 version="0.4"
 
-import copy
+import copy, re
 from os.path import basename
 
 from PyQt4.QtCore import QPoint, QRect, Qt, QSize, QString, \
-	QTimer, QFileInfo, SIGNAL
+	QTimer, QFileInfo, SIGNAL, QByteArray
 
 from PyQt4.QtGui import QMainWindow, QApplication, \
 	QMessageBox, QFileDialog
@@ -82,10 +82,47 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		QMessageBox.aboutQt(self,"About Qt")
 		return
 		
+	versionPattern=re.compile(r"^Expeyes-Blocks version ([\.\d]+)$")
+	classPattern  =re.compile(r"^Class Name \((\d+) bytes\)$")
+	blobPattern   =re.compile(r"^Blob \((\d+) bytes\)$")
+		
 	def load(self):
 		"""
 		Loads a component composition
 		"""
+		fileName=QFileDialog.getOpenFileName(self,
+			"Open a file",
+			filter="Expeyes-Blocks:  *.eyeblk (*.eyeblk);;All files: * (*)"
+		)
+		ok=False
+		cur=0
+		with open(fileName,"rb") as instream:
+			s=instream.readline()
+			thisVersion=self.versionPattern.match(s).group(1)
+			# take a decision about thisVersion
+			components=[]
+			nameSize = instream.readline()
+			while nameSize:
+				size=int(self.classPattern.match(nameSize).group(1))
+				className=instream.readline().strip()
+				if len(className) != size:
+					raise Exception("Error size: %s does not match %s" %(size, className))
+				s=instream.readline()
+				blobSize=int(self.blobPattern.match(s).group(1))
+				blob=QByteArray(instream.read(blobSize))
+				obj, dataStream, className = eval("%s.unserialize(blob)" %className)
+				components.append(obj)
+				# prepare next iteration
+				nameSize = instream.readline()
+			if components:
+				ok=True
+				for c in components: print("GRRRRR obj =", c)
+				self.widget.components=components
+				self.widget.update()
+		if ok: 
+			self.fileName=fileName
+			self.dirty=False
+			self.setWindowTitle(self.currentTitle())
 		return
 		
 	def save(self):
