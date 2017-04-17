@@ -118,14 +118,21 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		"""
 		return
 		
-	def onQuit(self):
-		"""
-		The standard onQuit callback. Emit a message when the
-		work space is dirty
-		"""
-		QMessageBox.warning("title", "warning")
-		QmainWindow.onQuit(self)
-		return
+	def closeEvent(self, event):
+        ok = not self.dirty
+        if not ok:
+			ok=QMessageBox.question(
+				self, "Please confirm", """\
+The current work is not yet saved,
+do you really want to quit the application?
+""",
+				QMessageBox.Yes|QMessageBox.No) == QMessageBox.Yes
+        if ok:
+			QMainWindow.closeEvent(self,event)
+            event.accept() # let the window close
+        else:
+            event.ignore()
+        return
 
 	def currentTitle(self):
 		"""
