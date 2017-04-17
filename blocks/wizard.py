@@ -18,15 +18,40 @@ import os, re
 from PyQt4 import QtCore, QtGui
 from xml.dom.minidom import parse, parseString
 from subprocess import call, Popen, PIPE
+from datetime import datetime
+import threading
 
 def compile_(components, directory, target):
 	"""
 	compile expeyes-blocks for a given target
 	@param directory place to make the build
 	@param target model of an expeyes box
+	@return the path to the main python program
 	"""
 	if target=="expeyes-17":
 		call("cp templates/block1.ui.template %s/block1.ui" %directory, shell=True)
 		call("pyuic4 {d}/block1.ui -o {d}/ui_block1.py".format(d=directory), shell=True)
+		now=datetime.now().isoformat()
+		cmd="cat templates/run.py.template| sed 's/^\\(# generation date:\\).*/\\1 {t}/' > {d}/run.py".format(
+			d=directory,t=now
+		)
+		call(cmd, shell=True)
+	return "{d}/run.py".format(d=directory)
+	
+def run(program):
+	"""
+	runs program in a non-blocking thread
+	@param program the path to a main python program
+	"""
+	cmd="(python %s &)" %program
+	def my_run():
+		call(cmd, shell=True)
+	thread = threading.Thread(target=my_run)
+	thread.start()
 	return
+	
+		
+		
+	
+	
 		

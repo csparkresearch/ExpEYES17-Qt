@@ -76,6 +76,7 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 	def compile_(self):
 		"""
 		Compile the current scheme to a working application
+		@return the path to the main python program
 		"""
 		import os, os.path
 		# save the file if necessary
@@ -94,14 +95,15 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 				QMessageBox.No|QMessageBox.Yes
 			) == QMessageBox.Yes
 		if not ok: return
-		wizard.compile_(self.widget.components, directory, self.boxModel)
-		return
+		return wizard.compile_(self.widget.components, directory, self.boxModel)
 		
 	def run(self):
 		"""
 		Compile the current scheme to a working application,
 		and run it in a detached thread
 		"""
+		program=self.compile_()
+		wizard.run(program)
 		return
 		
 	def chooseBox(self, model):
