@@ -9,4 +9,5 @@ ui_*.py
 *_rc.py
 # Expeyes-Blocks data files
 *.eyeblk
-
+# build zones
+build/
