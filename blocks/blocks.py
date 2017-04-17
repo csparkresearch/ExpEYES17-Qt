@@ -116,8 +116,10 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 				nameSize = instream.readline()
 			if components:
 				ok=True
+				# restore components in the right pannel
 				self.widget.components=components
 				self.widget.update()
+				# restore list items in the left pannel
 				for c in components:
 					self.componentsList.hideItem(c)
 		if ok: 
