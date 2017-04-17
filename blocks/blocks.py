@@ -116,9 +116,10 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 				nameSize = instream.readline()
 			if components:
 				ok=True
-				for c in components: print("GRRRRR obj =", c)
 				self.widget.components=components
 				self.widget.update()
+				for c in components:
+					self.componentsList.hideItem(c)
 		if ok: 
 			self.fileName=fileName
 			self.dirty=False

@@ -78,17 +78,33 @@ class ComponentsList(QListWidget):
 		item=self.addPiece(comp)
 		self.insertItem(0, item)
 		return
+		
+	def hideItem(self, comp, state=True):
+		"""
+		Hides list items if they are same as a component
+		@param comp a component
+		@param state when False, it will unhide; True by default
+		@return index of the found item (-1 if none)
+		"""
+		found=-1
+		ident=comp.ident
+		if str(ident).startswith("1-"):
+			# first group of components which can give multiple
+			# instances: do nothing
+			return found
+		for i in range(self.count()):
+			if self.item(i).component.ident == ident:
+				self.item(i).setHidden(state)
+				found=i
+				break
+		return found
 
 	def addPiece(self, comp):
 		"""
 		adds a Component instance,
 		and returns the QListWidgetItem created
 		"""
-		ident=QString(comp.ident)
-		for i in range(self.count()):
-			if self.item(i).component.ident == ident:
-				self.item(i).setHidden(False)
-				return
+		if self.hideItem(comp,False) >= 0: return
 		blockItem = QListWidgetItem(self)
 		comp.toListWidgetItem(blockItem)
 		return blockItem
