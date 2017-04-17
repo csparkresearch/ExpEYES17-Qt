@@ -94,6 +94,14 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 			"Open a file",
 			filter="Expeyes-Blocks:  *.eyeblk (*.eyeblk);;All files: * (*)"
 		)
+		self.loadFile(fileName)
+		return
+		
+	def loadFile(self, fileName):
+		"""
+		Loads a component composition
+		@param fileName a file of saved data
+		"""
 		ok=False
 		cur=0
 		with open(fileName,"rb") as instream:
@@ -124,7 +132,7 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 					self.componentsList.hideItem(c)
 		if ok: 
 			self.fileName=fileName
-			self.dirty=False
+			self.dirty=""
 			self.setWindowTitle(self.currentTitle())
 		return
 		
@@ -195,4 +203,6 @@ if __name__ == '__main__':
 	app = QApplication(sys.argv)
 	window = BlockMainWindow()
 	window.show()
+	if len(sys.argv) > 1:
+		window.loadFile(sys.argv[1])
 	sys.exit(app.exec_())

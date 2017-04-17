@@ -10,3 +10,7 @@ compile it to a working prototype for ExpEYES (more than one device
 model is targetted).
 
 ![snapshot](images/snap1.png)
+
+## Begin with an example ##
+
+You can launch `python blocks.py sample.eyeblk`.
