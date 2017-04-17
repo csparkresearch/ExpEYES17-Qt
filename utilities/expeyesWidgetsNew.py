@@ -1,6 +1,7 @@
 # -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
 from .templates import ui_SliderAndSpinbox as SliderAndSpinbox
 from .templates import ui_channelSelector as channelSelector
+from .templates import ui_allTraces as allTraces
 from .templates import ui_flexibleChannelSelector as flexibleChannelSelector
 from .templates import ui_triggerWidget as triggerWidgetUi
 from .templates import ui_timebaseWidget as timebaseWidgetUi
@@ -9,7 +10,7 @@ from PyQt4 import QtGui,QtCore
 import pyqtgraph as pg
 import numpy as np
 from collections import OrderedDict
-import random,functools,os
+import random,functools,os,time
 
 
 try:
@@ -54,6 +55,7 @@ class expeyesWidgets():
 
 	plotDict = {}
 	timers = []
+	widgetArray = []
 	trace_colors=[(0,255,0),(255,0,0),(255,255,100),(10,255,255)]+[(50+200*random.random(),50+200*random.random(),150+100*random.random()) for a in range(10)]
 	trace_names = ['A1','A2','A3','MIC']
 	curves={}
@@ -71,6 +73,7 @@ class expeyesWidgets():
 	trig=None
 	activeTriggerWidget = None
 	activeTimebaseWidget = None
+	myTracesWidget = None
 	def __init__(self,*args,**kwargs):
 		#sys.path.append('/usr/share/seelablet')
 		pass
@@ -115,32 +118,56 @@ class expeyesWidgets():
 	class constants:
 		gainAvailables = ['A1','A2']
 
-	def SINE(self):
-		widget = self.addSine(self.p)
+	def SINE(self,**kwargs):
+		widget = self.addSine(self.p,**kwargs)
 		self.widgetLayout.addWidget(widget)
 		return widget
-	def SQR1(self):
-		widget = self.addSQR1(self.p)
+	def SQR1(self,**kwargs):
+		widget = self.addSQR1(self.p,**kwargs)
 		self.widgetLayout.addWidget(widget)
 		return widget
-	def PV1(self):
-		widget = self.addPV1(self.p)
+	def PV1(self,**kwargs):
+		widget = self.addPV1(self.p,**kwargs)
 		self.widgetLayout.addWidget(widget)
 		return widget
-	def PV2(self):
-		widget = self.addPV2(self.p)
+	def PV2(self,**kwargs):
+		widget = self.addPV2(self.p,**kwargs)
 		self.widgetLayout.addWidget(widget)
 		return widget
 
+
+	def newPlot(self,curvenames,**kwargs):
+		plot   = self.addPlot(**kwargs)
+		self.plotLayout.addWidget(plot)
+		self.myCurves=OrderedDict()
+		self.myTracesWidget = self.tracesWidget(plot)
+		
+		self.TITLE('Acquired Data')
+		self.widgetLayout.addWidget(self.myTracesWidget)
+		num=0
+		for a in curvenames:
+			self.addCurve(plot,a,self.trace_colors[num])
+			num+=1
+		return plot
+
 	def SCOPEPLOT(self,curvenames,**kwargs):
 		self.xmax = 1e-3 #assume 1mS
-		self.plot   = self.addPlot(xMin=0,xMax=self.xmax,yMin=-4,yMax=4, disableAutoRange = 'y',bottomLabel = 'time',bottomUnits='S',enableMenu=False,legend=True,**kwargs)
+
+		stringaxis = pg.AxisItem(orientation='left')
+		#ydict = {-4:'-4\n-2',-3:'-3',-2:'-2',-1:'-1',0:'0',1:'1',2:'2',3:'3',4:''}
+		ydict = {-4:'',-3:'',-2:'',-1:'',0:'',1:'',2:'',3:'',4:''}
+		stringaxis.setTicks([ydict.items()])
+		stringaxis.setLabel('Voltage',**{'color': '#FFF', 'font-size': '9pt'})
+		stringaxis.setWidth(15)
+
+		self.plot   = self.addPlot(xMin=0,xMax=self.xmax,yMin=-4,yMax=4, disableAutoRange = 'y',bottomLabel = 'time',bottomUnits='S',enableMenu=False,legend=True,leftAxis=stringaxis,**kwargs)
 		self.plot.setMouseEnabled(False,True)
 		self.plotLayout.addWidget(self.plot)
 		self.myCurves=OrderedDict()
 		self.myCurveWidgets = OrderedDict()
 		num=0
 		for a in curvenames:
+			if a not in self.currentRange:self.currentRange[a] = 4
 			self.myCurves[a] = self.addCurve(self.plot,a,self.trace_colors[num])
 			if(num==0 and kwargs.get('flexibleChan1',True)):
 				self.myCurveWidgets[a] = self.flexibleChannelWidget(a,self.changeGain,self.p.I.allAnalogChannels,self.trace_colors[num])
@@ -153,9 +180,9 @@ class expeyesWidgets():
 		self.p.sigPlot.connect(self.updatePlot)
 
 
-	def CAPTURE(self):
+	def CAPTURE(self,forwardingFunction=None):
 		if self.p.busy:
-			print ('busy')
+			self.showStatus('busy %s'%time.ctime(),True)
 			return
 		self.traceOrder=[]  #This will store the order of the returned data
 		a = self.myCurveWidgets['A1'].enable.isChecked() if 'A1' in self.myCurveWidgets else False
@@ -192,7 +219,7 @@ class expeyesWidgets():
 			if self.activeTimebaseWidget:
 				timebase = self.activeTimebaseWidget.timebase
 			chanRemap = str(self.myCurveWidgets['A1'].chan1Box.currentText())
-			self.p.capture_traces(self.active_channels,self.samples,timebase,chanRemap,trigger = trig,chans = self.channels_enabled)
+			self.p.capture_traces(self.active_channels,self.samples,timebase,chanRemap,trigger = trig,chans = self.channels_enabled, forwardingFunction =forwardingFunction)
 
 	
 	def updatePlot(self,vals):
@@ -200,20 +227,31 @@ class expeyesWidgets():
 		Data sent from worker thread.
 		assume self.plot
 		'''
-		print (self.traceOrder)
+		T = time.time()
+		#self.showStatus(str(self.traceOrder))
 		for a in self.myCurves:self.myCurves[a].clear()
 		self.traceData={}
 		keys = vals.keys()
+
+		extraTraces =self.myCurves.keys()
+		for a in keys:
+			try:extraTraces.remove(a)
+			except:pass
+
 		self.xmax = vals[keys[0]][0][:-1]
 		self.plot.setLimits(xMin=0,xMax=vals[keys[0]][0][-1]);self.plot.setXRange(0,vals[keys[0]][0][-1])
 		#print ('got plot',len(vals),vals.keys())
 		plotnum=0
+		traceGlobals={'np':np}
+		
 		for A in vals:
 				R = self.currentRange[A]
 				x = vals[A][0]
 				y = 4.*vals[A][1]/R
 				self.traceData[A] = [x,y]
 				self.myCurves[A].setData(x,y)
+
+				if len(extraTraces):traceGlobals[A] = np.array(vals[A][1])
 
 				# make the fit
 				if self.myCurveWidgets[A].fit.isChecked():
@@ -230,10 +268,44 @@ class expeyesWidgets():
 									self.myCurveWidgets[A].fit.setText(s)
 					except Exception as e:
 							print (e.message)
+							self.showStatus (e.message,True)
 							pass
 				else: self.myCurveWidgets[A].fit.setText('Fit')
 
+		if len(extraTraces):  #Evaluate derived traces 
+			x = vals[self.traceData.keys()[0]][0]
+			for A in extraTraces:
+				R = self.currentRange[A]
+				try:
+					y = 4.*eval(A,traceGlobals)/R
+				except:
+					continue
+				self.traceData[A] = [x,y]
+				self.myCurves[A].setData(x,y)
+				if self.myCurveWidgets[A].fit.isChecked():
+					try:
+							fitres=self.sineFit(x,R*y/4.)
+							if fitres:
+									amp=abs(fitres[0])
+									freq=fitres[1]
+									offset=fitres[2]
+									ph=fitres[3]
+									frequency = freq/1e6
+									
+									s = ('%5.2f V, %5.0f Hz')%(amp,frequency)
+									self.myCurveWidgets[A].fit.setText(s)
+					except Exception as e:
+							print (e.message)
+							self.showStatus (e.message,True)
+							pass
+				else: self.myCurveWidgets[A].fit.setText('Fit')
+
+
+
+		print ('plot called..............',time.time()-T)
+		T = time.time()
 		self.repositionLabels()
+		print ('labels printed..............',time.time()-T)
 
 	def makeLabels(self):
 		self.labelTexts={}
@@ -287,7 +359,54 @@ class expeyesWidgets():
 			self.currentRange[chan] = val
 		self.renameLabels()
 
-	##########################controls##########################
+	##########################   controls  ##########################
+
+	class tracesWidget(QtGui.QWidget,allTraces.Ui_Form,constants):
+		def __init__(self,plot = None):
+			super(expeyesWidgets.tracesWidget, self).__init__()
+			self.setupUi(self)
+			self.enableButton.setToolTip("Display/hide the selected trace")
+			self.curveRefs={}
+			self.plot = plot
+			#self.menubutton.setStyleSheet("height: 13px;padding:3px;color: #FFFFFF;")
+			self.menu = QtGui.QMenu()
+			self.menu.addAction('Save Trace', self.saveTrace)
+			self.menu.addAction('Save All Traces', self.saveTraces)
+			self.menu.addSeparator()
+			self.menu.addAction('Delete Trace', self.deleteTrace)
+			self.menuButton.setMenu(self.menu)
+
+
+
+		def addCurve(self,name,c):
+			self.curveRefs[name] = c
+			self.traceList.addItem(name)
+
+		def traceChanged(self,name):
+			self.enableButton.setChecked(self.curveRefs[str(name)].isVisible())
+
+		def traceToggled(self,state):
+			self.curveRefs[str(self.traceList.currentText())].setVisible(state)
+
+		def saveTrace(self):
+			from . import plotSaveWindow
+			info = plotSaveWindow.AppWindow(self,[self.curveRefs[str(self.traceList.currentText())]],self.plot)
+			info.show()
+
+		def saveTraces(self):
+			from . import plotSaveWindow
+			info = plotSaveWindow.AppWindow(self,self.curveRefs.values(),self.plot)
+			info.show()
+
+
+		def deleteTrace(self):
+			name = str(self.traceList.currentText())
+			if name not in self.curveRefs:
+				return
+			self.curveRefs.pop(name).setVisible(False)
+			self.traceList.removeItem(self.traceList.currentIndex())
+
+
 
 	class channelWidget(QtGui.QWidget,channelSelector.Ui_Form,constants):
 		def __init__(self,name,callback,col=None):
@@ -297,6 +416,7 @@ class expeyesWidgets():
 			self.name = name
 			self.callback = callback
 			self.enable.setText(self.name)
+			self.enable.setToolTip(self.name)
 			QtCore.QObject.connect(self.gain, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), functools.partial(self.callback,self.name))
 			if col : self.enable.setStyleSheet("color:rgb%s"%str(col))
 
@@ -349,6 +469,7 @@ class expeyesWidgets():
 		self.timers.append(timer)
 		return timer
 
+	
 
 	def windUp(self):
 		for a in reversed(self.timers):
@@ -358,13 +479,14 @@ class expeyesWidgets():
 		self.trig=None
 		self.activeTriggerWidget=None
 		self.activeTimebaseWidget = None
+		self.myTracesWidget = None
 		self.p.sigPlot.disconnect(self.updatePlot)
 	####################################################################################
 		
 	def addPlot(self,**kwargs):
 		if 'leftAxis' in kwargs: kwargs['axisItems'] = {'left':kwargs.pop('leftAxis')}
 		plot=pg.PlotWidget(**kwargs)
-		plot.setMouseEnabled(False,True)
+		plot.setMouseEnabled(kwargs.get('enableXAxis',True),kwargs.get('enableYAxis',True))
 		if 'x' in kwargs.get('disableAutoRange',''):
 			plot.disableAutoRange(axis = plot.plotItem.vb.XAxis)
 		if 'y' in kwargs.get('disableAutoRange',''):
@@ -386,6 +508,8 @@ class expeyesWidgets():
 		C=pg.PlotCurveItem(name = name,pen = col)
 		self.plot.addItem(C)
 		self.curves[plot].append(C)
+		if self.myTracesWidget:
+			self.myTracesWidget.addCurve(name,C)
 		return C
 		
 		
@@ -396,7 +520,14 @@ class expeyesWidgets():
 		self.widgetLayout.addWidget(self.activeTriggerWidget)
 		self.trigLine = self.addInfiniteLine(self.plot,angle=0, movable=True,cursor = QtCore.Qt.SizeVerCursor,tooltip="Trigger level. Enable the trigger checkbox, and drag up/down to set the level",value = 0,ignoreBounds=False)
 		self.trigLine.sigPositionChanged.connect(self.setTrigger)
+		self.activeTriggerWidget.pushButton.clicked.connect(self.locateTrigger)
+
 		self.activeTriggerWidget.chanBox.currentIndexChanged.connect(self.setTrigger)
+
+		self.triggerArrow = pg.ArrowItem(angle=-60,tipAngle = 90, headLen=10, tailLen=13, tailWidth=5, pen={'color': 'g', 'width': 1}) 
+		self.plot.addItem(self.triggerArrow)
+		self.triggerArrow.setPos(-1,0)
+
 		self.setTrigger()
 
 	class triggerWidget(QtGui.QWidget,triggerWidgetUi.Ui_Form):
@@ -421,14 +552,28 @@ class expeyesWidgets():
 
 
 	def addInfiniteLine(self,plot,**kwargs):
-		line = pg.InfiniteLine(angle=kwargs.get('angle',0), movable=kwargs.get('movable',True))
+		line = pg.InfiniteLine(angle=kwargs.get('angle',0), movable=kwargs.get('movable',True),pen=kwargs.get('pen',{'color':'#FFF','width':2,'style': QtCore.Qt.DashLine}) )
 		if 'cursor' in kwargs:line.setCursor(QtGui.QCursor(kwargs.get('cursor'))); 
 		if 'tooltip' in kwargs:line.setToolTip(kwargs.get('tooltip'))
-
 		if 'value' in kwargs:line.setPos(kwargs.get('value'))
 		plot.addItem(line, ignoreBounds=kwargs.get('ignoreBounds'))
 		return line
 
+	def locateTrigger(self):
+		self.trigAnimationPos = 0
+		try: self.trigTimer.stop()
+		except:pass
+		self.trigTimer = self.setInterval(10,self.animateTrigger)
+
+	def animateTrigger(self):
+		_,y=self.trigLine.getPos()
+		self.trigAnimationPos+=1e-6
+		self.triggerArrow.setPos(self.trigAnimationPos,y)
+		if self.trigAnimationPos>=100e-6:
+			self.triggerArrow.setPos(-1,0)
+			self.trigTimer.stop()
+		
+		
 	############################### ############################### 
 
 
@@ -438,6 +583,7 @@ class expeyesWidgets():
 		self.TITLE('Time Base')
 		self.activeTimebaseWidget  =self.timebaseWidget(self.getSamples)
 		self.widgetLayout.addWidget(self.activeTimebaseWidget)
+		return self.activeTimebaseWidget
 
 	def getSamples(self):
 		return self.samples
@@ -455,7 +601,42 @@ class expeyesWidgets():
 			T = self.getSamples()*self.timebase
 			self.value.setText('%s'%pg.siFormat(T*1e-6, precision=3, suffix='S', space=True))
 
+
 	############################### ############################### 
+
+	###############################  PUSHBUTTON WIDGET ######################
+
+	def PUSHBUTTON(self,name, callback,**kwargs):
+		widget  =self.pushButtonWidget(name, callback,**kwargs)
+		self.widgetArray.append(widget)
+		self.widgetLayout.addWidget(widget)
+		return widget
+
+	class pushButtonWidget(QtGui.QPushButton):
+		def __init__(self,name,callback,**kwargs):
+			super(expeyesWidgets.pushButtonWidget, self).__init__()
+			self.setText(name)
+			self.callback = callback
+			self.clicked.connect(self.callback)
+
+	###############################  CHECKBOX WIDGET ######################
+
+	def CHECKBOX(self,name, callback=None,**kwargs):
+		widget  =self.checkBoxWidget(name, callback,**kwargs)
+		self.widgetArray.append(widget)
+		self.widgetLayout.addWidget(widget)
+		return widget
+
+	class checkBoxWidget(QtGui.QCheckBox):
+		def __init__(self,name,callback=None,**kwargs):
+			super(expeyesWidgets.checkBoxWidget, self).__init__()
+			self.setText(name)
+			self.callback = callback
+			if self.callback:self.clicked[bool].connect(self.callback)
+
+
+
+	###############################  IMAGE WIDGET ######################
 
 	def IMAGE(self,path):
 		if not os.path.exists(path): 
@@ -470,23 +651,24 @@ class expeyesWidgets():
 			#print (label.size())
 			#scaledPixmap = pixmap.scaled(label.size(), QtCore.Qt.KeepAspectRatio)
 			label.setPixmap(pixmap.scaledToHeight(50))
+			return label
 			#x = QtGui.QIcon(path)
 			#a = QtGui.QListWidgetItem(x,fname)
 			#self.listWidget.addItem(a)
 		except Exception as e:
 			print (e)
 
-	def addPV1(self,handler):
-		return self.sliderWidget(min = -5,max = 5, label = 'PV1' ,units = 'V', callback = handler.set_pv1) 
+	def addPV1(self,handler,**kwargs):
+		return self.sliderWidget(min = -5,max = 5, label = 'PV1' ,units = 'V', callback = handler.set_pv1,**kwargs) 
 
-	def addPV2(self,handler):
-		return self.sliderWidget(min = -3.3,max = 3.3, label = 'PV2' , units = 'V',callback = handler.set_pv2) 
+	def addPV2(self,handler,**kwargs):
+		return self.sliderWidget(min = -3.3,max = 3.3, label = 'PV2' , units = 'V',callback = handler.set_pv2,**kwargs) 
 
-	def addSQR1(self,handler):
-		return self.sliderWidget(min = 5,max = 50000, label = 'SQR1' ,units = 'Hz', callback = handler.set_sqr1) 
+	def addSQR1(self,handler,**kwargs):
+		return self.sliderWidget(min = 5,max = 50000, label = 'SQR1' ,units = 'Hz', callback = handler.set_sqr1,**kwargs) 
 
-	def addSine(self,handler):
-		W = self.sliderWidget(min = 5,max = 5000, label = 'W1' ,units = 'Hz', callback = handler.set_sine)
+	def addSine(self,handler,**kwargs):
+		W = self.sliderWidget(min = 5,max = 5000, label = 'W1' ,units = 'Hz', callback = handler.set_sine,**kwargs)
 		return W
 
 
@@ -507,6 +689,14 @@ class expeyesWidgets():
 			self.spinbox.setSuffix(kwargs.get('units',''))
 			self.spinbox.setMinimum(self.min);self.spinbox.setMaximum(self.max);
 			self.slider.setMinimum(self.min*10);self.slider.setMaximum(self.max*10);
+
+			if 'value' in kwargs:
+				v = kwargs.get('value')
+				v = min( max(self.min,v) ,self.max )
+				self.spinbox.setValue(v)
+				self.slider.setValue(v*10)
+				self.callback(v)
+
 
 			self.slider.valueChanged.connect(self.sliderChanged)
 			self.spinbox.valueChanged.connect(self.spinboxChanged)
@@ -535,11 +725,16 @@ class expeyesWidgets():
 		if newhandler is not None:
 			signal.connect(newhandler)
 		
-	def save(self):
+	def savePlots(self):
 		from . import plotSaveWindow
 		info = plotSaveWindow.AppWindow(self,self.curves[self.plot],self.plot)
 		info.show()
 
+
+
+
+	def showStatus(self,txt,err=False):
+		self.p.sigStat.emit(txt,err)
 
 	#-------------------------- Sine Fit ------------------------------------------------
 	def sineFunc(self,x, a1, a2, a3,a4):

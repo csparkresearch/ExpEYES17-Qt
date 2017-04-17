@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>ExpEYES - 17</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="res.qrc">
+    <normaloff>:/control/eyes17-logo.png</normaloff>:/control/eyes17-logo.png</iconset>
+  </property>
   <property name="styleSheet">
    <string notr="true">*{outline:none;}
 
@@ -193,18 +197,12 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
      <height>25</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuLoad">
-    <property name="title">
-     <string>Load</string>
-    </property>
-   </widget>
    <widget class="QMenu" name="menuOptions">
     <property name="title">
-     <string>options</string>
+     <string>File</string>
     </property>
     <addaction name="actionSave"/>
    </widget>
-   <addaction name="menuLoad"/>
    <addaction name="menuOptions"/>
   </widget>
   <action name="actionSave">

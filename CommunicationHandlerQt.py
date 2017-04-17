@@ -1,6 +1,6 @@
 # -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
 from PyQt4 import QtGui,QtCore
-import time,sys,inspect,copy
+import time,sys,inspect,copy,functools
 
 import expeyes.eyes17 as eyes
 
@@ -27,8 +27,9 @@ class communicationHandler(QtCore.QObject):
 		self.functionList = {}
 		
 		class functionContainer:
-			def __init__(self,fname,sig):
-				self.sigExec = sig
+			def __init__(self,fname,sig1,sig2):
+				self.sigExec = sig1
+				self.execThread = sig2
 				self.fname = fname
 			def func(self,*args,**kwargs):
 				self.sigExec.emit(self.fname,args,kwargs)
@@ -39,7 +40,7 @@ class communicationHandler(QtCore.QObject):
 		for a in dir(self.I):
 			attr = getattr(self.I,a)
 			if inspect.ismethod(attr) and a!='__init__':
-				F = functionContainer(a,self.sigExec)
+				F = functionContainer(a,self.sigExec,self.execThread)
 				self.functionList[a] = F.func
 				setattr(self,a,F.func)
 				self.functionList[a+'_fwd'] = F.funcForward
@@ -69,13 +70,23 @@ class communicationHandler(QtCore.QObject):
 				x,y = self.I.capture_action(*args,**kwargs)
 				self.sigPlot.emit({self.I.achans[0].channel:[x,y]})
 			elif name == 'capture_traces':	                #non - blocking call. Start acquisition , and fetch data when it's ready.
+				forwardingFunction = kwargs.pop('forwardingFunction',None)
+				
 				self.I.capture_traces(*args,**kwargs)
 				self.buflen = args[0]
 				self.channels_enabled=kwargs.get('chans',[0,0,0,0])
-				self.busy=True
-				self.timer.singleShot(args[1]*args[2]*1e-3+10+self.trigPre*20,self.fetchData)
+				self.busy=True ##########  SET A BUSY FLAG
+				if forwardingFunction is not None:
+					def newFunc(FF):
+						self.sigExec.emit('fetchData',[],{'forwardingFunction':FF})
+					newFunc = functools.partial(newFunc,forwardingFunction)
+					#print ('got here',forwardingFunction,newFunc)
+					self.timer.singleShot(args[1]*args[2]*1e-3+10+self.trigPre*20,newFunc)
+				else:
+					self.timer.singleShot(args[1]*args[2]*1e-3+10+self.trigPre*20,self.fetchData)
 			elif name == 'fetchData':	                #non - blocking call. Start acquisition , and fetch data when it's ready.
 				n=0
+				#print ('here',args,kwargs)
 				try:
 					while(not self.I.oscilloscope_progress()[0]):
 						time.sleep(0.1)
@@ -91,22 +102,19 @@ class communicationHandler(QtCore.QObject):
 						if self.channels_enabled[a]:
 							self.I.__fetch_channel__(a+1)
 							if X is None:X = self.I.achans[a].get_xaxis()*1e-6
-							returnData[self.I.achans[a].channel]=[X,self.I.achans[a].get_yaxis()]
-					#print ('traces...ordered',time.time()-t)
-					self.busy=False
-					self.sigPlot.emit(returnData)
-					#if self.buflen==1:self.sigPlot.emit([X,self.I.achans[0].get_yaxis()])
-					#elif self.buflen==2:self.sigPlot.emit([X,self.I.achans[0].get_yaxis(),X,self.I.achans[1].get_yaxis()])
-					#elif self.buflen==3:self.sigPlot.emit([X,self.I.achans[0].get_yaxis(),X,self.I.achans[1].get_yaxis(),X,self.I.achans[2].get_yaxis()])
-					#elif self.buflen==4:self.sigPlot.emit([X,self.I.achans[0].get_yaxis(),X,self.I.achans[1].get_yaxis(),X,self.I.achans[2].get_yaxis(),X,self.I.achans[3].get_yaxis()])
+							returnData[self.I.achans[a].channel]=[X,self.I.achans[a].get_yaxis()] #returnData is a dict of the form {'A1':[xarray,yarray],'A2':...}
+
+					self.busy=False ##########  CLEAR THE BUSY FLAG
+					if 'forwardingFunction' in kwargs:
+						kwargs.get('forwardingFunction')(returnData)
+					else:
+						self.sigPlot.emit(returnData)
 
 				except Exception as e:
 					self.sigError.emit(name,e.message)
 			elif name == 'HX711':
 				res = self.I.HX711.read(*args)
 				self.sigGeneric.emit(name,res)
-
-
 			else:
 				if name in self.evalGlobals:
 					res = self.evalGlobals[name](*args,**kwargs)
@@ -114,6 +122,7 @@ class communicationHandler(QtCore.QObject):
 				else:
 					self.sigError.emit(name,' : unknown function')
 		except Exception as e:
+			print (e.message)
 			self.sigError.emit(name,e.message)
 
 
@@ -123,7 +132,7 @@ class communicationHandler(QtCore.QObject):
 		if name in self.evalGlobals:
 			returnFunction(self.evalGlobals[name](*args,**kwargs))
 		else:
-			returnFunction(None)
+			returnFunction(name,None)
 
 
 

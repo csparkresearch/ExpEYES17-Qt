@@ -23,7 +23,7 @@ class AppWindow(QtGui.QMainWindow, plotSave.Ui_MainWindow):
 		for a in curveList:
 			x,y = a.getData()
 			name = a.name()
-			if x!=None and y!=None:
+			if x is not None and y is not None:
 				self.setColumn(colnum,x);colnum+=1
 				self.setColumn(colnum,y);colnum+=1
 				labels.append('%s(X)'%(name));labels.append('%s(Y)'%(name));

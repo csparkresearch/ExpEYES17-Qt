@@ -48,7 +48,7 @@ class fileBrowser(QtGui.QFrame,fileBrowser.Ui_Form):
 	def generateThumbnails(self,directory='.',**kwargs):
 		self.clearThumbnails()
 		
-		if directory=='.':directory = os.path.expanduser(os.path.join('~','Documents'))
+		if directory=='.':directory = os.path.expanduser('~')
 		self.app.processEvents()
 		P2=pg.PlotWidget(enableMenu = False)
 		curves = []

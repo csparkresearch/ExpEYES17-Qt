@@ -6,6 +6,7 @@ from utilities.expeyesWidgetsNew import expeyesWidgets
 
 
 import sys,time,functools,os
+import numpy as np
 
 class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	def __init__(self, parent=None,**kwargs):
@@ -15,24 +16,25 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.widgetLayout.setAlignment(QtCore.Qt.AlignTop)
 
 		
-		# ADD AN OSCILLOSCOPE PLOT TO THE plotLayout
-		# This assumes self.plotLayout, and makes a dictionary self.curves with keys 'A1','A2','A3','MIC'
-		#You should be able to access after executing this function. self.myCurves is a dictionary of curves with 4 Elements
-		self.SCOPEPLOT(['A1','A2'],rangeA1='4V',rangeA2='4V') #You can also make up your own curve names. WORK IN PROGRESS [ e.g. A1+A2  should make a channel that automatically shows the sum]
-
+		self.plot = self.newPlot([],xMin=0,xMax=np.pi*2,yMin=-6,yMax=6, disableAutoRange = 'y',bottomLabel = 'time',bottomUnits='S',enableMenu=False,legend=True)
+		self.c1 = self.addCurve(self.plot, 'trace 1' ,'#FFF')
+		self.c2 = self.addCurve(self.plot, 'trace 2' ,'#FF0')
+		self.c3 = self.addCurve(self.plot, 'trace 3' ,'#F0F')
+		x=np.linspace(0,np.pi*2,1000)
+		self.c1.setData(x,np.sin(x))
+		self.c2.setData(x,3*np.sin(x))
+		self.c3.setData(x,5*np.sin(x))
 		#Add a vertical spacer in the widgetLayout . about 0.5cm
 		self.SPACER(20)
 
-		# ADD A SINE WIDGET SLIDER WITH NUMBERIC INPUT to the widgetLayout
-		self.TIMEBASE()
-		self.TRIGGER()
 		self.TITLE('Controls')
-		self.SINE()
+		self.PV1()
 		self.IMAGE(os.path.join('pics','halfwave.png'))
 		
 		self.setInterval(200,self.update)
 		#self.setTimeout(1000,functools.partial(self.capture,'A1',200,3),self.update)
 
 	def update(self):
-		self.CAPTURE()  #This assumes self.TRIGGER , self.SCOPEPLOT etc were used to initialize. Uses default values wherever possible
+		print ('update',time.ctime())
+		#self.CAPTURE()  #This assumes self.TRIGGER , self.SCOPEPLOT etc were used to initialize. Uses default values wherever possible
 	
