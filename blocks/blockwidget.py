@@ -23,18 +23,19 @@ from PyQt4.QtCore import QPoint, QRect, Qt, QSize, QString, \
 
 from PyQt4.QtGui import QWidget, QPixmap, QSizePolicy, QColor, \
 		QPainter, QListWidget, QListWidgetItem, QMainWindow, \
-		QListView
+		QListView, QDialog
 
 from component import Component, InputComponent
 from timecomponent import TimeComponent
 #from modifcomponent import ModifComponent
 #from channelcomponent import ChannelComponent
+from inputdialog import Dialog as InputDialog
 
 
 class BlockWidget(QWidget):
 
 	blocksChanged = pyqtSignal()
-
+	
 	def __init__(self, parent=None):
 		super(BlockWidget, self).__init__(parent)
 
@@ -173,7 +174,19 @@ class BlockWidget(QWidget):
 			if b:
 				i = self.components.index(b)
 				if isinstance(b, InputComponent):
-					self.components[i]=TimeComponent.fromOther(b)
+					box=self.parent().parent().parent().boxModel
+					d=InputDialog(self, box=box)
+					if isinstance(b, TimeComponent):
+						d.setTimeBase(b.delay, b.npoints)
+					result=d.exec_()
+					if result==QDialog.Accepted:
+						index=d.tabWidget.currentIndex()
+						label=str(d.tabWidget.tabText(index))
+						if "Time" in label:
+							t=TimeComponent.fromOther(b)
+							t.delay, t.npoints, t.duration=d.timeBase()
+							self.components[i]=t
+							self.blocksChanged.emit()
 				self.update()
 
 	def blockAt(self, pos):
