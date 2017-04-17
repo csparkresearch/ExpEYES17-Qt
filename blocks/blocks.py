@@ -92,18 +92,31 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		"""
 		Saves the current component composition
 		"""
+		if self.fileName:
+			with open(self.fileName,"wb") as outstream:
+				outstream.write("Expeyes-Blocks version %s\n" %version)
+				for c in self.widget.components:
+					c.save(outstream)
+			self.dirty=""
+			self.setWindowTitle(self.currentTitle())
+		else:
+			self.saveAs()
+		return
+		
+	def saveAs(self, fileName=None):
+		"""
+		Saves the current component composition in a new file
+		@param fileName name of the file, defaults to None
+		"""
+		if fileName: self.fileName=fileName
 		if not self.fileName:
 			self.fileName = "untitled.eyeblk"
-			self.fileName=QFileDialog.getSaveFileName(
-				self, "Save to file", self.fileName,
-				filter = "Expeyes-Blocks:  *.eyeblk (*.eyeblk);;All files: * (*)"
-			)
-		with open(self.fileName,"wb") as outstream:
-			outstream.write("Expeyes-Blocks version %s\n" %version)
-			for c in self.widget.components:
-				c.save(outstream)
-		self.dirty=""
-		self.setWindowTitle(self.currentTitle())
+		self.fileName=QFileDialog.getSaveFileName(
+			self, "Save to file", self.fileName,
+			filter = "Expeyes-Blocks:  *.eyeblk (*.eyeblk);;All files: * (*)"
+		)
+		if self.fileName:
+			self.save()
 		return
 		
 	def makeDirty(self):
@@ -111,16 +124,9 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		self.setWindowTitle(self.currentTitle())
 		return
 		
-	def saveAs(self, filename=None):
-		"""
-		Saves the current component composition in a new file
-		@param filename name of the file, defaults to None
-		"""
-		return
-		
 	def closeEvent(self, event):
-        ok = not self.dirty
-        if not ok:
+        ok = True
+        if self.dirty:
 			ok=QMessageBox.question(
 				self, "Please confirm", """\
 The current work is not yet saved,
