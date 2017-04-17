@@ -117,6 +117,15 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		@param filename name of the file, defaults to None
 		"""
 		return
+		
+	def onQuit(self):
+		"""
+		The standard onQuit callback. Emit a message when the
+		work space is dirty
+		"""
+		QMessageBox.warning("title", "warning")
+		QmainWindow.onQuit(self)
+		return
 
 	def currentTitle(self):
 		"""
