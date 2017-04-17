@@ -85,6 +85,7 @@
      <string>&amp;Help</string>
     </property>
     <addaction name="action_About"/>
+    <addaction name="actionAbout_Qt"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menu_Help"/>
@@ -112,7 +113,15 @@
   </action>
   <action name="action_About">
    <property name="text">
-    <string>&amp;About ...</string>
+    <string>&amp;About ... (F1)</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
+  </action>
+  <action name="actionAbout_Qt">
+   <property name="text">
+    <string>About &amp;Qt ...</string>
    </property>
   </action>
  </widget>

@@ -35,55 +35,6 @@ from timecomponent import TimeComponent
 #from channelcomponent import ChannelComponent
 
 
-class MainWindow(QMainWindow):
-	def __init__(self, parent=None):
-		super(MainWindow, self).__init__(parent)
-
-		self.BlockImage = QPixmap()
-
-		self.setupMenus()
-		self.setupWidgets()
-
-		self.setWindowTitle("Block")
-		
-	def loadComponents(self, path=None):
-		self.componentsList.clear()
-		self.BlockWidget.clear()
-		cList=Component.listFromRC()
-		for c in cList:
-			self.componentsList.newComponent(c)
-		return
-
-	def setupMenus(self):
-		fileMenu = self.menuBar().addMenu("&File")
-
-		openAction = fileMenu.addAction("&Open...")
-		openAction.setShortcut("Ctrl+O")
-
-		saveAction = fileMenu.addAction("&Save...")
-		openAction.setShortcut("Ctrl+S")
-
-		exitAction = fileMenu.addAction("E&xit")
-		exitAction.setShortcut("Ctrl+Q")
-
-
-		openAction.triggered.connect(self.load)
-		saveAction.triggered.connect(self.save)
-		exitAction.triggered.connect(qApp.quit)
-		
-
-	def setupWidgets(self):
-		frame = QFrame()
-		frameLayout = QHBoxLayout(frame)
-
-		self.componentsList = componentsList()
-
-		self.BlockWidget = BlockWidget()
-
-		frameLayout.addWidget(self.componentsList)
-		frameLayout.addWidget(self.BlockWidget)
-		self.setCentralWidget(frame)
-
 class BlockMainWindow(QMainWindow, Ui_MainWindow):
 	def __init__(self, parent=None):
 		QMainWindow.__init__(self, parent)
@@ -109,12 +60,20 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		self.actionSave_as.triggered.connect(self.saveAs)
 		self.action_Open.triggered.connect(self.load)
 		self.action_About.triggered.connect(self.about)
+		self.actionAbout_Qt.triggered.connect(self.aboutQt)
 		
 	def about(self):
 		"""
 		brings up the About dialog
 		"""
 		QMessageBox.about(self,"About", license)
+		return
+		
+	def aboutQt(self):
+		"""
+		brings up the About dialog
+		"""
+		QMessageBox.aboutQt(self,"About Qt")
 		return
 		
 	def load(self):
