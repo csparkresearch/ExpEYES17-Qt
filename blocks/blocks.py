@@ -39,6 +39,7 @@ from channelcomponent import ChannelComponent
 import wizard
 
 
+
 class BlockMainWindow(QMainWindow, Ui_MainWindow):
 	def __init__(self, parent=None):
 		QMainWindow.__init__(self, parent)
