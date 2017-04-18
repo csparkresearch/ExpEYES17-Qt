@@ -385,13 +385,13 @@ class expeyesWidgets():
 
 		def removeCurve(self,c): #remove by curve reference
 			self.traceList.clear()
-			delitem=None
+			delItem=None
 			for a in self.curveRefs:
 				if self.curveRefs[a] == c:
 					delItem = a
 				else:
 					self.traceList.addItem(a)
-			self.curveRefs.pop(delitem,None)
+			self.curveRefs.pop(delItem,None)
 
 		def traceChanged(self,name):
 			try:self.enableButton.setChecked(self.curveRefs[str(name)].isVisible())
@@ -457,6 +457,7 @@ class expeyesWidgets():
 		label.setStyleSheet("color:rgb(100,255,255)")
 		self.widgetLayout.addWidget(label)
 		self.widgetLayout.addWidget(line)
+		return label,line
 
 
 	def newTimer(self):

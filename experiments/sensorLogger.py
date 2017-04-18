@@ -37,6 +37,8 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		#self.scanMenu.addAction('Exit', self.askBeforeQuit)
 		self.scanButton.setMenu(self.scanMenu)
 		self.sensorEntries = {}
+		
+		self.sensorWidgets = {}
 
 		#Add a vertical spacer in the widgetLayout . about 0.5cm
 		self.SPACER(20)
@@ -82,8 +84,8 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 
 
 	def createMenu(self,bridge):
-		self.TITLE(bridge.name[:15])
-		menuButton = self.PUSHBUTTON('Options')		
+		label,line = self.TITLE(bridge.name[:15])
+		menuButton = self.PUSHBUTTON('Options')
 		menu = QtGui.QMenu()
 		menuButton.setMenu(menu)
 
@@ -95,15 +97,17 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 				mini.addAction(str(a),Callback)
 		menu.addSeparator()
 		menu.addAction('Remove This Sensor',functools.partial(self.deleteSensor,bridge.ADDRESS))
-		#self.paramMenus.insertWidget(0,menu)
-		#self.deviceMenus.append(menu)
-		#self.deviceMenus.append(sub_menu)
+		
+		self.sensorWidgets[bridge.ADDRESS] = [label,line,menuButton]
 
 	def deleteSensor(self,addr):
 		item = self.acquireList.pop(addr)
 		for a in item.curves:
 			self.removeCurve(self.plot,a)
 			self.plot.leg.removeItem(a.name())
+		for a in self.sensorWidgets[addr]:
+			a.setParent(None)
+			a = None
 		
 	class data:
 		def __init__(self):
