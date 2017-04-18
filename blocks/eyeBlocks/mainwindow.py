@@ -20,11 +20,6 @@ license="""\
   FITNESS FOR A PARTICULAR PURPOSE.
 """
 
-import gettext
-gettext.bindtextdomain("expeyes")
-gettext.textdomain('expeyes')
-_ = gettext.gettext
-
 from version import version
 
 import copy, re
@@ -35,6 +30,10 @@ from PyQt4.QtCore import QPoint, QRect, Qt, QSize, QString, \
 
 from PyQt4.QtGui import QMainWindow, QApplication, \
 	QMessageBox, QFileDialog
+
+def _translate(context, text, disambig):
+	return QApplication.translate(context, text, disambig)
+        
 
 from templates.ui_blocks import Ui_MainWindow
 from component import Component, InputComponent
@@ -101,8 +100,8 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		ok=True
 		if l:
 			ok=QMessageBox.question(self,
-				_("OK to erase a previous build?"),
-				_("Here are some previous built files:\n %s\nDo you really want to overwrite them?") \
+				_translate("eyeBlocks.mainwindow","OK to erase a previous build?",None),
+				_translate("eyeBlocks.mainwindow","Here are some previous built files:\n %s\nDo you really want to overwrite them?",None) \
 					%", ".join(l),
 				QMessageBox.No|QMessageBox.Yes
 			) == QMessageBox.Yes
@@ -127,7 +126,7 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		"""
 		def callBack():
 			self.boxModel=model
-			QMessageBox.warning(self,_("Expeyes box choice"),_("You chose: %s.\n") %model)
+			QMessageBox.warning(self,_translate("eyeBlocks.mainwindow","Expeyes box choice",None),_translate("eyeBlocks.mainwindow","You chose: %s.\n",None) %model)
 			return
 		return callBack
 				
@@ -135,14 +134,14 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		"""
 		brings up the About dialog
 		"""
-		QMessageBox.about(self,_("About"), license)
+		QMessageBox.about(self,_translate("eyeBlocks.mainwindow","About",None), license)
 		return
 		
 	def aboutQt(self):
 		"""
 		brings up the About dialog
 		"""
-		QMessageBox.aboutQt(self,_("About Qt"))
+		QMessageBox.aboutQt(self,_translate("eyeBlocks.mainwindow","About Qt",None))
 		return
 		
 	versionPattern=re.compile(r"^Expeyes-Blocks version ([\.\d]+)$")
@@ -154,8 +153,8 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		Loads a component composition
 		"""
 		fileName=QFileDialog.getOpenFileName(self,
-			_("Open a file"),
-			filter=_("Expeyes-Blocks:  *.eyeblk (*.eyeblk);;All files: * (*)")
+			_translate("eyeBlocks.mainwindow","Open a file",None),
+			filter=_translate("eyeBlocks.mainwindow","Expeyes-Blocks:  *.eyeblk (*.eyeblk);;All files: * (*)",None)
 		)
 		self.loadFile(fileName)
 		return
@@ -179,7 +178,7 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 				size=int(self.classPattern.match(nameSize).group(1))
 				className=instream.readline().strip()
 				if len(className) != size:
-					raise Exception(_("Error size: %s does not match %s") %(size, className))
+					raise Exception(_translate("eyeBlocks.mainwindow","Error size: %s does not match %s",None) %(size, className))
 				s=instream.readline()
 				blobSize=int(self.blobPattern.match(s).group(1))
 				blob=QByteArray(instream.read(blobSize))
@@ -225,10 +224,10 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		"""
 		if fileName: self.fileName=fileName
 		if not self.fileName:
-			self.fileName = _("untitled.eyeblk")
+			self.fileName = _translate("eyeBlocks.mainwindow","untitled.eyeblk",None)
 		self.fileName=QFileDialog.getSaveFileName(
-			self, _("Save to file"), self.fileName,
-			filter = _("Expeyes-Blocks:  *.eyeblk (*.eyeblk);;All files: * (*)")
+			self, _translate("eyeBlocks.mainwindow","Save to file",None), self.fileName,
+			filter = _translate("eyeBlocks.mainwindow","Expeyes-Blocks:  *.eyeblk (*.eyeblk);;All files: * (*)",None)
 		)
 		if self.fileName:
 			self.save()
@@ -243,10 +242,11 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		ok = True
 		if self.dirty:
 			ok=QMessageBox.question(
-				self, _("Please confirm"), _("""\
+				self, _translate("eyeBlocks.mainwindow","Please confirm",None),
+					_translate("eyeBlocks.mainwindow","""\
 The current work is not yet saved,
 do you really want to quit the application?
-"""),
+""",None),
 				QMessageBox.Yes|QMessageBox.No) == QMessageBox.Yes
 		if ok:
 			QMainWindow.closeEvent(self,event)

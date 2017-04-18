@@ -14,14 +14,13 @@
 ############################################################################
 from __future__ import print_function
 
-import gettext
-gettext.bindtextdomain("expeyes")
-gettext.textdomain('expeyes')
-_ = gettext.gettext
-
 import os, re
 from PyQt4 import QtCore, QtGui
 from xml.dom.minidom import parseString
+
+def _translate(context, text, disambig):
+	return QtGui.QApplication.translate(context, text, disambig)
+        
 
 from templates import blocks_rc
 
@@ -291,7 +290,7 @@ class Component(object):
 				elif "channel" in entry or "abscissa" in entry:
 					result.append(ChannelComponent(img, entry, mimetype, snapPoints=sp))
 				else:
-					print(_("Error, this should not happen:"), entry)	
+					print(_translate("eyeBlocks.component","Error, this should not happen:",None), entry)	
 					result.append(Component(img, entry, mimetype, snapPoints=sp))
 		return result
 		

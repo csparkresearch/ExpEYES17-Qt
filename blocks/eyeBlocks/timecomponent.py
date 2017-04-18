@@ -14,13 +14,12 @@
 ############################################################################
 from __future__ import print_function
 
-import gettext
-gettext.bindtextdomain("expeyes")
-gettext.textdomain('expeyes')
-_ = gettext.gettext
-
 from PyQt4 import QtCore, QtGui
 from component import InputComponent, Component
+
+def _translate(context, text, disambig):
+	return QtGui.QApplication.translate(context, text, disambig)
+        
 
 class TimeComponent(InputComponent):
 	"""
@@ -55,10 +54,10 @@ class TimeComponent(InputComponent):
 		durationPos=pos+QtCore.QPoint(x,y)
 		y+=lh
 		pointsPos=pos+QtCore.QPoint(x,y)
-		painter.drawText(titlePos,_("Time Base"))
-		painter.drawText(delayPos,_("delay: %s s") %(self.delay/1e6))
-		painter.drawText(durationPos,_("duration: %s s") %(self.duration/1e6))
-		painter.drawText(pointsPos,_("(%s points)") %self.npoints)
+		painter.drawText(titlePos,_translate("eyeBlocks.timecomponent","Time Base",None))
+		painter.drawText(delayPos,_translate("eyeBlocks.timecomponent","delay: %1 s",None).arg(self.delay/1e6))
+		painter.drawText(durationPos,_translate("eyeBlocks.timecomponent","duration: %1 s",None) .arg(self.duration/1e6))
+		painter.drawText(pointsPos,_translate("eyeBlocks.timecomponent","(%1 points)",None).arg(self.npoints))
 
 	def getMoreData(self, dataStream):
 		delay=QtCore.QVariant()
