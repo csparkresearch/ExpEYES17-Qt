@@ -36,7 +36,7 @@ app.installTranslator(qtTranslator)
 
 myTranslator=QTranslator()
 langPath=os.path.join(os.path.dirname(eyeBlocks.mainwindow.__file__), "lang")
-myTranslator.load(langPath + "/" + QLocale.system().name())
+myTranslator.load(QLocale.system().name(), langPath)
 app.installTranslator(myTranslator)
 
 ######## Creating the main window
