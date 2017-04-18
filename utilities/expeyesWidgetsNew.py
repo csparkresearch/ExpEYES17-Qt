@@ -534,7 +534,8 @@ class expeyesWidgets():
 			plot.disableAutoRange(axis = plot.plotItem.vb.XAxis)
 		if 'y' in kwargs.get('disableAutoRange',''):
 			plot.disableAutoRange(axis = plot.plotItem.vb.YAxis)
-		if kwargs.get('legend',False):plot.addLegend(offset=(-10,30))
+		if kwargs.get('legend',False):
+			plot.leg = plot.addLegend(offset=(-10,30))
 		self.xaxis = plot.getAxis('bottom')
 
 		plot.getAxis('left').setGrid(170);
