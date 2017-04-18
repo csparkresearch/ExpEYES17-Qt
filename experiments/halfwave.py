@@ -30,7 +30,8 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.SINE()
 		self.IMAGE(os.path.join('pics','halfwave.png'))
 		
-		self.setInterval(200,self.update)
+		self.timer = self.newTimer()
+		self.setInterval(self.timer,200,self.update)
 		#self.setTimeout(1000,functools.partial(self.capture,'A1',200,3),self.update)
 
 	def update(self):

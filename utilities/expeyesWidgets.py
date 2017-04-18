@@ -189,6 +189,11 @@ class expeyesWidgets():
 			a.stop()
 			self.timers.remove(a)
 			print ('deleted',a)
+		time.sleep(0.2)
+		for a in reversed(self.timers):
+			a.stop()
+			self.timers.remove(a)
+			print ('deleted',a)
 		self.p.sigPlot.disconnect(self.updatePlot)
 	####################################################################################
 		
