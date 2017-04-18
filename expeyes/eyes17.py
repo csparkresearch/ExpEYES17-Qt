@@ -1981,7 +1981,7 @@ class Interface():
 		T = 4*cap*10e3*1e6 #uS  #CV charge via 10K
 		samples = 500
 		try:
-			if T>5000 and T<10e6:
+			if T>3000 and T<10e6:
 				if T>50e3:samples=250
 				if cap>10e-6: self.__charge_cap__(1,50000)   #Extra charging time if capacitance is high
 				if cap>5e-6: self.__charge_cap__(1,50000)

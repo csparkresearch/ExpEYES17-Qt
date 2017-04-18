@@ -40,7 +40,8 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		# Example 2 . 
 		# manualUpdate keeps calling 'CAPTURE' with self.processor as the argument. This will automatically forward the returned data to self.manualUpdateProcessor which can then call updatePlot if required
 		self.paused = self.CHECKBOX('Pause')
-		self.setTimeout(100,self.manualUpdate)
+		self.timer = self.newTimer()
+		self.setTimeout(self.timer,100,self.manualUpdate)
 		#self.setTimeout(1000,functools.partial(self.capture,'A1',200,3),self.update)
 
 
@@ -52,16 +53,17 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 
 	def manualUpdate(self):
 		if self.p.busy or self.paused.isChecked():
-			self.setTimeout(100,self.manualUpdate)
+			self.setTimeout(self.timer,100,self.manualUpdate)
 			return
 
 		self.CAPTURE(self.manualUpdateProcessor)
 		self.showStatus('capturing at :%s'%time.ctime())
 
 	def manualUpdateProcessor(self,*args,**kwargs):
-		print ('########################################')
+		print ('######################################## Oscilloscope',self.allTimers)
 		self.updatePlot(*args,**kwargs)
 		print ('########################################')
-		self.setTimeout(100,self.manualUpdate)
+		self.setTimeout(self.timer,100,self.manualUpdate)
 		#print (args,kwargs)
+
 

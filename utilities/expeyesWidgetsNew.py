@@ -54,7 +54,6 @@ class expeyesWidgets():
 	"""
 
 	plotDict = {}
-	timers = []
 	widgetArray = []
 	trace_colors=[(0,255,0),(255,0,0),(255,255,100),(10,255,255)]+[(50+200*random.random(),50+200*random.random(),150+100*random.random()) for a in range(10)]
 	trace_names = ['A1','A2','A3','MIC']
@@ -80,6 +79,7 @@ class expeyesWidgets():
 
 	class utils:
 		def __init__(self):
+			self.allTimers = []
 			pass
 
 		def applySIPrefix(self,value, unit='',precision=2 ):
@@ -142,7 +142,7 @@ class expeyesWidgets():
 		self.myCurves=OrderedDict()
 		self.myTracesWidget = self.tracesWidget(plot)
 		
-		self.TITLE('Acquired Data')
+		self.TITLE('Trace List')
 		self.widgetLayout.addWidget(self.myTracesWidget)
 		num=0
 		for a in curvenames:
@@ -181,6 +181,7 @@ class expeyesWidgets():
 
 
 	def CAPTURE(self,forwardingFunction=None):
+		print (forwardingFunction)
 		if self.p.busy:
 			self.showStatus('busy %s'%time.ctime(),True)
 			return
@@ -382,8 +383,19 @@ class expeyesWidgets():
 			self.curveRefs[name] = c
 			self.traceList.addItem(name)
 
+		def removeCurve(self,c): #remove by curve reference
+			self.traceList.clear()
+			delitem=None
+			for a in self.curveRefs:
+				if self.curveRefs[a] == c:
+					delItem = a
+				else:
+					self.traceList.addItem(a)
+			self.curveRefs.pop(delitem,None)
+
 		def traceChanged(self,name):
-			self.enableButton.setChecked(self.curveRefs[str(name)].isVisible())
+			try:self.enableButton.setChecked(self.curveRefs[str(name)].isVisible())
+			except Exception as e:print (e)
 
 		def traceToggled(self,state):
 			self.curveRefs[str(self.traceList.currentText())].setVisible(state)
@@ -406,8 +418,6 @@ class expeyesWidgets():
 			self.curveRefs.pop(name).setVisible(False)
 			self.traceList.removeItem(self.traceList.currentIndex())
 
-
-
 	class channelWidget(QtGui.QWidget,channelSelector.Ui_Form,constants):
 		def __init__(self,name,callback,col=None):
 			super(expeyesWidgets.channelWidget, self).__init__()
@@ -419,7 +429,6 @@ class expeyesWidgets():
 			self.enable.setToolTip(self.name)
 			QtCore.QObject.connect(self.gain, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), functools.partial(self.callback,self.name))
 			if col : self.enable.setStyleSheet("color:rgb%s"%str(col))
-
 
 	class flexibleChannelWidget(QtGui.QWidget,flexibleChannelSelector.Ui_Form,constants):
 		def __init__(self,name,callback,chans,col=None):
@@ -450,38 +459,72 @@ class expeyesWidgets():
 		self.widgetLayout.addWidget(line)
 
 
-	def setTimeout(self,delay,fn):
+	def newTimer(self):
+		print ('Timer created')
+		timer = QtCore.QTimer()
+		try:self.allTimers.append(timer)
+		except:
+			self.allTimers = []
+			self.allTimers.append(timer)
+		return timer
+
+	def setTimeout(self,timer,delay,fn):
 		'''
 		Execute a function after a certain time interval
 		'''
-		timer = QtCore.QTimer()
-		timer.singleShot(delay,fn)
-		self.timers.append(timer)
-		return timer
+		if timer is None:
+			print (timer,'umm')
+			return
+		rcvs = timer.receivers(QtCore.SIGNAL("timeout()"))
+		print ('----------------------------------',rcvs)
+		if rcvs > 0:
+			timer.timeout.disconnect()
+		timer.setSingleShot(True)
+		timer.timeout.connect(fn)
+		timer.start(delay)
 
-	def setInterval(self,delay,fn):
+	def setInterval(self,timer,delay,fn):
 		'''
 		Execute a function every x milliseconds
 		'''
-		timer = QtCore.QTimer()
+		if timer is None:return
 		timer.timeout.connect(fn)
 		timer.start(delay)
-		self.timers.append(timer)
 		return timer
 
 	
 
 	def windUp(self):
-		for a in reversed(self.timers):
-			a.stop()
-			self.timers.remove(a)
-			print ('deleted',a)
+		print ('winding up started')
+		self.p.timer.stop()
+		for a in reversed(self.allTimers):
+			try:a.timeout.disconnect()
+			except:pass
+			try:a.stop()
+			except:pass
+			print ('rm',a)
+			self.allTimers.remove(a)
+			a = None
 		self.trig=None
 		self.activeTriggerWidget=None
 		self.activeTimebaseWidget = None
 		self.myTracesWidget = None
-		self.p.sigPlot.disconnect(self.updatePlot)
+		try:self.p.sigPlot.disconnect(self.updatePlot)
+		except:pass
+		print ('winding up finished')
 	####################################################################################
+
+	def randomColor(self):
+		"""
+		Generate a random colour
+		
+		:return: QtGui.QColor object
+		"""
+		c=QtGui.QColor(random.randint(20,255),random.randint(20,255),random.randint(20,255))
+		if np.average(c.getRgb())<150:
+			c=self.randomColor()
+		return c
+
 		
 	def addPlot(self,**kwargs):
 		if 'leftAxis' in kwargs: kwargs['axisItems'] = {'left':kwargs.pop('leftAxis')}
@@ -506,11 +549,20 @@ class expeyesWidgets():
 
 	def addCurve(self,plot,name,col):
 		C=pg.PlotCurveItem(name = name,pen = col)
-		self.plot.addItem(C)
+		plot.addItem(C)
 		self.curves[plot].append(C)
 		if self.myTracesWidget:
 			self.myTracesWidget.addCurve(name,C)
 		return C
+
+	def removeCurve(self,plot,curveReference):
+		curveReference.clear()
+		plot.removeItem(curveReference)
+		self.curves[plot].remove(curveReference)
+		if self.myTracesWidget:
+			try:self.myTracesWidget.removeCurve(curveReference)
+			except Exception as e:print (e)
+
 		
 		
 	###############################  TRIGGERING THE OSCILLOSCOPE ######################
@@ -563,7 +615,8 @@ class expeyesWidgets():
 		self.trigAnimationPos = 0
 		try: self.trigTimer.stop()
 		except:pass
-		self.trigTimer = self.setInterval(10,self.animateTrigger)
+		self.trigTimer = self.newTimer()
+		self.setInterval(self.trigTimer,10,self.animateTrigger)
 
 	def animateTrigger(self):
 		_,y=self.trigLine.getPos()
@@ -606,18 +659,18 @@ class expeyesWidgets():
 
 	###############################  PUSHBUTTON WIDGET ######################
 
-	def PUSHBUTTON(self,name, callback,**kwargs):
+	def PUSHBUTTON(self,name, callback=None,**kwargs):
 		widget  =self.pushButtonWidget(name, callback,**kwargs)
 		self.widgetArray.append(widget)
 		self.widgetLayout.addWidget(widget)
 		return widget
 
 	class pushButtonWidget(QtGui.QPushButton):
-		def __init__(self,name,callback,**kwargs):
+		def __init__(self,name,callback=None,**kwargs):
 			super(expeyesWidgets.pushButtonWidget, self).__init__()
 			self.setText(name)
 			self.callback = callback
-			self.clicked.connect(self.callback)
+			if callback is not None:self.clicked.connect(self.callback)
 
 	###############################  CHECKBOX WIDGET ######################
 

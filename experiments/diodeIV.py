@@ -20,6 +20,8 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.c1 = self.addCurve(self.plot, 'trace 1' ,'#FFF')
 		self.c2 = self.addCurve(self.plot, 'trace 2' ,'#FF0')
 		self.c3 = self.addCurve(self.plot, 'trace 3' ,'#F0F')
+		self.c4 = self.addCurve(self.plot, 'trace 4' ,'#F0F')
+		self.removeCurve(self.plot,self.c4)
 		x=np.linspace(0,np.pi*2,1000)
 		self.c1.setData(x,np.sin(x))
 		self.c2.setData(x,3*np.sin(x))
@@ -31,7 +33,8 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.PV1()
 		self.IMAGE(os.path.join('pics','halfwave.png'))
 		
-		self.setInterval(200,self.update)
+		self.timer = self.newTimer()
+		self.setInterval(self.timer,200,self.update)
 		#self.setTimeout(1000,functools.partial(self.capture,'A1',200,3),self.update)
 
 	def update(self):

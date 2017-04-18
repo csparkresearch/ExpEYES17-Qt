@@ -50,6 +50,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	xmax = 20 #mS
 	TandM = OrderedDict([
 	('Oscilloscope','oscilloscope'),
+	('I2C Sensor Data Logger','sensorLogger'),
 	 ])
 	electrical = OrderedDict([
 	('Half-wave rectifier','halfwave'),
@@ -65,6 +66,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	('Electrical',electrical),
 	('examples',examples)
 	])
+	defaultExperiment = 'I2C Sensor Data Logger'
 
 	allExpts = {}
 	for a in exptGroups:
@@ -120,7 +122,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 
 		self.expt=None
 		self.actionSave.triggered.connect(self.savePlots)
-		self.launchExperiment('Diode IV')
+		self.launchExperiment(self.defaultExperiment)
 
 	def savePlots(self):
 		print ('wrong save fnction. inheritance not working properly. save from expeyesWidgetsNew must be called. Georges? . This is defined in expeyesWidgetsNew')
@@ -135,6 +137,9 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 				self.expt.windUp()
 				self.expt.close()
 				self.expt.destroy()
+				self.experimentLayout.removeWidget(self.expt)
+				self.expt.deleteLater()
+				self.expt = None
 			except Exception as e:print (e.message)
 
 		FILE = importlib.import_module('experiments.'+fname)
