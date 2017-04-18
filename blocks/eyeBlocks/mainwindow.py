@@ -20,7 +20,12 @@ license="""\
   FITNESS FOR A PARTICULAR PURPOSE.
 """
 
-version="0.4"
+import gettext
+gettext.bindtextdomain("expeyes")
+gettext.textdomain('expeyes')
+_ = gettext.gettext
+
+from version import version
 
 import copy, re
 from os.path import basename
@@ -96,8 +101,9 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		ok=True
 		if l:
 			ok=QMessageBox.question(self,
-				"OK to erase a previous build?",
-				"Here are some previous built files:\n %s\nDo you really want to overwrite them?" %", ".join(l),
+				_("OK to erase a previous build?"),
+				_("Here are some previous built files:\n %s\nDo you really want to overwrite them?") \
+					%", ".join(l),
 				QMessageBox.No|QMessageBox.Yes
 			) == QMessageBox.Yes
 		if not ok: return
@@ -121,7 +127,7 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		"""
 		def callBack():
 			self.boxModel=model
-			QMessageBox.warning(self,"Expeyes box choice","You chose: %s.\n" %model)
+			QMessageBox.warning(self,_("Expeyes box choice"),_("You chose: %s.\n") %model)
 			return
 		return callBack
 				
@@ -129,14 +135,14 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		"""
 		brings up the About dialog
 		"""
-		QMessageBox.about(self,"About", license)
+		QMessageBox.about(self,_("About"), license)
 		return
 		
 	def aboutQt(self):
 		"""
 		brings up the About dialog
 		"""
-		QMessageBox.aboutQt(self,"About Qt")
+		QMessageBox.aboutQt(self,_("About Qt"))
 		return
 		
 	versionPattern=re.compile(r"^Expeyes-Blocks version ([\.\d]+)$")
@@ -148,8 +154,8 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		Loads a component composition
 		"""
 		fileName=QFileDialog.getOpenFileName(self,
-			"Open a file",
-			filter="Expeyes-Blocks:  *.eyeblk (*.eyeblk);;All files: * (*)"
+			_("Open a file"),
+			filter=_("Expeyes-Blocks:  *.eyeblk (*.eyeblk);;All files: * (*)")
 		)
 		self.loadFile(fileName)
 		return
@@ -173,7 +179,7 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 				size=int(self.classPattern.match(nameSize).group(1))
 				className=instream.readline().strip()
 				if len(className) != size:
-					raise Exception("Error size: %s does not match %s" %(size, className))
+					raise Exception(_("Error size: %s does not match %s") %(size, className))
 				s=instream.readline()
 				blobSize=int(self.blobPattern.match(s).group(1))
 				blob=QByteArray(instream.read(blobSize))
@@ -219,10 +225,10 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		"""
 		if fileName: self.fileName=fileName
 		if not self.fileName:
-			self.fileName = "untitled.eyeblk"
+			self.fileName = _("untitled.eyeblk")
 		self.fileName=QFileDialog.getSaveFileName(
-			self, "Save to file", self.fileName,
-			filter = "Expeyes-Blocks:  *.eyeblk (*.eyeblk);;All files: * (*)"
+			self, _("Save to file"), self.fileName,
+			filter = _("Expeyes-Blocks:  *.eyeblk (*.eyeblk);;All files: * (*)")
 		)
 		if self.fileName:
 			self.save()
@@ -237,10 +243,10 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		ok = True
 		if self.dirty:
 			ok=QMessageBox.question(
-				self, "Please confirm", """\
+				self, _("Please confirm"), _("""\
 The current work is not yet saved,
 do you really want to quit the application?
-""",
+"""),
 				QMessageBox.Yes|QMessageBox.No) == QMessageBox.Yes
 		if ok:
 			QMainWindow.closeEvent(self,event)

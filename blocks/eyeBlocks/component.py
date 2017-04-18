@@ -14,6 +14,11 @@
 ############################################################################
 from __future__ import print_function
 
+import gettext
+gettext.bindtextdomain("expeyes")
+gettext.textdomain('expeyes')
+_ = gettext.gettext
+
 import os, re
 from PyQt4 import QtCore, QtGui
 from xml.dom.minidom import parseString
@@ -286,7 +291,7 @@ class Component(object):
 				elif "channel" in entry or "abscissa" in entry:
 					result.append(ChannelComponent(img, entry, mimetype, snapPoints=sp))
 				else:
-					print("Error, this should not happen:", entry)	
+					print(_("Error, this should not happen:"), entry)	
 					result.append(Component(img, entry, mimetype, snapPoints=sp))
 		return result
 		
