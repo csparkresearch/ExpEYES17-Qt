@@ -38,29 +38,28 @@ class Component(object):
 	
 	When a collection of components are organized on top of some
 	canvas, they can be compiled into some usable program.
+	
+	:param pixmap: a drawing to make an icon, and able to suggest the function of the component
+	:type pixmap: QPixmap
+	:param ident: an identifier
+	:type ident: QString
+	:param mimetype: a type to decide some behaviors in the user interface
+	:type mimetype: QString
+	:param rect: the surrounding rectangle; defaults to None, which will define rect as surrounding the given pixmap
+	:type rect: QRect
+	:param hotspot: the position of the mouse during the drag of the pixmap
+	:type hotspot: QPoint
 	"""
 
-	"""
-	pairs of maching flavors for snap points
-	"""
 	matchingFlavors=[
 		("block-in-signal", "block-out-signal"),
 	]
+	"""
+	pairs of maching flavors for snap points
+	"""
 	
 	def __init__(self, pixmap, ident, mimetype, rect=None, hotspot=None,
 					snapPoints=[]):
-		"""
-		The constructor
-		@param pixmap a drawing to make an icon, and able to suggest
-		the function of the component
-		@param ident an identifier
-		@param mimetype a type which decides some behaviors in the user
-		interface
-		@param rect the surrounding rectangle; defaults to None, which
-		will define rect as surrounding the given pixmap
-		@param hotspot the position of the mouse during the drag of
-		the pixmap
-		"""
 		super(Component, self).__init__()
 		if rect:
 			self.rect=rect
@@ -74,12 +73,12 @@ class Component(object):
 		self.ident=ident
 		self.mimetype=mimetype
 		self.snapPoints=snapPoints
-		self.touched_=False
+		self.touched=False
 		return
 
 	def reset(self):
 		"""
-		resets the touched_ flag
+		resets the touched flag
 		"""
 		self.touch(False)
 		return
@@ -95,17 +94,21 @@ class Component(object):
 
 	def touch(self, touched=True):
 		"""
-		sets the touch_ flag
-		@param touched value for the flag; True by default
+		sets the touch flag
+
+		:param touched: value for the flag; True by default
+		:type touched:
 		"""
-		self.touched_=touched
+		self.touched=touched
 		return
 
 	@classmethod
 	def fromOther(cls, c):
 		"""
 		alternate constructor
-		@param c a component
+
+		:param c: a component
+		:type c: Component or subclass
 		"""
 		self=cls(c.pixmap, c.ident, c.mimetype, c.rect, c.hotspot, c.snapPoints)
 		self.initDefaults()	
@@ -126,7 +129,9 @@ class Component(object):
 	def draw(self, painter):
 		"""
 		draws a component inside a widget with the help of a painter
-		@param painter a working QPainter instance
+
+		:param painter: a working QPainter instance
+		:type painter:
 		"""
 		painter.drawPixmap(self.rect, self.pixmap)
 		return
@@ -151,7 +156,7 @@ class Component(object):
 	def serialize(self):
 		"""
 		serializes a component into a QDataStream
-		returns data as a QByteArray instance and a writeStream to feed it on
+		returns data as a QByteArray instance and a writeStream to feed it on.
 		"""
 		itemData = QtCore.QByteArray()
 		dataStream = QtCore.QDataStream(itemData, QtCore.QIODevice.WriteOnly)
@@ -179,8 +184,7 @@ class Component(object):
 	@staticmethod
 	def fromListWidgetItem(lwi):
 		"""
-		creates ans returns a Component instance read from
-		a QListWidgetItem instance
+		creates ans returns a Component instance read from a QListWidgetItem instance
 		"""
 		return lwi.component
 		
@@ -196,8 +200,7 @@ class Component(object):
 	def unserialize(data):
 		"""
 		unserialize frome a byteArray,
-		@return a new Component instance, a dataStream to get further data,
-		and the className to restore
+		:returns: a new Component instance, a dataStream to get further data, and the className to restore
 		"""
 		from timecomponent import TimeComponent
 		from modifcomponent import ModifComponent
@@ -229,8 +232,10 @@ class Component(object):
 	def unserializeFromEvent(event):
 		"""
 		userialize given QEvent's data into a Component instance
-		@param event a QEvent, presumably due to a drop.
-		@return an instance of Component and a dataStream to get more data
+
+		:param event: a QEvent, presumably due to a drop.
+		:type event:
+		:returns: an instance of Component and a dataStream to get more data
 		"""
 		from timecomponent import TimeComponent
 		from modifcomponent import ModifComponent
@@ -288,8 +293,10 @@ class Component(object):
 	def makeDrag(self, parent):
 		"""
 		creates and returns a QDrag object with the given parent
-		@param parent a window, where a drag is starting
-		@return the DQrag instance
+
+		:param parent: a window, where a drag is starting
+		:type parent:
+		:returns: the DQrag instance
 		"""
 		itemData, writeStream = self.serialize()
 
@@ -306,9 +313,7 @@ class Component(object):
 		
 def snapPoints(rcpath):
 	"""
-	@return a list of snapPoints. Those are centers of circles
-	available in the SVG picture, denoted by ids which begin with
-	"block-"; those circles may be invisible in the pixmap.
+	:returns: a list of snapPoints. Those are centers of circles available in the SVG picture, denoted by ids which begin with "block-"; those circles may be invisible in the pixmap.
 	"""
 	f=QtCore.QFile(rcpath)
 	f.open(QtCore.QIODevice.ReadOnly | QtCore.QIODevice.Text)

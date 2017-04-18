@@ -41,6 +41,10 @@ import wizard
 
 
 class BlockMainWindow(QMainWindow, Ui_MainWindow):
+	"""
+	This class implements the main window of the Expeyes-Blocks
+	application.
+	"""
 	def __init__(self, parent=None):
 		QMainWindow.__init__(self, parent)
 		Ui_MainWindow.__init__(self)
@@ -76,8 +80,9 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		
 	def compile_(self):
 		"""
-		Compile the current scheme to a working application
-		@return the path to the main python program
+		Compile the current scheme to a working application.
+
+		:returns: the path to the main python program.
 		"""
 		import os, os.path
 		# save the file if necessary
@@ -110,7 +115,9 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 	def chooseBox(self, model):
 		"""
 		choose the targetted box
-		@param model the target model
+
+		:param model: the target model
+		:type model:
 		"""
 		def callBack():
 			self.boxModel=model
@@ -150,7 +157,9 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 	def loadFile(self, fileName):
 		"""
 		Loads a component composition
-		@param fileName a file of saved data
+
+		:param fileName: a file of saved data
+		:type fileName:
 		"""
 		ok=False
 		cur=0
@@ -204,7 +213,9 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 	def saveAs(self, fileName=None):
 		"""
 		Saves the current component composition in a new file
-		@param fileName name of the file, defaults to None
+
+		:param fileName: name of the file, defaults to None
+		:type fileName:
 		"""
 		if fileName: self.fileName=fileName
 		if not self.fileName:
@@ -223,24 +234,24 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		return
 		
 	def closeEvent(self, event):
-        ok = True
-        if self.dirty:
+		ok = True
+		if self.dirty:
 			ok=QMessageBox.question(
 				self, "Please confirm", """\
 The current work is not yet saved,
 do you really want to quit the application?
 """,
 				QMessageBox.Yes|QMessageBox.No) == QMessageBox.Yes
-        if ok:
+		if ok:
 			QMainWindow.closeEvent(self,event)
-            event.accept() # let the window close
-        else:
-            event.ignore()
-        return
+			event.accept() # let the window close
+		else:
+			event.ignore()
+		return
 
 	def currentTitle(self):
 		"""
-		@return curren title of the main window, taking in account
-		the file name and a dirty flag
+		:returns: the current title of the main window, taking in account the file name and a dirty flag.
+		:rtype: str
 		"""
 		return "Blocks (%s)%s" %(basename(str(self.fileName)), self.dirty)

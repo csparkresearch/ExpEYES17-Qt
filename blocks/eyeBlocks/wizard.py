@@ -24,9 +24,12 @@ import threading
 def compile_(components, directory, target):
 	"""
 	compile expeyes-blocks for a given target
-	@param directory place to make the build
-	@param target model of an expeyes box
-	@return the path to the main python program
+
+	:param directory: place to make the build
+	:type directory:
+	:param target: model of an expeyes box
+	:type target:
+	:returns: the path to the main python program
 	"""
 	if target=="expeyes-17":
 		call("cp templates/block1.ui.template %s/block1.ui" %directory, shell=True)
@@ -41,7 +44,9 @@ def compile_(components, directory, target):
 def run(program):
 	"""
 	runs program in a non-blocking thread
-	@param program the path to a main python program
+
+	:param program: the path to a main python program
+	:type program:
 	"""
 	cmd="(python %s &)" %program
 	def my_run():
