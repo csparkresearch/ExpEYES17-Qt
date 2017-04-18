@@ -371,17 +371,64 @@ class expeyesWidgets():
 			self.plot = plot
 			#self.menubutton.setStyleSheet("height: 13px;padding:3px;color: #FFFFFF;")
 			self.menu = QtGui.QMenu()
+			
+			self.editBtn=self.myColorButton('Change Color',[255,255,255,255])
+
+        
+			self.editBtn.colorDialog.currentColorChanged.connect(self.change)
+			#self.editBtn.sigColorChanging.connect(self.change)
+			self.editAction = QtGui.QWidgetAction(self.menu)
+			self.editAction.setDefaultWidget(self.editBtn)
+			self.menu.addAction(self.editAction)
+			
 			self.menu.addAction('Save Trace', self.saveTrace)
 			self.menu.addAction('Save All Traces', self.saveTraces)
 			self.menu.addSeparator()
 			self.menu.addAction('Delete Trace', self.deleteTrace)
 			self.menuButton.setMenu(self.menu)
 
+		class myColorButton(QtGui.QPushButton):
+			'''
+			inheriting and overriding paint event to reduce the boundary.
+			'''
+			def __init__(self,name,color):
+				super(expeyesWidgets.tracesWidget.myColorButton, self).__init__()
+				self.setText(name)
 
+				self.colorDialog = QtGui.QColorDialog()
+				self.colorDialog.setOption(QtGui.QColorDialog.ShowAlphaChannel, True)
+				self.colorDialog.setOption(QtGui.QColorDialog.DontUseNativeDialog, True)
+				self.clicked.connect(self.selectColor)
+
+			def selectColor(self):
+				self.colorDialog.setCurrentColor(self.color())
+				self.colorDialog.open()				
+
+			def setColor(self, color, finished=True):
+				"""Sets the button's color and emits both sigColorChanged and sigColorChanging."""
+				self._color = pg.functions.mkColor(color)
+
+			def color(self, mode='qcolor'):
+				color = pg.functions.mkColor(self._color)
+				if mode == 'qcolor':
+					return color
+				elif mode == 'byte':
+					return (color.red(), color.green(), color.blue(), color.alpha())
+				elif mode == 'float':
+					return (color.red()/255., color.green()/255., color.blue()/255., color.alpha()/255.)
+
+		
+		def change(self,btn):
+			C = self.curveRefs[str(self.traceList.currentText())]
+			if C is not None:
+				C.setPen(color=btn.getRgb())
+				self.editBtn.setStyleSheet("border:5px solid %s;"%btn.name())
 
 		def addCurve(self,name,c):
 			self.curveRefs[name] = c
 			self.traceList.addItem(name)
+
+
 
 		def removeCurve(self,c): #remove by curve reference
 			self.traceList.clear()
@@ -396,6 +443,7 @@ class expeyesWidgets():
 		def traceChanged(self,name):
 			try:self.enableButton.setChecked(self.curveRefs[str(name)].isVisible())
 			except Exception as e:print (e)
+			self.editBtn.setColor(self.curveRefs[str(name)].opts['pen'].color().getRgb())
 
 		def traceToggled(self,state):
 			self.curveRefs[str(self.traceList.currentText())].setVisible(state)

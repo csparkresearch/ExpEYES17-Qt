@@ -16,6 +16,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.setupUi(self)
 		self.p = kwargs.get('handler',None)
 		self.widgetLayout.setAlignment(QtCore.Qt.AlignTop)
+		self.widgets.setMinimumWidth(250)
 		#Constants
 		self.active_device_counter= 0
 		self.acquireList={}
