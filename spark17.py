@@ -50,6 +50,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	xmax = 20 #mS
 	TandM = OrderedDict([
 	('Oscilloscope','oscilloscope'),
+	('I2C Sensor Data Logger','sensorLogger'),
 	 ])
 	electrical = OrderedDict([
 	('Half-wave rectifier','halfwave'),
@@ -65,7 +66,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	('Electrical',electrical),
 	('examples',examples)
 	])
-	defaultExperiment = 'Diode IV'
+	defaultExperiment = 'I2C Sensor Data Logger'
 
 	allExpts = {}
 	for a in exptGroups:

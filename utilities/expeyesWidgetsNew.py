@@ -142,7 +142,7 @@ class expeyesWidgets():
 		self.myCurves=OrderedDict()
 		self.myTracesWidget = self.tracesWidget(plot)
 		
-		self.TITLE('Acquired Data')
+		self.TITLE('Trace List')
 		self.widgetLayout.addWidget(self.myTracesWidget)
 		num=0
 		for a in curvenames:
@@ -513,6 +513,18 @@ class expeyesWidgets():
 		except:pass
 		print ('winding up finished')
 	####################################################################################
+
+	def randomColor(self):
+		"""
+		Generate a random colour
+		
+		:return: QtGui.QColor object
+		"""
+		c=QtGui.QColor(random.randint(20,255),random.randint(20,255),random.randint(20,255))
+		if np.average(c.getRgb())<150:
+			c=self.randomColor()
+		return c
+
 		
 	def addPlot(self,**kwargs):
 		if 'leftAxis' in kwargs: kwargs['axisItems'] = {'left':kwargs.pop('leftAxis')}
@@ -647,18 +659,18 @@ class expeyesWidgets():
 
 	###############################  PUSHBUTTON WIDGET ######################
 
-	def PUSHBUTTON(self,name, callback,**kwargs):
+	def PUSHBUTTON(self,name, callback=None,**kwargs):
 		widget  =self.pushButtonWidget(name, callback,**kwargs)
 		self.widgetArray.append(widget)
 		self.widgetLayout.addWidget(widget)
 		return widget
 
 	class pushButtonWidget(QtGui.QPushButton):
-		def __init__(self,name,callback,**kwargs):
+		def __init__(self,name,callback=None,**kwargs):
 			super(expeyesWidgets.pushButtonWidget, self).__init__()
 			self.setText(name)
 			self.callback = callback
-			self.clicked.connect(self.callback)
+			if callback is not None:self.clicked.connect(self.callback)
 
 	###############################  CHECKBOX WIDGET ######################
 
