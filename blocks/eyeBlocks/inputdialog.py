@@ -48,7 +48,8 @@ class Dialog(QtGui.QDialog, Ui_Dialog):
 	def timeBase(self):
 		"""
 		get timebase data
-		@return delay, samples, duration
+
+		:returns: delay, samples, duration
 		"""
 		delay = int(self.delayCombo.currentText())
 		samples = int(self.sampleCombo.currentText())

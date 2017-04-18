@@ -82,9 +82,12 @@ class ComponentsList(QListWidget):
 	def hideItem(self, comp, state=True):
 		"""
 		Hides list items if they are same as a component
-		@param comp a component
-		@param state when False, it will unhide; True by default
-		@return index of the found item (-1 if none)
+
+		:param comp: a component
+		:type comp:
+		:param state: when False, it will unhide; True by default
+		:type state:
+		:returns: index of the found item (-1 if none)
 		"""
 		found=-1
 		ident=comp.ident

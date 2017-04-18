@@ -33,7 +33,10 @@ from inputdialog import Dialog as InputDialog
 
 
 class BlockWidget(QWidget):
-
+	"""
+	This simple widget is used to paint component blocks, and
+	manage interactions with the user.
+	"""
 	blocksChanged = pyqtSignal()
 	
 	def __init__(self, parent=None):
@@ -90,10 +93,13 @@ class BlockWidget(QWidget):
 		"""
 		finds components underlying a snap point, with given position
 		and a couple of flavors
-		@param pos the current position of the snap point
-		@param snapPoint the snap point
-		@param flavors a couple of texts for matching snap points
-		@return a list of matching component and its snapPoint
+		:param pos: the current position of the snap point
+		:type pos:
+		:param snapPoint: the snap point
+		:type snapPoint:
+		:param flavors: a couple of texts for matching snap points
+		:type flavors:
+		:returns: a list of matching component and its snapPoint
 		"""
 		result=[]
 		# to implement symmetry in the flavor's relation
@@ -191,8 +197,9 @@ class BlockWidget(QWidget):
 
 	def blockAt(self, pos):
 		"""
-		@param pos a QPoint instance
-		@return the component at the given position if any, else None
+		:param pos: a QPoint instance
+		:type pos:
+		:returns: the component at the given position if any, else None
 		"""
 		result=None
 		for c in self.components:

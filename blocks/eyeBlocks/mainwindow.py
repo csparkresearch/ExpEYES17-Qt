@@ -20,7 +20,7 @@ license="""\
   FITNESS FOR A PARTICULAR PURPOSE.
 """
 
-version="0.4"
+from version import version
 
 import copy, re
 from os.path import basename
@@ -30,6 +30,10 @@ from PyQt4.QtCore import QPoint, QRect, Qt, QSize, QString, \
 
 from PyQt4.QtGui import QMainWindow, QApplication, \
 	QMessageBox, QFileDialog
+
+def _translate(context, text, disambig):
+	return QApplication.translate(context, text, disambig)
+        
 
 from templates.ui_blocks import Ui_MainWindow
 from component import Component, InputComponent
@@ -41,6 +45,10 @@ import wizard
 
 
 class BlockMainWindow(QMainWindow, Ui_MainWindow):
+	"""
+	This class implements the main window of the Expeyes-Blocks
+	application.
+	"""
 	def __init__(self, parent=None):
 		QMainWindow.__init__(self, parent)
 		Ui_MainWindow.__init__(self)
@@ -76,8 +84,9 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		
 	def compile_(self):
 		"""
-		Compile the current scheme to a working application
-		@return the path to the main python program
+		Compile the current scheme to a working application.
+
+		:returns: the path to the main python program.
 		"""
 		import os, os.path
 		# save the file if necessary
@@ -91,8 +100,9 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		ok=True
 		if l:
 			ok=QMessageBox.question(self,
-				"OK to erase a previous build?",
-				"Here are some previous built files:\n %s\nDo you really want to overwrite them?" %", ".join(l),
+				_translate("eyeBlocks.mainwindow","OK to erase a previous build?",None),
+				_translate("eyeBlocks.mainwindow","Here are some previous built files:\n %s\nDo you really want to overwrite them?",None) \
+					%", ".join(l),
 				QMessageBox.No|QMessageBox.Yes
 			) == QMessageBox.Yes
 		if not ok: return
@@ -110,11 +120,13 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 	def chooseBox(self, model):
 		"""
 		choose the targetted box
-		@param model the target model
+
+		:param model: the target model
+		:type model:
 		"""
 		def callBack():
 			self.boxModel=model
-			QMessageBox.warning(self,"Expeyes box choice","You chose: %s.\n" %model)
+			QMessageBox.warning(self,_translate("eyeBlocks.mainwindow","Expeyes box choice",None),_translate("eyeBlocks.mainwindow","You chose: %s.\n",None) %model)
 			return
 		return callBack
 				
@@ -122,14 +134,14 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		"""
 		brings up the About dialog
 		"""
-		QMessageBox.about(self,"About", license)
+		QMessageBox.about(self,_translate("eyeBlocks.mainwindow","About",None), license)
 		return
 		
 	def aboutQt(self):
 		"""
 		brings up the About dialog
 		"""
-		QMessageBox.aboutQt(self,"About Qt")
+		QMessageBox.aboutQt(self,_translate("eyeBlocks.mainwindow","About Qt",None))
 		return
 		
 	versionPattern=re.compile(r"^Expeyes-Blocks version ([\.\d]+)$")
@@ -141,8 +153,8 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		Loads a component composition
 		"""
 		fileName=QFileDialog.getOpenFileName(self,
-			"Open a file",
-			filter="Expeyes-Blocks:  *.eyeblk (*.eyeblk);;All files: * (*)"
+			_translate("eyeBlocks.mainwindow","Open a file",None),
+			filter=_translate("eyeBlocks.mainwindow","Expeyes-Blocks:  *.eyeblk (*.eyeblk);;All files: * (*)",None)
 		)
 		self.loadFile(fileName)
 		return
@@ -150,7 +162,9 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 	def loadFile(self, fileName):
 		"""
 		Loads a component composition
-		@param fileName a file of saved data
+
+		:param fileName: a file of saved data
+		:type fileName:
 		"""
 		ok=False
 		cur=0
@@ -164,7 +178,7 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 				size=int(self.classPattern.match(nameSize).group(1))
 				className=instream.readline().strip()
 				if len(className) != size:
-					raise Exception("Error size: %s does not match %s" %(size, className))
+					raise Exception(_translate("eyeBlocks.mainwindow","Error size: %s does not match %s",None) %(size, className))
 				s=instream.readline()
 				blobSize=int(self.blobPattern.match(s).group(1))
 				blob=QByteArray(instream.read(blobSize))
@@ -204,14 +218,16 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 	def saveAs(self, fileName=None):
 		"""
 		Saves the current component composition in a new file
-		@param fileName name of the file, defaults to None
+
+		:param fileName: name of the file, defaults to None
+		:type fileName:
 		"""
 		if fileName: self.fileName=fileName
 		if not self.fileName:
-			self.fileName = "untitled.eyeblk"
+			self.fileName = _translate("eyeBlocks.mainwindow","untitled.eyeblk",None)
 		self.fileName=QFileDialog.getSaveFileName(
-			self, "Save to file", self.fileName,
-			filter = "Expeyes-Blocks:  *.eyeblk (*.eyeblk);;All files: * (*)"
+			self, _translate("eyeBlocks.mainwindow","Save to file",None), self.fileName,
+			filter = _translate("eyeBlocks.mainwindow","Expeyes-Blocks:  *.eyeblk (*.eyeblk);;All files: * (*)",None)
 		)
 		if self.fileName:
 			self.save()
@@ -223,36 +239,25 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		return
 		
 	def closeEvent(self, event):
-        ok = True
-        if self.dirty:
+		ok = True
+		if self.dirty:
 			ok=QMessageBox.question(
-				self, "Please confirm", """\
+				self, _translate("eyeBlocks.mainwindow","Please confirm",None),
+					_translate("eyeBlocks.mainwindow","""\
 The current work is not yet saved,
 do you really want to quit the application?
-""",
+""",None),
 				QMessageBox.Yes|QMessageBox.No) == QMessageBox.Yes
-        if ok:
+		if ok:
 			QMainWindow.closeEvent(self,event)
-            event.accept() # let the window close
-        else:
-            event.ignore()
-        return
+			event.accept() # let the window close
+		else:
+			event.ignore()
+		return
 
 	def currentTitle(self):
 		"""
-		@return curren title of the main window, taking in account
-		the file name and a dirty flag
+		:returns: the current title of the main window, taking in account the file name and a dirty flag.
+		:rtype: str
 		"""
 		return "Blocks (%s)%s" %(basename(str(self.fileName)), self.dirty)
-		
-		
-if __name__ == '__main__':
-
-	import sys
-
-	app = QApplication(sys.argv)
-	window = BlockMainWindow()
-	window.show()
-	if len(sys.argv) > 1:
-		window.loadFile(sys.argv[1])
-	sys.exit(app.exec_())

@@ -11,3 +11,5 @@ ui_*.py
 *.eyeblk
 # build zones
 build/
+# Qt generated translation
+*.qm
