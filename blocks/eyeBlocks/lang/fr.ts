@@ -3,22 +3,22 @@
 <context>
     <name>Dialog</name>
     <message>
-        <location filename="../eyeBlocks/templates/inputs.ui" line="14"/>
+        <location filename="../templates/inputs.ui" line="14"/>
         <source>Input features</source>
         <translation>Caractéristiques des entrées</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/templates/inputs.ui" line="27"/>
+        <location filename="../templates/inputs.ui" line="27"/>
         <source>Time base</source>
         <translation>Base de temps</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/templates/inputs.ui" line="174"/>
+        <location filename="../templates/inputs.ui" line="174"/>
         <source>Settings</source>
         <translation>Réglages</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/templates/inputs.ui" line="39"/>
+        <location filename="../templates/inputs.ui" line="39"/>
         <source>Duration</source>
         <translation>Durée</translation>
     </message>
@@ -28,17 +28,17 @@
         <translation type="obsolete">µs</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/templates/inputs.ui" line="75"/>
+        <location filename="../templates/inputs.ui" line="75"/>
         <source>Samples number</source>
         <translation>Nombre d&apos;échantillons</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/templates/inputs.ui" line="95"/>
+        <location filename="../templates/inputs.ui" line="95"/>
         <source>Delay</source>
         <translation>Délai</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/templates/inputs.ui" line="139"/>
+        <location filename="../templates/inputs.ui" line="139"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -74,22 +74,22 @@ La durée d&apos;une mesure est donnée par la formule
 &lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/templates/inputs.ui" line="168"/>
+        <location filename="../templates/inputs.ui" line="168"/>
         <source>A1</source>
         <translation>A1</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/templates/inputs.ui" line="180"/>
+        <location filename="../templates/inputs.ui" line="180"/>
         <source>Range</source>
         <translation>Calibre</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/templates/inputs.ui" line="203"/>
+        <location filename="../templates/inputs.ui" line="203"/>
         <source>V</source>
         <translation>V</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/templates/inputs.ui" line="213"/>
+        <location filename="../templates/inputs.ui" line="213"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -113,7 +113,7 @@ Cette partie n&apos;est pas encore implémentée
 &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../eyeBlocks/templates/inputs.ui" line="121"/>
+        <location filename="../templates/inputs.ui" line="121"/>
         <source>µs</source>
         <translation type="unfinished"></translation>
     </message>
@@ -121,102 +121,102 @@ Cette partie n&apos;est pas encore implémentée
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../eyeBlocks/templates/blocks.ui" line="14"/>
+        <location filename="../templates/blocks.ui" line="14"/>
         <source>Blocks</source>
         <translation>Blocs</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/templates/blocks.ui" line="81"/>
+        <location filename="../templates/blocks.ui" line="81"/>
         <source>Fi&amp;le</source>
         <translation>&amp;Fichier</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/templates/blocks.ui" line="91"/>
+        <location filename="../templates/blocks.ui" line="91"/>
         <source>&amp;Help</source>
         <translation>&amp;Aide</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/templates/blocks.ui" line="98"/>
+        <location filename="../templates/blocks.ui" line="98"/>
         <source>B&amp;uild</source>
         <translation>&amp;Construire</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/templates/blocks.ui" line="102"/>
+        <location filename="../templates/blocks.ui" line="102"/>
         <source>&amp;Targetted box</source>
         <translation>&amp;Choix de boîtier</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/templates/blocks.ui" line="118"/>
+        <location filename="../templates/blocks.ui" line="118"/>
         <source>&amp;Save (Ctrl-S)</source>
         <translation>Enregi&amp;strer (Ctrl-S)</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/templates/blocks.ui" line="121"/>
+        <location filename="../templates/blocks.ui" line="121"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/templates/blocks.ui" line="126"/>
+        <location filename="../templates/blocks.ui" line="126"/>
         <source>Save &amp;as ...</source>
         <translation>Enre&amp;gistrer sous ...</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/templates/blocks.ui" line="131"/>
+        <location filename="../templates/blocks.ui" line="131"/>
         <source>&amp;Open ... (Ctrl-O)</source>
         <translation>&amp;Ouvrir ... (Ctrl-O)</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/templates/blocks.ui" line="134"/>
+        <location filename="../templates/blocks.ui" line="134"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/templates/blocks.ui" line="139"/>
+        <location filename="../templates/blocks.ui" line="139"/>
         <source>&amp;Quit (Ctrl-Q)</source>
         <translation>&amp;Quitter (Ctrl-Q)</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/templates/blocks.ui" line="142"/>
+        <location filename="../templates/blocks.ui" line="142"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/templates/blocks.ui" line="147"/>
+        <location filename="../templates/blocks.ui" line="147"/>
         <source>&amp;About ... (F1)</source>
         <translation>&amp;À Propos ... (F1)</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/templates/blocks.ui" line="150"/>
+        <location filename="../templates/blocks.ui" line="150"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/templates/blocks.ui" line="155"/>
+        <location filename="../templates/blocks.ui" line="155"/>
         <source>About &amp;Qt ...</source>
         <translation>&amp;À propos de Qt ...</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/templates/blocks.ui" line="160"/>
+        <location filename="../templates/blocks.ui" line="160"/>
         <source>&amp;Compile (F9)</source>
         <translation>&amp;Compiler (F9)</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/templates/blocks.ui" line="163"/>
+        <location filename="../templates/blocks.ui" line="163"/>
         <source>F9</source>
         <translation>F9</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/templates/blocks.ui" line="168"/>
+        <location filename="../templates/blocks.ui" line="168"/>
         <source>&amp;Run (F5)</source>
         <translation>Lance&amp;r (F5)</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/templates/blocks.ui" line="171"/>
+        <location filename="../templates/blocks.ui" line="171"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/templates/blocks.ui" line="176"/>
+        <location filename="../templates/blocks.ui" line="176"/>
         <source>Expeyes-1&amp;7</source>
         <translation>Expeyes-1&amp;7</translation>
     </message>
@@ -224,7 +224,7 @@ Cette partie n&apos;est pas encore implémentée
 <context>
     <name>eyeBlocks.component</name>
     <message>
-        <location filename="../eyeBlocks/component.py" line="294"/>
+        <location filename="../component.py" line="294"/>
         <source>Error, this should not happen:</source>
         <translation>Erreur, Ça ne devrait jamais arriver :</translation>
     </message>
@@ -232,12 +232,12 @@ Cette partie n&apos;est pas encore implémentée
 <context>
     <name>eyeBlocks.mainwindow</name>
     <message>
-        <location filename="../eyeBlocks/mainwindow.py" line="102"/>
+        <location filename="../mainwindow.py" line="102"/>
         <source>OK to erase a previous build?</source>
         <translation>OK pour effacer une compilation précédente ?</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/mainwindow.py" line="102"/>
+        <location filename="../mainwindow.py" line="102"/>
         <source>Here are some previous built files:
  %s
 Do you really want to overwrite them?</source>
@@ -246,49 +246,49 @@ Do you really want to overwrite them?</source>
 Voulez-vous réellement les écraser ?</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/mainwindow.py" line="129"/>
+        <location filename="../mainwindow.py" line="129"/>
         <source>Expeyes box choice</source>
         <translation>Choix de boîter Expeyes</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/mainwindow.py" line="129"/>
+        <location filename="../mainwindow.py" line="129"/>
         <source>You chose: %s.
 </source>
         <translation>Vous avez choisi : %s.
 </translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/mainwindow.py" line="137"/>
+        <location filename="../mainwindow.py" line="137"/>
         <source>About</source>
         <translation>À propos</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/mainwindow.py" line="144"/>
+        <location filename="../mainwindow.py" line="144"/>
         <source>About Qt</source>
         <translation>À propos de Qt</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/mainwindow.py" line="230"/>
+        <location filename="../mainwindow.py" line="230"/>
         <source>Expeyes-Blocks:  *.eyeblk (*.eyeblk);;All files: * (*)</source>
         <translation>Expeyes-Blocks :  *.eyeblk (*.eyeblk);;Tous fichiers : * (*)</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/mainwindow.py" line="181"/>
+        <location filename="../mainwindow.py" line="181"/>
         <source>Error size: %s does not match %s</source>
         <translation>Erreur, la taille : %s ne convient pas à %s</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/mainwindow.py" line="229"/>
+        <location filename="../mainwindow.py" line="229"/>
         <source>untitled.eyeblk</source>
         <translation>sansNom.eyeblk</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/mainwindow.py" line="230"/>
+        <location filename="../mainwindow.py" line="230"/>
         <source>Save to file</source>
         <translation>Enregistrer dans le fichier</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/mainwindow.py" line="246"/>
+        <location filename="../mainwindow.py" line="246"/>
         <source>Please confirm</source>
         <translation>Veuillez confirmer</translation>
     </message>
@@ -298,12 +298,12 @@ Voulez-vous réellement les écraser ?</translation>
         <translation type="obsolete">Erreur, Ça ne devrait jamais arriver :</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/mainwindow.py" line="155"/>
+        <location filename="../mainwindow.py" line="155"/>
         <source>Open a file</source>
         <translation>Ouvrir un fichier</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/mainwindow.py" line="246"/>
+        <location filename="../mainwindow.py" line="246"/>
         <source>The current work is not yet saved,
 do you really want to quit the application?
 </source>
@@ -315,22 +315,22 @@ voulez-vous réellement quitter l&apos;application ?
 <context>
     <name>eyeBlocks.timecomponent</name>
     <message>
-        <location filename="../eyeBlocks/timecomponent.py" line="57"/>
+        <location filename="../timecomponent.py" line="57"/>
         <source>Time Base</source>
         <translation>Base de temps</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/timecomponent.py" line="58"/>
+        <location filename="../timecomponent.py" line="58"/>
         <source>delay: %1 s</source>
         <translation>Délai : %1 s</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/timecomponent.py" line="59"/>
+        <location filename="../timecomponent.py" line="59"/>
         <source>duration: %1 s</source>
         <translation>durée : %1 s</translation>
     </message>
     <message>
-        <location filename="../eyeBlocks/timecomponent.py" line="60"/>
+        <location filename="../timecomponent.py" line="60"/>
         <source>(%1 points)</source>
         <translation>(%1 points)</translation>
     </message>

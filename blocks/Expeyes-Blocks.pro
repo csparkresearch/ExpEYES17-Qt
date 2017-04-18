@@ -5,4 +5,4 @@ SOURCES += eyeBlocks/timecomponent.py eyeBlocks/component.py
 
 SOURCES += eyeBlocks/mainwindow.py
 
-TRANSLATIONS += lang/fr.ts
+TRANSLATIONS += eyeBlocks/lang/fr.ts

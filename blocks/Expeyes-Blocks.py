@@ -23,7 +23,8 @@ license="""\
 import sys
 from PyQt4.QtGui import QApplication
 from PyQt4.QtCore import QTranslator, QLocale, QLibraryInfo
-from eyeBlocks.mainwindow import BlockMainWindow
+import eyeBlocks.mainwindow
+import os
 
 app = QApplication(sys.argv)
 
@@ -34,11 +35,12 @@ qtTranslator.load("qt_" + QLocale.system().name(), QLibraryInfo.location(QLibrar
 app.installTranslator(qtTranslator)
 
 myTranslator=QTranslator()
-myTranslator.load("lang/" + QLocale.system().name())
+langPath=os.path.join(os.path.dirname(eyeBlocks.mainwindow.__file__), "lang")
+myTranslator.load(langPath + "/" + QLocale.system().name())
 app.installTranslator(myTranslator)
 
 ######## Creating the main window
-window = BlockMainWindow()
+window = eyeBlocks.mainwindow.BlockMainWindow()
 window.show()
 if len(sys.argv) > 1:
 	window.loadFile(sys.argv[1])
