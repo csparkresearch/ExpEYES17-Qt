@@ -13,4 +13,4 @@ model is targetted).
 
 ## Begin with an example ##
 
-You can launch `python blocks.py sample.eyeblk`.
+You can launch `python Expeyes-Blocks.py sample.eyeblk`.

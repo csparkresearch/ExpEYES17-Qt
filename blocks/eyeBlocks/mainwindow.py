@@ -244,15 +244,3 @@ do you really want to quit the application?
 		the file name and a dirty flag
 		"""
 		return "Blocks (%s)%s" %(basename(str(self.fileName)), self.dirty)
-		
-		
-if __name__ == '__main__':
-
-	import sys
-
-	app = QApplication(sys.argv)
-	window = BlockMainWindow()
-	window.show()
-	if len(sys.argv) > 1:
-		window.loadFile(sys.argv[1])
-	sys.exit(app.exec_())

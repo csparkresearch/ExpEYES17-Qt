@@ -181,13 +181,13 @@
   <customwidget>
    <class>BlockWidget</class>
    <extends>QWidget</extends>
-   <header>blockwidget</header>
+   <header>eyeBlocks.blockwidget</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>ComponentsList</class>
    <extends>QListWidget</extends>
-   <header>componentslist</header>
+   <header>eyeBlocks.componentslist</header>
   </customwidget>
  </customwidgets>
  <resources>
