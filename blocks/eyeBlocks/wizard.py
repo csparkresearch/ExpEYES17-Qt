@@ -21,6 +21,34 @@ from subprocess import call, Popen, PIPE
 from datetime import datetime
 import threading, copy
 
+def makeChains(bw):
+	"""
+	finds chained components in the working area
+	
+	:param bw: working area
+	:type bw: BlockWidget
+	:returns: a list of chaines components and a list of dangling components, as indexes
+	:rtype: tuple(list(list(int)), list(int))
+	"""
+	placed=[]
+	chains=[]
+	for d in range(len(bw.components)):
+		for l in chains:
+			for c in l:
+				if d in l: continue
+				elif bw.areSnappedComponents(d,c):
+					l.insert(l.index(c),d); placed.append(d)
+				elif bw.areSnappedComponents(c,d):
+					l.insert(l.index(c)+1,d); placed.append(d)
+		if d in placed: continue
+		for e in range(len(bw.components)):
+			if e in placed: continue
+			if bw.areSnappedComponents(d,e):
+				chains.append([d,e]); placed.append(d); placed.append(e)
+			elif bw.areSnappedComponents(e,d):
+				chains.append([e,d]); placed.append(d); placed.append(e)
+	return chains, [d for d in range(len(bw.components)) if d not in placed]
+	
 def compile_(bw, directory):
 	"""
 	compile expeyes-blocks for a given target
@@ -31,21 +59,9 @@ def compile_(bw, directory):
 	:type directory:
 	:returns: the path to the main python program
 	"""
-	dangling=range(len(bw.components)) # indexes of dangling components
-	chains=[]
-	for d in dangling:
-		for l in chains:
-			for c in l:
-				if bw.areSnappedComponents(d,c):
-					print("GRRRR in chain", l, "connection:", d, c)
-		for e in dangling:
-			if bw.areSnappedComponents(d,e, symmetric=False):
-				print("GRRRR in dangling, connection:", d, e)
-	### debug purpose only
-	msg=[]
-	for c,s in bw.snapped:
-		msg.append("%s(%s)" %(c.className(),s.text))
-	print("GRRR bw.snapped =", ", ".join(msg))
+	chains, dangling=makeChains(bw)
+	### for debug purpose only
+	strchains=[str(c) for c in chains]; QtGui.QMessageBox.warning(bw,"GRRRR", "Chains:\n%s \n\nDangling: %s" %("\n".join(strchains), dangling))
 	target=bw.boxModel
 	components=bw.components
 	templatePath=os.path.join(os.path.dirname(__file__),"templates")
