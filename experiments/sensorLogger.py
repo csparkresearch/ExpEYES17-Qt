@@ -16,9 +16,10 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.setupUi(self)
 		self.p = kwargs.get('handler',None)
 		self.widgetLayout.setAlignment(QtCore.Qt.AlignTop)
+		self.widgets.setMinimumWidth(250)
 		#Constants
 		self.active_device_counter= 0
-		self.acquireList=[]
+		self.acquireList={}
 		self.POINTS=1000
 		self.updatepos=0
 		self.xdata=range(self.POINTS)
@@ -31,12 +32,14 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 
 		self.TITLE('Initialize')
 		self.scanButton = self.PUSHBUTTON('Auto Scan')
-		self.scanMenu = QtGui.QMenu()
+		self.scanMenu = QtGui.QMenu(); self.scanMenu.setMinimumWidth(self.widgets.width())
 		self.scanMenu.addAction('Run Scan', self.autoScan)
 		self.scanMenu.addSeparator()
 		#self.scanMenu.addAction('Exit', self.askBeforeQuit)
 		self.scanButton.setMenu(self.scanMenu)
 		self.sensorEntries = {}
+		
+		self.sensorWidgets = {}
 
 		#Add a vertical spacer in the widgetLayout . about 0.5cm
 		self.SPACER(20)
@@ -77,13 +80,13 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 
 				if len(label):self.plot.setLabel('left', label)
 				curves=[self.addCurve(self.plot,'%s[%s]'%(label[:10],bridge.PLOTNAMES[a]),self.randomColor()) for a in range(bridge.NUMPLOTS)]
-				self.acquireList.append(self.plotItem(bridge,np.zeros((bridge.NUMPLOTS,self.POINTS)), curves)) 
+				self.acquireList[addr] = self.plotItem(bridge,np.zeros((bridge.NUMPLOTS,self.POINTS)), curves)
 				self.active_device_counter+=1
 
 
 	def createMenu(self,bridge):
-		self.TITLE(bridge.name[:15])
-		menuButton = self.PUSHBUTTON('Options')		
+		label,line = self.TITLE(bridge.name[:15])
+		menuButton = self.PUSHBUTTON('Options')
 		menu = QtGui.QMenu()
 		menuButton.setMenu(menu)
 
@@ -93,11 +96,19 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 			for a in bridge.params[i]:
 				Callback = functools.partial(getattr(bridge,i),a)
 				mini.addAction(str(a),Callback)
-		#self.paramMenus.insertWidget(0,menu)
-		#self.deviceMenus.append(menu)
-		#self.deviceMenus.append(sub_menu)
+		menu.addSeparator()
+		menu.addAction('Remove This Sensor',functools.partial(self.deleteSensor,bridge.ADDRESS))
+		
+		self.sensorWidgets[bridge.ADDRESS] = [label,line,menuButton]
 
-
+	def deleteSensor(self,addr):
+		item = self.acquireList.pop(addr)
+		for a in item.curves:
+			self.removeCurve(self.plot,a)
+			self.plot.leg.removeItem(a.name())
+		for a in self.sensorWidgets[addr]:
+			a.setParent(None)
+			a = None
 		
 	class data:
 		def __init__(self):
@@ -113,7 +124,8 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	def update(self):
 		#print ('update',time.ctime())
 		#if self.pauseBox.isChecked():return
-		for item in self.acquireList:
+		for addr in self.acquireList:
+			item = self.acquireList[addr]
 			need_data=False
 			for a in item.curves:
 				a.checked = a.isEnabled()
