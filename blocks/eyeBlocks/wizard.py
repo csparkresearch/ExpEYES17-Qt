@@ -21,21 +21,29 @@ from subprocess import call, Popen, PIPE
 from datetime import datetime
 import threading
 
-def compile_(components, directory, target):
+def compile_(bw, directory):
 	"""
 	compile expeyes-blocks for a given target
 
+	:param bw: working area
+	:type bw: BlockWidget
 	:param directory: place to make the build
 	:type directory:
-	:param target: model of an expeyes box
-	:type target:
 	:returns: the path to the main python program
 	"""
+	target=bw.boxModel
+	components=bw.components
+	templatePath=os.path.join(os.path.dirname(__file__),"templates")
 	if target=="expeyes-17":
-		call("cp templates/block1.ui.template %s/block1.ui" %directory, shell=True)
+		call("cp {blocktemplate} {d}/block1.ui".format(
+			blocktemplate=os.path.join(templatePath,"block1.ui.template"),
+			d=directory
+		),
+		shell=True)
 		call("pyuic4 {d}/block1.ui -o {d}/ui_block1.py".format(d=directory), shell=True)
 		now=datetime.now().isoformat()
-		cmd="cat templates/run.py.template| sed 's/^\\(# generation date:\\).*/\\1 {t}/' > {d}/run.py".format(
+		cmd="cat {runtemplate} | sed 's/^\\(# generation date:\\).*/\\1 {t}/' > {d}/run.py".format(
+			runtemplate=os.path.join(templatePath,"run.py.template"),
 			d=directory,t=now
 		)
 		call(cmd, shell=True)

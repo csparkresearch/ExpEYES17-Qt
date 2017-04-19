@@ -32,7 +32,7 @@ from PyQt4.QtGui import QMainWindow, QApplication, \
 	QMessageBox, QFileDialog
 
 def _translate(context, text, disambig):
-	return QApplication.translate(context, text, disambig)
+	return unicode(QApplication.translate(context, text, disambig))
         
 
 from templates.ui_blocks import Ui_MainWindow
@@ -57,7 +57,7 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		self.connectSignals()
 		self.fileName=None
 		self.dirty="" # may become "*"
-		self.boxModel="expeyes-17"
+		self.widget.boxModel="expeyes-17"
 		return
 
 	def loadComponents(self, path=None):
@@ -91,7 +91,8 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		import os, os.path
 		# save the file if necessary
 		if self.dirty=="*": self.save()
-		directory=os.path.join("build", self.fileName.replace(".eyeblk",""))
+		fileNameShorted=os.path.basename(str(self.fileName)).replace(".eyeblk","")
+		directory=os.path.join("build", fileNameShorted)
 		try:
 			os.makedirs(directory, mode=0o755)
 		except:
@@ -106,7 +107,7 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 				QMessageBox.No|QMessageBox.Yes
 			) == QMessageBox.Yes
 		if not ok: return
-		return wizard.compile_(self.widget.components, directory, self.boxModel)
+		return wizard.compile_(self.widget, directory)
 		
 	def run(self):
 		"""

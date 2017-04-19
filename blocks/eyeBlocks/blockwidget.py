@@ -51,6 +51,7 @@ class BlockWidget(QWidget):
 		self.hotPx={
 			"red": QPixmap(":/hot/hot-red.svg"),
 		}
+		self.boxModel=None # the model of the box to compile to
 
 	def clear(self):
 		self.components = []
@@ -184,17 +185,7 @@ class BlockWidget(QWidget):
 					d=InputDialog(self, box=box)
 					if isinstance(b, TimeComponent):
 						d.manageTime(b, self)
-						"""
-						d.forTimeBase(b)
-						result=d.exec_()
-						if result==QDialog.Accepted:
-							t=TimeComponent.fromOther(b)
-							t.delay, t.npoints, t.duration=d.timeBase()
-							self.components[i]=t
-							self.blocksChanged.emit()
-							self.update()
-						"""
-
+		return
 	def blockAt(self, pos):
 		"""
 		:param pos: a QPoint instance
