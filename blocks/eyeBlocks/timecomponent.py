@@ -18,7 +18,7 @@ from PyQt4 import QtCore, QtGui
 from component import InputComponent, Component
 
 def _translate(context, text, disambig):
-	return QtGui.QApplication.translate(context, text, disambig)
+	return QtGui.QApplication.translate(context, unicode(text), disambig)
         
 
 class TimeComponent(InputComponent):

@@ -32,7 +32,7 @@ from PyQt4.QtGui import QMainWindow, QApplication, \
 	QMessageBox, QFileDialog
 
 def _translate(context, text, disambig):
-	return unicode(QApplication.translate(context, text, disambig))
+	return QApplication.translate(context, unicode(text), disambig)
         
 
 from templates.ui_blocks import Ui_MainWindow

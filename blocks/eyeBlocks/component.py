@@ -19,7 +19,7 @@ from PyQt4 import QtCore, QtGui
 from xml.dom.minidom import parseString
 
 def _translate(context, text, disambig):
-	return unicode(QtGui.QApplication.translate(context, text, disambig))
+	return QtGui.QApplication.translate(context, unicode(text), disambig)
         
 
 from templates import blocks_rc
