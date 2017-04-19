@@ -21,34 +21,57 @@ from subprocess import call, Popen, PIPE
 from datetime import datetime
 import threading, copy
 
-def makeChains(bw):
+class BlockSource(object):
 	"""
-	finds chained components in the working area
+	this class is used to work with the structure of blocks given by the
+	working area
 	
-	:param bw: working area
+	:param bw: the working area
 	:type bw: BlockWidget
-	:returns: a list of chaines components and a list of dangling components, as indexes
-	:rtype: tuple(list(list(int)), list(int))
 	"""
-	placed=[]
-	chains=[]
-	for d in range(len(bw.components)):
-		for l in chains:
-			for c in l:
-				if d in l: continue
-				elif bw.areSnappedComponents(d,c):
-					l.insert(l.index(c),d); placed.append(d)
-				elif bw.areSnappedComponents(c,d):
-					l.insert(l.index(c)+1,d); placed.append(d)
-		if d in placed: continue
-		for e in range(len(bw.components)):
-			if e in placed: continue
-			if bw.areSnappedComponents(d,e):
-				chains.append([d,e]); placed.append(d); placed.append(e)
-			elif bw.areSnappedComponents(e,d):
-				chains.append([e,d]); placed.append(d); placed.append(e)
-	return chains, [d for d in range(len(bw.components)) if d not in placed]
 	
+	def __init__(self, bw):
+		object.__init__(self)
+		self.bw=bw
+		self.count=len(bw.components)
+		self.chains, self.dangling = self.makeChains()
+
+	def makeChains(self):
+		"""
+		finds chained components in the working area
+		
+		:returns: a list of chaines components and a list of dangling components, as indexes
+		:rtype: tuple(list(list(int)), list(int))
+		"""
+		placed=[]
+		chains=[]
+		for d in range(self.count):
+			for l in chains:
+				for c in l:
+					if d in l: continue
+					elif self.bw.areSnappedComponents(d,c):
+						l.insert(l.index(c),d); placed.append(d)
+					elif self.bw.areSnappedComponents(c,d):
+						l.insert(l.index(c)+1,d); placed.append(d)
+			if d in placed: continue
+			for e in range(self.count):
+				if e in placed: continue
+				if self.bw.areSnappedComponents(d,e):
+					chains.append([d,e]); placed.append(d); placed.append(e)
+				elif self.bw.areSnappedComponents(e,d):
+					chains.append([e,d]); placed.append(d); placed.append(e)
+		return chains, [d for d in range(self.count) if d not in placed]
+
+	def structureWarnings(self):
+		"""
+		emits a list of warnings about the working's area connections
+		
+		:returns: a list of warnings
+		:rtype: list(str)
+		"""
+		warnings=[]
+		return warnings
+		
 def compile_(bw, directory):
 	"""
 	compile expeyes-blocks for a given target
@@ -59,9 +82,9 @@ def compile_(bw, directory):
 	:type directory:
 	:returns: the path to the main python program
 	"""
-	chains, dangling=makeChains(bw)
+	bs=BlockSource(bw)
 	### for debug purpose only
-	strchains=[str(c) for c in chains]; QtGui.QMessageBox.warning(bw,"GRRRR", "Chains:\n%s \n\nDangling: %s" %("\n".join(strchains), dangling))
+	strchains=[str(c) for c in bs.chains]; QtGui.QMessageBox.warning(bw,"GRRRR", "Chains:\n%s \n\nDangling: %s" %("\n".join(strchains), bs.dangling))
 	target=bw.boxModel
 	components=bw.components
 	templatePath=os.path.join(os.path.dirname(__file__),"templates")
