@@ -30,21 +30,40 @@ class SnapPoint(QtCore.QPoint):
 	Each snap point has a text attribute which rules its behavior to
 	other snap points (see the variable matchingFlavors).
 	
-	:param pos: the position of the snap point in the related pixmap
-	:type pos: QPixmap
+	:param relpos: the position of the snap point in the related pixmap
+	:type relpos: QPoint
 	:param text: the text which will define the flavor
 	:type text: str
 	:param parent: the component owning this snap point
 	:type parent: Component or subclass
 	"""
-	def __init__(self, pos, text, parent=None):
-		QtCore.QPoint.__init__(self, pos)
+	def __init__(self, relpos, text, parent=None):
+		QtCore.QPoint.__init__(self, relpos)
 		self.text=text
 		self.parent=parent
 		return
 
 	def __str__(self):
 		return "snapPoint((%s,%s),%s)" %(self.x(), self.y(), self.text)
+		
+	def pos(self):
+		"""
+		:returns: the position of the snap point in the working area
+		:rtype: QPoint
+		"""
+		return self.parent.rect.topLeft()+self
+		
+	def samePlace(self, other):
+		"""
+		finds whether a component is at the same place than another
+		
+		:param other: anoter component
+		:type other: Component or subclass
+		:returns: True if both components are at the same place
+		:rtype: boolean
+		"""
+		return self.rect==other.rect
+		
 	
 class Component(object):
 	"""

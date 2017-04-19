@@ -96,8 +96,8 @@ class BlockWidget(QWidget):
 			for sp in comp.snapPoints:
 				hovering=event.pos()-offset+sp
 				for flavors in Component.matchingFlavors:
-					for c,s in self.matchingComponentSnap(hovering,sp,flavors):
-						self.hots.append(c.snapPos(s))
+					for s in self.matchingComponentSnap(hovering,sp,flavors):
+						self.hots.append(s.pos())
 						match=True
 			if match or len(previouslyHots) != len(self.hots):
 				self.update()
@@ -119,8 +119,8 @@ class BlockWidget(QWidget):
 		:type snapPoint: SnapPoint
 		:param flavors: a couple of texts for matching snap points, if a text is empty, it is a match-all flavor
 		:type flavors: tuple(str, str)
-		:returns: a list of matching component and its active snapPoint (a component may have multiple snap points)
-		:rtype: list(Component or subclass, SnapPoint)
+		:returns: a list of matching snap points
+		:rtype: list(SnapPoint)
 		"""
 		result=[]
 		# to implement symmetry in the flavor's relation
@@ -129,9 +129,9 @@ class BlockWidget(QWidget):
 				for c in self.components:
 					for s in c.snapPoints:
 						if not f[1] or str(s.text).startswith(f[1]):
-							gap=c.snapPos(s)-pos
+							gap=s.pos()-pos
 							if gap.manhattanLength() < 60:
-								result.append((c, s))
+								result.append(s)
 		return result
 
 
@@ -164,16 +164,16 @@ class BlockWidget(QWidget):
 		result=False
 		if type(c1)==int: c1=self.components[c1]
 		if type(c2)==int: c2=self.components[c2]
-		if c1.rect==c2.rect: # a component is not snapped to itself
+		if c1.samePlace(c2): # a component is not snapped to itself
 			return result
 		# snapPoints for c1
-		la=[(c,s) for c,s in self.snapped if c.rect==c1.rect]
+		la=[s for s in self.snapped if s.parent.samePlace(c1)]
 		# snapPoints for c2
-		lb=[(c,s) for c,s in self.snapped if c.rect==c2.rect]
+		lb=[s for s in self.snapped if s.parent.samePlace(c2)]
 		if la and lb:
-			for ca,sa in la:
-				for cb,sb in lb:
-					if ca.snapPos(sa) == cb.snapPos(sb):
+			for sa in la:
+				for sb in lb:
+					if sa.pos() == sb.pos():
 						if symmetric:
 							result=True
 							break
@@ -186,13 +186,13 @@ class BlockWidget(QWidget):
 		
 	def allSnaps(self):
 		"""
-		:returns: a list of components with their snaps
-		:rtype: list(Component, SnapPoint)
+		:returns: a list of all snap points
+		:rtype: list(SnapPoint)
 		"""
 		result=[]
 		for c in self.components:
 			for s in c.snapPoints:
-				result.append((c,s))
+				result.append(s)
 		return result
 
 	def notSnapped(self):
@@ -215,15 +215,16 @@ class BlockWidget(QWidget):
 			for s in c.snapPoints:
 				p=c.rect.topLeft()+s
 				for flavors in Component.matchingFlavors:
-					for c1, s1 in self.matchingComponentSnap(p,s,flavors):
+					for s1 in self.matchingComponentSnap(p,s,flavors):
+						c1=s1.parent
 						# do not move already touched components
 						if c1.touched: continue
-						toMove.append((c,s,c1,s1))
+						toMove.append((s,s1))
 						c1.touch()
-		for c,s,c1,s1 in toMove: # the 
-			delta=c.snapPos(s)-c1.snapPos(s1)
-			c1.rect.translate(delta)
-			self.snapped.append((c,s)); self.snapped.append((c1,s1))
+		for s,s1 in toMove: # the 
+			delta=s.pos()-s1.pos()
+			s1.parent.rect.translate(delta)
+			self.snapped.append(s); self.snapped.append(s1)
 		self.update()
 		QTimer.singleShot(1000, self.hideHots)
 		return
@@ -246,8 +247,8 @@ class BlockWidget(QWidget):
 			brokensnapIndexes=[]
 			for sp in comp.snapPoints:
 				for i in range(len(self.snapped)):
-					c,s = self.snapped[i]
-					if comp.snapPos(sp) == c.snapPos(s):
+					s = self.snapped[i]
+					if sp.pos() == s.pos():
 						brokensnapIndexes.append(i)
 			# assert: brokensnapIndexes is a sorted list, ascending
 			for i in brokensnapIndexes[::-1]: # descending iteration
