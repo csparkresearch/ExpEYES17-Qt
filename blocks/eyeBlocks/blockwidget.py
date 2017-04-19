@@ -181,7 +181,7 @@ class BlockWidget(QWidget):
 			if b:
 				i = self.components.index(b)
 				if isinstance(b, InputComponent):
-					box=self.parent().parent().parent().boxModel
+					box=self.boxModel
 					d=InputDialog(self, box=box)
 					if isinstance(b, TimeComponent):
 						d.manageTime(b, self)
