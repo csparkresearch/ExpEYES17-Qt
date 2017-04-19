@@ -90,8 +90,12 @@ class Component(object):
 	@staticmethod
 	def acceptedFormats(event):
 		"""
-		acceptable formats start with "image/x-Block-"
-		returns a list of accepted formats.
+		acceptable formats start with "image/x-Block-".
+		
+		:param event: the current event.
+		:type event: QEvent
+		:returns: a list of accepted formats.
+		:rtype: list(QString)
 		"""
 		return [f for f in event.mimeData().formats() \
 				if f.contains("image/x-Block-")]
@@ -101,7 +105,7 @@ class Component(object):
 		sets the touch flag
 
 		:param touched: value for the flag; True by default
-		:type touched:
+		:type touched: boolena
 		"""
 		self.touched=touched
 		return
@@ -111,7 +115,7 @@ class Component(object):
 		"""
 		alternate constructor
 
-		:param c: a component
+		:param c: a Component instance
 		:type c: Component or subclass
 		"""
 		self=cls(c.pixmap, c.ident, c.mimetype, c.rect, c.hotspot, c.snapPoints)
@@ -132,17 +136,20 @@ class Component(object):
 
 	def draw(self, painter):
 		"""
-		draws a component inside a widget with the help of a painter
+		draws a component inside a widget with the help of a painter.
 
 		:param painter: a working QPainter instance
-		:type painter:
+		:type painter: QPainter
 		"""
 		painter.drawPixmap(self.rect, self.pixmap)
 		return
 		
 	def save(self, outstream):
 		"""
-		saving to an open binary stream
+		saving to a writable stream
+		
+		:param outstream: a writable stream
+		:type outstream: QtCore.QIODevice.WriteOnly
 		"""
 		itemData, dataStream = self.serialize()
 		outstream.write("Class Name (%s bytes)\n" %len(self.className()))
@@ -159,8 +166,10 @@ class Component(object):
 
 	def serialize(self):
 		"""
-		serializes a component into a QDataStream
-		returns data as a QByteArray instance and a writeStream to feed it on.
+		serializes a component into a byte array.
+		
+		:returns: a byte array and a writable stream to feed it.
+		:rtype: tuple(QByteArray,QIODevice.WriteOnly)
 		"""
 		itemData = QtCore.QByteArray()
 		dataStream = QtCore.QDataStream(itemData, QtCore.QIODevice.WriteOnly)
@@ -176,12 +185,18 @@ class Component(object):
 	def putMoreData(self, dataStream):
 		"""
 		abstract metho to be overriden by subclasses
+		
+		:param dataStream: writable data stream connected to a byte array
+		:type dataStream: QIODevice.WriteOnly
 		"""
 		return
 		
 	def getMoreData(self, dataStream):
 		"""
 		abstract metho to be overriden by subclasses
+		
+		:param dataStream: readable data stream connected to a byte array
+		:type dataStream: QIODevice.ReadOnly
 		"""
 		return
 		
@@ -207,7 +222,10 @@ class Component(object):
 		
 	def toListWidgetItem(self, lwi):
 		"""
-		records custom data into a QListWidgetItem instance
+		records custom data into a QListWidgetItem instance.
+		
+		:param lwi: the item containing a component to Drag
+		:type lwi: QListWidgetItem
 		"""
 		lwi.component=self
 		lwi.setIcon(QtGui.QIcon(self.pixmap))
@@ -216,8 +234,12 @@ class Component(object):
 	@staticmethod
 	def unserialize(data):
 		"""
-		unserialize frome a byteArray,
-		:returns: a new Component instance, a dataStream to get further data, and the className to restore
+		unserialize frome a byteArray.
+		
+		:param data: a byte array
+		:type data: QByteArray
+		:returns: a new Component instance, a data stream to get further data, and the name of the class to restore.
+		:rtype: tuple(Component or subclass, QIODevice.ReadOnly, QString)
 		"""
 		from timecomponent import TimeComponent
 		from modifcomponent import ModifComponent
@@ -250,9 +272,10 @@ class Component(object):
 		"""
 		userialize given QEvent's data into a Component instance
 
-		:param event: a QEvent, presumably due to a drop.
-		:type event:
-		:returns: an instance of Component and a dataStream to get more data
+		:param event: an event due to a drop.
+		:type event: QEvent
+		:returns: an instance of Component, a data stream to get more data, and the name of the class to restore.
+		:rtype: tuple(Component or subclass, QIODevice.ReadOnly, QString)
 		"""
 		from timecomponent import TimeComponent
 		from modifcomponent import ModifComponent
@@ -275,6 +298,9 @@ class Component(object):
 	def listFromRC():
 		"""
 		gets a list of components from the application's QRC file
+		
+		:returns: a list of components
+		:rtype: list(Component or subclass)
 		"""
 		from timecomponent import TimeComponent
 		from modifcomponent import ModifComponent
@@ -314,8 +340,9 @@ class Component(object):
 		creates and returns a QDrag object with the given parent
 
 		:param parent: a window, where a drag is starting
-		:type parent:
-		:returns: the DQrag instance
+		:type parent: QWidget
+		:returns: a drag object
+		:rtype: QDrag
 		"""
 		itemData, writeStream = self.serialize()
 
@@ -332,7 +359,8 @@ class Component(object):
 		
 def snapPoints(rcpath):
 	"""
-	:returns: a list of snapPoints. Those are centers of circles available in the SVG picture, denoted by ids which begin with "block-"; those circles may be invisible in the pixmap.
+	:returns: a list of snap points. Those are centers of circles available in the SVG picture, denoted by ids which begin with "block-"; those circles may be invisible in the pixmap.
+	:rtype: list(SnapPoint)
 	"""
 	f=QtCore.QFile(rcpath)
 	f.open(QtCore.QIODevice.ReadOnly | QtCore.QIODevice.Text)

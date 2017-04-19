@@ -183,17 +183,17 @@ class BlockWidget(QWidget):
 					box=self.parent().parent().parent().boxModel
 					d=InputDialog(self, box=box)
 					if isinstance(b, TimeComponent):
-						d.setTimeBase(b.delay, b.npoints)
-					result=d.exec_()
-					if result==QDialog.Accepted:
-						index=d.tabWidget.currentIndex()
-						label=str(d.tabWidget.tabText(index))
-						if "Time" in label:
+						d.manageTime(b, self)
+						"""
+						d.forTimeBase(b)
+						result=d.exec_()
+						if result==QDialog.Accepted:
 							t=TimeComponent.fromOther(b)
 							t.delay, t.npoints, t.duration=d.timeBase()
 							self.components[i]=t
 							self.blocksChanged.emit()
-				self.update()
+							self.update()
+						"""
 
 	def blockAt(self, pos):
 		"""

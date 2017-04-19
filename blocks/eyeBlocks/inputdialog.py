@@ -56,18 +56,46 @@ class Dialog(QtGui.QDialog, Ui_Dialog):
 		duration = delay*(samples-1)
 		return delay, samples, duration
 		
-	def setTimeBase(self, delay, samples):
+	def forTimeBase(self, timeinput):
 		"""
-		set timebase data
+		set timebase data, and adapt tabs: the only tab remaining
+		should be the time tab.
+		
+		:param timeinput: a timebase component
+		:type timeinput: TimeInput
 		"""
-		duration=delay*(samples-1)
+		duration=timeinput.delay*(timeinput.npoints-1)
 		
 		for combo, value in (
 			(self.durationCombo, duration),
-			(self.delayCombo, delay),
-			(self.sampleCombo, samples)):
+			(self.delayCombo, timeinput.delay),
+			(self.sampleCombo, timeinput.npoints)):
 			self.addToCombo(combo, value)
+		self.tabWidget.setTabEnabled(0,True)
+		for i in range(1, self.tabWidget.count()):
+			self.tabWidget.setTabEnabled(i,False)
 		return
+		
+	def manageTime(self, b, bw):
+		"""
+		manages the modification of a time component.
+		
+		:param b: a time component
+		:type b: TimeComponent
+		:param bw: working area
+		:type bw: BlockWidget
+		"""
+		from timecomponent import TimeComponent
+		self.forTimeBase(b)
+		result=self.exec_()
+		if result==QtGui.QDialog.Accepted:
+			t=TimeComponent.fromOther(b)
+			t.delay, t.npoints, t.duration=self.timeBase()
+			bw.components[bw.components.index(b)]=t
+			bw.blocksChanged.emit()
+			bw.update()
+		return
+
 		
 	@staticmethod
 	def addToCombo(combo, value):
