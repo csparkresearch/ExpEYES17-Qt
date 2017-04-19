@@ -368,24 +368,42 @@ class expeyesWidgets():
 			self.setupUi(self)
 			self.enableButton.setToolTip("Display/hide the selected trace")
 			self.curveRefs={}
+			self.curveStyles={}
+			self.lineStyles = {"solid":QtCore.Qt.SolidLine,"Dashed":QtCore.Qt.DashLine,"Dotted":QtCore.Qt.DotLine,"Dash-Dot":QtCore.Qt.DashDotLine,"Dash-Dot-Dot":QtCore.Qt.DashDotDotLine}
 			self.plot = plot
 			#self.menubutton.setStyleSheet("height: 13px;padding:3px;color: #FFFFFF;")
 			self.menu = QtGui.QMenu()
 			
-			self.editBtn=self.myColorButton('Change Color',[255,255,255,255])
 
-        
-			self.editBtn.colorDialog.currentColorChanged.connect(self.change)
-			#self.editBtn.sigColorChanging.connect(self.change)
+			self.widthBtn=QtGui.QSpinBox()
+			self.widthBtn.setRange(1,5);self.widthBtn.setSuffix(' Width')
+			self.widthBtn.valueChanged.connect(self.changeWidth)
+			self.widthAction = QtGui.QWidgetAction(self.menu)
+			self.widthAction.setDefaultWidget(self.widthBtn)
+			self.menu.addAction(self.widthAction)
+
+			self.editBtn=self.myColorButton('Change Color',[255,255,255,255])
+			self.editBtn.colorDialog.currentColorChanged.connect(self.changeColor)
 			self.editAction = QtGui.QWidgetAction(self.menu)
 			self.editAction.setDefaultWidget(self.editBtn)
 			self.menu.addAction(self.editAction)
+
+			self.menu.addAction('Change Line Style',self.editLineStyle)
+
+
+
 			
+			self.menu.addSeparator()
 			self.menu.addAction('Save Trace', self.saveTrace)
 			self.menu.addAction('Save All Traces', self.saveTraces)
 			self.menu.addSeparator()
 			self.menu.addAction('Delete Trace', self.deleteTrace)
 			self.menuButton.setMenu(self.menu)
+
+		def editLineStyle(self):
+			item,ok = QtGui.QInputDialog.getItem(self,"Select Line Style","", self.lineStyles.keys(), 0, False)
+			if (ok and not item.isEmpty()):
+				self.changeStyle(self.lineStyles[str(item)])
 
 		class myColorButton(QtGui.QPushButton):
 			'''
@@ -418,16 +436,27 @@ class expeyesWidgets():
 					return (color.red()/255., color.green()/255., color.blue()/255., color.alpha()/255.)
 
 		
-		def change(self,btn):
+		def changeColor(self,btn):
 			C = self.curveRefs[str(self.traceList.currentText())]
 			if C is not None:
-				C.setPen(color=btn.getRgb())
+				C.opts['pen'].setColor(btn)
 				self.editBtn.setStyleSheet("border:5px solid %s;"%btn.name())
+
+		def changeStyle(self,style):
+			C = self.curveRefs[str(self.traceList.currentText())]
+			if C is not None:
+				C.opts['pen'].setStyle(style)
+
+		def changeWidth(self,W):
+			C = self.curveRefs[str(self.traceList.currentText())]
+			if C is not None:
+				C.opts['pen'].setWidth(W)
+
 
 		def addCurve(self,name,c):
 			self.curveRefs[name] = c
+			self.curveStyles[c] = {'color':c.opts['pen'].color(),'width':c.opts['pen'].width(),'style':c.opts['pen'].style()}
 			self.traceList.addItem(name)
-
 
 
 		def removeCurve(self,c): #remove by curve reference

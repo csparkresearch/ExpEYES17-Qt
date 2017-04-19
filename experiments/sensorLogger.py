@@ -32,7 +32,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 
 		self.TITLE('Initialize')
 		self.scanButton = self.PUSHBUTTON('Auto Scan')
-		self.scanMenu = QtGui.QMenu()
+		self.scanMenu = QtGui.QMenu(); self.scanMenu.setMinimumWidth(self.widgets.width())
 		self.scanMenu.addAction('Run Scan', self.autoScan)
 		self.scanMenu.addSeparator()
 		#self.scanMenu.addAction('Exit', self.askBeforeQuit)
