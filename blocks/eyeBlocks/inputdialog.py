@@ -33,16 +33,24 @@ class Dialog(QtGui.QDialog, Ui_Dialog):
 				1+CP.MAX_SAMPLES/10, 1+CP.MAX_SAMPLES/20,
 				1+CP.MAX_SAMPLES/50, 1+CP.MAX_SAMPLES/100,
 				1+CP.MAX_SAMPLES/200, 1+CP.MAX_SAMPLES/500])
-			for delay in delays:
-				self.delayCombo.addItem(str(delay))
-			for np in samples:
-				self.sampleCombo.addItem(str(np))
-			self.sampleCombo.setCurrentIndex(len(samples)-1)
-			self.updateDuration()
-			self.delayCombo.currentIndexChanged.connect(self.updateDuration)
-			self.delayCombo.editTextChanged.connect(self.updateDuration)
-			self.sampleCombo.currentIndexChanged.connect(self.updateDuration)
-			self.sampleCombo.editTextChanged.connect(self.updateDuration)
+		elif box=="expeyes-junior":
+			import expeyes.eyesj as eyes
+			delays=[50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000]
+			MAX_SAMPLES=1000
+			samples=sorted([
+				1+MAX_SAMPLES/2, 1+MAX_SAMPLES/5, 
+				1+MAX_SAMPLES/10, 1+MAX_SAMPLES/20,
+				1+MAX_SAMPLES/50])
+		for delay in delays:
+			self.delayCombo.addItem(str(delay))
+		for np in samples:
+			self.sampleCombo.addItem(str(np))
+		self.sampleCombo.setCurrentIndex(len(samples)-1)
+		self.updateDuration()
+		self.delayCombo.currentIndexChanged.connect(self.updateDuration)
+		self.delayCombo.editTextChanged.connect(self.updateDuration)
+		self.sampleCombo.currentIndexChanged.connect(self.updateDuration)
+		self.sampleCombo.editTextChanged.connect(self.updateDuration)
 		return
 		
 	def timeBase(self):

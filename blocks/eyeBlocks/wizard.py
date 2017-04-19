@@ -105,7 +105,7 @@ def compile_(mw, directory):
 	target=bw.boxModel
 	components=bw.components
 	templatePath=os.path.join(os.path.dirname(__file__),"templates")
-	if target=="expeyes-17":
+	if target=="expeyes-17" or target=="expeyes-junior":
 		call("cp {blocktemplate} {d}/block1.ui".format(
 			blocktemplate=os.path.join(templatePath,"block1.ui.template"),
 			d=directory
@@ -118,7 +118,7 @@ def compile_(mw, directory):
 			d=directory,t=now
 		)
 		call(cmd, shell=True)
-		mw.warn(_translate("eyeBlocks.wizard","<span style='color:blue'>[Compilation: done]</span> output in <b>%1</b>.",None).arg(directory))
+		mw.warn(_translate("eyeBlocks.wizard","<span style='color:blue'>[Compilation: done]</span> output in <b>%1</b> for %2.",None).arg(directory).arg(target))
 	return "{d}/run.py".format(d=directory)
 	
 def run(program):

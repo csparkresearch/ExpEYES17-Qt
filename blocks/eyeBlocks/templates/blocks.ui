@@ -149,6 +149,7 @@
       <string>&amp;Targetted box</string>
      </property>
      <addaction name="actionExpeyes_17"/>
+     <addaction name="actionExpeyes_Junior"/>
     </widget>
     <addaction name="action_Compile"/>
     <addaction name="action_Run"/>
@@ -221,6 +222,11 @@
   <action name="actionExpeyes_17">
    <property name="text">
     <string>Expeyes-1&amp;7</string>
+   </property>
+  </action>
+  <action name="actionExpeyes_Junior">
+   <property name="text">
+    <string>Expeyes-Junior</string>
    </property>
   </action>
  </widget>

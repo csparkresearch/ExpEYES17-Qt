@@ -59,6 +59,7 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		self.fileName=None
 		self.dirty="" # may become "*"
 		self.widget.boxModel="expeyes-17"
+		self.warn(_translate("eyeBlocks.mainwindow","<span style='color:blue'>[Current targetted box]</span> %1",None).arg(self.widget.boxModel))
 		return
 
 	def loadComponents(self, path=None):
@@ -82,6 +83,7 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		self.action_Compile.triggered.connect(self.compile_)
 		self.action_Run.triggered.connect(self.run)
 		self.actionExpeyes_17.triggered.connect(self.chooseBox("expeyes-17"))
+		self.actionExpeyes_Junior.triggered.connect(self.chooseBox("expeyes-junior"))
 		
 	def compile_(self):
 		"""
@@ -129,7 +131,7 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		"""
 		def callBack():
 			self.boxModel=model
-			QMessageBox.warning(self,_translate("eyeBlocks.mainwindow","Expeyes box choice",None),_translate("eyeBlocks.mainwindow","You chose: %s.\n",None) %model)
+			self.warn(_translate("eyeBlocks.mainwindow","<span style='color:blue'>[New targetted box]</span> %1",None).arg(model))
 			return
 		return callBack
 				
