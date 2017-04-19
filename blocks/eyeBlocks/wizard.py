@@ -38,34 +38,52 @@ class BlockSource(object):
 		object.__init__(self)
 		self.bw=bw
 		self.count=len(bw.components)
-		self.chains, self.dangling = self.makeChains()
+		self.graph, self.dangling = self.makeGraph()
+		self.debugGraph()
 		
 
-	def makeChains(self):
+	def debugGraph(self):
 		"""
-		finds chained components in the working area
+		Shows debug information about the graph
+		"""
+		result=""
+		result+="%5ls" %""
+		for i in range(self.count):
+			result+="%3s" %i
+		result+="\n"
+		i=0
+		for l in self.graph:
+			result+="%5ls" %i
+			for c in l:
+				if c:
+					result+="%3s" %"*"
+				else:
+					result+="%3s" %"."
+			result+="\n"
+			i+=1
+		result+="\n"
+		for i in range(self.count):
+			result+="%s => %s\n" %(i, self.bw.components[i].summary())
+		QtGui.QMessageBox.warning(self.bw, "line -> column", result)
+
+	def makeGraph(self):
+		"""
+		computes the graph of connected snap points
 		
-		:returns: a list of chaines components and a list of dangling components, as indexes
-		:rtype: tuple(list(list(int)), list(int))
+		:returns: a directed graph and a list of dangling components, as indexes
+		:rtype: tuple(list(list(tuple(SnapPoint,SnapPoint))), list(int))
 		"""
+		graph=[]
 		placed=[]
-		chains=[]
 		for d in range(self.count):
-			for l in chains:
-				for c in l:
-					if d in l: continue
-					elif self.bw.areSnappedComponents(d,c):
-						l.insert(l.index(c),d); placed.append(d)
-					elif self.bw.areSnappedComponents(c,d):
-						l.insert(l.index(c)+1,d); placed.append(d)
-			if d in placed: continue
+			l=[]
 			for e in range(self.count):
-				if e in placed: continue
-				if self.bw.areSnappedComponents(d,e):
-					chains.append([d,e]); placed.append(d); placed.append(e)
-				elif self.bw.areSnappedComponents(e,d):
-					chains.append([e,d]); placed.append(d); placed.append(e)
-		return chains, [d for d in range(self.count) if d not in placed]
+				snaps=self.bw.areSnappedComponents(d,e)
+				l.append((snaps))
+				if snaps: 
+					placed.append(d); placed.append(e)
+			graph.append(l)
+		return graph, [d for d in range(self.count) if d not in placed]
 
 	def structureWarnings(self):
 		"""
@@ -77,13 +95,16 @@ class BlockSource(object):
 		warnings=[]
 		ns = self.bw.notSnapped()
 		if ns: 
-			for c,s in ns:
-				if self.bw.components.index(c) not in self.dangling:
+			for s in ns:
+				if self.bw.components.index(s.parent) not in self.dangling:
 					# warn only for non-dangling components
-					warnings.append("Missing snap Point: %s / %s" %(c.summary(), s.text))
+					warnings.append(_translate("eyeBlocks.wizard","Unconnected snap Point: %1: %2",None).arg(
+						s.text).arg(
+						s.parent.summary())
+					)
 		if self.dangling:
-			warnings.append("Dangling components: %s" \
-				%(", ".join([self.bw.components[i].summary() for i in self.dangling])))
+			warnings.append(_translate("eyeBlocks.wizard","Dangling components: %1",None).arg(
+				", ".join([self.bw.components[i].summary() for i in self.dangling])))
 		return warnings
 		
 def compile_(mw, directory):

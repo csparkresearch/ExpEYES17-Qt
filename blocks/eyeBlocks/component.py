@@ -53,17 +53,6 @@ class SnapPoint(QtCore.QPoint):
 		"""
 		return self.parent.rect.topLeft()+self
 		
-	def samePlace(self, other):
-		"""
-		finds whether a component is at the same place than another
-		
-		:param other: anoter component
-		:type other: Component or subclass
-		:returns: True if both components are at the same place
-		:rtype: boolean
-		"""
-		return self.rect==other.rect
-		
 	
 class Component(object):
 	"""
@@ -130,17 +119,17 @@ class Component(object):
 		self.touch(False)
 		return
 		
-	def snapPos(self, sp):
+	def samePlace(self, other):
 		"""
-		returns the position of a snapPoint
+		finds whether a component is at the same place than another
 		
-		:param sp: one snap point
-		:type sp: SnapPoint
-		:return: the position of the snap point in parent's coordinates
-		:rtype: QPoint
+		:param other: anoter component
+		:type other: Component or subclass
+		:returns: True if both components are at the same place
+		:rtype: boolean
 		"""
-		return self.rect.topLeft()+sp
-
+		return self.rect==other.rect
+		
 	@staticmethod
 	def acceptedFormats(event):
 		"""

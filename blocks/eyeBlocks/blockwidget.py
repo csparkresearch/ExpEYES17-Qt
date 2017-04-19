@@ -158,10 +158,10 @@ class BlockWidget(QWidget):
 		:type c2: Component or int
 		:param symmetric: when true, the order of c1 and c2 does not matter; False by default
 		:type symmetric: boolean
-		:returns: True if bot components are connected
-		:rtype: boolean
+		:returns: tuple of connected snapPoints or None
+		:rtype: tupe(SnapPoint, SnapPoint)
 		"""
-		result=False
+		result=None
 		if type(c1)==int: c1=self.components[c1]
 		if type(c2)==int: c2=self.components[c2]
 		if c1.samePlace(c2): # a component is not snapped to itself
@@ -175,12 +175,12 @@ class BlockWidget(QWidget):
 				for sb in lb:
 					if sa.pos() == sb.pos():
 						if symmetric:
-							result=True
+							result=(sa,sb)
 							break
 						else:
 							if "-out-" in str(sa.text) and \
 								"-in-" in str(sb.text):
-								result=True
+								result=(sa,sb)
 								break
 		return result
 		
