@@ -97,6 +97,17 @@ class Component(object):
 		"""
 		self.touch(False)
 		return
+		
+	def snapPos(self, sp):
+		"""
+		returns the position of a snapPoint
+		
+		:param sp: one snap point
+		:type sp: SnapPoint
+		:return: the position of the snap point in parent's coordinates
+		:rtype: QPoint
+		"""
+		return self.rect.topLeft()+sp
 
 	@staticmethod
 	def acceptedFormats(event):

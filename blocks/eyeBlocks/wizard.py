@@ -19,7 +19,7 @@ from PyQt4 import QtCore, QtGui
 from xml.dom.minidom import parse, parseString
 from subprocess import call, Popen, PIPE
 from datetime import datetime
-import threading
+import threading, copy
 
 def compile_(bw, directory):
 	"""
@@ -31,6 +31,21 @@ def compile_(bw, directory):
 	:type directory:
 	:returns: the path to the main python program
 	"""
+	dangling=range(len(bw.components)) # indexes of dangling components
+	chains=[]
+	for d in dangling:
+		for l in chains:
+			for c in l:
+				if bw.areSnappedComponents(d,c):
+					print("GRRRR in chain", l, "connection:", d, c)
+		for e in dangling:
+			if bw.areSnappedComponents(d,e, symmetric=False):
+				print("GRRRR in dangling, connection:", d, e)
+	### debug purpose only
+	msg=[]
+	for c,s in bw.snapped:
+		msg.append("%s(%s)" %(c.className(),s.text))
+	print("GRRR bw.snapped =", ", ".join(msg))
 	target=bw.boxModel
 	components=bw.components
 	templatePath=os.path.join(os.path.dirname(__file__),"templates")

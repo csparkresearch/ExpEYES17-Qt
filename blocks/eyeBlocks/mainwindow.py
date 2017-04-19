@@ -26,7 +26,7 @@ import copy, re
 from os.path import basename
 
 from PyQt4.QtCore import QPoint, QRect, Qt, QSize, QString, \
-	QTimer, QFileInfo, SIGNAL, QByteArray
+	QTimer, QFileInfo, SIGNAL, QByteArray, QStringList
 
 from PyQt4.QtGui import QMainWindow, QApplication, \
 	QMessageBox, QFileDialog
@@ -98,12 +98,13 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		except:
 			pass
 		l=os.listdir(directory)
+		l=QStringList(l)
 		ok=True
 		if l:
 			ok=QMessageBox.question(self,
 				_translate("eyeBlocks.mainwindow","OK to erase a previous build?",None),
-				_translate("eyeBlocks.mainwindow","Here are some previous built files:\n %s\nDo you really want to overwrite them?",None) \
-					%", ".join(l),
+				_translate("eyeBlocks.mainwindow","Here are some previous built files:\n %1\nDo you really want to overwrite them?",None).arg(
+					l.join(", ")),
 				QMessageBox.No|QMessageBox.Yes
 			) == QMessageBox.Yes
 		if not ok: return
@@ -191,6 +192,7 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 				ok=True
 				# restore components in the right pannel
 				self.widget.components=components
+				self.widget.connectSnaps()
 				self.widget.update()
 				# restore list items in the left pannel
 				for c in components:

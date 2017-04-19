@@ -96,8 +96,8 @@ class BlockWidget(QWidget):
 			for sp in comp.snapPoints:
 				hovering=event.pos()-offset+sp
 				for flavors in Component.matchingFlavors:
-					for m in self.matchingComponentSnap(hovering,sp,flavors):
-						self.hots.append(m[0].rect.topLeft()+m[1])
+					for c,s in self.matchingComponentSnap(hovering,sp,flavors):
+						self.hots.append(c.snapPos(s))
 						match=True
 			if match or len(previouslyHots) != len(self.hots):
 				self.update()
@@ -129,7 +129,7 @@ class BlockWidget(QWidget):
 				for c in self.components:
 					for s in c.snapPoints:
 						if not f[1] or str(s.text).startswith(f[1]):
-							gap=c.rect.topLeft()+s-pos
+							gap=c.snapPos(s)-pos
 							if gap.manhattanLength() < 60:
 								result.append((c, s))
 		return result
@@ -146,6 +146,43 @@ class BlockWidget(QWidget):
 			self.blocksChanged.emit()
 		else:
 			event.ignore()
+			
+	def areSnappedComponents(self, c1, c2, symmetric=False):
+		"""
+		finds out whether two components are snapped together.
+		Depends on self.snapped to be up to date
+		
+		:param c1: a component or its index in self.components
+		:type c1: Component or int
+		:param c2: a component or its index in self.components
+		:type c2: Component or int
+		:param symmetric: when true, the order of c1 and c2 does not matter; False by default
+		:type symmetric: boolean
+		:returns: True if bot components are connected
+		:rtype: boolean
+		"""
+		result=False
+		if type(c1)==int: c1=self.components[c1]
+		if type(c2)==int: c2=self.components[c2]
+		if c1.rect==c2.rect: # a component is not snapped to itself
+			return result
+		# snapPoints for c1
+		la=[(c,s) for c,s in self.snapped if c.rect==c1.rect]
+		# snapPoints for c2
+		lb=[(c,s) for c,s in self.snapped if c.rect==c2.rect]
+		if la and lb:
+			for ca,sa in la:
+				for cb,sb in lb:
+					if ca.snapPos(sa) == cb.snapPos(sb):
+						if symmetric:
+							result=True
+							break
+						else:
+							if "-out-" in str(sa.text) and \
+								"-in-" in str(sb.text):
+								result=True
+								break
+		return result
 
 	def connectSnaps(self):
 		"""
@@ -165,7 +202,7 @@ class BlockWidget(QWidget):
 						toMove.append((c,s,c1,s1))
 						c1.touch()
 		for c,s,c1,s1 in toMove: # the 
-			delta=c.rect.topLeft()+s-c1.rect.topLeft()-s1
+			delta=c.snapPos(s)-c1.snapPos(s1)
 			c1.rect.translate(delta)
 			self.snapped.append((c,s)); self.snapped.append((c1,s1))
 		self.update()
@@ -191,7 +228,7 @@ class BlockWidget(QWidget):
 			for sp in comp.snapPoints:
 				for i in range(len(self.snapped)):
 					c,s = self.snapped[i]
-					if comp.rect.topLeft()+sp == c.rect.topLeft()+s:
+					if comp.snapPos(sp) == c.snapPos(s):
 						brokensnapIndexes.append(i)
 			# assert: brokensnapIndexes is a sorted list, ascending
 			for i in brokensnapIndexes[::-1]: # descending iteration
@@ -220,6 +257,7 @@ class BlockWidget(QWidget):
 					if isinstance(b, TimeComponent):
 						d.manageTime(b, self)
 		return
+		
 	def blockAt(self, pos):
 		"""
 		gets the block visible under the mouse cursor
