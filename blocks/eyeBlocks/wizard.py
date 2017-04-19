@@ -21,6 +21,10 @@ from subprocess import call, Popen, PIPE
 from datetime import datetime
 import threading, copy
 
+def _translate(context, text, disambig):
+	return QtGui.QApplication.translate(context, unicode(text), disambig)
+        
+
 class BlockSource(object):
 	"""
 	this class is used to work with the structure of blocks given by the
@@ -77,23 +81,27 @@ class BlockSource(object):
 				warnings.append("Missing snap Point: %s / %s" %(c.summary(), s.text))
 		if self.dangling:
 			warnings.append("Dangling components: %s" \
-				%", ".join([self.bw.components[i].summary() for i in self.dangling]))
+				%(", ".join([self.bw.components[i].summary() for i in self.dangling])))
 		return warnings
 		
-def compile_(bw, directory):
+def compile_(mw, directory):
 	"""
 	compile expeyes-blocks for a given target
 
-	:param bw: working area
-	:type bw: BlockWidget
+	:param bw: main window
+	:type bw: BlockMainWindow
 	:param directory: place to make the build
 	:type directory:
 	:returns: the path to the main python program
 	"""
+	bw=mw.widget
 	bs=BlockSource(bw)
-	### for debug purpose only
-	strchains=[str(c) for c in bs.chains]; QtGui.QMessageBox.warning(bw,"GRRRR", "Chains:\n%s \n\nDangling: %s" %("\n".join(strchains), bs.dangling))
-	print("GRRRR", bs.structureWarnings())
+	sw=bs.structureWarnings()
+	print("GRRRR", sw)
+	for w in sw:
+		w="<span style='color:red'>[struct warn]</span> "+w
+		mw.messages.insertHtml(w)
+		mw.messages.insertHtml("<br>")
 	target=bw.boxModel
 	components=bw.components
 	templatePath=os.path.join(os.path.dirname(__file__),"templates")
@@ -110,6 +118,8 @@ def compile_(bw, directory):
 			d=directory,t=now
 		)
 		call(cmd, shell=True)
+		mw.messages.insertHtml(_translate("eyeBlocks.wizard","<span style='color:blue'>[Compilation: done]</span> output in %1",None).arg(directory))
+		mw.messages.insertHtml("<br>")
 	return "{d}/run.py".format(d=directory)
 	
 def run(program):

@@ -1,6 +1,6 @@
 # Main Makefile for Expeyes-Blocks
 
-SUBDIRS = eyeBlocks doc
+SUBDIRS = eyeBlocks
 
 all: recursive_all lang
 
@@ -18,6 +18,9 @@ recursive_clean:
 	for d in $(SUBDIRS); do make -C $$d clean; done
 
 doc:
-	make -f Makefile.sphinx html
+	make -C doc all
 
-.PHONY: all recursive_all clean recursive_clean doc lang
+clean_doc:
+	make -C doc clean
+
+.PHONY: all recursive_all clean recursive_clean doc doc_clean lang

@@ -53,6 +53,7 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		QMainWindow.__init__(self, parent)
 		Ui_MainWindow.__init__(self)
 		self.setupUi(self)
+		self.splitter.setSizes([4,1])
 		self.loadComponents()
 		self.connectSignals()
 		self.fileName=None
@@ -108,7 +109,7 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 				QMessageBox.No|QMessageBox.Yes
 			) == QMessageBox.Yes
 		if not ok: return
-		return wizard.compile_(self.widget, directory)
+		return wizard.compile_(self, directory)
 		
 	def run(self):
 		"""
@@ -201,6 +202,8 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 			self.fileName=fileName
 			self.dirty=""
 			self.setWindowTitle(self.currentTitle())
+			self.messages.insertHtml(_translate("eyeBlocks.mainwindow","<span style='color:blue'>[Loaded file]</span> %1",None).arg(fileName))
+			self.messages.insertHtml("<br>")
 		return
 		
 	def save(self):
@@ -214,6 +217,8 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 					c.save(outstream)
 			self.dirty=""
 			self.setWindowTitle(self.currentTitle())
+			self.messages.insertHtml(_translate("eyeBlocks.mainwindow","<span style='color:blue'>[Saved file]</span> %1",None).arg(self.fileName))
+			self.messages.insertHtml("<br>")
 		else:
 			self.saveAs()
 		return
