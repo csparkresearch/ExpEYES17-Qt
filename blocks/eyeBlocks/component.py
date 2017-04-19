@@ -34,10 +34,13 @@ class SnapPoint(QtCore.QPoint):
 	:type pos: QPixmap
 	:param text: the text which will define the flavor
 	:type text: str
+	:param parent: the component owning this snap point
+	:type parent: Component or subclass
 	"""
-	def __init__(self, pos, text):
+	def __init__(self, pos, text, parent=None):
 		QtCore.QPoint.__init__(self, pos)
 		self.text=text
+		self.parent=parent
 		return
 
 	def __str__(self):
@@ -88,6 +91,8 @@ class Component(object):
 		self.ident=ident
 		self.mimetype=mimetype
 		self.snapPoints=snapPoints
+		for s in self.snapPoints:
+			s.parent=self
 		self.touched=False
 		return
 
@@ -290,7 +295,7 @@ class Component(object):
 			point=QtCore.QPoint()
 			text=QtCore.QString()
 			dataStream >> point >> text
-			sp.append(SnapPoint(point, text))
+			sp.append(SnapPoint(point, text, None))
 		# carefully restore the class of the dropped object	
 		result=eval(
 			"%s(pixmap,ident,mimetype,rect=rect,hotspot=hotspot,snapPoints=sp)" %className
