@@ -407,17 +407,17 @@ Voulez-vous réellement les écraser ?</translation>
         <translation type="obsolete">&lt;span style=&apos;color:blue&apos;&gt;[Compilation : terminée]&lt;/span&gt; résultat dans &lt;b&gt;%1&lt;/b&gt;.</translation>
     </message>
     <message>
-        <location filename="../wizard.py" line="117"/>
+        <location filename="../wizard.py" line="144"/>
         <source>&lt;span style=&apos;color:blue&apos;&gt;[Compilation: done]&lt;/span&gt; output in &lt;b&gt;%1&lt;/b&gt; for %2.</source>
         <translation>&lt;span style=&apos;color:blue&apos;&gt;[Compilation : terminée]&lt;/span&gt; résultat dans &lt;b&gt;%1&lt;/b&gt; pour %2.</translation>
     </message>
     <message>
-        <location filename="../wizard.py" line="76"/>
+        <location filename="../wizard.py" line="103"/>
         <source>Unconnected snap Point: %1: %2</source>
         <translation>Points d&apos;accroche non connectés : %1 %2</translation>
     </message>
     <message>
-        <location filename="../wizard.py" line="81"/>
+        <location filename="../wizard.py" line="108"/>
         <source>Dangling components: %1</source>
         <translation>Composants en l&apos;air : %1</translation>
     </message>

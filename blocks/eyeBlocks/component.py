@@ -371,10 +371,10 @@ class Component(object):
 					result.append(ModifComponent(img, entry, mimetype, snapPoints=sp))
 				elif "time" in entry:
 					result.append(TimeComponent(img, entry, mimetype, snapPoints=sp))
-				elif "channel" in entry or "abscissa" in entry:
+				elif "channel" in entry or "abscissa" or "scope"in entry:
 					result.append(ChannelComponent(img, entry, mimetype, snapPoints=sp))
 				else:
-					print(_translate("eyeBlocks.component","Error, this should not happen:",None), entry)	
+					print(unicode(_translate("eyeBlocks.component","Error, this should not happen:",None)), entry)	
 					result.append(Component(img, entry, mimetype, snapPoints=sp))
 		return result
 		

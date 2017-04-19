@@ -14,6 +14,7 @@
    <file>2-channel3.svg</file>
    <file>2-channel4.svg</file>
    <file>2-abscissa.svg</file>
+   <file>2-scope.svg</file>
 </qresource>
 <qresource prefix="/hot">
     <file>hot-red.svg</file>

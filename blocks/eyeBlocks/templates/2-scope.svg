@@ -9,9 +9,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="1089.3149"
-   height="473.20511"
-   viewBox="0 0 288.21457 125.20219"
+   width="1687.7883"
+   height="1614.2957"
+   viewBox="0 0 446.56065 427.11574"
    version="1.1"
    id="svg8"
    inkscape:version="0.92.1 r15371"
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.24840554"
-     inkscape:cx="906.75857"
-     inkscape:cy="-113.31913"
+     inkscape:zoom="0.17564924"
+     inkscape:cx="643.14884"
+     inkscape:cy="176.57378"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -59,7 +59,7 @@
      inkscape:label="Calque 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-263.87281,-19.987853)">
+     transform="translate(-142.69193,135.89228)">
     <g
        id="g4593">
       <g
@@ -158,40 +158,35 @@
          d="m 252.17434,112.43744 -13.17749,20.59306 h 13.17749 z m -1.36942,-4.54753 h 6.5629 v 25.14059 h 5.50354 v 4.34082 h -5.50354 v 9.09505 h -5.19348 v -9.09505 h -17.41496 v -5.03845 z" />
     </g>
     <path
-       inkscape:connector-curvature="0"
-       id="block-out-signal"
-       d="m 42.020493,87.603134 a 2,2 0 0 1 -2,2 2,2 0 0 1 -2,-2 2,2 0 0 1 2,-2 2,2 0 0 1 2,2 z"
-       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-    <path
        style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3.77952766;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        d="m 418.9082,-654.8125 v 225.71484 l 126,-112.85742 z"
-       transform="matrix(0.26458333,0,0,0.26458333,32.005951,62.154762)"
        id="rect10"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       transform="matrix(0.26458333,0,0,0.26458333,32.005951,62.154762)" />
     <path
        style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3.77952766;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        d="m 418.9082,-385.30859 v 225.71484 l 126,-112.85742 z"
-       transform="matrix(0.26458333,0,0,0.26458333,32.005951,62.154762)"
        id="rect10-3"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       transform="matrix(0.26458333,0,0,0.26458333,32.005951,62.154762)" />
     <path
        style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3.77952766;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        d="m 418.9082,-115.80273 v 225.71289 l 126,-112.8554725 z"
-       transform="matrix(0.26458333,0,0,0.26458333,32.005951,62.154762)"
        id="rect10-6"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       transform="matrix(0.26458333,0,0,0.26458333,32.005951,62.154762)" />
     <path
        style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3.77952766;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        d="m 418.9082,153.70117 v 225.71485 l 126,-112.85743 z"
-       transform="matrix(0.26458333,0,0,0.26458333,32.005951,62.154762)"
        id="rect10-7"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       transform="matrix(0.26458333,0,0,0.26458333,32.005951,62.154762)" />
     <path
        style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3.77952766;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        d="m 418.9082,639.49023 v 225.71485 l 126,-112.85742 z"
-       transform="matrix(0.26458333,0,0,0.26458333,32.005951,62.154762)"
        id="rect10-5"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       transform="matrix(0.26458333,0,0,0.26458333,32.005951,62.154762)" />
     <circle
        style="opacity:1;fill:none;stroke:none;stroke-width:1;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="block-in-signal-x"
