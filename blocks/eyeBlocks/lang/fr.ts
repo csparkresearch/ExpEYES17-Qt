@@ -224,7 +224,7 @@ Cette partie n&apos;est pas encore implémentée
 <context>
     <name>eyeBlocks.component</name>
     <message>
-        <location filename="../component.py" line="296"/>
+        <location filename="../component.py" line="335"/>
         <source>Error, this should not happen:</source>
         <translation>Erreur, Ça ne devrait jamais arriver :</translation>
     </message>
@@ -232,12 +232,12 @@ Cette partie n&apos;est pas encore implémentée
 <context>
     <name>eyeBlocks.mainwindow</name>
     <message>
-        <location filename="../mainwindow.py" line="102"/>
+        <location filename="../mainwindow.py" line="103"/>
         <source>OK to erase a previous build?</source>
         <translation>OK pour effacer une compilation précédente ?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="102"/>
+        <location filename="../mainwindow.py" line="103"/>
         <source>Here are some previous built files:
  %s
 Do you really want to overwrite them?</source>
@@ -246,49 +246,49 @@ Do you really want to overwrite them?</source>
 Voulez-vous réellement les écraser ?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="129"/>
+        <location filename="../mainwindow.py" line="130"/>
         <source>Expeyes box choice</source>
         <translation>Choix de boîter Expeyes</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="129"/>
+        <location filename="../mainwindow.py" line="130"/>
         <source>You chose: %s.
 </source>
         <translation>Vous avez choisi : %s.
 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="137"/>
+        <location filename="../mainwindow.py" line="138"/>
         <source>About</source>
         <translation>À propos</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="144"/>
+        <location filename="../mainwindow.py" line="145"/>
         <source>About Qt</source>
         <translation>À propos de Qt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="230"/>
+        <location filename="../mainwindow.py" line="231"/>
         <source>Expeyes-Blocks:  *.eyeblk (*.eyeblk);;All files: * (*)</source>
         <translation>Expeyes-Blocks :  *.eyeblk (*.eyeblk);;Tous fichiers : * (*)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="181"/>
+        <location filename="../mainwindow.py" line="182"/>
         <source>Error size: %s does not match %s</source>
         <translation>Erreur, la taille : %s ne convient pas à %s</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="229"/>
+        <location filename="../mainwindow.py" line="230"/>
         <source>untitled.eyeblk</source>
         <translation>sansNom.eyeblk</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="230"/>
+        <location filename="../mainwindow.py" line="231"/>
         <source>Save to file</source>
         <translation>Enregistrer dans le fichier</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="246"/>
+        <location filename="../mainwindow.py" line="247"/>
         <source>Please confirm</source>
         <translation>Veuillez confirmer</translation>
     </message>
@@ -298,12 +298,12 @@ Voulez-vous réellement les écraser ?</translation>
         <translation type="obsolete">Erreur, Ça ne devrait jamais arriver :</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="155"/>
+        <location filename="../mainwindow.py" line="156"/>
         <source>Open a file</source>
         <translation>Ouvrir un fichier</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="246"/>
+        <location filename="../mainwindow.py" line="247"/>
         <source>The current work is not yet saved,
 do you really want to quit the application?
 </source>

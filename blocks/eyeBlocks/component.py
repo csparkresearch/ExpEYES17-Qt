@@ -57,6 +57,7 @@ class Component(object):
 
 	matchingFlavors=[
 		("block-in-signal", "block-out-signal"),
+		("block-in-signal-x", "block-out-time"),
 	]
 	"""
 	pairs of maching flavors for snap points

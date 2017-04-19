@@ -49,9 +49,23 @@ class BlockWidget(QWidget):
 		self.setAcceptDrops(True)
 		self.setMinimumSize(400, 400)
 		self.hotPx={
-			"red": QPixmap(":/hot/hot-red.svg"),
+			"red": self.hotIcon("red"),
 		}
 		self.boxModel=None # the model of the box to compile to
+		
+	@staticmethod
+	def hotIcon(color):
+		"""
+		gets a hot area with its middle and its icon
+		
+		:param color: some color
+		:type color: str
+		:returns: the center and the pixmap of a hot area
+		:rtype: tuple(QPoint, QPixmap)
+		"""
+		px=QPixmap(":/hot/hot-%s.svg" %color)
+		middle=QPoint(px.size().width()/2, px.size().height()/2)
+		return middle, px
 
 	def clear(self):
 		self.components = []
@@ -140,7 +154,7 @@ class BlockWidget(QWidget):
 				for flavors in Component.matchingFlavors:
 					for c1, s1 in self.matchingComponentSnap(p,s,flavors):
 						# do not move already touched components
-						if c1.touched_: continue
+						if c1.touched: continue
 						toMove.append((c,s,c1,s1))
 						c1.touch()
 		for c,s,c1,s1 in toMove:
@@ -188,9 +202,12 @@ class BlockWidget(QWidget):
 		return
 	def blockAt(self, pos):
 		"""
-		:param pos: a QPoint instance
-		:type pos:
+		gets the block visible under the mouse cursor
+		
+		:param pos: position of the mouse
+		:type pos: QPoint
 		:returns: the component at the given position if any, else None
+		:rtype: Component or subclass
 		"""
 		result=None
 		for c in self.components:
@@ -200,11 +217,14 @@ class BlockWidget(QWidget):
 						pos-c.rect.topLeft())
 				).getRgb()
 				if color[0]==0:
-					# not masked pixel
+					# this pixel is not masked, so return
 					return c	
 		return None
 
 	def paintEvent(self, event):
+		"""
+		routine to paint components of the list
+		"""
 		painter = QPainter()
 		painter.begin(self)
 		painter.fillRect(event.rect(), Qt.white)
@@ -214,10 +234,8 @@ class BlockWidget(QWidget):
 
 		# hot indicators
 		if self.hots:
-			px=self.hotPx["red"]
-			middle = QPoint(px.size().width()/2, px.size().height()/2)
+			middle,px=self.hotPx["red"]
 		for hot in self.hots:
-			# paint a circle around
 			painter.drawPixmap(QRect(hot-middle,px.size()),px)
 			
 		painter.end()
