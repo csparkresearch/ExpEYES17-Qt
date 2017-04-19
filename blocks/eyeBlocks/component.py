@@ -14,12 +14,12 @@
 ############################################################################
 from __future__ import print_function
 
-import os, re
+import os, re, copy
 from PyQt4 import QtCore, QtGui
 from xml.dom.minidom import parseString
 
 def _translate(context, text, disambig):
-	return QtGui.QApplication.translate(context, text, disambig)
+	return unicode(QtGui.QApplication.translate(context, text, disambig))
         
 
 from templates import blocks_rc
@@ -188,9 +188,22 @@ class Component(object):
 	@staticmethod
 	def fromListWidgetItem(lwi):
 		"""
-		creates ans returns a Component instance read from a QListWidgetItem instance
+		creates ans returns a Component instance read from 
+		a QListWidgetItem instance. Modifies its pixmap when
+		the component may be customized later, in order to
+		keep a clean print area.
+		
+		:param lwi: the item containing a component to Drag
+		:type lwi: QListWidgetItem
+		:returns: copy of a Component
+		:rtype: Component or subclass
 		"""
-		return lwi.component
+		result = copy.copy(lwi.component)
+		if "input" in str(result.ident):
+			result.pixmap=QtGui.QPixmap(":/misc/0-input.svg")
+		elif "time" in str(result.ident):
+			result.pixmap=QtGui.QPixmap(":/misc/0-timebase.svg")
+		return result
 		
 	def toListWidgetItem(self, lwi):
 		"""
@@ -263,7 +276,7 @@ class Component(object):
 		"""
 		gets a list of components from the application's QRC file
 		"""
-		#import modifcomponent
+		from timecomponent import TimeComponent
 		from modifcomponent import ModifComponent
 		from channelcomponent import ChannelComponent
 
@@ -287,6 +300,8 @@ class Component(object):
 					result.append(InputComponent(img, entry, mimetype, snapPoints=sp))
 				elif "modif" in entry:
 					result.append(ModifComponent(img, entry, mimetype, snapPoints=sp))
+				elif "time" in entry:
+					result.append(TimeComponent(img, entry, mimetype, snapPoints=sp))
 				elif "channel" in entry or "abscissa" in entry:
 					result.append(ChannelComponent(img, entry, mimetype, snapPoints=sp))
 				else:

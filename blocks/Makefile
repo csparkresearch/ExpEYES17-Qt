@@ -1,6 +1,6 @@
 # Main Makefile for Expeyes-Blocks
 
-SUBDIRS = eyePlot doc
+SUBDIRS = eyeBlocks doc
 
 all: recursive_all lang
 

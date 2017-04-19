@@ -224,7 +224,7 @@ Cette partie n&apos;est pas encore implémentée
 <context>
     <name>eyeBlocks.component</name>
     <message>
-        <location filename="../component.py" line="294"/>
+        <location filename="../component.py" line="296"/>
         <source>Error, this should not happen:</source>
         <translation>Erreur, Ça ne devrait jamais arriver :</translation>
     </message>
