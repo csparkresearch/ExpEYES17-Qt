@@ -29,7 +29,7 @@ from PyQt4.QtCore import QPoint, QRect, Qt, QSize, QString, \
 	QTimer, QFileInfo, SIGNAL, QByteArray, QStringList
 
 from PyQt4.QtGui import QMainWindow, QApplication, \
-	QMessageBox, QFileDialog
+	QMessageBox, QFileDialog, QTextCursor
 
 def _translate(context, text, disambig):
 	return QApplication.translate(context, unicode(text), disambig)
@@ -269,3 +269,16 @@ do you really want to quit the application?
 		:rtype: str
 		"""
 		return "Blocks (%s)%s" %(basename(str(self.fileName)), self.dirty)
+		
+	def warn(self, text):
+		"""
+		appends a warning to the messages, and adds a line break.
+		
+		:param text: the warning to display, with HTML syntax.
+		:type text: QString or str
+		"""
+		self.messages.insertHtml(text)
+		c=QTextCursor(self.messages)
+		c.movePosition(QTextCursor.End, QTextCursor.MoveAnchor)
+		self.messages.setTextCursor(c)
+		return
