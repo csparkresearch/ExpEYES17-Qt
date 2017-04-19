@@ -25,8 +25,18 @@ def _translate(context, text, disambig):
 from templates import blocks_rc
 
 class SnapPoint(QtCore.QPoint):
-	def __init__(self, x, y, text):
-		QtCore.QPoint.__init__(self, x, y)
+	"""
+	defines a snap point where a component can stick to another one.
+	Each snap point has a text attribute which rules its behavior to
+	other snap points (see the variable matchingFlavors).
+	
+	:param pos: the position of the snap point in the related pixmap
+	:type pos: QPixmap
+	:param text: the text which will define the flavor
+	:type text: str
+	"""
+	def __init__(self, pos, text):
+		QtCore.QPoint.__init__(self, pos)
 		self.text=text
 		return
 
@@ -261,7 +271,7 @@ class Component(object):
 			point=QtCore.QPoint()
 			text=QtCore.QString()
 			dataStream >> point >> text
-			sp.append(SnapPoint(point.x(), point.y(), text))
+			sp.append(SnapPoint(point, text))
 		# carefully restore the class of the dropped object	
 		result=eval(
 			"%s(pixmap,ident,mimetype,rect=rect,hotspot=hotspot,snapPoints=sp)" %className
@@ -380,7 +390,7 @@ def snapPoints(rcpath):
 		xc=float(c.getAttribute("cx"))
 		yc=float(c.getAttribute("cy"))
 		id_=c.getAttribute("id")
-		result.append(SnapPoint(xc+xt, yc+yt, id_))
+		result.append(SnapPoint(QtCore.QPoint(xc+xt, yc+yt), id_))
 	return result
 
 class InputComponent(Component):

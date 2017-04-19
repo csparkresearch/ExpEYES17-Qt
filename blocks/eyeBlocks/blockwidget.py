@@ -44,7 +44,11 @@ class BlockWidget(QWidget):
 
 		self.comp = None #dragged component
 		self.components = []
-		self.hots = [] # list of matching snap points
+		"""The list of components"""
+		self.snapped=[]
+		"""The list of matching snap points"""
+		self.hots = [] 
+		"""List of matching snap points to highlight at some moment"""
 
 		self.setAcceptDrops(True)
 		self.setMinimumSize(400, 400)
@@ -69,6 +73,7 @@ class BlockWidget(QWidget):
 
 	def clear(self):
 		self.components = []
+		self.snapped=[]
 		self.hots=[]
 		self.update()
 
@@ -108,21 +113,22 @@ class BlockWidget(QWidget):
 		"""
 		finds components underlying a snap point, with given position
 		and a couple of flavors
-		:param pos: the current position of the snap point
-		:type pos:
+		:param pos: the current mouse position
+		:type pos: QPoint
 		:param snapPoint: the snap point
-		:type snapPoint:
-		:param flavors: a couple of texts for matching snap points
-		:type flavors:
-		:returns: a list of matching component and its snapPoint
+		:type snapPoint: SnapPoint
+		:param flavors: a couple of texts for matching snap points, if a text is empty, it is a match-all flavor
+		:type flavors: tuple(str, str)
+		:returns: a list of matching component and its active snapPoint (a component may have multiple snap points)
+		:rtype: list(Component or subclass, SnapPoint)
 		"""
 		result=[]
 		# to implement symmetry in the flavor's relation
 		for f in flavors, (flavors[1], flavors[0]):
-			if str(snapPoint.text).startswith(f[0]):
+			if not f[0] or str(snapPoint.text).startswith(f[0]):
 				for c in self.components:
 					for s in c.snapPoints:
-						if str(s.text).startswith(f[1]):
+						if not f[1] or str(s.text).startswith(f[1]):
 							gap=c.rect.topLeft()+s-pos
 							if gap.manhattanLength() < 60:
 								result.append((c, s))
@@ -145,6 +151,7 @@ class BlockWidget(QWidget):
 		"""
 		moves components until every connected snaps overlap
 		"""
+		self.snapped=[]
 		toMove=[] # list of components to move
 		for c in self.components: c.reset()
 		for c in self.components:
@@ -157,9 +164,10 @@ class BlockWidget(QWidget):
 						if c1.touched: continue
 						toMove.append((c,s,c1,s1))
 						c1.touch()
-		for c,s,c1,s1 in toMove:
+		for c,s,c1,s1 in toMove: # the 
 			delta=c.rect.topLeft()+s-c1.rect.topLeft()-s1
 			c1.rect.translate(delta)
+			self.snapped.append((c,s)); self.snapped.append((c1,s1))
 		self.update()
 		QTimer.singleShot(1000, self.hideHots)
 		return
@@ -176,16 +184,28 @@ class BlockWidget(QWidget):
 			comp = comps[-1]
 			index=self.components.index(comp)
 			comp=copy.copy(comp)
-
+			### delete the component
 			del self.components[index]
-
+			### delete broken snappoints
+			brokensnapIndexes=[]
+			for sp in comp.snapPoints:
+				for i in range(len(self.snapped)):
+					c,s = self.snapped[i]
+					if comp.rect.topLeft()+sp == c.rect.topLeft()+s:
+						brokensnapIndexes.append(i)
+			# assert: brokensnapIndexes is a sorted list, ascending
+			for i in brokensnapIndexes[::-1]: # descending iteration
+				del self.snapped[i]
+			### deletions done, erase the images
 			self.update(comp.rect)
 
 			comp.hotspot=QPoint(event.pos() - comp.rect.topLeft())
 			drag=comp.makeDrag(self)
 
 			if drag.exec_(Qt.MoveAction) != Qt.MoveAction:
+				# the drag failed, restore the previous state
 				self.components.insert(index, comp)
+				self.connectSnaps()
 				self.update()
 			else:
 				self.blocksChanged.emit()
