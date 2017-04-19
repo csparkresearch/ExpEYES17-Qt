@@ -35,6 +35,7 @@ class BlockSource(object):
 		self.bw=bw
 		self.count=len(bw.components)
 		self.chains, self.dangling = self.makeChains()
+		
 
 	def makeChains(self):
 		"""
@@ -70,6 +71,13 @@ class BlockSource(object):
 		:rtype: list(str)
 		"""
 		warnings=[]
+		ns = self.bw.notSnapped()
+		if ns: 
+			for c,s in ns:
+				warnings.append("Missing snap Point: %s / %s" %(c.summary(), s.text))
+		if self.dangling:
+			warnings.append("Dangling components: %s" \
+				%", ".join([self.bw.components[i].summary() for i in self.dangling]))
 		return warnings
 		
 def compile_(bw, directory):
@@ -85,6 +93,7 @@ def compile_(bw, directory):
 	bs=BlockSource(bw)
 	### for debug purpose only
 	strchains=[str(c) for c in bs.chains]; QtGui.QMessageBox.warning(bw,"GRRRR", "Chains:\n%s \n\nDangling: %s" %("\n".join(strchains), bs.dangling))
+	print("GRRRR", bs.structureWarnings())
 	target=bw.boxModel
 	components=bw.components
 	templatePath=os.path.join(os.path.dirname(__file__),"templates")

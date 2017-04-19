@@ -42,7 +42,7 @@ class SnapPoint(QtCore.QPoint):
 
 	def __str__(self):
 		return "snapPoint((%s,%s),%s)" %(self.x(), self.y(), self.text)
-		
+	
 class Component(object):
 	"""
 	This class describes a programmation component, which can be
@@ -91,6 +91,14 @@ class Component(object):
 		self.touched=False
 		return
 
+	def summary(self):
+		"""
+		:returns: a simple description for humans
+		:rtype: str
+		"""
+		return "%s at (%s,%s)" % (self.className(),
+					self.rect.topLeft().x(), self.rect.topLeft().y())
+		
 	def reset(self):
 		"""
 		resets the touched flag

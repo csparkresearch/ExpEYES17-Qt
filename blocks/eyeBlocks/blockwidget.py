@@ -183,10 +183,29 @@ class BlockWidget(QWidget):
 								result=True
 								break
 		return result
+		
+	def allSnaps(self):
+		"""
+		:returns: a list of components with their snaps
+		:rtype: list(Component, SnapPoint)
+		"""
+		result=[]
+		for c in self.components:
+			for s in c.snapPoints:
+				result.append((c,s))
+		return result
 
+	def notSnapped(self):
+		"""
+		:returns: a list of components with their snaps not connected
+		:rtype: list(Component, SnapPoint)
+		"""
+		return [cs for cs in self.allSnaps() if cs not in self.snapped]
+		
 	def connectSnaps(self):
 		"""
-		moves components until every connected snaps overlap
+		moves components until every connected snaps overlap.
+		updates the list of connected snaps, self.snapped
 		"""
 		self.snapped=[]
 		toMove=[] # list of components to move
