@@ -78,7 +78,9 @@ class BlockSource(object):
 		ns = self.bw.notSnapped()
 		if ns: 
 			for c,s in ns:
-				warnings.append("Missing snap Point: %s / %s" %(c.summary(), s.text))
+				if self.bw.components.index(c) not in self.dangling:
+					# warn only for non-dangling components
+					warnings.append("Missing snap Point: %s / %s" %(c.summary(), s.text))
 		if self.dangling:
 			warnings.append("Dangling components: %s" \
 				%(", ".join([self.bw.components[i].summary() for i in self.dangling])))
@@ -97,11 +99,9 @@ def compile_(mw, directory):
 	bw=mw.widget
 	bs=BlockSource(bw)
 	sw=bs.structureWarnings()
-	print("GRRRR", sw)
 	for w in sw:
 		w="<span style='color:red'>[struct warn]</span> "+w
-		mw.messages.insertHtml(w)
-		mw.messages.insertHtml("<br>")
+		mw.warn(w)
 	target=bw.boxModel
 	components=bw.components
 	templatePath=os.path.join(os.path.dirname(__file__),"templates")
@@ -118,8 +118,7 @@ def compile_(mw, directory):
 			d=directory,t=now
 		)
 		call(cmd, shell=True)
-		mw.messages.insertHtml(_translate("eyeBlocks.wizard","<span style='color:blue'>[Compilation: done]</span> output in %1",None).arg(directory))
-		mw.messages.insertHtml("<br>")
+		mw.warn(_translate("eyeBlocks.wizard","<span style='color:blue'>[Compilation: done]</span> output in <b>%1</b>.",None).arg(directory))
 	return "{d}/run.py".format(d=directory)
 	
 def run(program):

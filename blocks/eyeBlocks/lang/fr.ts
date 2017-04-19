@@ -126,97 +126,97 @@ Cette partie n&apos;est pas encore implémentée
         <translation>Blocs</translation>
     </message>
     <message>
-        <location filename="../templates/blocks.ui" line="122"/>
+        <location filename="../templates/blocks.ui" line="128"/>
         <source>Fi&amp;le</source>
         <translation>&amp;Fichier</translation>
     </message>
     <message>
-        <location filename="../templates/blocks.ui" line="132"/>
+        <location filename="../templates/blocks.ui" line="138"/>
         <source>&amp;Help</source>
         <translation>&amp;Aide</translation>
     </message>
     <message>
-        <location filename="../templates/blocks.ui" line="139"/>
+        <location filename="../templates/blocks.ui" line="145"/>
         <source>B&amp;uild</source>
         <translation>&amp;Construire</translation>
     </message>
     <message>
-        <location filename="../templates/blocks.ui" line="143"/>
+        <location filename="../templates/blocks.ui" line="149"/>
         <source>&amp;Targetted box</source>
         <translation>&amp;Choix de boîtier</translation>
     </message>
     <message>
-        <location filename="../templates/blocks.ui" line="159"/>
+        <location filename="../templates/blocks.ui" line="165"/>
         <source>&amp;Save (Ctrl-S)</source>
         <translation>Enregi&amp;strer (Ctrl-S)</translation>
     </message>
     <message>
-        <location filename="../templates/blocks.ui" line="162"/>
+        <location filename="../templates/blocks.ui" line="168"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../templates/blocks.ui" line="167"/>
+        <location filename="../templates/blocks.ui" line="173"/>
         <source>Save &amp;as ...</source>
         <translation>Enre&amp;gistrer sous ...</translation>
     </message>
     <message>
-        <location filename="../templates/blocks.ui" line="172"/>
+        <location filename="../templates/blocks.ui" line="178"/>
         <source>&amp;Open ... (Ctrl-O)</source>
         <translation>&amp;Ouvrir ... (Ctrl-O)</translation>
     </message>
     <message>
-        <location filename="../templates/blocks.ui" line="175"/>
+        <location filename="../templates/blocks.ui" line="181"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../templates/blocks.ui" line="180"/>
+        <location filename="../templates/blocks.ui" line="186"/>
         <source>&amp;Quit (Ctrl-Q)</source>
         <translation>&amp;Quitter (Ctrl-Q)</translation>
     </message>
     <message>
-        <location filename="../templates/blocks.ui" line="183"/>
+        <location filename="../templates/blocks.ui" line="189"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="../templates/blocks.ui" line="188"/>
+        <location filename="../templates/blocks.ui" line="194"/>
         <source>&amp;About ... (F1)</source>
         <translation>&amp;À Propos ... (F1)</translation>
     </message>
     <message>
-        <location filename="../templates/blocks.ui" line="191"/>
+        <location filename="../templates/blocks.ui" line="197"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../templates/blocks.ui" line="196"/>
+        <location filename="../templates/blocks.ui" line="202"/>
         <source>About &amp;Qt ...</source>
         <translation>&amp;À propos de Qt ...</translation>
     </message>
     <message>
-        <location filename="../templates/blocks.ui" line="201"/>
+        <location filename="../templates/blocks.ui" line="207"/>
         <source>&amp;Compile (F9)</source>
         <translation>&amp;Compiler (F9)</translation>
     </message>
     <message>
-        <location filename="../templates/blocks.ui" line="204"/>
+        <location filename="../templates/blocks.ui" line="210"/>
         <source>F9</source>
         <translation>F9</translation>
     </message>
     <message>
-        <location filename="../templates/blocks.ui" line="209"/>
+        <location filename="../templates/blocks.ui" line="215"/>
         <source>&amp;Run (F5)</source>
         <translation>Lance&amp;r (F5)</translation>
     </message>
     <message>
-        <location filename="../templates/blocks.ui" line="212"/>
+        <location filename="../templates/blocks.ui" line="218"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../templates/blocks.ui" line="217"/>
+        <location filename="../templates/blocks.ui" line="223"/>
         <source>Expeyes-1&amp;7</source>
         <translation>Expeyes-1&amp;7</translation>
     </message>
@@ -228,7 +228,12 @@ Cette partie n&apos;est pas encore implémentée
     <message>
         <location filename="../templates/blocks.ui" line="103"/>
         <source>Tab 2</source>
-        <translation>Tab 2</translation>
+        <translation type="obsolete">Tab 2</translation>
+    </message>
+    <message>
+        <location filename="../templates/blocks.ui" line="109"/>
+        <source>Params</source>
+        <translation>Params</translation>
     </message>
 </context>
 <context>
@@ -278,7 +283,7 @@ Voulez-vous réellement les écraser ?</translation>
         <translation>À propos de Qt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="238"/>
+        <location filename="../mainwindow.py" line="236"/>
         <source>Expeyes-Blocks:  *.eyeblk (*.eyeblk);;All files: * (*)</source>
         <translation>Expeyes-Blocks :  *.eyeblk (*.eyeblk);;Tous fichiers : * (*)</translation>
     </message>
@@ -288,17 +293,17 @@ Voulez-vous réellement les écraser ?</translation>
         <translation>Erreur, la taille : %s ne convient pas à %s</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="237"/>
+        <location filename="../mainwindow.py" line="235"/>
         <source>untitled.eyeblk</source>
         <translation>sansNom.eyeblk</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="238"/>
+        <location filename="../mainwindow.py" line="236"/>
         <source>Save to file</source>
         <translation>Enregistrer dans le fichier</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="254"/>
+        <location filename="../mainwindow.py" line="252"/>
         <source>Please confirm</source>
         <translation>Veuillez confirmer</translation>
     </message>
@@ -313,7 +318,7 @@ Voulez-vous réellement les écraser ?</translation>
         <translation>Ouvrir un fichier</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="254"/>
+        <location filename="../mainwindow.py" line="252"/>
         <source>The current work is not yet saved,
 do you really want to quit the application?
 </source>
@@ -343,12 +348,12 @@ Voulez-vous réellement les écraser ?</translation>
     <message>
         <location filename="../mainwindow.py" line="206"/>
         <source>&lt;span style=&apos;color:blue&apos;&gt;[Loaded file]&lt;/span&gt; %1</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;span style=&apos;color:blue&apos;&gt;[Chargé le fichier]&lt;/span&gt; %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="222"/>
+        <location filename="../mainwindow.py" line="221"/>
         <source>&lt;span style=&apos;color:blue&apos;&gt;[Saved file]&lt;/span&gt; %1</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;span style=&apos;color:blue&apos;&gt;[Enregistré le fichier]&lt;/span&gt; %1</translation>
     </message>
 </context>
 <context>
@@ -377,9 +382,14 @@ Voulez-vous réellement les écraser ?</translation>
 <context>
     <name>eyeBlocks.wizard</name>
     <message>
-        <location filename="../wizard.py" line="121"/>
+        <location filename="../wizard.py" line="119"/>
         <source>&lt;span style=&apos;color:blue&apos;&gt;[Compilation: done]&lt;/span&gt; output in %1</source>
-        <translation>&lt;span style=&apos;color:blue&apos;&gt;[Compilation : terminée]&lt;/span&gt; résultat dans %1</translation>
+        <translation type="obsolete">&lt;span style=&apos;color:blue&apos;&gt;[Compilation : terminée]&lt;/span&gt; résultat dans %1</translation>
+    </message>
+    <message>
+        <location filename="../wizard.py" line="119"/>
+        <source>&lt;span style=&apos;color:blue&apos;&gt;[Compilation: done]&lt;/span&gt; output in &lt;b&gt;%1&lt;/b&gt;.</source>
+        <translation>&lt;span style=&apos;color:blue&apos;&gt;[Compilation : terminée]&lt;/span&gt; résultat dans &lt;b&gt;%1&lt;/b&gt;.</translation>
     </message>
 </context>
 <context>

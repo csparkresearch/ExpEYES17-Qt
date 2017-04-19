@@ -202,8 +202,7 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 			self.fileName=fileName
 			self.dirty=""
 			self.setWindowTitle(self.currentTitle())
-			self.messages.insertHtml(_translate("eyeBlocks.mainwindow","<span style='color:blue'>[Loaded file]</span> %1",None).arg(fileName))
-			self.messages.insertHtml("<br>")
+			self.warn(_translate("eyeBlocks.mainwindow","<span style='color:blue'>[Loaded file]</span> %1",None).arg(fileName))
 		return
 		
 	def save(self):
@@ -217,8 +216,7 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 					c.save(outstream)
 			self.dirty=""
 			self.setWindowTitle(self.currentTitle())
-			self.messages.insertHtml(_translate("eyeBlocks.mainwindow","<span style='color:blue'>[Saved file]</span> %1",None).arg(self.fileName))
-			self.messages.insertHtml("<br>")
+			self.warn(_translate("eyeBlocks.mainwindow","<span style='color:blue'>[Saved file]</span> %1",None).arg(self.fileName))
 		else:
 			self.saveAs()
 		return
@@ -278,7 +276,6 @@ do you really want to quit the application?
 		:type text: QString or str
 		"""
 		self.messages.insertHtml(text)
-		c=QTextCursor(self.messages)
-		c.movePosition(QTextCursor.End, QTextCursor.MoveAnchor)
-		self.messages.setTextCursor(c)
+		self.messages.insertHtml("<br>")
+		self.messages.ensureCursorVisible ()
 		return
