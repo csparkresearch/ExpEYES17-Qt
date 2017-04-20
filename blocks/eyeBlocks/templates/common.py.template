@@ -18,10 +18,3 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		Ui_MainWindow.__init__(self)
 		self.setupUi(self)
 		
-if __name__=="__main__":
-	import sys
-
-	app = QApplication(sys.argv)
-	window = MainWindow()
-	window.show()
-	sys.exit(app.exec_())

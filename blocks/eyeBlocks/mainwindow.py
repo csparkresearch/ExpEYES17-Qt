@@ -58,7 +58,7 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		self.connectSignals()
 		self.fileName=None
 		self.dirty="" # may become "*"
-		self.widget.boxModel="expeyes-17"
+		self.widget.boxModel="expeyes-junior"
 		self.warn(_translate("eyeBlocks.mainwindow","<span style='color:blue'>[Current targetted box]</span> %1",None).arg(self.widget.boxModel))
 		return
 
