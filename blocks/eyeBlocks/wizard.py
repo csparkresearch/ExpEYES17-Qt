@@ -56,7 +56,6 @@ class BlockSource(object):
 			sci=bw.components.index(self.scope)
 			cc=len(self.bw.components)
 			scopeInputs=[(l, [str(sp.text) for sp in self.graph[l][sci]]) for l in range(cc) if self.graph[l][sci]]
-			print("GRRRR", scopeInputs)
 			for i in (1,2,3,4):
 				l = [self.bw.components[n].code for n, texts in scopeInputs if texts[1]=="block-in-signal-%s" %i]
 				self.yscope[i-1] = l[0] if l else 0
