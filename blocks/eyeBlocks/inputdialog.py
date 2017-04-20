@@ -166,6 +166,7 @@ class Dialog(QtGui.QDialog, Ui_Dialog):
 			v=VoltageComponent.fromOther(b)
 			i=self.tabWidget.currentIndex()
 			v.name=str(self.tabWidget.tabText(i))
+			v.code=i # asserting codes are a sequence begining at 1!
 			v.ranges=[eval(str(self.combos[i].currentText()))]
 			v.rangeindex=0
 			bw.components[bw.components.index(b)]=v

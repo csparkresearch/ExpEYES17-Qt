@@ -30,12 +30,13 @@ class VoltageComponent(InputComponent):
 		InputComponent.__init__(*args,**kw)
 		self=args[0]
 		self.initDefaults()
-		for a in ("name","ranges","rangeindex"):
+		for a in ("name","code","ranges","rangeindex"):
 			if a in kw:
 				setattribute(self, a, kw[a])
 
 	def initDefaults(self):
 		self.name="A1"
+		self.code=1
 		self.ranges=[(-5,5)]
 		self.rangeindex = 0
 
@@ -51,19 +52,21 @@ class VoltageComponent(InputComponent):
 		y+=lh
 		rangePos=pos+QtCore.QPoint(x,y)
 		painter.drawText(titlePos,_translate("eyeBlocks.voltagecomponent","Voltage input",None))
-		painter.drawText(namePos,_translate("eyeBlocks.timecomponent","%1",None).arg(self.name))
+		painter.drawText(namePos,_translate("eyeBlocks.timecomponent","%1 (%2)",None).arg(self.name).arg(self.code))
 		painter.drawText(rangePos,_translate("eyeBlocks.timecomponent","range: %1V..%2V",None).arg(self.ranges[self.rangeindex][0]).arg(self.ranges[self.rangeindex][1]))
 
 	def getMoreData(self, dataStream):
 		name=QtCore.QString()
+		code=QtCore.QVariant()
 		ranges=QtCore.QString() # will require an evaluation
 		rangeindex=QtCore.QVariant()
-		dataStream >> name >> ranges >> rangeindex
+		dataStream >> name >> code >> ranges >> rangeindex
 		self.name=str(name)
+		self.code, report=code.toInt()
 		self.ranges=eval(str(ranges))
 		self.rangindex, report=rangeindex.toInt()
 		return
 
 	def putMoreData(self, dataStream):
-		dataStream << QtCore.QString(self.name) << QtCore.QString(str(self.ranges)) << QtCore.QVariant(self.rangeindex)
+		dataStream << QtCore.QString(self.name) << QtCore.QVariant(self.code) << QtCore.QString(str(self.ranges)) << QtCore.QVariant(self.rangeindex)
 		return
