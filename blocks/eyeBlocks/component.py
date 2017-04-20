@@ -14,25 +14,46 @@
 ############################################################################
 from __future__ import print_function
 
-import os, re
+import os, re, copy
 from PyQt4 import QtCore, QtGui
 from xml.dom.minidom import parseString
 
 def _translate(context, text, disambig):
-	return QtGui.QApplication.translate(context, text, disambig)
+	return QtGui.QApplication.translate(context, unicode(text), disambig)
         
 
 from templates import blocks_rc
 
 class SnapPoint(QtCore.QPoint):
-	def __init__(self, x, y, text):
-		QtCore.QPoint.__init__(self, x, y)
+	"""
+	defines a snap point where a component can stick to another one.
+	Each snap point has a text attribute which rules its behavior to
+	other snap points (see the variable matchingFlavors).
+	
+	:param relpos: the position of the snap point in the related pixmap
+	:type relpos: QPoint
+	:param text: the text which will define the flavor
+	:type text: str
+	:param parent: the component owning this snap point
+	:type parent: Component or subclass
+	"""
+	def __init__(self, relpos, text, parent=None):
+		QtCore.QPoint.__init__(self, relpos)
 		self.text=text
+		self.parent=parent
 		return
 
 	def __str__(self):
 		return "snapPoint((%s,%s),%s)" %(self.x(), self.y(), self.text)
 		
+	def pos(self):
+		"""
+		:returns: the position of the snap point in the working area
+		:rtype: QPoint
+		"""
+		return self.parent.rect.topLeft()+self
+		
+	
 class Component(object):
 	"""
 	This class describes a programmation component, which can be
@@ -57,6 +78,7 @@ class Component(object):
 
 	matchingFlavors=[
 		("block-in-signal", "block-out-signal"),
+		("block-in-signal-x", "block-out-time"),
 	]
 	"""
 	pairs of maching flavors for snap points
@@ -77,21 +99,46 @@ class Component(object):
 		self.ident=ident
 		self.mimetype=mimetype
 		self.snapPoints=snapPoints
+		for s in self.snapPoints:
+			s.parent=self
 		self.touched=False
 		return
 
+	def summary(self):
+		"""
+		:returns: a simple description for humans
+		:rtype: str
+		"""
+		return "%s at (%s,%s)" % (self.className(),
+					self.rect.topLeft().x(), self.rect.topLeft().y())
+		
 	def reset(self):
 		"""
 		resets the touched flag
 		"""
 		self.touch(False)
 		return
-
+		
+	def samePlace(self, other):
+		"""
+		finds whether a component is at the same place than another
+		
+		:param other: anoter component
+		:type other: Component or subclass
+		:returns: True if both components are at the same place
+		:rtype: boolean
+		"""
+		return self.rect==other.rect
+		
 	@staticmethod
 	def acceptedFormats(event):
 		"""
-		acceptable formats start with "image/x-Block-"
-		returns a list of accepted formats.
+		acceptable formats start with "image/x-Block-".
+		
+		:param event: the current event.
+		:type event: QEvent
+		:returns: a list of accepted formats.
+		:rtype: list(QString)
 		"""
 		return [f for f in event.mimeData().formats() \
 				if f.contains("image/x-Block-")]
@@ -101,7 +148,7 @@ class Component(object):
 		sets the touch flag
 
 		:param touched: value for the flag; True by default
-		:type touched:
+		:type touched: boolena
 		"""
 		self.touched=touched
 		return
@@ -111,7 +158,7 @@ class Component(object):
 		"""
 		alternate constructor
 
-		:param c: a component
+		:param c: a Component instance
 		:type c: Component or subclass
 		"""
 		self=cls(c.pixmap, c.ident, c.mimetype, c.rect, c.hotspot, c.snapPoints)
@@ -132,17 +179,20 @@ class Component(object):
 
 	def draw(self, painter):
 		"""
-		draws a component inside a widget with the help of a painter
+		draws a component inside a widget with the help of a painter.
 
 		:param painter: a working QPainter instance
-		:type painter:
+		:type painter: QPainter
 		"""
 		painter.drawPixmap(self.rect, self.pixmap)
 		return
 		
 	def save(self, outstream):
 		"""
-		saving to an open binary stream
+		saving to a writable stream
+		
+		:param outstream: a writable stream
+		:type outstream: QtCore.QIODevice.WriteOnly
 		"""
 		itemData, dataStream = self.serialize()
 		outstream.write("Class Name (%s bytes)\n" %len(self.className()))
@@ -159,8 +209,10 @@ class Component(object):
 
 	def serialize(self):
 		"""
-		serializes a component into a QDataStream
-		returns data as a QByteArray instance and a writeStream to feed it on.
+		serializes a component into a byte array.
+		
+		:returns: a byte array and a writable stream to feed it.
+		:rtype: tuple(QByteArray,QIODevice.WriteOnly)
 		"""
 		itemData = QtCore.QByteArray()
 		dataStream = QtCore.QDataStream(itemData, QtCore.QIODevice.WriteOnly)
@@ -176,25 +228,47 @@ class Component(object):
 	def putMoreData(self, dataStream):
 		"""
 		abstract metho to be overriden by subclasses
+		
+		:param dataStream: writable data stream connected to a byte array
+		:type dataStream: QIODevice.WriteOnly
 		"""
 		return
 		
 	def getMoreData(self, dataStream):
 		"""
 		abstract metho to be overriden by subclasses
+		
+		:param dataStream: readable data stream connected to a byte array
+		:type dataStream: QIODevice.ReadOnly
 		"""
 		return
 		
 	@staticmethod
 	def fromListWidgetItem(lwi):
 		"""
-		creates ans returns a Component instance read from a QListWidgetItem instance
+		creates ans returns a Component instance read from 
+		a QListWidgetItem instance. Modifies its pixmap when
+		the component may be customized later, in order to
+		keep a clean print area.
+		
+		:param lwi: the item containing a component to Drag
+		:type lwi: QListWidgetItem
+		:returns: copy of a Component
+		:rtype: Component or subclass
 		"""
-		return lwi.component
+		result = copy.copy(lwi.component)
+		if "input" in str(result.ident):
+			result.pixmap=QtGui.QPixmap(":/misc/0-input.svg")
+		elif "time" in str(result.ident):
+			result.pixmap=QtGui.QPixmap(":/misc/0-timebase.svg")
+		return result
 		
 	def toListWidgetItem(self, lwi):
 		"""
-		records custom data into a QListWidgetItem instance
+		records custom data into a QListWidgetItem instance.
+		
+		:param lwi: the item containing a component to Drag
+		:type lwi: QListWidgetItem
 		"""
 		lwi.component=self
 		lwi.setIcon(QtGui.QIcon(self.pixmap))
@@ -203,10 +277,15 @@ class Component(object):
 	@staticmethod
 	def unserialize(data):
 		"""
-		unserialize frome a byteArray,
-		:returns: a new Component instance, a dataStream to get further data, and the className to restore
+		unserialize frome a byteArray.
+		
+		:param data: a byte array
+		:type data: QByteArray
+		:returns: a new Component instance, a data stream to get further data, and the name of the class to restore.
+		:rtype: tuple(Component or subclass, QIODevice.ReadOnly, QString)
 		"""
 		from timecomponent import TimeComponent
+		from voltagecomponent import VoltageComponent
 		from modifcomponent import ModifComponent
 		from channelcomponent import ChannelComponent
 		dataStream = QtCore.QDataStream(data, QtCore.QIODevice.ReadOnly)
@@ -225,11 +304,12 @@ class Component(object):
 			point=QtCore.QPoint()
 			text=QtCore.QString()
 			dataStream >> point >> text
-			sp.append(SnapPoint(point.x(), point.y(), text))
+			sp.append(SnapPoint(point, text, None))
 		# carefully restore the class of the dropped object	
 		result=eval(
 			"%s(pixmap,ident,mimetype,rect=rect,hotspot=hotspot,snapPoints=sp)" %className
 		)
+		result.getMoreData(dataStream)
 		return result, dataStream, className
 		
 	@staticmethod
@@ -237,11 +317,13 @@ class Component(object):
 		"""
 		userialize given QEvent's data into a Component instance
 
-		:param event: a QEvent, presumably due to a drop.
-		:type event:
-		:returns: an instance of Component and a dataStream to get more data
+		:param event: an event due to a drop.
+		:type event: QEvent
+		:returns: an instance of Component, a data stream to get more data, and the name of the class to restore.
+		:rtype: tuple(Component or subclass, QIODevice.ReadOnly, QString)
 		"""
 		from timecomponent import TimeComponent
+		from voltagecomponent import VoltageComponent
 		from modifcomponent import ModifComponent
 		from channelcomponent import ChannelComponent
 		f = Component.acceptedFormats(event)
@@ -252,8 +334,6 @@ class Component(object):
 					(event.pos()-result.hotspot),
 					result.pixmap.size()
 			)
-			result=eval("%s.fromOther(result)" %className)
-			result.getMoreData(dataStream)
 		else:
 			result = None; dataStream=None
 		return result, dataStream, className
@@ -262,8 +342,11 @@ class Component(object):
 	def listFromRC():
 		"""
 		gets a list of components from the application's QRC file
+		
+		:returns: a list of components
+		:rtype: list(Component or subclass)
 		"""
-		#import modifcomponent
+		from timecomponent import TimeComponent
 		from modifcomponent import ModifComponent
 		from channelcomponent import ChannelComponent
 
@@ -287,10 +370,12 @@ class Component(object):
 					result.append(InputComponent(img, entry, mimetype, snapPoints=sp))
 				elif "modif" in entry:
 					result.append(ModifComponent(img, entry, mimetype, snapPoints=sp))
-				elif "channel" in entry or "abscissa" in entry:
+				elif "time" in entry:
+					result.append(TimeComponent(img, entry, mimetype, snapPoints=sp))
+				elif "channel" in entry or "abscissa" or "scope"in entry:
 					result.append(ChannelComponent(img, entry, mimetype, snapPoints=sp))
 				else:
-					print(_translate("eyeBlocks.component","Error, this should not happen:",None), entry)	
+					print(unicode(_translate("eyeBlocks.component","Error, this should not happen:",None)), entry)	
 					result.append(Component(img, entry, mimetype, snapPoints=sp))
 		return result
 		
@@ -299,8 +384,9 @@ class Component(object):
 		creates and returns a QDrag object with the given parent
 
 		:param parent: a window, where a drag is starting
-		:type parent:
-		:returns: the DQrag instance
+		:type parent: QWidget
+		:returns: a drag object
+		:rtype: QDrag
 		"""
 		itemData, writeStream = self.serialize()
 
@@ -317,7 +403,8 @@ class Component(object):
 		
 def snapPoints(rcpath):
 	"""
-	:returns: a list of snapPoints. Those are centers of circles available in the SVG picture, denoted by ids which begin with "block-"; those circles may be invisible in the pixmap.
+	:returns: a list of snap points. Those are centers of circles available in the SVG picture, denoted by ids which begin with "block-"; those circles may be invisible in the pixmap.
+	:rtype: list(SnapPoint)
 	"""
 	f=QtCore.QFile(rcpath)
 	f.open(QtCore.QIODevice.ReadOnly | QtCore.QIODevice.Text)
@@ -336,7 +423,7 @@ def snapPoints(rcpath):
 		xc=float(c.getAttribute("cx"))
 		yc=float(c.getAttribute("cy"))
 		id_=c.getAttribute("id")
-		result.append(SnapPoint(xc+xt, yc+yt, id_))
+		result.append(SnapPoint(QtCore.QPoint(xc+xt, yc+yt), id_))
 	return result
 
 class InputComponent(Component):

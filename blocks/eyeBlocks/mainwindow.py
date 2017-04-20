@@ -26,18 +26,19 @@ import copy, re
 from os.path import basename
 
 from PyQt4.QtCore import QPoint, QRect, Qt, QSize, QString, \
-	QTimer, QFileInfo, SIGNAL, QByteArray
+	QTimer, QFileInfo, SIGNAL, QByteArray, QStringList
 
 from PyQt4.QtGui import QMainWindow, QApplication, \
-	QMessageBox, QFileDialog
+	QMessageBox, QFileDialog, QTextCursor
 
 def _translate(context, text, disambig):
-	return QApplication.translate(context, text, disambig)
+	return QApplication.translate(context, unicode(text), disambig)
         
 
 from templates.ui_blocks import Ui_MainWindow
 from component import Component, InputComponent
 from timecomponent import TimeComponent
+from voltagecomponent import VoltageComponent
 from modifcomponent import ModifComponent
 from channelcomponent import ChannelComponent
 import wizard
@@ -53,11 +54,13 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		QMainWindow.__init__(self, parent)
 		Ui_MainWindow.__init__(self)
 		self.setupUi(self)
+		self.splitter.setSizes([4,1])
 		self.loadComponents()
 		self.connectSignals()
 		self.fileName=None
 		self.dirty="" # may become "*"
-		self.boxModel="expeyes-17"
+		self.widget.boxModel="expeyes-junior"
+		self.warn(_translate("eyeBlocks.mainwindow","<span style='color:blue'>[Current targetted box]</span> %1",None).arg(self.widget.boxModel))
 		return
 
 	def loadComponents(self, path=None):
@@ -81,6 +84,7 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		self.action_Compile.triggered.connect(self.compile_)
 		self.action_Run.triggered.connect(self.run)
 		self.actionExpeyes_17.triggered.connect(self.chooseBox("expeyes-17"))
+		self.actionExpeyes_Junior.triggered.connect(self.chooseBox("expeyes-junior"))
 		
 	def compile_(self):
 		"""
@@ -91,22 +95,24 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		import os, os.path
 		# save the file if necessary
 		if self.dirty=="*": self.save()
-		directory=os.path.join("build", self.fileName.replace(".eyeblk",""))
+		fileNameShorted=os.path.basename(str(self.fileName)).replace(".eyeblk","")
+		directory=os.path.join("build", fileNameShorted)
 		try:
 			os.makedirs(directory, mode=0o755)
 		except:
 			pass
 		l=os.listdir(directory)
+		l=QStringList(l)
 		ok=True
 		if l:
 			ok=QMessageBox.question(self,
 				_translate("eyeBlocks.mainwindow","OK to erase a previous build?",None),
-				_translate("eyeBlocks.mainwindow","Here are some previous built files:\n %s\nDo you really want to overwrite them?",None) \
-					%", ".join(l),
+				_translate("eyeBlocks.mainwindow","Here are some previous built files:\n %1\nDo you really want to overwrite them?",None).arg(
+					l.join(", ")),
 				QMessageBox.No|QMessageBox.Yes
 			) == QMessageBox.Yes
 		if not ok: return
-		return wizard.compile_(self.widget.components, directory, self.boxModel)
+		return wizard.compile_(self, directory)
 		
 	def run(self):
 		"""
@@ -126,7 +132,7 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 		"""
 		def callBack():
 			self.boxModel=model
-			QMessageBox.warning(self,_translate("eyeBlocks.mainwindow","Expeyes box choice",None),_translate("eyeBlocks.mainwindow","You chose: %s.\n",None) %model)
+			self.warn(_translate("eyeBlocks.mainwindow","<span style='color:blue'>[New targetted box]</span> %1",None).arg(model))
 			return
 		return callBack
 				
@@ -190,6 +196,7 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 				ok=True
 				# restore components in the right pannel
 				self.widget.components=components
+				self.widget.connectSnaps()
 				self.widget.update()
 				# restore list items in the left pannel
 				for c in components:
@@ -198,6 +205,7 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 			self.fileName=fileName
 			self.dirty=""
 			self.setWindowTitle(self.currentTitle())
+			self.warn(_translate("eyeBlocks.mainwindow","<span style='color:blue'>[Loaded file]</span> %1",None).arg(fileName))
 		return
 		
 	def save(self):
@@ -211,6 +219,7 @@ class BlockMainWindow(QMainWindow, Ui_MainWindow):
 					c.save(outstream)
 			self.dirty=""
 			self.setWindowTitle(self.currentTitle())
+			self.warn(_translate("eyeBlocks.mainwindow","<span style='color:blue'>[Saved file]</span> %1",None).arg(self.fileName))
 		else:
 			self.saveAs()
 		return
@@ -261,3 +270,15 @@ do you really want to quit the application?
 		:rtype: str
 		"""
 		return "Blocks (%s)%s" %(basename(str(self.fileName)), self.dirty)
+		
+	def warn(self, text):
+		"""
+		appends a warning to the messages, and adds a line break.
+		
+		:param text: the warning to display, with HTML syntax.
+		:type text: QString or str
+		"""
+		self.messages.insertHtml(text)
+		self.messages.insertHtml("<br>")
+		self.messages.ensureCursorVisible ()
+		return

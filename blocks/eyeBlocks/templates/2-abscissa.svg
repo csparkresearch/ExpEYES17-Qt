@@ -14,7 +14,7 @@
    viewBox="0 0 105.56178 78.182732"
    version="1.1"
    id="svg8"
-   inkscape:version="0.92.1 r15371"
+   inkscape:version="0.92.0 r15299"
    sodipodi:docname="2-abscissa.svg">
   <defs
      id="defs2" />
@@ -25,8 +25,8 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.5567162"
-     inkscape:cx="86.749528"
+     inkscape:zoom="2.7141009"
+     inkscape:cx="194.88126"
      inkscape:cy="147.74689"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -35,8 +35,8 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:window-width="1368"
-     inkscape:window-height="714"
+     inkscape:window-width="1680"
+     inkscape:window-height="1024"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -77,7 +77,7 @@
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.39999962px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.26458332px">Absc</tspan></text>
     <circle
        style="opacity:1;fill:none;fill-opacity:1;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="block-in-signal"
+       id="block-in-signal-x"
        cx="65.928047"
        cy="92.099609"
        r="2" />

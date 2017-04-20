@@ -28,15 +28,15 @@ import os
 
 app = QApplication(sys.argv)
 
-######## translation stuff
+# Qt's lanquage files
 qtTranslator=QTranslator()
-
 qtTranslator.load("qt_" + QLocale.system().name(), QLibraryInfo.location(QLibraryInfo.TranslationsPath))
 app.installTranslator(qtTranslator)
 
-myTranslator=QTranslator()
+# this application's language files are in eyeBlocks module's directory
 langPath=os.path.join(os.path.dirname(eyeBlocks.mainwindow.__file__), "lang")
-myTranslator.load(langPath + "/" + QLocale.system().name())
+myTranslator=QTranslator()
+myTranslator.load(QLocale.system().name(), langPath)
 app.installTranslator(myTranslator)
 
 ######## Creating the main window

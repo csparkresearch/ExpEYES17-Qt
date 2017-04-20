@@ -18,7 +18,7 @@ from PyQt4 import QtCore, QtGui
 from component import InputComponent, Component
 
 def _translate(context, text, disambig):
-	return QtGui.QApplication.translate(context, text, disambig)
+	return QtGui.QApplication.translate(context, unicode(text), disambig)
         
 
 class TimeComponent(InputComponent):
@@ -35,6 +35,11 @@ class TimeComponent(InputComponent):
 		for a in ("npoints","delay","duration"):
 			if a in kw:
 				setattribute(self, a, kw[a])
+				
+	def __str__(self):
+		result=super(self.__class__,self).__str__()
+		result+="\n  npoints = %s delay = %s duration = %s" %(self.npoints, self.delay, self.duration)
+		return result
 
 	def initDefaults(self):
 		self.npoints = TimeComponent.np[2]

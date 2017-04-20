@@ -15,7 +15,7 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.1 r15371"
-   sodipodi:docname="1-input.svg">
+   sodipodi:docname="0-input.svg">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -25,8 +25,8 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.9834463"
-     inkscape:cx="265.44706"
+     inkscape:zoom="2.2297321"
+     inkscape:cx="265.95124"
      inkscape:cy="114.74691"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -69,16 +69,5 @@
        cx="170.73848"
        cy="92.184875"
        r="2" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.39999962px;line-height:6.08541679px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="91.941307"
-       y="100.47719"
-       id="text3744"><tspan
-         sodipodi:role="line"
-         id="tspan3742"
-         x="91.941307"
-         y="100.47719"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.39999962px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.26458332px">(V)</tspan></text>
   </g>
 </svg>
