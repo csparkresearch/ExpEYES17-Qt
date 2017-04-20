@@ -276,6 +276,8 @@ class BlockWidget(QWidget):
 					d=InputDialog(self, box=box)
 					if isinstance(b, TimeComponent):
 						d.manageTime(b, self)
+					else: # the instance is not yet customized
+						d.manageVoltage(b, self)
 		return
 		
 	def blockAt(self, pos):

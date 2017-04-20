@@ -38,6 +38,7 @@ def _translate(context, text, disambig):
 from templates.ui_blocks import Ui_MainWindow
 from component import Component, InputComponent
 from timecomponent import TimeComponent
+from voltagecomponent import VoltageComponent
 from modifcomponent import ModifComponent
 from channelcomponent import ChannelComponent
 import wizard

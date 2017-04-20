@@ -285,6 +285,7 @@ class Component(object):
 		:rtype: tuple(Component or subclass, QIODevice.ReadOnly, QString)
 		"""
 		from timecomponent import TimeComponent
+		from voltagecomponent import VoltageComponent
 		from modifcomponent import ModifComponent
 		from channelcomponent import ChannelComponent
 		dataStream = QtCore.QDataStream(data, QtCore.QIODevice.ReadOnly)
@@ -308,6 +309,7 @@ class Component(object):
 		result=eval(
 			"%s(pixmap,ident,mimetype,rect=rect,hotspot=hotspot,snapPoints=sp)" %className
 		)
+		result.getMoreData(dataStream)
 		return result, dataStream, className
 		
 	@staticmethod
@@ -321,6 +323,7 @@ class Component(object):
 		:rtype: tuple(Component or subclass, QIODevice.ReadOnly, QString)
 		"""
 		from timecomponent import TimeComponent
+		from voltagecomponent import VoltageComponent
 		from modifcomponent import ModifComponent
 		from channelcomponent import ChannelComponent
 		f = Component.acceptedFormats(event)
@@ -331,8 +334,6 @@ class Component(object):
 					(event.pos()-result.hotspot),
 					result.pixmap.size()
 			)
-			result=eval("%s.fromOther(result)" %className)
-			result.getMoreData(dataStream)
 		else:
 			result = None; dataStream=None
 		return result, dataStream, className

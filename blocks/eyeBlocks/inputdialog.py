@@ -41,12 +41,53 @@ class Dialog(QtGui.QDialog, Ui_Dialog):
 				1+MAX_SAMPLES/2, 1+MAX_SAMPLES/5, 
 				1+MAX_SAMPLES/10, 1+MAX_SAMPLES/20,
 				1+MAX_SAMPLES/50])
+			#### creates tabs for available entries ####
+			# following the documentation of expeyes.eyesj:
+			nbVoltageInputs=11
+			tabData=(1+nbVoltageInputs)*[[]]
+			### the list of combos permits to acces choosen ranges
+			self.combos=(1+nbVoltageInputs)*[[None]]
+			tabData[1]=["A1","-5V to +5V range Analog Input",[-5,5]]
+			tabData[2]=["A2","-5V to +5V range Analog Input ",[-5,5]]
+			tabData[3]=["IN1 ","Can function as Digital or 0 to 5V Analog Input",[0,5]]
+			tabData[4]=["IN2","Can function as Digital or 0 to 5V Analog Input",[0,5]]
+			tabData[5]=["SEN", "Like IN1 and IN2, but has a 5K external pullup resistor (Comp input)",[0,5]]
+			tabData[6]=["SQR1-read","Input wired to SQR1 output",[0,5]]
+			tabData[7]=["SQR2-read"," Input wired to SQR2 output",[0,5]]
+			tabData[8]=["SQR1-control, 0 to 5V programmable Squarewave. Setting Freq = 0 means 5V","Freq = -1 means 0V",[0,5]]
+			tabData[9]=["SQR2-control","0 to 5V programmable Squarewave",[0,5]]
+			tabData[10]=["OD1","Read-back from Digital output OD1",[0,5]]
+			tabData[11]=["CCS","Controls the 1mA constant current source. ",[0,5]]
+			self.tabWidget.removeTab(1)
+		##### for whatever box model, set common time features
 		for delay in delays:
 			self.delayCombo.addItem(str(delay))
 		for np in samples:
 			self.sampleCombo.addItem(str(np))
 		self.sampleCombo.setCurrentIndex(len(samples)-1)
 		self.updateDuration()
+		##### for whatever box model, set common voltage features
+		for i in range(1,1+nbVoltageInputs):
+			# make a tab with a simple widget
+			w=QtGui.QWidget()
+			self.tabWidget.addTab (w, tabData[i][0])
+			# with a vertical layout
+			layout=QtGui.QBoxLayout(QtGui.QBoxLayout.TopToBottom, w)
+			# which contains a combo box for ranges
+			self.combos[i]=QtGui.QComboBox()
+			self.combos[i].addItem(str(tabData[i][2]))
+			layout.addWidget(self.combos[i])
+			# and a text edit for other informations
+			t=QtGui.QTextEdit(self)
+			t.setReadOnly(True)
+			t.insertHtml("<h1>Expeyes-Junior</h1>")
+			t.insertHtml("<br>")
+			t.insertHtml("<h2>(fixed voltage ranges)</h2>")
+			t.insertHtml("<br>")
+			t.insertHtml(tabData[i][1])
+			t.insertHtml("<br>")
+			layout.addWidget(t)
+
 		self.delayCombo.currentIndexChanged.connect(self.updateDuration)
 		self.delayCombo.editTextChanged.connect(self.updateDuration)
 		self.sampleCombo.currentIndexChanged.connect(self.updateDuration)
@@ -104,6 +145,33 @@ class Dialog(QtGui.QDialog, Ui_Dialog):
 			bw.update()
 		return
 
+		
+	def manageVoltage(self, b, bw):
+		"""
+		manages the modification of a time component.
+		
+		:param b: an input component
+		:type b: InputComponent
+		:param bw: working area
+		:type bw: BlockWidget
+		"""
+		from voltagecomponent import VoltageComponent
+		#enable only the voltage entries
+		self.tabWidget.setTabEnabled(0,False)
+		for i in range(1, self.tabWidget.count()):
+			self.tabWidget.setTabEnabled(i,True)
+		self.tabWidget.setCurrentIndex(1)
+		result=self.exec_()
+		if result==QtGui.QDialog.Accepted:
+			v=VoltageComponent.fromOther(b)
+			i=self.tabWidget.currentIndex()
+			v.name=str(self.tabWidget.tabText(i))
+			v.ranges=[eval(str(self.combos[i].currentText()))]
+			v.rangeindex=0
+			bw.components[bw.components.index(b)]=v
+			bw.blocksChanged.emit()
+			bw.update()
+		return
 		
 	@staticmethod
 	def addToCombo(combo, value):
