@@ -44,12 +44,29 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		#Add a vertical spacer in the widgetLayout . about 0.5cm
 		self.SPACER(20)
 		self.TITLE('Controls')
+
+		self.samplesBtn=QtGui.QSpinBox()
+		self.samplesBtn.setRange(10,50000);self.samplesBtn.setPrefix('Samples :');self.samplesBtn.setValue(self.POINTS)
+		self.samplesBtn.editingFinished.connect(self.changeSamples)
+		self.widgetLayout.addWidget(self.samplesBtn)
+
 		self.PUSHBUTTON('Start Logging' , self.start)
 		self.PUSHBUTTON('Stop Logging' , self.stop)
 		
 		self.start_time = time.time()
 		self.timer = self.newTimer()
 		#self.setTimeout(1000,functools.partial(self.capture,'A1',200,3),self.update)
+
+	def changeSamples(self):
+		val = self.samplesBtn.value()
+		self.POINTS = val
+		self.xdata=range(self.POINTS)
+		for a in self.acquireList:
+			item = self.acquireList[a]
+			item.ydata = np.zeros((item.handle.NUMPLOTS,self.POINTS))
+		self.updatepos = 0
+		self.plot.setLimits(xMax = self.POINTS);self.plot.setXRange(0,self.POINTS)
+
 
 	def autoScan(self):
 		lst = self.p.I.I2C.scan()

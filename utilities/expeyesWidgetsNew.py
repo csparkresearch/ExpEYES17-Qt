@@ -376,7 +376,7 @@ class expeyesWidgets():
 			
 
 			self.widthBtn=QtGui.QSpinBox()
-			self.widthBtn.setRange(1,5);self.widthBtn.setSuffix(' Width')
+			self.widthBtn.setRange(1,5);self.widthBtn.setPrefix('Width :')
 			self.widthBtn.valueChanged.connect(self.changeWidth)
 			self.widthAction = QtGui.QWidgetAction(self.menu)
 			self.widthAction.setDefaultWidget(self.widthBtn)
