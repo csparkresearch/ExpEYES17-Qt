@@ -38,3 +38,9 @@ pullup resistor).
 With some more work, we should be able to control and add nice features, like
 widgets to modifiy the sampling rate, save the results to a file, launch a
 general-purpose data analysis tool, get an FFT transform, and so on.
+
+Some very simple experiments can be built with the current state of the tool,
+such as "half-wave".
+
+
+(Last edit: 20 April 2017)
