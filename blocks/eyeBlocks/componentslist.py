@@ -59,6 +59,10 @@ class ComponentsList(QListWidget):
 		return
 
 	def dropEvent(self, event):
+		if event.source()==self:
+			# for self-drops: do nothing, silently
+			event.ignore()
+			return
 		comp, dataStream, className = Component.unserializeFromEvent(event)
 		if comp:
 			# components of type 1 can be duplicated
@@ -67,7 +71,6 @@ class ComponentsList(QListWidget):
 				pass
 			elif comp.mimetype.contains("image/x-Block-2"):
 				self.addPiece(comp)
-
 			event.setDropAction(Qt.MoveAction)
 			event.accept()
 		else:

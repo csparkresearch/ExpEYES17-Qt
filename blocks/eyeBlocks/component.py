@@ -257,10 +257,11 @@ class Component(object):
 		:rtype: Component or subclass
 		"""
 		result = copy.copy(lwi.component)
-		if "input" in str(result.ident):
-			result.pixmap=QtGui.QPixmap(":/misc/0-input.svg")
-		elif "time" in str(result.ident):
-			result.pixmap=QtGui.QPixmap(":/misc/0-timebase.svg")
+		# if there is a blank icon in the resource file,
+		# replace the pixmap to make the drag
+		zeroPixmap=QtCore.QString(":/misc/")+result.ident.replace(0,1,"0")
+		if QtCore.QFile(zeroPixmap).exists():
+			result.pixmap=QtGui.QPixmap(zeroPixmap)
 		return result
 		
 	def toListWidgetItem(self, lwi):
@@ -413,7 +414,11 @@ def snapPoints(rcpath):
 	svgDoc=parseString(svg)
 	firstgroup=svgDoc.getElementsByTagName("g")[0]
 	trans=firstgroup.getAttribute("transform")
-	xt,yt=re.match(r"translate\((.*),(.*)\)",trans).groups()
+	m=re.match(r"translate\((.*),(.*)\)",trans)
+	if m:
+		xt,yt=re.match(r"translate\((.*),(.*)\)",trans).groups()
+	else:
+		xt,yt=0,0
 	xt=float(xt);yt=float(yt)
 	circles=svgDoc.getElementsByTagName("circle")
 	snapCircles=[c for c in circles \
