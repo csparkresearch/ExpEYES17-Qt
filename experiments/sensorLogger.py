@@ -26,10 +26,6 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.fps=0;self.lastTime=time.time();self.updatepos=0
 
 		
-		self.plot = self.newPlot([],detailedWidget=True,xMin=0,xMax = self.POINTS, disableAutoRange = 'y',bottomLabel = 'time',bottomUnits='S',enableMenu=False,legend=True)
-		self.plot.setYRange(-1000,1000)
-
-
 		self.TITLE('Initialize')
 		self.scanButton = self.PUSHBUTTON('Auto Scan')
 		self.scanMenu = QtGui.QMenu(); self.scanMenu.setMinimumWidth(self.widgets.width())
@@ -53,6 +49,11 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.PUSHBUTTON('Start Logging' , self.start)
 		self.PUSHBUTTON('Stop Logging' , self.stop)
 		
+
+		self.plot = self.newPlot([],detailedWidget=True,xMin=0,xMax = self.POINTS, disableAutoRange = 'y',bottomLabel = 'time',bottomUnits='S',enableMenu=False,legend=True)
+		self.plot.setYRange(-1000,1000)
+
+
 		self.start_time = time.time()
 		self.timer = self.newTimer()
 		#self.setTimeout(1000,functools.partial(self.capture,'A1',200,3),self.update)

@@ -21,6 +21,8 @@ class AppWindow(QtGui.QMainWindow, plotSave.Ui_MainWindow):
 		self.maxRows=0
 		self.maxCols=0
 		for a in curveList:
+			print a.isEnabled()
+			if not a.isEnabled():continue
 			x,y = a.getData()
 			name = a.name()
 			if x is not None and y is not None:

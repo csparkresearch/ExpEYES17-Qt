@@ -153,12 +153,18 @@ class expeyesWidgets():
 				self.lineStyles = {"solid":QtCore.Qt.SolidLine,"Dashed":QtCore.Qt.DashLine,"Dotted":QtCore.Qt.DotLine,"Dash-Dot":QtCore.Qt.DashDotLine,"Dash-Dot-Dot":QtCore.Qt.DashDotDotLine}
 
 				self.colorDialog = QtGui.QColorDialog()
-				self.colorDialog.setOption(QtGui.QColorDialog.ShowAlphaChannel, True)
+				self.colorDialog.setOptions(QtGui.QColorDialog.ShowAlphaChannel|QtGui.QColorDialog.DontUseNativeDialog|QtGui.QColorDialog.NoButtons)
+				self.colorDialog.setWindowFlags(QtCore.Qt.Popup)
 				self.colorDialog.setOption(QtGui.QColorDialog.DontUseNativeDialog, True)
-				self.colorButton.clicked.connect(self.colorDialog.open)
-				self.colorButton.setStyleSheet('color: %s;'%self.curve.opts['pen'].color().name())
+				self.colorButton.clicked.connect(self.displayColorDialog)
+				self.colorButton.setStyleSheet('background-color: %s;'%self.curve.opts['pen'].color().name())
 
 				self.colorDialog.currentColorChanged.connect(self.changeColor)
+
+			def displayColorDialog(self):
+				self.colorDialog.show()
+				pos = self.mapToGlobal(self.rect().topRight())
+				self.colorDialog.move(pos.x(), pos.y())
 
 			def editLineStyle(self):
 				item,ok = QtGui.QInputDialog.getItem(self,"Select Line Style","", self.lineStyles.keys(), 0, False)
@@ -167,7 +173,7 @@ class expeyesWidgets():
 
 			def changeColor(self,btn):
 				self.curve.opts['pen'].setColor(btn)
-				self.colorButton.setStyleSheet('color: %s;'%self.curve.opts['pen'].color().name())
+				self.updateColorBox()
 
 			def changeStyle(self,style):
 				self.curve.opts['pen'].setStyle(style)
@@ -177,11 +183,18 @@ class expeyesWidgets():
 
 			def traceToggled(self,state):
 				self.curve.setVisible(state)
+				self.curve.setEnabled(state)
 
 			def removeTrace(self):
 				self.curve.setVisible(False)
 				self.setParent(None)
 				self.deleteLater()
+
+			def updateColorBox(self):
+				col=str(self.curve.opts['pen'].color().name())
+				#width=self.curve.opts['pen'].width()
+				#style=self.curve.opts['pen'].style()
+				self.colorButton.setStyleSheet('background-color: %s;'%col)
 
 
 
