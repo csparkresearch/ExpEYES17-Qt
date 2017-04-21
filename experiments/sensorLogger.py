@@ -26,7 +26,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.fps=0;self.lastTime=time.time();self.updatepos=0
 
 		
-		self.plot = self.newPlot([],xMin=0,xMax = self.POINTS, disableAutoRange = 'y',bottomLabel = 'time',bottomUnits='S',enableMenu=False,legend=True)
+		self.plot = self.newPlot([],detailedWidget=True,xMin=0,xMax = self.POINTS, disableAutoRange = 'y',bottomLabel = 'time',bottomUnits='S',enableMenu=False,legend=True)
 		self.plot.setYRange(-1000,1000)
 
 
@@ -44,12 +44,29 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		#Add a vertical spacer in the widgetLayout . about 0.5cm
 		self.SPACER(20)
 		self.TITLE('Controls')
+
+		self.samplesBtn=QtGui.QSpinBox()
+		self.samplesBtn.setRange(10,50000);self.samplesBtn.setPrefix('Samples :');self.samplesBtn.setValue(self.POINTS)
+		self.samplesBtn.editingFinished.connect(self.changeSamples)
+		self.widgetLayout.addWidget(self.samplesBtn)
+
 		self.PUSHBUTTON('Start Logging' , self.start)
 		self.PUSHBUTTON('Stop Logging' , self.stop)
 		
 		self.start_time = time.time()
 		self.timer = self.newTimer()
 		#self.setTimeout(1000,functools.partial(self.capture,'A1',200,3),self.update)
+
+	def changeSamples(self):
+		val = self.samplesBtn.value()
+		self.POINTS = val
+		self.xdata=range(self.POINTS)
+		for a in self.acquireList:
+			item = self.acquireList[a]
+			item.ydata = np.zeros((item.handle.NUMPLOTS,self.POINTS))
+		self.updatepos = 0
+		self.plot.setLimits(xMax = self.POINTS);self.plot.setXRange(0,self.POINTS)
+
 
 	def autoScan(self):
 		lst = self.p.I.I2C.scan()
@@ -70,6 +87,9 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 
 	def addSensor(self,cls,addr):
 		print cls,addr
+		if addr in self.acquireList:
+			QtGui.QMessageBox.critical(self,"Address already being logged","The Selected sensor address (%s) is already in use.\nPlease click on `Start Logging` to fetch data"%hex(addr),QtGui.QMessageBox.Ok)
+			return
 		bridge = cls.connect(self.p.I.I2C,address = addr)
 		if bridge:
 			self.createMenu(bridge)
@@ -82,10 +102,11 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 				curves=[self.addCurve(self.plot,'%s[%s]'%(label[:10],bridge.PLOTNAMES[a]),self.randomColor()) for a in range(bridge.NUMPLOTS)]
 				self.acquireList[addr] = self.plotItem(bridge,np.zeros((bridge.NUMPLOTS,self.POINTS)), curves)
 				self.active_device_counter+=1
+				self.updatepos=0
 
 
 	def createMenu(self,bridge):
-		label,line = self.TITLE(bridge.name[:15])
+		label = self.TITLE(bridge.name[:15],removable=True,removeCallback = functools.partial(self.deleteSensor,bridge.ADDRESS))
 		menuButton = self.PUSHBUTTON('Options')
 		menu = QtGui.QMenu()
 		menuButton.setMenu(menu)
@@ -97,18 +118,15 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 				Callback = functools.partial(getattr(bridge,i),a)
 				mini.addAction(str(a),Callback)
 		menu.addSeparator()
-		menu.addAction('Remove This Sensor',functools.partial(self.deleteSensor,bridge.ADDRESS))
-		
-		self.sensorWidgets[bridge.ADDRESS] = [label,line,menuButton]
+		#menu.addAction('Remove This Sensor',functools.partial(self.deleteSensor,bridge.ADDRESS))
+		#self.sensorWidgets[bridge.ADDRESS] = [menuButton]
+		label.addAssociatedWidget(menuButton)
 
 	def deleteSensor(self,addr):
 		item = self.acquireList.pop(addr)
 		for a in item.curves:
 			self.removeCurve(self.plot,a)
 			self.plot.leg.removeItem(a.name())
-		for a in self.sensorWidgets[addr]:
-			a.setParent(None)
-			a = None
 		
 	class data:
 		def __init__(self):
@@ -152,13 +170,13 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 			else:
 				s = np.clip(dt*3., 0, 1)
 				self.fps = self.fps * (1-s) + (1.0/dt) * s
-			self.plot.setTitle('%0.2f fps' % (self.fps) )
+			if not self.updatepos%100 :self.plot.setTitle('%0.2f fps' % (self.fps) )
 
 
 
 	def start(self):
 		self.start_time = time.time()
-		self.setInterval(self.timer,2,self.update)
+		self.setInterval(self.timer,1,self.update)
 
 		#self.c1 = self.addCurve(self.plot, 'trace 1' ,'#FFF')
 		#self.c2 = self.addCurve(self.plot, 'trace 2' ,'#FF0')
