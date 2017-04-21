@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="fr_FR" sourcelanguage="">
+<!DOCTYPE TS>
+<TS version="2.1" language="fr_FR">
 <context>
     <name>Dialog</name>
     <message>
@@ -24,7 +25,7 @@
     </message>
     <message>
         <location filename="../eyeBlocks/templates/inputs.ui" line="121"/>
-        <source>&#xb5;s</source>
+        <source>µs</source>
         <translation type="obsolete">µs</translation>
     </message>
     <message>
@@ -112,10 +113,40 @@ d&apos;autres.
 Cette partie n&apos;est pas encore implémentée
 &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
-    <message encoding="UTF-8">
-        <location filename="../templates/inputs.ui" line="121"/>
-        <source>µs</source>
-        <translation type="unfinished"></translation>
+    <message>
+        <location filename="../templates/transmits.ui" line="14"/>
+        <source>Transmit features</source>
+        <translation>Propriétés du transmetteur</translation>
+    </message>
+    <message>
+        <location filename="../templates/transmits.ui" line="33"/>
+        <source>Display voltage</source>
+        <translation>Affichage de tension</translation>
+    </message>
+    <message>
+        <location filename="../templates/transmits.ui" line="40"/>
+        <source>Style Sheet (applying to the display)</source>
+        <translation>Feuille de style (applicable pour l&apos;afficheur)</translation>
+    </message>
+    <message>
+        <location filename="../templates/transmits.ui" line="46"/>
+        <source>background: white; border: 1px solid black;</source>
+        <translation>background: white; border: 1px solid black;</translation>
+    </message>
+    <message>
+        <location filename="../templates/transmits.ui" line="53"/>
+        <source>Lambda function to modify the signal</source>
+        <translation>Fonction lambda pour modifier le signal</translation>
+    </message>
+    <message>
+        <location filename="../templates/transmits.ui" line="59"/>
+        <source>Lambda x:</source>
+        <translation>Lambda x:</translation>
+    </message>
+    <message>
+        <location filename="../templates/transmits.ui" line="76"/>
+        <source>Trigger for the oscilloscope</source>
+        <translation>Synchronisation pour l&apos;oscilloscope</translation>
     </message>
 </context>
 <context>
@@ -244,7 +275,7 @@ Cette partie n&apos;est pas encore implémentée
 <context>
     <name>eyeBlocks.component</name>
     <message>
-        <location filename="../component.py" line="378"/>
+        <location filename="../component.py" line="379"/>
         <source>Error, this should not happen:</source>
         <translation>Erreur, Ça ne devrait jamais arriver :</translation>
     </message>
@@ -392,6 +423,39 @@ Voulez-vous réellement les écraser ?</translation>
         <location filename="../timecomponent.py" line="65"/>
         <source>(%1 points)</source>
         <translation>(%1 points)</translation>
+    </message>
+    <message>
+        <location filename="../voltagecomponent.py" line="55"/>
+        <source>%1 (%2)</source>
+        <translation>%1 (%2)</translation>
+    </message>
+    <message>
+        <location filename="../voltagecomponent.py" line="56"/>
+        <source>range: %1V..%2V</source>
+        <translation>calibre : %1V..%2V</translation>
+    </message>
+</context>
+<context>
+    <name>eyeBlocks.voltagecomponent</name>
+    <message>
+        <location filename="../transmitcomponent.py" line="57"/>
+        <source>Display: %1</source>
+        <translation>Affichage : %1</translation>
+    </message>
+    <message>
+        <location filename="../transmitcomponent.py" line="66"/>
+        <source>Function: %1</source>
+        <translation>Fonction : %1</translation>
+    </message>
+    <message>
+        <location filename="../transmitcomponent.py" line="69"/>
+        <source>Trigger: %1</source>
+        <translation type="unfinished">Synchro : %1</translation>
+    </message>
+    <message>
+        <location filename="../voltagecomponent.py" line="54"/>
+        <source>Voltage input</source>
+        <translation>Entrée de tension</translation>
     </message>
 </context>
 <context>

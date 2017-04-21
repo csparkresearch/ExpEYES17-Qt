@@ -301,6 +301,8 @@ class BlockWidget(QWidget):
 						d.manageTime(b, self)
 					else: # the instance is not yet customized
 						d.manageVoltage(b, self)
+				else:
+					print("GRRRR", type(b))
 		return
 		
 	def blockAt(self, pos):

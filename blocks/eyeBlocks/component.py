@@ -287,7 +287,7 @@ class Component(object):
 		"""
 		from timecomponent import TimeComponent
 		from voltagecomponent import VoltageComponent
-		from modifcomponent import ModifComponent
+		from transmitcomponent import TransmitComponent
 		from channelcomponent import ChannelComponent
 		dataStream = QtCore.QDataStream(data, QtCore.QIODevice.ReadOnly)
 		className=QtCore.QString()
@@ -325,7 +325,7 @@ class Component(object):
 		"""
 		from timecomponent import TimeComponent
 		from voltagecomponent import VoltageComponent
-		from modifcomponent import ModifComponent
+		from transmitcomponent import TransmitComponent
 		from channelcomponent import ChannelComponent
 		f = Component.acceptedFormats(event)
 		if f:
@@ -348,7 +348,7 @@ class Component(object):
 		:rtype: list(Component or subclass)
 		"""
 		from timecomponent import TimeComponent
-		from modifcomponent import ModifComponent
+		from transmitcomponent import TransmitComponent
 		from channelcomponent import ChannelComponent
 
 		componentDirPattern = re.compile(r"components(.)")
@@ -369,8 +369,8 @@ class Component(object):
 				sp=snapPoints(imgPath)
 				if "input" in entry:
 					result.append(InputComponent(img, entry, mimetype, snapPoints=sp))
-				elif "modif" in entry:
-					result.append(ModifComponent(img, entry, mimetype, snapPoints=sp))
+				elif "transmit" in entry:
+					result.append(TransmitComponent(img, entry, mimetype, snapPoints=sp))
 				elif "time" in entry:
 					result.append(TimeComponent(img, entry, mimetype, snapPoints=sp))
 				elif "channel" in entry or "abscissa" or "scope"in entry:

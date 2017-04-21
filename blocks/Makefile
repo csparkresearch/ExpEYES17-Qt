@@ -1,10 +1,18 @@
 # Main Makefile for Expeyes-Blocks
 
 SUBDIRS = eyeBlocks
+UI_SOURCES = $(shell ls eyeBlocks/templates/*.ui)
+PY_SOURCES = $(shell ls eyeBlocks/*.py)
+TS_FILES = $(shell ls eyeBlocks/lang/*.ts)
 
 all: recursive_all lang
 
-lang:
+Expeyes-Blocks.pro: $(UI_SOURCES) $(PY_SOURCES)
+	echo "FORMS += $(UI_SOURCES)" > Expeyes-Blocks.pro
+	echo -n "SOURCES += $(PY_SOURCES)" >> Expeyes-Blocks.pro
+	echo -n "TRANSLATIONS += $(TS_FILES)" >> Expeyes-Blocks.pro
+
+lang: Expeyes-Blocks.pro
 	pylupdate4 Expeyes-Blocks.pro
 	cd eyeBlocks/lang; for f in *.ts; do lrelease $$f; done
 
