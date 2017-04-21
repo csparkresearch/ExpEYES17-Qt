@@ -141,9 +141,7 @@ class BlockWidget(QWidget):
 						if not f[1] or str(s.text).startswith(f[1]):
 							if distance(s) < 60:
 								result.append(s)
-		print ("==== GRRRR result", result, [distance(s) for s in result])
 		result.sort(key=distance)
-		print ("GRRRR result", result, [distance(s) for s in result])
 		return result
 
 
