@@ -244,7 +244,7 @@ Cette partie n&apos;est pas encore implémentée
 <context>
     <name>eyeBlocks.component</name>
     <message>
-        <location filename="../component.py" line="377"/>
+        <location filename="../component.py" line="378"/>
         <source>Error, this should not happen:</source>
         <translation>Erreur, Ça ne devrait jamais arriver :</translation>
     </message>
@@ -252,7 +252,7 @@ Cette partie n&apos;est pas encore implémentée
 <context>
     <name>eyeBlocks.mainwindow</name>
     <message>
-        <location filename="../mainwindow.py" line="107"/>
+        <location filename="../mainwindow.py" line="108"/>
         <source>OK to erase a previous build?</source>
         <translation>OK pour effacer une compilation précédente ?</translation>
     </message>
@@ -278,37 +278,37 @@ Voulez-vous réellement les écraser ?</translation>
 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="142"/>
+        <location filename="../mainwindow.py" line="143"/>
         <source>About</source>
         <translation>À propos</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="149"/>
+        <location filename="../mainwindow.py" line="150"/>
         <source>About Qt</source>
         <translation>À propos de Qt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="238"/>
+        <location filename="../mainwindow.py" line="239"/>
         <source>Expeyes-Blocks:  *.eyeblk (*.eyeblk);;All files: * (*)</source>
         <translation>Expeyes-Blocks :  *.eyeblk (*.eyeblk);;Tous fichiers : * (*)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="186"/>
+        <location filename="../mainwindow.py" line="187"/>
         <source>Error size: %s does not match %s</source>
         <translation>Erreur, la taille : %s ne convient pas à %s</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="237"/>
+        <location filename="../mainwindow.py" line="238"/>
         <source>untitled.eyeblk</source>
         <translation>sansNom.eyeblk</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="238"/>
+        <location filename="../mainwindow.py" line="239"/>
         <source>Save to file</source>
         <translation>Enregistrer dans le fichier</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="254"/>
+        <location filename="../mainwindow.py" line="255"/>
         <source>Please confirm</source>
         <translation>Veuillez confirmer</translation>
     </message>
@@ -318,12 +318,12 @@ Voulez-vous réellement les écraser ?</translation>
         <translation type="obsolete">Erreur, Ça ne devrait jamais arriver :</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="160"/>
+        <location filename="../mainwindow.py" line="161"/>
         <source>Open a file</source>
         <translation>Ouvrir un fichier</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="254"/>
+        <location filename="../mainwindow.py" line="255"/>
         <source>The current work is not yet saved,
 do you really want to quit the application?
 </source>
@@ -332,7 +332,7 @@ voulez-vous réellement quitter l&apos;application ?
 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="107"/>
+        <location filename="../mainwindow.py" line="108"/>
         <source>Here are some previous built files:
  %1
 Do you really want to overwrite them?</source>
@@ -351,22 +351,22 @@ Voulez-vous réellement les écraser ?</translation>
         <translation type="obsolete">&lt;span style=&apos;color:blue&apos;&gt;Enregistré le fichier&lt;/span&gt; %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="208"/>
+        <location filename="../mainwindow.py" line="209"/>
         <source>&lt;span style=&apos;color:blue&apos;&gt;[Loaded file]&lt;/span&gt; %1</source>
         <translation>&lt;span style=&apos;color:blue&apos;&gt;[Chargé le fichier]&lt;/span&gt; %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="223"/>
+        <location filename="../mainwindow.py" line="224"/>
         <source>&lt;span style=&apos;color:blue&apos;&gt;[Saved file]&lt;/span&gt; %1</source>
         <translation>&lt;span style=&apos;color:blue&apos;&gt;[Enregistré le fichier]&lt;/span&gt; %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="62"/>
+        <location filename="../mainwindow.py" line="63"/>
         <source>&lt;span style=&apos;color:blue&apos;&gt;[Current targetted box]&lt;/span&gt; %1</source>
         <translation>&lt;span style=&apos;color:blue&apos;&gt;[Modèle de boîtier courant]&lt;/span&gt; %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="134"/>
+        <location filename="../mainwindow.py" line="135"/>
         <source>&lt;span style=&apos;color:blue&apos;&gt;[New targetted box]&lt;/span&gt; %1</source>
         <translation>&lt;span style=&apos;color:blue&apos;&gt;[Nouveau modèle de boîtier]&lt;/span&gt; %1</translation>
     </message>
@@ -374,22 +374,22 @@ Voulez-vous réellement les écraser ?</translation>
 <context>
     <name>eyeBlocks.timecomponent</name>
     <message>
-        <location filename="../timecomponent.py" line="57"/>
+        <location filename="../timecomponent.py" line="62"/>
         <source>Time Base</source>
         <translation>Base de temps</translation>
     </message>
     <message>
-        <location filename="../timecomponent.py" line="58"/>
+        <location filename="../timecomponent.py" line="63"/>
         <source>delay: %1 s</source>
         <translation>Délai : %1 s</translation>
     </message>
     <message>
-        <location filename="../timecomponent.py" line="59"/>
+        <location filename="../timecomponent.py" line="64"/>
         <source>duration: %1 s</source>
         <translation>durée : %1 s</translation>
     </message>
     <message>
-        <location filename="../timecomponent.py" line="60"/>
+        <location filename="../timecomponent.py" line="65"/>
         <source>(%1 points)</source>
         <translation>(%1 points)</translation>
     </message>
@@ -407,17 +407,17 @@ Voulez-vous réellement les écraser ?</translation>
         <translation type="obsolete">&lt;span style=&apos;color:blue&apos;&gt;[Compilation : terminée]&lt;/span&gt; résultat dans &lt;b&gt;%1&lt;/b&gt;.</translation>
     </message>
     <message>
-        <location filename="../wizard.py" line="144"/>
+        <location filename="../wizard.py" line="186"/>
         <source>&lt;span style=&apos;color:blue&apos;&gt;[Compilation: done]&lt;/span&gt; output in &lt;b&gt;%1&lt;/b&gt; for %2.</source>
         <translation>&lt;span style=&apos;color:blue&apos;&gt;[Compilation : terminée]&lt;/span&gt; résultat dans &lt;b&gt;%1&lt;/b&gt; pour %2.</translation>
     </message>
     <message>
-        <location filename="../wizard.py" line="103"/>
+        <location filename="../wizard.py" line="127"/>
         <source>Unconnected snap Point: %1: %2</source>
         <translation>Points d&apos;accroche non connectés : %1 %2</translation>
     </message>
     <message>
-        <location filename="../wizard.py" line="108"/>
+        <location filename="../wizard.py" line="132"/>
         <source>Dangling components: %1</source>
         <translation>Composants en l&apos;air : %1</translation>
     </message>

@@ -96,7 +96,9 @@ class BlockWidget(QWidget):
 			for sp in comp.snapPoints:
 				hovering=event.pos()-offset+sp
 				for flavors in Component.matchingFlavors:
-					for s in self.matchingComponentSnap(hovering,sp,flavors):
+					m=self.matchingComponentSnap(hovering,sp,flavors)
+					if m:
+						s=m[0] # nearest matchin snappoint
 						self.hots.append(s.pos())
 						match=True
 			if match or len(previouslyHots) != len(self.hots):
@@ -119,9 +121,17 @@ class BlockWidget(QWidget):
 		:type snapPoint: SnapPoint
 		:param flavors: a couple of texts for matching snap points, if a text is empty, it is a match-all flavor
 		:type flavors: tuple(str, str)
-		:returns: a list of matching snap points
+		:returns: a list of matching snap points, ordered from the nearest ot the furthest
 		:rtype: list(SnapPoint)
 		"""
+		"""
+		def distance(sp):
+			return (sp.pos()-pos).manhattanLength()
+		"""
+		def distance(*args):
+			sp=args[0]
+			return (sp.pos()-pos).manhattanLength()
+			
 		result=[]
 		# to implement symmetry in the flavor's relation
 		for f in flavors, (flavors[1], flavors[0]):
@@ -129,9 +139,11 @@ class BlockWidget(QWidget):
 				for c in self.components:
 					for s in c.snapPoints:
 						if not f[1] or str(s.text).startswith(f[1]):
-							gap=s.pos()-pos
-							if gap.manhattanLength() < 60:
+							if distance(s) < 60:
 								result.append(s)
+		print ("==== GRRRR result", result, [distance(s) for s in result])
+		result.sort(key=distance)
+		print ("GRRRR result", result, [distance(s) for s in result])
 		return result
 
 
@@ -140,7 +152,7 @@ class BlockWidget(QWidget):
 		if comp:
 			self.components.append(comp)
 			self.update(comp.rect)
-			self.connectSnaps()
+			self.connectSnaps(comp)
 			event.setDropAction(Qt.MoveAction)
 			event.accept()
 			self.blocksChanged.emit()
@@ -202,28 +214,35 @@ class BlockWidget(QWidget):
 		"""
 		return [cs for cs in self.allSnaps() if cs not in self.snapped]
 		
-	def connectSnaps(self):
+	def connectSnaps(self, distinguished=None):
 		"""
 		moves components until every connected snaps overlap.
 		updates the list of connected snaps, self.snapped
+		
+		:param Component distinguished: a particular component, which can be moved or None (which means that every component can be moved)
 		"""
 		self.snapped=[]
 		toMove=[] # list of components to move
+		if distinguished:
+			movable=[distinguished]
+		else:
+			movable=self.components
 		for c in self.components: c.reset()
-		for c in self.components:
+		for c in movable:
 			c.touch()
 			for s in c.snapPoints:
 				p=c.rect.topLeft()+s
 				for flavors in Component.matchingFlavors:
-					for s1 in self.matchingComponentSnap(p,s,flavors):
-						c1=s1.parent
+					m=self.matchingComponentSnap(p,s,flavors)
+					if m:
+						s1=m[0]
 						# do not move already touched components
-						if c1.touched: continue
+						if s1.parent.touched: continue
 						toMove.append((s,s1))
-						c1.touch()
+						s1.parent.touch()
 		for s,s1 in toMove: # the 
-			delta=s.pos()-s1.pos()
-			s1.parent.rect.translate(delta)
+			delta=s1.pos()-s.pos()
+			s.parent.rect.translate(delta)
 			self.snapped.append(s); self.snapped.append(s1)
 		self.update()
 		QTimer.singleShot(1000, self.hideHots)
