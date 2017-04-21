@@ -27,9 +27,10 @@ from PyQt4.QtGui import QWidget, QPixmap, QSizePolicy, QColor, \
 
 from component import Component, InputComponent
 from timecomponent import TimeComponent
-#from modifcomponent import ModifComponent
-#from channelcomponent import ChannelComponent
+from transmitcomponent import TransmitComponent
+from voltagecomponent import VoltageComponent
 from inputdialog import Dialog as InputDialog
+from transmitdialog import Dialog as TransmitDialog
 
 
 class BlockWidget(QWidget):
@@ -296,13 +297,15 @@ class BlockWidget(QWidget):
 				i = self.components.index(b)
 				if isinstance(b, InputComponent):
 					box=self.boxModel
-					d=InputDialog(self, box=box)
 					if isinstance(b, TimeComponent):
+						d=InputDialog(self, box=box)
 						d.manageTime(b, self)
-					else: # the instance is not yet customized
+					elif isinstance(b, VoltageComponent):
+						d=InputDialog(self, box=box)
 						d.manageVoltage(b, self)
-				else:
-					print("GRRRR", type(b))
+					elif isinstance(b, TransmitComponent):
+						d=TransmitDialog(self)
+						d.manageTransmit(b, self)
 		return
 		
 	def blockAt(self, pos):

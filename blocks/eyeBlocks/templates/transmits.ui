@@ -61,11 +61,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPlainTextEdit" name="lambdaEdit">
-           <property name="plainText">
-            <string/>
-           </property>
-          </widget>
+          <widget class="QLineEdit" name="lambdaEdit"/>
          </item>
         </layout>
        </widget>

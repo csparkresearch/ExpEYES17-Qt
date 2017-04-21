@@ -56,9 +56,10 @@ class TransmitComponent(InputComponent):
 		x=15; y+=lh
 		p=pos+QtCore.QPoint(x,y)
 		try:
-			code="fun=%s" %self.function
+			code="fun=lambda x: %s" %self.function
 			obj=compile(code,"fakemodule","single")
-			result=callable(obj)
+			exec(obj)
+			result=callable(fun)
 		except:
 			result=False
 		painter.drawText(p,_translate("eyeBlocks.voltagecomponent","Function: %1",None).arg("%s" %result))

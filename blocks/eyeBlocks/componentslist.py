@@ -27,7 +27,6 @@ from PyQt4.QtGui import QWidget, QPixmap, QSizePolicy, QColor, \
 from templates.ui_blocks import Ui_MainWindow
 from component import Component, InputComponent
 from timecomponent import TimeComponent
-#from modifcomponent import ModifComponent
 #from channelcomponent import ChannelComponent
 
 
