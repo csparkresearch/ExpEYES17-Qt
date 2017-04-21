@@ -5,6 +5,7 @@ from .templates import ui_allTraces as allTraces
 from .templates import ui_flexibleChannelSelector as flexibleChannelSelector
 from .templates import ui_triggerWidget as triggerWidgetUi
 from .templates import ui_timebaseWidget as timebaseWidgetUi
+from .templates import ui_removableLabel as removableLabel
 
 from PyQt4 import QtGui,QtCore
 import pyqtgraph as pg
@@ -526,15 +527,35 @@ class expeyesWidgets():
 	def SPACER(self,size):
 		self.widgetLayout.addItem(QtGui.QSpacerItem(size, size, QtGui.QSizePolicy.Minimum))
 
-	def TITLE(self,text):
-		self.SPACER(5)
-		line = QtGui.QFrame()
-		line.setFrameShape(QtGui.QFrame.HLine);	line.setMinimumSize(QtCore.QSize(0, 8));line.setFrameShadow(QtGui.QFrame.Sunken)
-		label = QtGui.QLabel(text)
-		label.setStyleSheet("color:rgb(100,255,255)")
+
+	class removableLabelWidget(QtGui.QWidget,removableLabel.Ui_Form,constants):
+		def __init__(self,name,**kwargs):
+			super(expeyesWidgets.removableLabelWidget, self).__init__()
+			self.setupUi(self)
+			self.label.setText(name)
+			self.associatedWidgets=[]
+			self.removeCallback = kwargs.get('removeCallback',None)
+			if kwargs.get('removable',False):
+				self.pushButton.clicked.connect(self.delete)
+			else:self.pushButton.setParent(None)
+
+		def addAssociatedWidget(self,w):
+			self.associatedWidgets.append(w)
+
+		def delete(self):
+			self.setParent(None)
+			for a in self.associatedWidgets:
+				a.delete()
+				a = None
+			self.deleteLater()
+			self.removeCallback()
+
+
+	def TITLE(self,text,**kwargs):
+		label = self.removableLabelWidget(text,**kwargs)
 		self.widgetLayout.addWidget(label)
-		self.widgetLayout.addWidget(line)
-		return label,line
+		return label
+
 
 
 	def newTimer(self):
@@ -750,6 +771,9 @@ class expeyesWidgets():
 			self.setText(name)
 			self.callback = callback
 			if callback is not None:self.clicked.connect(self.callback)
+		def delete(self):
+			self.deleteLater()
+			self.setParent(None)
 
 	###############################  CHECKBOX WIDGET ######################
 
@@ -765,6 +789,9 @@ class expeyesWidgets():
 			self.setText(name)
 			self.callback = callback
 			if self.callback:self.clicked[bool].connect(self.callback)
+		def delete(self):
+			self.deleteLater()
+			self.setParent(None)
 
 
 
