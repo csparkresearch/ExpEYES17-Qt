@@ -26,7 +26,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.fps=0;self.lastTime=time.time();self.updatepos=0
 
 		
-		self.plot = self.newPlot([],xMin=0,xMax = self.POINTS, disableAutoRange = 'y',bottomLabel = 'time',bottomUnits='S',enableMenu=False,legend=True)
+		self.plot = self.newPlot([],detailedWidget=True,xMin=0,xMax = self.POINTS, disableAutoRange = 'y',bottomLabel = 'time',bottomUnits='S',enableMenu=False,legend=True)
 		self.plot.setYRange(-1000,1000)
 
 

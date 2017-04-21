@@ -2,6 +2,10 @@
 from .templates import ui_SliderAndSpinbox as SliderAndSpinbox
 from .templates import ui_channelSelector as channelSelector
 from .templates import ui_allTraces as allTraces
+
+from .templates import ui_allTracesDetailed as allTracesDetailed
+from .templates import ui_tracesRow as tracesRow
+
 from .templates import ui_flexibleChannelSelector as flexibleChannelSelector
 from .templates import ui_triggerWidget as triggerWidgetUi
 from .templates import ui_timebaseWidget as timebaseWidgetUi
@@ -108,7 +112,78 @@ class expeyesWidgets():
 					raise ValueError("Exponent out range of available prefixes.")
 				return '%.*f %s%s' % (precision, value,PREFIXES[si_level + prefix_levels],unit)
 
-	
+
+		class myColorButton(QtGui.QPushButton):
+			'''
+			inheriting and overriding paint event to reduce the boundary.
+			'''
+			def __init__(self,name,color):
+				super(expeyesWidgets.tracesWidget.myColorButton, self).__init__()
+				self.setText(name)
+
+				self.colorDialog = QtGui.QColorDialog()
+				self.colorDialog.setOption(QtGui.QColorDialog.ShowAlphaChannel, True)
+				self.colorDialog.setOption(QtGui.QColorDialog.DontUseNativeDialog, True)
+				self.clicked.connect(self.selectColor)
+
+			def selectColor(self):
+				self.colorDialog.setCurrentColor(self.color())
+				self.colorDialog.open()				
+
+			def setColor(self, color, finished=True):
+				"""Sets the button's color and emits both sigColorChanged and sigColorChanging."""
+				self._color = pg.functions.mkColor(color)
+
+			def color(self, mode='qcolor'):
+				color = pg.functions.mkColor(self._color)
+				if mode == 'qcolor':
+					return color
+				elif mode == 'byte':
+					return (color.red(), color.green(), color.blue(), color.alpha())
+				elif mode == 'float':
+					return (color.red()/255., color.green()/255., color.blue()/255., color.alpha()/255.)
+
+		class traceRowWidget(QtGui.QWidget,tracesRow.Ui_Form):
+			def __init__(self,name,curve):
+				super(expeyesWidgets.utils.traceRowWidget, self).__init__()
+				self.setupUi(self)
+				self.name.setText(name);self.name.setToolTip(name)
+				self.curve = curve
+				self.penStyle = {'color':curve.opts['pen'].color(),'width':curve.opts['pen'].width(),'style':curve.opts['pen'].style()}
+				self.lineStyles = {"solid":QtCore.Qt.SolidLine,"Dashed":QtCore.Qt.DashLine,"Dotted":QtCore.Qt.DotLine,"Dash-Dot":QtCore.Qt.DashDotLine,"Dash-Dot-Dot":QtCore.Qt.DashDotDotLine}
+
+				self.colorDialog = QtGui.QColorDialog()
+				self.colorDialog.setOption(QtGui.QColorDialog.ShowAlphaChannel, True)
+				self.colorDialog.setOption(QtGui.QColorDialog.DontUseNativeDialog, True)
+				self.colorButton.clicked.connect(self.colorDialog.open)
+				self.colorButton.setStyleSheet('color: %s;'%self.curve.opts['pen'].color().name())
+
+				self.colorDialog.currentColorChanged.connect(self.changeColor)
+
+			def editLineStyle(self):
+				item,ok = QtGui.QInputDialog.getItem(self,"Select Line Style","", self.lineStyles.keys(), 0, False)
+				if (ok and not item.isEmpty()):
+					self.changeStyle(self.lineStyles[str(item)])
+
+			def changeColor(self,btn):
+				self.curve.opts['pen'].setColor(btn)
+				self.colorButton.setStyleSheet('color: %s;'%self.curve.opts['pen'].color().name())
+
+			def changeStyle(self,style):
+				self.curve.opts['pen'].setStyle(style)
+
+			def changeWidth(self,W):
+				self.curve.opts['pen'].setWidth(W)
+
+			def traceToggled(self,state):
+				self.curve.setVisible(state)
+
+			def removeTrace(self):
+				self.curve.setVisible(False)
+				self.setParent(None)
+				self.deleteLater()
+
+
 
 	####################################################################################
 	#  EXTREMELY HIGH-LEVEL FUNCTIONS. THESE MAKE TOO MANY ASSUMPTIONS AND CAN ONLY BE #
@@ -141,8 +216,11 @@ class expeyesWidgets():
 		plot   = self.addPlot(**kwargs)
 		self.plotLayout.addWidget(plot)
 		self.myCurves=OrderedDict()
-		self.myTracesWidget = self.tracesWidget(plot)
-		
+		if kwargs.get('detailedWidget',False):
+			self.myTracesWidget = self.tracesWidgetDetailed(plot)
+		else:
+			self.myTracesWidget = self.tracesWidget(plot)
+
 		self.TITLE('Trace List')
 		self.widgetLayout.addWidget(self.myTracesWidget)
 		num=0
@@ -363,7 +441,7 @@ class expeyesWidgets():
 
 	##########################   controls  ##########################
 
-	class tracesWidget(QtGui.QWidget,allTraces.Ui_Form,constants):
+	class tracesWidget(QtGui.QWidget,allTraces.Ui_Form,constants,utils):
 		def __init__(self,plot = None):
 			super(expeyesWidgets.tracesWidget, self).__init__()
 			self.setupUi(self)
@@ -405,36 +483,6 @@ class expeyesWidgets():
 			item,ok = QtGui.QInputDialog.getItem(self,"Select Line Style","", self.lineStyles.keys(), 0, False)
 			if (ok and not item.isEmpty()):
 				self.changeStyle(self.lineStyles[str(item)])
-
-		class myColorButton(QtGui.QPushButton):
-			'''
-			inheriting and overriding paint event to reduce the boundary.
-			'''
-			def __init__(self,name,color):
-				super(expeyesWidgets.tracesWidget.myColorButton, self).__init__()
-				self.setText(name)
-
-				self.colorDialog = QtGui.QColorDialog()
-				self.colorDialog.setOption(QtGui.QColorDialog.ShowAlphaChannel, True)
-				self.colorDialog.setOption(QtGui.QColorDialog.DontUseNativeDialog, True)
-				self.clicked.connect(self.selectColor)
-
-			def selectColor(self):
-				self.colorDialog.setCurrentColor(self.color())
-				self.colorDialog.open()				
-
-			def setColor(self, color, finished=True):
-				"""Sets the button's color and emits both sigColorChanged and sigColorChanging."""
-				self._color = pg.functions.mkColor(color)
-
-			def color(self, mode='qcolor'):
-				color = pg.functions.mkColor(self._color)
-				if mode == 'qcolor':
-					return color
-				elif mode == 'byte':
-					return (color.red(), color.green(), color.blue(), color.alpha())
-				elif mode == 'float':
-					return (color.red()/255., color.green()/255., color.blue()/255., color.alpha()/255.)
 
 		
 		def changeColor(self,btn):
@@ -495,6 +543,51 @@ class expeyesWidgets():
 				return
 			self.curveRefs.pop(name).setVisible(False)
 			self.traceList.removeItem(self.traceList.currentIndex())
+
+
+	class tracesWidgetDetailed(QtGui.QWidget,allTracesDetailed.Ui_Form,constants,utils):
+		def __init__(self,plot = None):
+			super(expeyesWidgets.tracesWidgetDetailed, self).__init__()
+			self.setupUi(self)
+			self.curveRefs={}
+			self.plot = plot
+
+
+
+		def addCurve(self,name,c):
+			self.curveRefs[name] = c
+			row = self.traceRowWidget(name,c)
+			self.traceLayout.addWidget(row)
+
+
+		def removeCurve(self,c): #remove by curve reference
+			self.traceList.clear()
+			delItem=None
+			for a in self.curveRefs:
+				if self.curveRefs[a] == c:
+					delItem = a
+				else:
+					self.traceList.addItem(a)
+			self.curveRefs.pop(delItem,None)
+
+		def saveTrace(self):
+			from . import plotSaveWindow
+			info = plotSaveWindow.AppWindow(self,[self.curveRefs[str(self.traceList.currentText())]],self.plot)
+			info.show()
+
+		def saveData(self):
+			from . import plotSaveWindow
+			info = plotSaveWindow.AppWindow(self,self.curveRefs.values(),self.plot)
+			info.show()
+
+
+		def deleteTrace(self):
+			name = str(self.traceList.currentText())
+			if name not in self.curveRefs:
+				return
+			self.curveRefs.pop(name).setVisible(False)
+			self.traceList.removeItem(self.traceList.currentIndex())
+
 
 	class channelWidget(QtGui.QWidget,channelSelector.Ui_Form,constants):
 		def __init__(self,name,callback,col=None):
