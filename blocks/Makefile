@@ -27,6 +27,7 @@ recursive_clean:
 
 doc:
 	make -C doc all
+	echo "you can open the documentation by 'firefox doc/build/html/index.html'"
 
 clean_doc:
 	make -C doc clean

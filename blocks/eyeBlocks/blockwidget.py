@@ -161,8 +161,7 @@ class BlockWidget(QWidget):
 	def areSnappedComponents(self, c1, c2, symmetric=False):
 		"""
 		finds out whether two components are snapped together.
-		Depends on self.snapped to be up to date
-		
+
 		:param c1: a component or its index in self.components
 		:type c1: Component or int
 		:param c2: a component or its index in self.components
@@ -172,6 +171,8 @@ class BlockWidget(QWidget):
 		:returns: tuple of connected snapPoints or None
 		:rtype: tupe(SnapPoint, SnapPoint)
 		"""
+		# ensure self.snapped to be up to date
+		self.connectSnaps()
 		result=None
 		if type(c1)==int: c1=self.components[c1]
 		if type(c2)==int: c2=self.components[c2]
@@ -184,7 +185,7 @@ class BlockWidget(QWidget):
 		if la and lb:
 			for sa in la:
 				for sb in lb:
-					if sa.pos() == sb.pos():
+					if (sa.pos()-sb.pos()).manhattanLength() < 10:
 						if symmetric:
 							result=(sa,sb)
 							break
@@ -247,6 +248,7 @@ class BlockWidget(QWidget):
 			self.snapped.append(s); self.snapped.append(s1)
 		if distinguished:
 			# reorder the component list to put some components near the top
+			# so distinguished and the other components connected to it are visible
 			onTop=[s1.parent for s,s1 in toMove]+[distinguished]
 			self.components.sort(lambda x,y: 1 if x in onTop else -1)
 		self.update()

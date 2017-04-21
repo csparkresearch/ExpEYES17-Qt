@@ -22,6 +22,7 @@ from datetime import datetime
 import threading, copy
 
 from voltagecomponent import VoltageComponent
+from component import Component
 
 def _translate(context, text, disambig):
 	return QtGui.QApplication.translate(context, unicode(text), disambig)
@@ -33,8 +34,11 @@ class BlockSource(object):
 	working area
 	
 	:param BlockWidget bw: the working area
-	:property timeComponent: a TimeComponent if there is some, or None
-	:property scope: a ChannelComponent with "scope" in its ident, if there is some, else None
+	
+	:var TimeComponent timeComponent: a time component if any
+	:var ChannelComponent scope: index of an oscilloscope component if any
+	:var list(int) displays: list of transmit components which have a display activated
+	:var list((int, str))voltages_displays: list describing voltage entries to monitor
 	"""
 	
 	def __init__(self, bw):
@@ -46,26 +50,87 @@ class BlockSource(object):
 		
 		l=[c for c in self.bw.components if "time" in c.ident]
 		self.timeComponent = l[0] if l else None
-		
+				
 		l=[c for c in self.bw.components if "scope" in c.ident]
 		self.scope=l[0] if l else None
 		self.xscope=None
 		self.yscope=4*[0]
-		######### TAKE IN ACCOUNT SCOPE'S INPUTS ##########################
+		######### TAKE IN ACCOUNT SCOPE'S INPUTS ######################
 		if self.scope:
 			sci=bw.components.index(self.scope)
 			cc=len(self.bw.components)
 			scopeInputs=[(l, [str(sp.text) for sp in self.graph[l][sci]]) for l in range(cc) if self.graph[l][sci]]
 			for i in (1,2,3,4):
-				l = [self.bw.components[n].code for n, texts in scopeInputs if texts[1]=="block-in-signal-%s" %i]
+				l = [self.bw.components[self.voltage(n)].code for n, texts in scopeInputs if texts[1]=="block-in-signal-%s" %i]
 				self.yscope[i-1] = l[0] if l else 0
 			l=[self.bw.components[n] for n, texts in scopeInputs if texts[1]=="block-in-signal-x"]
 			self.xscope = l[0] if l else None
 			if isinstance(self.xscope, VoltageComponent):
 				print("HELLO, something should be done in the case of Lissajous setup!")
+				
+		########### TAKE IN ACCOUNT TRANSMIT COMPONENTS ###############
+		self.displays=[c for c in self.bw.components if "transmit" in c.ident and c.display]
+		self.voltage_displays=[]
+		for d in self.displays:
+			v=self.voltage(d)
+			if v:
+				vc=self.bw.components[v]
+				self.voltage_displays.append((vc.code, vc.name))
 		return
 		
-
+	def voltage(self, i):
+		"""
+		gets the voltage entry linked to a component.
+		
+		:param int i: a voltage input or a transmitter
+		:returns: i itself if it is a VoltageComponent, of the voltage component transmitted
+		"""
+		#ensure we have an integer
+		if isinstance(i,Component):
+			i=self.bw.components.index(i)
+		if self.isType(i, VoltageComponent): return i
+		while True: # will finish as cyclic graphs cannot be built
+			pred= self.pred(i)
+			if not pred:
+				return None
+			i=pred[0]
+			if self.isType(i, VoltageComponent): return i
+			
+	def isType(self, i, class_):
+		"""
+		:param int i: an index
+		:param Component class_: a type of Component
+		:returns; True if the type matches
+		"""
+		return isinstance(self.bw.components[i], class_)
+		
+	def succ(self,i):
+		"""
+		gets successors of an item in the graph
+		
+		:param i: a item of self.bw.components
+		:type i: Component or int
+		:returns: the list of successors of this component
+		:rtype: list(int)
+		"""
+		if isinstance(i, Component):
+			i=self.bw.components.index(i)
+		return [c for c in range(self.count) if self.graph[i][c]]
+		
+	def pred(self,i):
+		"""
+		gets predecessors of an item in the graph
+		
+		:param i: a item of self.bw.components
+		:type i: Component or int
+		:returns: the list of predecessors of this component
+		:rtype: list(int)
+		"""
+		if isinstance(i, Component):
+			i=self.bw.components.index(i)
+		return [c for c in range(self.count) if self.graph[c][i]]
+		
+		
 	def debugGraph(self):
 		"""
 		Shows debug information about the graph
@@ -180,6 +245,12 @@ def compile_(mw, directory):
 					######### SCOPE RELATED DATA #######################
 					if bs.scope:
 						l=re.sub(r"^CHANINPUTS=.*","CHANINPUTS=%s" %bs.yscope,l)
+					######### VOLTAGE DISPLAYS #########################
+					l=re.sub(r"^VOLTAGE_DISPLAYS=.*","VOLTAGE_DISPLAYS=%s" %bs.voltage_displays,l)
+					
+					####################################################
+					#           END OF LINE TRANSLATIONS               #
+					####################################################
 					outfile.write(l)
 		mw.warn(_translate("eyeBlocks.wizard","<span style='color:blue'>[Compilation: done]</span> output in <b>%1</b> for %2.",None).arg(directory).arg(target))
 	return "{d}/run.py".format(d=directory)

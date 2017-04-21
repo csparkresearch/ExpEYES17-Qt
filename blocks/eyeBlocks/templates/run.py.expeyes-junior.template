@@ -58,7 +58,6 @@ class Interface(QWidget):
 		if not VOLTAGE_DISPLAYS: return
 		layout=QBoxLayout(QBoxLayout.TopToBottom, self.parent().frame)
 		for num, name in VOLTAGE_DISPLAYS:
-			print("GRRRR")
 			w=QWidget(self.parent())
 			layout.addWidget(w)
 			l=QBoxLayout(QBoxLayout.LeftToRight, w)

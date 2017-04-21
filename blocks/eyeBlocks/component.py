@@ -350,6 +350,7 @@ class Component(object):
 		from timecomponent import TimeComponent
 		from transmitcomponent import TransmitComponent
 		from channelcomponent import ChannelComponent
+		from voltagecomponent import VoltageComponent
 
 		componentDirPattern = re.compile(r"components(.)")
 		result=[]
@@ -368,7 +369,7 @@ class Component(object):
 				img=QtGui.QPixmap(imgPath)
 				sp=snapPoints(imgPath)
 				if "input" in entry:
-					result.append(InputComponent(img, entry, mimetype, snapPoints=sp))
+					result.append(VoltageComponent(img, entry, mimetype, snapPoints=sp))
 				elif "transmit" in entry:
 					result.append(TransmitComponent(img, entry, mimetype, snapPoints=sp))
 				elif "time" in entry:
