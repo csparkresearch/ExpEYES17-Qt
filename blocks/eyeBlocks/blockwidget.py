@@ -215,7 +215,9 @@ class BlockWidget(QWidget):
 	def connectSnaps(self, distinguished=None):
 		"""
 		moves components until every connected snaps overlap.
-		updates the list of connected snaps, self.snapped
+		updates the list of connected snaps, self.snapped.
+		When distinguished is not None, reorders moved components
+		so they appear near the end of the component list.
 		
 		:param Component distinguished: a particular component, which can be moved or None (which means that every component can be moved)
 		"""
@@ -242,6 +244,10 @@ class BlockWidget(QWidget):
 			delta=s1.pos()-s.pos()
 			s.parent.rect.translate(delta)
 			self.snapped.append(s); self.snapped.append(s1)
+		if distinguished:
+			# reorder the component list to put some components near the top
+			onTop=[s1.parent for s,s1 in toMove]+[distinguished]
+			self.components.sort(lambda x,y: 1 if x in onTop else -1)
 		self.update()
 		QTimer.singleShot(1000, self.hideHots)
 		return
