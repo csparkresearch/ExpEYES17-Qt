@@ -34,6 +34,8 @@ import pyqtgraph.exporters
 
 from templates import ui_layoutNew as layoutNew
 from utilities.fileBrowser import fileBrowser
+from utilities.helpBrowser import helpBrowser
+
 from utilities.expeyesWidgets import expeyesWidgets
 
 import sys,time
@@ -77,9 +79,13 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		self.setupUi(self)
 		self.statusBar = self.statusBar()
 		global app
+		self.experimentTabIndex = 1
 		self.fileBrowser = fileBrowser(thumbnail_directory = 'ExpEYES_thumbnails',app=app)#,clickCallback = self.showNewPlot)
 		self.saveLayout.addWidget(self.fileBrowser)
 
+		self.helpBrowser = helpBrowser()
+		self.helpLayout.addWidget(self.helpBrowser)
+		self.helpBrowser.setFile()
 		### Prepare the communication handler, and move it to a thread.
 		self.CH = communicationHandler()
 		self.worker_thread = QtCore.QThread()
@@ -125,7 +131,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		self.launchExperiment(self.defaultExperiment)
 
 	def savePlots(self):
-		print ('wrong save fnction. inheritance not working properly. save from expeyesWidgetsNew must be called. Georges? . This is defined in expeyesWidgetsNew')
+		print ('wrong save fnction. inheritance not working properly. save from expeyesWidgetsNew must be called. This is defined in expeyesWidgetsNew')
 
 	def launchExperiment(self,name):
 		fname = self.allExpts[name]
@@ -198,7 +204,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	def loadPlot(self,fname):
 		self.showStatus("Loaded data from file | %s"%fname)
 		self.fileBrowser.loadFromFile( self.plot,self.curves[self.plot],fname ) 
-		self.tabWidget.setCurrentIndex(0)
+		self.tabWidget.setCurrentIndex(self.experimentTabIndex)
 
 
 

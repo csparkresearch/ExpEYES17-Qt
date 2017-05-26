@@ -26,9 +26,11 @@ if __name__ == "__main__":
 	import expeyes.eyes17 as eyes
 	import time
 	I=eyes.open()
+	'''
 	print ('fur elise')
 	for N,D in zip(Notes,Duration):
 		print (N,D)
 		I.set_sqr1(N)
 		time.sleep(D*0.2)
 	I.set_state(SQR1=0)
+	'''

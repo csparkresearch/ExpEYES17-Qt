@@ -68,7 +68,7 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="iconSize">
        <size>
@@ -79,6 +79,26 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
       <property name="usesScrollButtons">
        <bool>false</bool>
       </property>
+      <property name="movable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="helpTab">
+       <attribute name="icon">
+        <iconset resource="res.qrc">
+         <normaloff>:/control/file.svg</normaloff>:/control/file.svg</iconset>
+       </attribute>
+       <attribute name="title">
+        <string>Help</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="helpLayout">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="margin">
+         <number>0</number>
+        </property>
+       </layout>
+      </widget>
       <widget class="QWidget" name="experimentTab">
        <attribute name="icon">
         <iconset resource="res.qrc">

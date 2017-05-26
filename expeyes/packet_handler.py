@@ -37,7 +37,6 @@ class Handler():
 					self.portname=a
 					self.fd,self.version_string,self.connected=self.connectToPort(self.portname)			
 					if self.connected:return
-					#print(a+' .yes.',version)
 				except :
 					pass
 			if not self.connected:

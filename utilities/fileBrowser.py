@@ -24,8 +24,10 @@ class fileBrowser(QtGui.QFrame,fileBrowser.Ui_Form):
 		self.thumbnailSubdir = kwargs.get('thumbnail_directory','thumbnails')
 		self.clickCallback = kwargs.get('clickCallback',self.showNewPlot)
 		self.app = kwargs.get('app',dummyApp())
-		self.generateThumbnails()
 
+	def refresh(self):
+		self.generateThumbnails(self._browserPath)
+		
 	def itemClicked(self,sel):
 		fname = self.thumbList[str(sel.text())][1]
 		print fname
