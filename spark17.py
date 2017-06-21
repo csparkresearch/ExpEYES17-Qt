@@ -49,6 +49,7 @@ except AttributeError:
 
 class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	sigExec = QtCore.pyqtSignal(str,object,object)
+	sigHelp = QtCore.pyqtSignal(str)
 	xmax = 20 #mS
 	TandM = OrderedDict([
 	('Oscilloscope','oscilloscope'),
@@ -56,7 +57,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	 ])
 	electrical = OrderedDict([
 	('Half-wave rectifier','halfwave'),
-	('Diode IV','diodeIV'),
+	('Diode IV','diode-IV'),
 	 ])
 	examples = OrderedDict([
 	('Plotting etc','example'),
@@ -68,7 +69,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	('Electrical',electrical),
 	('examples',examples)
 	])
-	defaultExperiment = 'I2C Sensor Data Logger'
+	defaultExperiment = 'Diode IV'
 
 	allExpts = {}
 	for a in exptGroups:
@@ -156,6 +157,9 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		#self.expt = AppWindow(handler = self.CH)
 		self.experimentLayout.addWidget(self.expt)
 		self.expt.show()
+
+		if hasattr(self.expt,'subsection'):
+			self.helpBrowser.setFile(os.path.join('.','help','MD_HTML',self.expt.subsection,self.expt.helpfile))
 		print (name,fname)
 
 	def tabChanged(self,val):

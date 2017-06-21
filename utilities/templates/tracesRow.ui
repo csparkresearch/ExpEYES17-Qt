@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>200</width>
-    <height>24</height>
+    <width>263</width>
+    <height>28</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -85,7 +85,7 @@ color:#000;
       <widget class="QSpinBox" name="widthBox">
        <property name="minimumSize">
         <size>
-         <width>30</width>
+         <width>60</width>
          <height>0</height>
         </size>
        </property>
@@ -95,8 +95,22 @@ color:#000;
          <height>16777215</height>
         </size>
        </property>
+       <property name="font">
+        <font>
+         <kerning>true</kerning>
+        </font>
+       </property>
        <property name="toolTip">
         <string>Set the width of the trace</string>
+       </property>
+       <property name="wrapping">
+        <bool>false</bool>
+       </property>
+       <property name="frame">
+        <bool>true</bool>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
        <property name="suffix">
         <string> px</string>
@@ -114,6 +128,12 @@ color:#000;
      </item>
      <item>
       <widget class="QPushButton" name="colorButton">
+       <property name="minimumSize">
+        <size>
+         <width>50</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="maximumSize">
         <size>
          <width>35</width>

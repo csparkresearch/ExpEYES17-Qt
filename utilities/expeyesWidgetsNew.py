@@ -143,11 +143,12 @@ class expeyesWidgets():
 					return (color.red()/255., color.green()/255., color.blue()/255., color.alpha()/255.)
 
 		class traceRowWidget(QtGui.QWidget,tracesRow.Ui_Form):
-			def __init__(self,name,curve):
+			def __init__(self,name,curve,legend=None):
 				super(expeyesWidgets.utils.traceRowWidget, self).__init__()
 				self.setupUi(self)
 				self.name.setText(name);self.name.setToolTip(name)
 				self.curve = curve
+				self.leg = legend
 				self.penStyle = {'color':curve.opts['pen'].color(),'width':curve.opts['pen'].width(),'style':curve.opts['pen'].style()}
 				self.lineStyles = {"solid":QtCore.Qt.SolidLine,"Dashed":QtCore.Qt.DashLine,"Dotted":QtCore.Qt.DotLine,"Dash-Dot":QtCore.Qt.DashDotLine,"Dash-Dot-Dot":QtCore.Qt.DashDotDotLine}
 
@@ -187,6 +188,7 @@ class expeyesWidgets():
 			def removeTrace(self):
 				self.curve.setVisible(False)
 				self.setParent(None)
+				self.leg.removeItem(self.curve.name())
 				self.deleteLater()
 
 			def updateColorBox(self):
@@ -451,7 +453,7 @@ class expeyesWidgets():
 			self.currentRange[chan] = val
 		self.renameLabels()
 
-	##########################   controls  ##########################
+	##########################   controls for curves  ##########################
 
 	class tracesWidget(QtGui.QWidget,allTraces.Ui_Form,constants,utils):
 		def __init__(self,plot = None):
@@ -528,6 +530,8 @@ class expeyesWidgets():
 					delItem = a
 				else:
 					self.traceList.addItem(a)
+			self.plot.leg.removeItem(name)
+			self.plot.leg.removeItem(delItem.name())
 			self.curveRefs.pop(delItem,None)
 
 		def traceChanged(self,name):
@@ -553,7 +557,9 @@ class expeyesWidgets():
 			name = str(self.traceList.currentText())
 			if name not in self.curveRefs:
 				return
-			self.curveRefs.pop(name).setVisible(False)
+			c = self.curveRefs.pop(name)
+			c.setVisible(False)
+			self.plot.leg.removeItem(c.name())
 			self.traceList.removeItem(self.traceList.currentIndex())
 
 
@@ -564,13 +570,10 @@ class expeyesWidgets():
 			self.curveRefs={}
 			self.plot = plot
 
-
-
 		def addCurve(self,name,c):
 			self.curveRefs[name] = c
-			row = self.traceRowWidget(name,c)
+			row = self.traceRowWidget(name,c,self.plot.leg)
 			self.traceLayout.addWidget(row)
-
 
 		def removeCurve(self,c): #remove by curve reference
 			self.traceList.clear()
@@ -580,6 +583,7 @@ class expeyesWidgets():
 					delItem = a
 				else:
 					self.traceList.addItem(a)
+			self.plot.leg.removeItem(delItem.name())
 			self.curveRefs.pop(delItem,None)
 
 		def saveTrace(self):
@@ -597,7 +601,9 @@ class expeyesWidgets():
 			name = str(self.traceList.currentText())
 			if name not in self.curveRefs:
 				return
-			self.curveRefs.pop(name).setVisible(False)
+			c = self.curveRefs.pop(name)
+			c.setVisible(False)
+			self.plot.leg.removeItem(c.name())
 			self.traceList.removeItem(self.traceList.currentIndex())
 
 
@@ -734,20 +740,29 @@ class expeyesWidgets():
 		if 'leftAxis' in kwargs: kwargs['axisItems'] = {'left':kwargs.pop('leftAxis')}
 		plot=pg.PlotWidget(**kwargs)
 		plot.setMouseEnabled(kwargs.get('enableXAxis',True),kwargs.get('enableYAxis',True))
+		plot.setXRange(kwargs.get('xMin',0),kwargs.get('xMax',10));
+		plot.setYRange(kwargs.get('yMin',-5),kwargs.get('yMax',5));
+
 		if 'x' in kwargs.get('disableAutoRange',''):
 			plot.disableAutoRange(axis = plot.plotItem.vb.XAxis)
 		if 'y' in kwargs.get('disableAutoRange',''):
 			plot.disableAutoRange(axis = plot.plotItem.vb.YAxis)
+
+		if 'x' in kwargs.get('autoRange',''):
+			plot.enableAutoRange(plot.plotItem.vb.XAxis)
+		if 'y' in kwargs.get('autoRange',''):
+			plot.enableAutoRange(plot.plotItem.vb.YAxis)
+
+
 		if kwargs.get('legend',False):
 			plot.leg = plot.addLegend(offset=(-10,30))
 		self.xaxis = plot.getAxis('bottom')
 
 		plot.getAxis('left').setGrid(170);
-		self.xaxis.setGrid(170); self.xaxis.setLabel('time', units='S')
+		self.xaxis.setGrid(170); self.xaxis.setLabel(kwargs.get('bottomLabel','time'), units=kwargs.get('bottomUnits','S'))
+		plot.getAxis('left').setLabel(kwargs.get('leftLabel','voltage'), units=kwargs.get('leftUnits','V'))
 		limitargs = {a:kwargs.get(a) for a in ['xMin','xMax','yMin','yMax'] if a in kwargs}
 		plot.setLimits(**limitargs);
-		plot.setXRange(kwargs.get('xMin',0),kwargs.get('xMax',10));
-		plot.setYRange(kwargs.get('yMin',-5),kwargs.get('yMax',-5));
 		self.plotDict[plot] = []
 		self.curves[plot] = []
 		return plot
@@ -897,6 +912,38 @@ class expeyesWidgets():
 		def delete(self):
 			self.deleteLater()
 			self.setParent(None)
+
+	###############################  CHECKBOX WIDGET ######################
+
+	def SPINBOX(self, **kwargs):
+		if kwargs.get('decimals',False):widget  =self.doubleSpinBoxWidget(**kwargs)
+		else:widget  =self.spinBoxWidget(**kwargs)
+		widget.setRange(*kwargs.get('range',[0,10]))
+		widget.setValue(kwargs.get('value',0))
+		widget.setPrefix(kwargs.get('prefix',''))
+		widget.setSuffix(kwargs.get('suffix',''))
+
+		widget.callback = kwargs.get('callback',None)
+		if widget.callback:widget.valueChanged.connect(widget.callback)
+
+		self.widgetArray.append(widget)
+		self.widgetLayout.addWidget(widget)
+		return widget
+
+	class spinBoxWidget(QtGui.QSpinBox):
+		def __init__(self,**kwargs):
+			super(expeyesWidgets.spinBoxWidget, self).__init__()
+		def delete(self):
+			self.deleteLater()
+			self.setParent(None)
+
+	class doubleSpinBoxWidget(QtGui.QDoubleSpinBox):
+		def __init__(self,**kwargs):
+			super(expeyesWidgets.doubleSpinBoxWidget, self).__init__()
+		def delete(self):
+			self.deleteLater()
+			self.setParent(None)
+
 
 
 
