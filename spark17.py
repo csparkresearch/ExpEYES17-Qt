@@ -58,6 +58,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	electrical = OrderedDict([
 	('Half-wave rectifier','halfwave'),
 	('Diode IV','diode-IV'),
+	('Diode IV Hysterisis','diode-IV-hysterisis'),
 	 ])
 	examples = OrderedDict([
 	('Plotting etc','example'),
