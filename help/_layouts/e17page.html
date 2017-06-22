@@ -37,9 +37,14 @@ layout: mainpage
 		</div>
 	</section>
 
+
 	{% endif %}
 
   {{ content }}
+
+	{% if page.videoUrl %}
+	{% include html5_video.html poster=page.videoPoster url=page.videoUrl %}
+	{% endif %}
 
 </div>
 
