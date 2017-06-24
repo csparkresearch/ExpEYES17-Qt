@@ -12,27 +12,38 @@ layout: mainpage
 		<p class="lead"> {{ page.description }}</p>
 	</div>    
 	{% endif %}
-
 	<section id="recent-works">
+		{{ content }}
 		<div class="container">
 			{% if page.imagebase %}
 			<div class="row" >
-				<div class=" col-xs-12 col-sm-6 col-md-6">
-					<img class="img-responsive" style="bottom:0px;" src="images/screenshots/{{page.imagebase}}.png">
-					<h3 style="text-align:center;">Screenshot</h3>
+				<div >
+					<h2 style="text-align:left;">Schematic</h2><hr>
+					<img class="img-responsive" style="bottom:0px; width:500px" src="images/schematics/{{page.imagebase}}.svg">
 				</div>		
-				<div class=" col-xs-12 col-sm-6 col-md-6">
-					<img class="img-responsive" style="bottom:0px;" src="images/photographs/{{page.imagebase}}.jpg">
-					<h3 style="text-align:center;">Photograph</h3>
+			</div>
+			<div class="row" >
+				{% if page.screencast=="giffer" %}
+				{% capture gifpath %}images/screencasts/{{page.imagebase}}.gif{% endcapture %}
+				{% include giffer.html url=gifpath %}
+				{% endif %}
+
+				{% if page.screencast=="yes" %}
+				{% capture gifpath %}images/screencasts/{{page.imagebase}}.gif{% endcapture %}
+				{% capture posterpath %}images/screenshots/{{page.imagebase}}.png{% endcapture %}
+				{% include animated_gif.html url=gifpath poster=posterpath %}
+				{% else %}
+				<div class=" col-xs-12 col-sm-12 col-md-12">
+					<h2 style="text-align:left;">Screenshot</h2><hr>
+					<img class="img-responsive" style="bottom:0px;" src="images/screenshots/{{page.imagebase}}.png">
+				</div>		
+				{% endif %}
+				<div class=" col-xs-12 col-sm-12 col-md-12">
+					<h2 style="text-align:left;">Photograph</h2><hr>
+					<img class="img-responsive" style="bottom:0px;width:600px" src="images/photographs/{{page.imagebase}}.jpg">
 				</div>		
 			</div>
 
-			<div class="row" >
-				<div >
-					<img class="img-responsive" style="bottom:0px; width:500px" src="images/schematics/{{page.imagebase}}.svg">
-					<h3 style="text-align:center;">Schematic</h3>
-				</div>		
-			</div>
 
 		</div>
 	</section>
@@ -40,7 +51,6 @@ layout: mainpage
 
 	{% endif %}
 
-  {{ content }}
 
 	{% if page.videoUrl %}
 	{% include html5_video.html poster=page.videoPoster url=page.videoUrl %}

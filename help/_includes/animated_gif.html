@@ -1,0 +1,19 @@
+{% if include.poster %}
+<div class=" col-xs-12 col-sm-12 col-md-12">
+	<h2 style="text-align:left;">Screencast : Mouseover to play animation</h2><hr>
+	<img class="img-responsive" style="bottom:0px;" src="{{include.poster}}" onmouseover="playGIF(this);" onmouseout="pauseGIF(this);">
+</div>
+<script>
+function playGIF(elm) {
+	elm.src = "{{include.url}}";
+}
+function pauseGIF(elm) {
+	elm.src = "{{include.poster}}";
+}
+</script>		
+{% else %}
+<div class=" col-xs-12 col-sm-12 col-md-12">
+	<h2 style="text-align:left;">Screencast : A recording of the experiment</h2><hr>
+	<img class="img-responsive" style="bottom:0px;" src="{{include.url}}">
+</div>
+{% endif %}

@@ -23,22 +23,12 @@
 
 
 from __future__ import print_function
-import os,string,time
-from collections import OrderedDict
-import time, os,functools,importlib
-from CommunicationHandlerQt import communicationHandler
-import numpy as np
 from PyQt4 import QtGui,QtCore
-import pyqtgraph as pg
-import pyqtgraph.exporters
-
-from templates import ui_layoutNew as layoutNew
-from utilities.fileBrowser import fileBrowser
-from utilities.helpBrowser import helpBrowser
+import os,string,time,sys
 
 from utilities.expeyesWidgets import expeyesWidgets
-
-import sys,time
+from templates import ui_layoutNew as layoutNew
+from collections import OrderedDict
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -59,6 +49,9 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	('Half-wave rectifier','halfwave'),
 	('Diode IV','diode-IV'),
 	('Diode IV Hysterisis','diode-IV-hysterisis'),
+	('RC Circuits','rc-circuit'),
+	('RL Circuits','rl-circuit'),
+	('RLC Discharge','rlc-discharge'),
 	 ])
 	examples = OrderedDict([
 	('Plotting etc','example'),
@@ -70,7 +63,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	('Electrical',electrical),
 	('examples',examples)
 	])
-	defaultExperiment = 'Diode IV'
+	defaultExperiment = 'RLC Discharge'
 
 	allExpts = {}
 	for a in exptGroups:
@@ -130,7 +123,10 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 
 		self.expt=None
 		self.actionSave.triggered.connect(self.savePlots)
-		self.launchExperiment(self.defaultExperiment)
+		if self.CH.I.connected:
+			self.launchExperiment(self.defaultExperiment)
+		else:
+			self.tabWidget.setCurrentIndex(0)
 
 	def savePlots(self):
 		print ('wrong save fnction. inheritance not working properly. save from expeyesWidgetsNew must be called. This is defined in expeyesWidgetsNew')
@@ -142,7 +138,8 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 			return
 		if self.expt: #Close any running instance
 			try:
-				self.expt.windUp()
+				try:self.expt.windUp()
+				except Exception as e:print (e.message)
 				self.expt.close()
 				self.expt.destroy()
 				self.experimentLayout.removeWidget(self.expt)
@@ -217,8 +214,29 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 
 if __name__ == "__main__":
 	app = QtGui.QApplication(sys.argv)
+    # Create and display the splash screen
+    splash_pix = QtGui.QPixmap('./splash.png')
+    splash = QtGui.QSplashScreen(splash_pix, QtCore.Qt.WindowStaysOnTopHint)
+    splash.setMask(splash_pix.mask())
+    splash.show()
+    for a in range(10):
+		app.processEvents()
+		time.sleep(0.01)
+
+	import time, os,functools,importlib
+	from CommunicationHandlerQt import communicationHandler
+	import numpy as np
+	import pyqtgraph as pg
+	import pyqtgraph.exporters
+
+	from utilities.fileBrowser import fileBrowser
+	from utilities.helpBrowser import helpBrowser
+
+
+
 	myapp = AppWindow()
 	myapp.show()
+	splash.finish(myapp)
 	sys.exit(app.exec_())
 
 

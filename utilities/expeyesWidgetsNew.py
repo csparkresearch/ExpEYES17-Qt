@@ -77,13 +77,14 @@ class expeyesWidgets():
 	activeTriggerWidget = None
 	activeTimebaseWidget = None
 	myTracesWidget = None
+	allTimers = []
 	def __init__(self,*args,**kwargs):
+		self.allTimers = []
 		#sys.path.append('/usr/share/seelablet')
 		pass
 
 	class utils:
 		def __init__(self):
-			self.allTimers = []
 			pass
 
 		def applySIPrefix(self,value, unit='',precision=2 ):
@@ -783,7 +784,16 @@ class expeyesWidgets():
 			try:self.myTracesWidget.removeCurve(curveReference)
 			except Exception as e:print (e)
 
-		
+	def addRegion(self,plot,a,b):
+		'''
+		Add a selection region to a plot
+		a : x-coordinate of left handle
+		b : x-coordinate of right handle
+		'''
+		region = pg.LinearRegionItem([a,b])
+		region.setZValue(-10)
+		plot.addItem(region)
+		return region
 		
 	###############################  TRIGGERING THE OSCILLOSCOPE ######################
 	def TRIGGER(self):
@@ -862,17 +872,19 @@ class expeyesWidgets():
 		return self.samples
 
 	class timebaseWidget(QtGui.QWidget,timebaseWidgetUi.Ui_Form):
-		def __init__(self,getSamples):
+		def __init__(self,getSamples,callback=None):
 			super(expeyesWidgets.timebaseWidget, self).__init__()
 			self.setupUi(self)
 			self.getSamples = getSamples
 			self.timebase = 2
+			self.callback=callback
 
 		def valueChanged(self,val):
 			vals = [2,4,6,8,10,20,50,100,200,500]
 			self.timebase = vals[val]
 			T = self.getSamples()*self.timebase
 			self.value.setText('%s'%pg.siFormat(T*1e-6, precision=3, suffix='S', space=True))
+			if self.callback:self.callback(self.timebase)
 
 
 	############################### ############################### 

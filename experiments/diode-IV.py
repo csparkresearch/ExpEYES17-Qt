@@ -16,13 +16,14 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.p = kwargs.get('handler',None)
 		self.widgetLayout.setAlignment(QtCore.Qt.AlignTop)
 		self.widgets.setMinimumWidth(250)
-		#Constants
 		
 		self.TITLE('Parameters')
 		self.startVoltage=self.SPINBOX(decimals=True,prefix = 'Start Voltage: ',range=[0,4.9],value = 0)
 		self.stopVoltage=self.SPINBOX(decimals=True,prefix = 'Stop Voltage: ',range=[0,4.9],value = 4)
 		self.stepVoltage=self.SPINBOX(prefix = 'Steps: ',range=[5,1000],value = 100)
 
+		self.SPACER(10)
+		self.minimumTime=self.SPINBOX(prefix = 'acquisition time: ',suffix=' S',range=[0,2000],value = 5,tooltip="minimum acquisition time. 0 implies fastest possible")
 
 		#Add a vertical spacer in the widgetLayout . about 0.5cm
 		self.SPACER(20)
@@ -45,6 +46,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 
 	def update(self):
 		setV = self.p.I.set_pv1(self.lastV)
+		time.sleep(0.02)
 		V = self.p.I.get_average_voltage('A1')
 		I = (setV-V)/1e3
 		self.xdata.append(V)
@@ -67,7 +69,8 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 			self.plot.setLimits(xMin = start,xMax = self.stopV+1);self.plot.setXRange(0,self.stopV+1)
 			self.start_time = time.time()
 			self.p.I.set_pv1(self.lastV); time.sleep(0.1)
-			self.setInterval(self.timer,10,self.update)
+
+			self.setInterval(self.timer,1e3*float(self.minimumTime.value())/self.stepVoltage.value(),self.update)
 
 	def stop(self):
 		self.timer.stop()

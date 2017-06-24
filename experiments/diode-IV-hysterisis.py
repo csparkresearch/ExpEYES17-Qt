@@ -25,6 +25,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.stepVoltage=self.SPINBOX(prefix = 'Steps: ',range=[5,1000],value = 100)
 		self.SPACER(10)
 		self.startVoltage=self.SPINBOX(decimals=True,prefix = 'Starting Voltage: ',range=[-5,5],value = 0)
+		self.minimumTime=self.SPINBOX(prefix = 'acquisition time: ',suffix=' S',range=[0,2000],value = 5,tooltip="minimum acquisition time. 0 implies fastest possible")
 
 		#Add a vertical spacer in the widgetLayout . about 0.5cm
 		self.SPACER(20)
@@ -88,11 +89,12 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 			self.segment = 'up'
 			
 			self.stepV = 2*(self.maxV-self.minV)/self.stepVoltage.value()
+
 			self.plot.setLimits(xMin = self.minV-0.5,xMax = self.maxV+0.5);self.plot.setXRange(self.minV-0.5,self.maxV+0.5)
 			self.start_time = time.time()
-			
 			self.p.I.set_pv1(self.lastV); time.sleep(0.1)
-			self.setInterval(self.timer,10,self.update)
+
+			self.setInterval(self.timer,1e3*float(self.minimumTime.value())/self.stepVoltage.value(),self.update)
 
 	def stop(self):
 		self.timer.stop()

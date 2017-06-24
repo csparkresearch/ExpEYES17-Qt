@@ -15,10 +15,11 @@ class communicationHandler(QtCore.QObject):
 	connected = False
 	def __init__(self, parent=None,**kwargs):
 		super(self.__class__, self).__init__(parent)
-		self.I = eyes.open()
+		self.I = eyes.Interface()
 		self.busy=False
-		if self.I.connected:self.connected = True
-		self.I.set_sine(1000)
+		if self.I.connected:
+			self.connected = True
+			self.I.set_sine(1000)
 		self.sigExec.connect(self.process)
 		self.execThread.connect(self.processAndForward)
 		self.evalGlobals = {k: getattr(self.I, k) for k in dir(self.I)}

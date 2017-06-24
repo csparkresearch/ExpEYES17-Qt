@@ -114,6 +114,7 @@ class Interface():
 		self.version = 'not connected'
 
 		#--------------------------Initialize communication handler, and subclasses-----------------
+		self.timestamp = None
 		self.H = packet_handler.Handler(**kwargs)
 		self.version_number = 1.0
 		try:
@@ -205,7 +206,6 @@ class Interface():
 			#Load constants for ADC and DAC
 			polynomials = self.read_bulk_flash(self.ADC_POLYNOMIALS_LOCATION,2048)
 			polyDict={}
-			self.timestamp = None
 			if polynomials[:7]=='ExpEYES':
 				intro = polynomials.partition("\n")[0]
 				parts = intro.partition('``')
@@ -529,7 +529,8 @@ class Interface():
 				else:self.H.__sendInt__(pwd)
 				time.sleep(pwd*1e-6)
 
-			if 'SET_STATE' in args:self.set_state(**kwargs)
+			if 'SET_STATE' in args:
+				self.set_state(**kwargs)
 			self.H.__get_ack__()
 
 
