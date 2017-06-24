@@ -47,11 +47,13 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	 ])
 	electrical = OrderedDict([
 	('Half-wave rectifier','halfwave'),
+	('Full-wave rectifier','fullwave'),
 	('Diode IV','diode-IV'),
 	('Diode IV Hysterisis','diode-IV-hysterisis'),
 	('RC Circuits','rc-circuit'),
 	('RL Circuits','rl-circuit'),
 	('RLC Discharge','rlc-discharge'),
+	('RLC Steady State','rlc-steady'),
 	 ])
 	examples = OrderedDict([
 	('Plotting etc','example'),
@@ -63,7 +65,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	('Electrical',electrical),
 	('examples',examples)
 	])
-	defaultExperiment = 'RLC Discharge'
+	defaultExperiment = 'RLC Steady State'
 
 	allExpts = {}
 	for a in exptGroups:

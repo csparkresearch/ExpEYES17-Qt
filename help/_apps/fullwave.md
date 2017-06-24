@@ -1,8 +1,10 @@
 ---
 layout: e17page
-title: Halfwave
-date: 2017-05-21
+title: Full-wave rectifier
+date: 2017-06-24
 description: Study a full-wave rectifier
 imagebase: fullwave
+screencast: "giffer"
+screencast-title: "Full-wave rectifier recording"
 ---
 

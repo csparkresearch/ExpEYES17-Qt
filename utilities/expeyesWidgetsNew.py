@@ -315,6 +315,7 @@ class expeyesWidgets():
 				timebase = self.activeTimebaseWidget.timebase
 			chanRemap = str(self.myCurveWidgets['A1'].chan1Box.currentText())
 			self.p.capture_traces(self.active_channels,self.samples,timebase,chanRemap,trigger = trig,chans = self.channels_enabled, forwardingFunction =forwardingFunction)
+			#The function doesn't end here. capture_traces will automatically call fetchData, which will then emit sigPlot with returned data, and updatePlot is connected to sigPlot
 
 	
 	def updatePlot(self,vals):
@@ -687,7 +688,7 @@ class expeyesWidgets():
 			print (timer,'umm')
 			return
 		rcvs = timer.receivers(QtCore.SIGNAL("timeout()"))
-		print ('----------------------------------',rcvs)
+		#print ('----------------------------------',rcvs)
 		if rcvs > 0:
 			timer.timeout.disconnect()
 		timer.setSingleShot(True)
@@ -738,7 +739,12 @@ class expeyesWidgets():
 
 		
 	def addPlot(self,**kwargs):
+		hideAxes=kwargs.get('hideAxes','')
 		if 'leftAxis' in kwargs: kwargs['axisItems'] = {'left':kwargs.pop('leftAxis')}
+		if 'bottomAxis' in kwargs:
+			if 'axisItems' in kwargs:kwargs['axisItems']['bottom'] = kwargs.pop('bottomAxis')
+			else:kwargs['axisItems'] = {'bottom':kwargs.pop('bottomAxis')}
+
 		plot=pg.PlotWidget(**kwargs)
 		plot.setMouseEnabled(kwargs.get('enableXAxis',True),kwargs.get('enableYAxis',True))
 		plot.setXRange(kwargs.get('xMin',0),kwargs.get('xMax',10));
@@ -760,20 +766,28 @@ class expeyesWidgets():
 		self.xaxis = plot.getAxis('bottom')
 
 		plot.getAxis('left').setGrid(170);
-		self.xaxis.setGrid(170); self.xaxis.setLabel(kwargs.get('bottomLabel','time'), units=kwargs.get('bottomUnits','S'))
-		plot.getAxis('left').setLabel(kwargs.get('leftLabel','voltage'), units=kwargs.get('leftUnits','V'))
+		self.xaxis.setGrid(170)
+		if 'bottomAxis' not in kwargs and 'x' not in hideAxes:
+			self.xaxis.setLabel(kwargs.get('bottomLabel','time'), units=kwargs.get('bottomUnits','S'))
+		else:
+			self.xaxis.setHeight(0)			
+		if 'leftAxis' not in kwargs and 'y' not in hideAxes:
+			plot.getAxis('left').setLabel(kwargs.get('leftLabel','voltage'), units=kwargs.get('leftUnits','V'))
+		else:
+			plot.getAxis('left').setLabel('')
+			plot.getAxis('left').setWidth(0)			
 		limitargs = {a:kwargs.get(a) for a in ['xMin','xMax','yMin','yMax'] if a in kwargs}
 		plot.setLimits(**limitargs);
 		self.plotDict[plot] = []
 		self.curves[plot] = []
 		return plot
 
-	def addCurve(self,plot,name,col):
+	def addCurve(self,plot,name,col,addToTraceList=True):
 		C=pg.PlotCurveItem(name = name,pen = col)
 		plot.addItem(C)
 		self.curves[plot].append(C)
 		if self.myTracesWidget:
-			self.myTracesWidget.addCurve(name,C)
+			if addToTraceList:self.myTracesWidget.addCurve(name,C)
 		return C
 
 	def removeCurve(self,plot,curveReference):
@@ -783,6 +797,21 @@ class expeyesWidgets():
 		if self.myTracesWidget:
 			try:self.myTracesWidget.removeCurve(curveReference)
 			except Exception as e:print (e)
+
+
+	def addCrosshair(self,plot,callback,hairs='xy'):
+		if 'y' in hairs:
+			vLine = pg.InfiniteLine(angle=90, movable=False)
+			plot.addItem(vLine, ignoreBounds=True)
+			plot.vLine=vLine
+		if 'x' in hairs:
+			hLine = pg.InfiniteLine(angle=0, movable=False)
+			plot.addItem(hLine, ignoreBounds=True)
+			plot.hLine=hLine
+		plot.callback = callback
+
+		plot.proxy = pg.SignalProxy(plot.scene().sigMouseMoved, rateLimit=60, slot=plot.callback)
+		#p1.scene().sigMouseMoved.connect(mouseMoved)
 
 	def addRegion(self,plot,a,b):
 		'''
@@ -1033,6 +1062,10 @@ class expeyesWidgets():
 			self.slider.setValue(val*10.)
 			if self.spinbox.hasFocus():
 				self.callback(val)
+		def setValue(self,val):
+			self.slider.setValue(val*10.)
+			self.spinbox.setValue(val)
+			self.callback(val)
 
 
 
@@ -1096,3 +1129,29 @@ class expeyesWidgets():
 			return [amp, freq, offset,ph]
 		except:
 			return False
+
+
+	def applySIPrefix(self,value, unit='',precision=2 ):
+			neg = False
+			if value < 0.:
+				value *= -1; neg = True
+			elif value == 0.:  return '0 '  # Mantissa & exponent both 0
+			exponent = int(np.log10(value))
+			if exponent > 0:
+				exponent = (exponent // 3) * 3
+			else:
+				exponent = (-1*exponent + 3) // 3 * (-3)
+
+			value *= (10 ** (-exponent) )
+			if value >= 1000.:
+				value /= 1000.0
+				exponent += 3
+			if neg:
+				value *= -1
+			exponent = int(exponent)
+			PREFIXES = "yzafpnum kMGTPEZY"
+			prefix_levels = (len(PREFIXES) - 1) // 2
+			si_level = exponent // 3
+			if abs(si_level) > prefix_levels:
+				raise ValueError("Exponent out range of available prefixes.")
+			return '%.*f %s%s' % (precision, value,PREFIXES[si_level + prefix_levels],unit)

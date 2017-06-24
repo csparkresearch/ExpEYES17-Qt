@@ -91,9 +91,7 @@
 	  
 		<li><a href="../apps/em-induction.html" title="Electromagnetic induction using solenoids">EM Induction</a></li>
 	  
-		<li><a href="../apps/fullwave.html" title="Study a full-wave rectifier">Halfwave</a></li>
-	  
-		<li><a href="../apps/halfwave.html" title="Study a half-wave rectifier">Halfwave</a></li>
+		<li><a href="../apps/halfwave.html" title="Study a half-wave rectifier">Half-wave Rectifier</a></li>
 	  
 		
 	  
@@ -125,6 +123,8 @@
 	  
 		<li><a href="../apps/RLcircuit.html" title="Transient response of RL circuits">RL Circuits</a></li>
 	  
+		<li><a href="../apps/fullwave.html" title="Study a full-wave rectifier">Full-wave rectifier</a></li>
+	  
   </ul>
 
 </div>
@@ -139,37 +139,21 @@
 	</div>    
 	
 	<section id="recent-works">
-		<h1 id="some-comment">Some comment</h1>
-
-<h2 id="some-h1-material-followed-by-a-horizontal-line">some H1 material followed by a horizontal line</h2>
-<hr />
-
-<p>some text</p>
-
-<h3 id="some-h2-material">some H2 material</h3>
-
-<blockquote>
-  <p>A block quote
-dsaf
-sdfd</p>
-</blockquote>
-
-<h1 id="now-a-code-block">Now a code block</h1>
-
-<h3 id="sine-wave-plot">Sine wave plot</h3>
-<hr />
-
-<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>Hello world<span class="nt">&lt;/a&gt;</span>
-</code></pre>
+		
+<div class=" col-xs-12 col-sm-12 col-md-12">
+		
+		<h2 style="text-align:left;">Introduction to the experiment, and phasor plot: Mouseover to play</h2><hr />
+		
+	<img class="img-responsive" style="bottom:0px;" src="images/screenshots/ac-circuits.png" onmouseover="playGIF(this);" onmouseout="pauseGIF(this);" />
 </div>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pylab</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">sine</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-<span class="n">show</span><span class="p">()</span>
-</code></pre>
-</div>
+<script>
+function playGIF(elm) {
+	elm.src = "images/screencasts/ac-circuits.gif";
+}
+function pauseGIF(elm) {
+	elm.src = "images/screenshots/ac-circuits.png";
+}
+</script>
 
 
 		<div class="container">
@@ -182,12 +166,10 @@ sdfd</p>
 			</div>
 			<div class="row" >
 				
-
-				
-				<div class=" col-xs-12 col-sm-12 col-md-12">
-					<h2 style="text-align:left;">Screenshot</h2><hr>
-					<img class="img-responsive" style="bottom:0px;" src="images/screenshots/ac-circuits.png">
-				</div>		
+					<div class=" col-xs-12 col-sm-12 col-md-12">
+						<h2 style="text-align:left;">Screenshot</h2><hr>
+						<img class="img-responsive" style="bottom:0px;" src="images/screenshots/ac-circuits.png">
+					</div>		
 				
 				<div class=" col-xs-12 col-sm-12 col-md-12">
 					<h2 style="text-align:left;">Photograph</h2><hr>

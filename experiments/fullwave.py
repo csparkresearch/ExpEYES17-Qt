@@ -9,7 +9,7 @@ import sys,time,functools,os
 
 class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	subsection = 'apps'
-	helpfile = 'halfwave.html'
+	helpfile = 'fullwave.html'
 	def __init__(self, parent=None,**kwargs):
 		super(AppWindow, self).__init__(parent)
 		self.setupUi(self)
@@ -20,7 +20,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		# ADD AN OSCILLOSCOPE PLOT TO THE plotLayout
 		# This assumes self.plotLayout, and makes a dictionary self.curves with keys 'A1','A2','A3','MIC'
 		#You should be able to access after executing this function. self.myCurves is a dictionary of curves with 4 Elements
-		self.SCOPEPLOT(['A1','A2'],rangeA1='4V',rangeA2='4V') #You can also make up your own curve names. WORK IN PROGRESS [ e.g. A1+A2  should make a channel that automatically shows the sum]
+		self.SCOPEPLOT(['A1','A2','A3'],rangeA1='4V',rangeA2='4V') #You can also make up your own curve names. WORK IN PROGRESS [ e.g. A1+A2  should make a channel that automatically shows the sum]
 
 		#Add a vertical spacer in the widgetLayout . about 0.5cm
 		self.SPACER(20)
@@ -30,7 +30,6 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.TRIGGER()
 		self.TITLE('Controls')
 		self.SINE()
-		self.IMAGE(os.path.join('pics','halfwave.png'))
 		
 		self.timer = self.newTimer()
 		self.setInterval(self.timer,200,self.update)

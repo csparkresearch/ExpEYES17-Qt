@@ -72,17 +72,20 @@ class communicationHandler(QtCore.QObject):
 				self.sigPlot.emit({self.I.achans[0].channel:[x,y]})
 			elif name == 'capture_traces':	                #non - blocking call. Start acquisition , and fetch data when it's ready.
 				forwardingFunction = kwargs.pop('forwardingFunction',None)
+				nextUp = kwargs.pop('nextUp',None)
 				
 				self.I.capture_traces(*args,**kwargs)
 				self.buflen = args[0]
 				self.channels_enabled=kwargs.get('chans',[0,0,0,0])
 				self.busy=True ##########  SET A BUSY FLAG
-				if forwardingFunction is not None:
+				if nextUp is not None:
+					self.timer.singleShot(args[1]*args[2]*1e-3+10+self.trigPre*20,nextUp)
+				elif forwardingFunction is not None:
 					def newFunc(FF):
 						self.sigExec.emit('fetchData',[],{'forwardingFunction':FF})
-					newFunc = functools.partial(newFunc,forwardingFunction)
+					partialFunc = functools.partial(newFunc,forwardingFunction)
 					#print ('got here',forwardingFunction,newFunc)
-					self.timer.singleShot(args[1]*args[2]*1e-3+10+self.trigPre*20,newFunc)
+					self.timer.singleShot(args[1]*args[2]*1e-3+10+self.trigPre*20,partialFunc)
 				else:
 					self.timer.singleShot(args[1]*args[2]*1e-3+10+self.trigPre*20,self.fetchData)
 			elif name == 'fetchData':	                #non - blocking call. Start acquisition , and fetch data when it's ready.

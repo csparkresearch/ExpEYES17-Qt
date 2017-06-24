@@ -23,20 +23,27 @@ layout: mainpage
 				</div>		
 			</div>
 			<div class="row" >
-				{% if page.screencast=="giffer" %}
-				{% capture gifpath %}images/screencasts/{{page.imagebase}}.gif{% endcapture %}
-				{% include giffer.html url=gifpath %}
-				{% endif %}
+				{% if page.screencast %}
+					{% if page.screencast=="giffer" %}
+						{% capture gifpath %}images/screencasts/{{page.imagebase}}.gif{% endcapture %}
+						{% include giffer.html url=gifpath title = page.screencast-title%}
+					{% endif %}
 
-				{% if page.screencast=="yes" %}
-				{% capture gifpath %}images/screencasts/{{page.imagebase}}.gif{% endcapture %}
-				{% capture posterpath %}images/screenshots/{{page.imagebase}}.png{% endcapture %}
-				{% include animated_gif.html url=gifpath poster=posterpath %}
+					{% if page.screencast=="yes" %}
+						{% capture gifpath %}images/screencasts/{{page.imagebase}}.gif{% endcapture %}
+						{% capture posterpath %}images/screenshots/{{page.imagebase}}.png{% endcapture %}
+						{% include animated_gif.html url=gifpath poster=posterpath  title = page.screencast-title%}
+					{% elsif page.screencast == "ogv" %}
+					    what the deuce {{page.screencast}}
+						{% capture vidpath %}images/screencasts/{{page.imagebase}}.ogv{% endcapture %}
+						{% capture posterpath %}images/screenshots/{{page.imagebase}}.png{% endcapture %}
+						{% include html5_video.html poster=posterpath url=vidpath title = page.screencast-title%}
+					{% endif %}
 				{% else %}
-				<div class=" col-xs-12 col-sm-12 col-md-12">
-					<h2 style="text-align:left;">Screenshot</h2><hr>
-					<img class="img-responsive" style="bottom:0px;" src="images/screenshots/{{page.imagebase}}.png">
-				</div>		
+					<div class=" col-xs-12 col-sm-12 col-md-12">
+						<h2 style="text-align:left;">Screenshot</h2><hr>
+						<img class="img-responsive" style="bottom:0px;" src="images/screenshots/{{page.imagebase}}.png">
+					</div>		
 				{% endif %}
 				<div class=" col-xs-12 col-sm-12 col-md-12">
 					<h2 style="text-align:left;">Photograph</h2><hr>

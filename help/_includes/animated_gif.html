@@ -1,6 +1,10 @@
 {% if include.poster %}
 <div class=" col-xs-12 col-sm-12 col-md-12">
-	<h2 style="text-align:left;">Screencast : Mouseover to play animation</h2><hr>
+		{% if include.title %}
+		<h2 style="text-align:left;">{{include.title}}</h2><hr>
+		{% else %}
+		<h2 style="text-align:left;">Animation : Mouseover to play</h2><hr>
+		{% endif %}
 	<img class="img-responsive" style="bottom:0px;" src="{{include.poster}}" onmouseover="playGIF(this);" onmouseout="pauseGIF(this);">
 </div>
 <script>

@@ -10,7 +10,7 @@ import pyqtgraph as pg
 
 class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	subsection = 'apps'
-	helpfile = 'diode-iv.html'
+	helpfile = 'iv-hysterisis.html'
 	def __init__(self, parent=None,**kwargs):
 		super(AppWindow, self).__init__(parent)
 		self.setupUi(self)

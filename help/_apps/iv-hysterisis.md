@@ -3,11 +3,10 @@ layout: e17page
 title: IV Hysterisis
 date: 2017-05-21
 description: Measure hysterisis in IV characteristics of devices like memristors
+imagebase: ej_iv_hysterisis
+screencast: "ogv"
+screencast-title: "Screen recording of a 3.3V zener diode being used"
 ---
-
-# Screen recording of a 3.3V zener diode being used
-
-{% include html5_video.html poster="images/screenshots/ej_iv_hysterisis.png" url="images/screencasts/iv_hysterisis.ogv" %}
 
 ## Parameters
 
