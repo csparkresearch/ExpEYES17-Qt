@@ -276,7 +276,6 @@ class expeyesWidgets():
 
 
 	def CAPTURE(self,forwardingFunction=None):
-		print (forwardingFunction)
 		if self.p.busy:
 			self.showStatus('busy %s'%time.ctime(),True)
 			return
@@ -892,10 +891,11 @@ class expeyesWidgets():
 
 	###############################  TIMEBASE CONTROL FOR THE OSCILLOSCOPE ######################
 
-	def TIMEBASE(self):
+	def TIMEBASE(self,value = None):
 		self.TITLE('Time Base')
 		self.activeTimebaseWidget  =self.timebaseWidget(self.getSamples)
 		self.widgetLayout.addWidget(self.activeTimebaseWidget)
+		if value:self.activeTimebaseWidget.slider.setValue(value)
 		return self.activeTimebaseWidget
 
 	def getSamples(self):

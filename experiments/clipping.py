@@ -15,14 +15,16 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.setupUi(self)
 		self.p = kwargs.get('handler',None)
 		self.widgetLayout.setAlignment(QtCore.Qt.AlignTop)
-		self.SCOPEPLOT(['A1','A2'],rangeA1='4V',rangeA2='4V')
+		self.SCOPEPLOT(['A1','A2'],rangeA1='8V',rangeA2='8V')
 		self.timebase = 4
+		self.p.I.set_sine(1500)
 
 		#Add a vertical spacer in the widgetLayout . about 0.5cm
 		self.SPACER(20)
 
 		# ADD A SINE WIDGET SLIDER WITH NUMBERIC INPUT to the widgetLayout
 		self.TRIGGER()
+		self.TIMEBASE(4)
 		self.TITLE('Controls')
 		self.PV1()
 		self.IMAGE(os.path.join('pics','clipping.png'))

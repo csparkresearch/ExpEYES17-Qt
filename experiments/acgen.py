@@ -16,12 +16,11 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.p = kwargs.get('handler',None)
 		self.widgetLayout.setAlignment(QtCore.Qt.AlignTop)
 		self.SCOPEPLOT(['A1','A2'],rangeA1='4V',rangeA2='4V')
-		self.timebase = 4
 
 		#Add a vertical spacer in the widgetLayout . about 0.5cm
 		self.SPACER(20)
 
-		self.TIMEBASE()
+		self.tb =self.TIMEBASE(6)
 		self.TRIGGER()
 		self.TITLE('Controls')
 		self.DOUTS()

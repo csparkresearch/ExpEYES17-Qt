@@ -30,6 +30,8 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.TITLE('Initialize')
 		self.PUSHBUTTON('Start Logging' , self.start)
 		self.PUSHBUTTON('Stop Logging' , self.stop)
+		self.SPACER(20)
+		self.PUSHBUTTON('Fit Data' , self.fit_curve)
 		self.activeCurve= None
 
 		self.stepV = 0.1
@@ -72,6 +74,27 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 
 			self.setInterval(self.timer,1e3*float(self.minimumTime.value())/self.stepVoltage.value(),self.update)
 
+	def fit_curve(self):
+		msg = 'fit failed. please acquire some data first'
+		if self.xdata is not None and self.activeCurve is not None:
+			from expeyes import eyemath17
+			f = eyemath17.fit_exp(self.xdata, self.ydata)
+			if f != None:
+				k = 1.38e-23    # Boltzmann const
+				q = 1.6e-19     # unit charge
+				Io = f[1][0]
+				a1 = f[1][1]
+				T = 300.0		# Room temp in Kelvin
+				n = q/(a1*k*T)
+
+				msg = 'Fitted with Diode Equation :\nIo = %s\nIdeality factor = %5.2f'%(self.applySIPrefix(Io,'A',2),n)
+				fitcurve = self.addCurve(self.plot,'%s\n%s\nIF=%5.1f'%(self.activeCurve.name(),self.applySIPrefix(Io,'A',2),n),'#fff')
+				fitcurve.setData(self.xdata,f[0])
+			else:
+				msg = 'Failed to fit the curve '
+		QtGui.QMessageBox.information(self, 'Fit Results', msg)
+
 	def stop(self):
 		self.timer.stop()
+		self.timer.timeout.disconnect()
 		pass

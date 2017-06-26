@@ -42,37 +42,57 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	sigHelp = QtCore.pyqtSignal(str)
 	xmax = 20 #mS
 	TandM = OrderedDict([
-	('Oscilloscope','oscilloscope'),
+	('Oscilloscope','simplescope'),
 	('I2C Sensor Data Logger','sensorLogger'),
 	 ])
+
 	electrical = OrderedDict([
-	('Half-wave rectifier','halfwave'),
-	('Full-wave rectifier','fullwave'),
-	('Diode IV','diode-IV'),
-	('Diode IV Hysterisis','diode-IV-hysterisis'),
-	('Diode Clipping','clipping'),
 	('RC Circuits','rc-circuit'),
 	('RL Circuits','rl-circuit'),
 	('RLC Discharge','rlc-discharge'),
 	('RLC Steady State','rlc-steady'),
 	 ])
+
+	electronics = OrderedDict([
+	('Half-wave rectifier','halfwave'),
+	('Full-wave rectifier','fullwave'),
+	('Diode IV','diode-IV'),
+	('Diode IV Hysterisis','diode-IV-hysterisis'),
+	('Diode Clipping','clipping'),
+	('Diode Clamping','clamping'),
+	 ])
+
+
 	ics = OrderedDict([
 	('Operational amplifiers','opamps'),
+	('Clock Divider','simplescope'),       ## the help file is overriden
 	 ])
 
 	physics = OrderedDict([
 	('AC Generator','acgen'),
 	('Plotting etc','example'),
+	('Ultrasound Echo SR04','sr04-dist'),
 	 ])
 
+	schoolLevel = OrderedDict([
+	('Transformer','simplescope'),
+	 ])
+
+
+	helpfileOverride = OrderedDict([
+	('Clock Divider','clock-divider.html'),
+	('Transformer','transformer.html'),
+	 ])
 
 	exptGroups = OrderedDict([
 	('Test And Measurement',TandM),
 	('Electrical',electrical),
 	('Op-amps and more',ics),
-	('Physics',physics)
+	('Physics',physics),
+	('School Level',schoolLevel)
 	])
-	defaultExperiment = 'AC Generator'
+
+	defaultExperiment = 'Ultrasound Echo SR04'
 
 	allExpts = {}
 	for a in exptGroups:
@@ -164,10 +184,11 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		#self.expt = AppWindow(handler = self.CH)
 		self.experimentLayout.addWidget(self.expt)
 		self.expt.show()
-
-		if hasattr(self.expt,'subsection'):
+		if name in self.helpfileOverride:
+			self.helpBrowser.setFile(os.path.join('.','help','MD_HTML','apps',self.helpfileOverride[name]))
+			print ('help override',os.path.join('.','help','MD_HTML','apps',self.helpfileOverride[name]))
+		elif hasattr(self.expt,'subsection'):
 			self.helpBrowser.setFile(os.path.join('.','help','MD_HTML',self.expt.subsection,self.expt.helpfile))
-		print (name,fname)
 
 	def tabChanged(self,val):
 		pass

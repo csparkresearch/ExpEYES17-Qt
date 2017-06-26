@@ -188,4 +188,5 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 
 	def stop(self):
 		self.timer.stop()
+		self.timer.timeout.disconnect()
 		pass

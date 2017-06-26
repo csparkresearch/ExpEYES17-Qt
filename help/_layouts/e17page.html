@@ -30,7 +30,6 @@ layout: mainpage
 					{% endif %}
 
 					{% if page.screencast=="yes" %}
-						{{page.imagebase}}
 						{% capture gifpath %}images/screencasts/{{page.imagebase}}.gif{% endcapture %}
 						{% capture posterpath %}images/screenshots/{{page.imagebase}}.png{% endcapture %}
 						{% include animated_gif.html url=gifpath poster=posterpath  title = page.screencast-title%}
@@ -56,6 +55,9 @@ layout: mainpage
 
 			{% endif %}
 
+
+		</div>
+
 			{% if page.screencast2 %}
 				{% if page.screencast2=="giffer" %}
 					{% capture gifpath2 %}images/screencasts/{{page.screencast2_imagebase}}.gif{% endcapture %}
@@ -73,7 +75,6 @@ layout: mainpage
 				{% endif %}
 			{% endif %}
 
-		</div>
 	</section>
 
 

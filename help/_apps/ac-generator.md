@@ -22,3 +22,7 @@ The changing magnetic field induces a voltage that is recorded by A1. You can al
 ## Schematic B : Dual phase
 ![](images/schematics/ac-generator2.png){: width="400px"}
 
+
+In this instance , two coils are used. If they are placed diametrically opposite, the phase difference is 180 degrees.
+
+Try changing the angle between the coils, and note that the phase difference in the induced signals depends on it.
