@@ -13,7 +13,7 @@
    viewBox="0 0 18629.994 12180"
    id="svg2"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="filter.sch.svg">
+   sodipodi:docname="astable-multivibrator.svg">
   <metadata
      id="metadata2838">
     <rdf:RDF>
@@ -37,7 +37,7 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1855"
+     inkscape:window-width="1920"
      inkscape:window-height="1056"
      id="namedview2834"
      showgrid="false"
@@ -45,13 +45,13 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:zoom="0.79823964"
-     inkscape:cx="-374.71113"
-     inkscape:cy="-258.96153"
-     inkscape:window-x="65"
+     inkscape:zoom="4.5155253"
+     inkscape:cx="66.604223"
+     inkscape:cy="57.393582"
+     inkscape:window-x="0"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g2752" />
+     inkscape:current-layer="svg2" />
   <title
      id="title4">SVG Picture created as filter.sch.svg date 2016/06/15 18:35:45 </title>
   <desc
@@ -1121,7 +1121,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g2388"
-     transform="translate(-59810.02,-9410)">
+     transform="translate(-59810.02,-9632.2224)">
     <path
        d="m 61270,20700 -60,-30 -90,0 -80,30 -60,60 -30,50 -30,120 0,80 30,120 30,60 60,50 80,30 60,0 90,-30 30,-30 0,-200 -120,0"
        id="path2390"
@@ -1138,7 +1138,7 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g2396"
-     transform="translate(-59810.02,-9410)">
+     transform="translate(-59810.02,-9632.2224)">
     <polyline
        fill="none;"
        points="63000,21000 62700,20460 60580,20460 60580,21000 60580,21540 62700,21540 63000,21000 "
@@ -1147,61 +1147,36 @@
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g2400"
-     transform="translate(-59810.02,-9410)">
-    <path
-       d="m 60790,9670 370,0 -200,230 80,0 60,30 30,30 30,50 0,150 -30,50 -30,30 -60,30 -170,0 -60,-30 -20,-30"
-       id="path2402"
-       inkscape:connector-curvature="0" />
-    <path
-       d="m 61410,10210 30,30 -30,30 -30,-30 30,-30 0,60"
-       id="path2404"
-       inkscape:connector-curvature="0" />
-    <path
-       d="m 61650,9670 370,0 -200,230 80,0 60,30 30,30 30,50 0,150 -30,50 -30,30 -60,30 -170,0 -60,-30 -20,-30"
-       id="path2406"
-       inkscape:connector-curvature="0" />
-    <path
-       d="m 62190,9670 200,600 200,-600"
-       id="path2408"
-       inkscape:connector-curvature="0" />
-  </g>
-  <g
-     style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
-     id="g2410"
-     transform="translate(-59810.02,-9410)">
-    <polyline
-       fill="none;"
-       points="63000,10000 62700,9460 60470,9460 60470,10000 60470,10540 62700,10540 63000,10000 "
-       id="polyline2412" />
+     transform="translate(-59587.798,-9410)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:1250.00097656px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#840000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="61059.648"
+       y="10347.494"
+       id="text8413-7"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan8415-9"
+         x="61059.648"
+         y="10347.494"
+         style="font-size:972.2230835px">5V</tspan></text>
   </g>
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g2414"
      transform="translate(-59810.02,-9410)">
-    <path
-       d="m 60580,13960 -30,30 -90,30 -60,0 -80,-30 -60,-50 -30,-60 -30,-120 0,-80 30,-120 30,-50 60,-60 80,-30 60,0 90,30 30,30"
-       id="path2416"
-       inkscape:connector-curvature="0" />
-    <path
-       d="m 60830,14020 0,-600"
-       id="path2418"
-       inkscape:connector-curvature="0" />
-    <path
-       d="m 60830,13710 350,0"
-       id="path2420"
-       inkscape:connector-curvature="0" />
-    <path
-       d="m 61180,14020 0,-600"
-       id="path2422"
-       inkscape:connector-curvature="0" />
-    <path
-       d="m 61780,14020 -350,0"
-       id="path2424"
-       inkscape:connector-curvature="0" />
-    <path
-       d="m 61610,14020 0,-600 -60,90 -60,50 -60,30"
-       id="path2426"
-       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:1250.0012207px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#840000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="60279.801"
+       y="14073.453"
+       id="text8413"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan8415"
+         x="60279.801"
+         y="14073.453"
+         style="font-size:972.22314453px">A1</tspan></text>
   </g>
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
@@ -1211,31 +1186,6 @@
        fill="none;"
        points="62250,13750 61950,13210 59860,13210 59860,13750 59860,14290 61950,14290 62250,13750 "
        id="polyline2430" />
-  </g>
-  <g
-     style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:60;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
-     id="g2432"
-     transform="translate(-59810.02,-9410)">
-    <path
-       d="m 76850,13960 -30,30 -90,30 -60,0 -80,-30 -60,-50 -30,-60 -30,-120 0,-80 30,-120 30,-50 60,-60 80,-30 60,0 90,30 30,30"
-       id="path2434"
-       inkscape:connector-curvature="0" />
-    <path
-       d="m 77100,14020 0,-600"
-       id="path2436"
-       inkscape:connector-curvature="0" />
-    <path
-       d="m 77100,13710 350,0"
-       id="path2438"
-       inkscape:connector-curvature="0" />
-    <path
-       d="m 77450,14020 0,-600"
-       id="path2440"
-       inkscape:connector-curvature="0" />
-    <path
-       d="m 77700,13480 30,-30 60,-30 140,0 60,30 30,30 30,60 0,50 -30,90 -340,340 370,0"
-       id="path2442"
-       inkscape:connector-curvature="0" />
   </g>
   <g
      style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
@@ -1457,6 +1407,17 @@
        inkscape:connector-curvature="0" />
   </g>
   <g
+     style="fill:#840000;fill-opacity:0;stroke:#840000;stroke-width:102.36670685;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+     id="g2410"
+     transform="matrix(0.95429478,0,0,1,-56930.752,-9410)">
+    <polyline
+       fill="none;"
+       points="63000,10000 62700,9460 60470,9460 60470,10000 60470,10540 62700,10540 63000,10000 "
+       id="polyline2412"
+       transform="matrix(0.85412178,0,0,1,9190.3658,0)"
+       style="stroke-width:110.76405334" />
+  </g>
+  <g
      style="fill:#008400;fill-opacity:0;stroke:#008400;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
      id="g2804"
      transform="translate(-59810.02,-9410)" />
@@ -1521,4 +1482,16 @@
        id="path2832"
        inkscape:connector-curvature="0" />
   </g>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:1250.00097656px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#840000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="16894.691"
+     y="4684.9082"
+     id="text8413-0"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       x="16894.691"
+       y="4684.9082"
+       style="font-size:972.2230835px"
+       id="tspan8435">A2</tspan></text>
 </svg>

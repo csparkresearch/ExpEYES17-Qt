@@ -1,6 +1,7 @@
 # -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
 from .templates import ui_SliderAndSpinbox as SliderAndSpinbox
 from .templates import ui_channelSelector as channelSelector
+from .templates import ui_douts as douts
 from .templates import ui_allTraces as allTraces
 
 from .templates import ui_allTracesDetailed as allTracesDetailed
@@ -936,6 +937,22 @@ class expeyesWidgets():
 			self.deleteLater()
 			self.setParent(None)
 
+	###############################  LABEL WIDGET ######################
+
+	def LABEL(self,name,**kwargs):
+		widget  =self.labelWidget(name, **kwargs)
+		self.widgetArray.append(widget)
+		self.widgetLayout.addWidget(widget)
+		return widget
+
+	class labelWidget(QtGui.QLabel):
+		def __init__(self,name,**kwargs):
+			super(expeyesWidgets.labelWidget, self).__init__()
+			self.setText(name)
+		def delete(self):
+			self.deleteLater()
+			self.setParent(None)
+
 	###############################  CHECKBOX WIDGET ######################
 
 	def CHECKBOX(self,name, callback=None,**kwargs):
@@ -953,6 +970,11 @@ class expeyesWidgets():
 		def delete(self):
 			self.deleteLater()
 			self.setParent(None)
+
+
+
+
+
 
 	###############################  CHECKBOX WIDGET ######################
 
@@ -1010,6 +1032,30 @@ class expeyesWidgets():
 		except Exception as e:
 			print (e)
 
+	def DOUTS(self):
+		widget  =self.DoutWidget(self.p)
+		self.widgetArray.append(widget)
+		self.widgetLayout.addWidget(widget)
+		return widget
+
+	class DoutWidget(QtGui.QWidget,douts.Ui_Form):
+		def __init__(self,handler):
+			super(expeyesWidgets.DoutWidget, self).__init__()
+			self.setupUi(self)
+			self.handler = handler
+		def setOD1(self,state):
+			self.handler.set_state(OD1=state)
+		def setSQR1(self,state):
+			self.handler.set_state(SQR1=state)
+		def setSQR2(self,state):
+			self.handler.set_state(SQR2=state)
+		def setCCS(self,state):
+			self.handler.set_state(CCS=state)
+
+		def delete(self):
+			self.deleteLater()
+			self.setParent(None)
+
 	def addPV1(self,handler,**kwargs):
 		return self.sliderWidget(min = -5,max = 5, label = 'PV1' ,units = 'V', callback = handler.set_pv1,**kwargs) 
 
@@ -1019,10 +1065,19 @@ class expeyesWidgets():
 	def addSQR1(self,handler,**kwargs):
 		return self.sliderWidget(min = 5,max = 50000, label = 'SQR1' ,units = 'Hz', callback = handler.set_sqr1,**kwargs) 
 
+	def setSineAmp(self,handler,amp):
+		opts = {'3V':2,'1V':1,'80mV':0}
+		handler.set_sine_amp(opts.get(str(amp),2))
+		print ('asdsadsadsakjhdakjsfha')
+
 	def addSine(self,handler,**kwargs):
 		W = self.sliderWidget(min = 5,max = 5000, label = 'W1' ,units = 'Hz', callback = handler.set_sine,**kwargs)
+		combo = QtGui.QComboBox()
+		combo.addItems(['3V','1V','80mV'])
+		W.combo = combo
+		QtCore.QObject.connect(W.combo, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), functools.partial(self.setSineAmp,handler))
+		W.widgetLayout.addWidget(combo)
 		return W
-
 
 	class sliderWidget(QtGui.QWidget,SliderAndSpinbox.Ui_Form,utils):
 		'''

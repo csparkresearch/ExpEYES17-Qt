@@ -25,7 +25,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.fitresults=[None,None,None]
 		self.phasorCheck = self.CHECKBOX('Follow crosshair')
 		
-		self.plot = self.newPlot([],detailedWidget=True,xMin=0,xMax = self.timebase*self.samples, bottomLabel = 'time',bottomUnits='S',leftLabel = 'Voltage',leftUnits='V',enableMenu=False,legend=True,autoRange='y')
+		self.plot = self.newPlot([],xMin=0,xMax = self.timebase*self.samples, bottomLabel = 'time',bottomUnits='S',leftLabel = 'Voltage',leftUnits='V',enableMenu=False,legend=True,autoRange='y')
 		self.addCrosshair(self.plot,self.updateLabels,'y');self.plot.setTitle('_')
 		self.A1 = self.addCurve(self.plot,'A1','#FFF')
 		self.A2 = self.addCurve(self.plot,'A2','#F00')
@@ -40,7 +40,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.pA1 = self.addCurve(self.phasorplot,'A1','#FFF',False)
 		self.pA2 = self.addCurve(self.phasorplot,'A2','#F00',False)
 		self.pA1A2 = self.addCurve(self.phasorplot,'A1-A2','#0FF',False)
-
+		
 
 
 		#Add a vertical spacer in the widgetLayout . about 0.5cm
@@ -51,6 +51,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.TITLE('Controls')
 		self.tb = self.timebaseWidget(self.getSamples,self.setTimebase); self.widgetLayout.addWidget(self.tb)
 		self.SW = self.SINE();self.SW.setValue(200.)
+		self.dataLabel = self.LABEL('results:')
 		
 		self.tb.slider.setValue(6) 
 		self.timer = self.newTimer()
@@ -118,19 +119,24 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		#self.plot.hLine.setPos(mousePoint.y())
 		#index = np.abs(self.x-lx).argmin()
 		curves=[self.pA1,self.pA2,self.pA1A2]
-		phaseInit = 0
-		for data in self.fitresults:
+		phaseInit = 0;frq=0;dPh=0
+		msg2=u''
+		if self.fitresults[0]:
+			msg2 = u"<span style='color: magenta;font-size:12px;'>Frequency: %5.2f Hz</span><br>"%(self.fitresults[0][1])
+		for data,b in zip(self.fitresults,['A1: Total Voltage:','A2: Voltage across R:','A1-A2: Voltage across LC:']):
 			if data is not None:
 				frq = data[1]
-				if num==0:
-					phaseInit = data[2]
+				if num==0:	phaseInit = data[2]
+				elif num==2: dPh = phaseInit - data[2]
 				ph = data[2]
 				if self.phasorCheck.isChecked():
 					ph = (data[2]+lx*360*frq)%360
 				else:
 					ph += (45-phaseInit)
 				msg += "<span style='color: %s;font-size:11px;'>%5.2f V, %5.0f Hz, %.2f</span><br>"%(colors[num],data[0],frq,ph)
+				msg2 += "<span style='color: %s;font-size:12px;'>%s %5.2f V</span><br>"%(colors[num],b,data[0])
 				curves[num].setData([0,data[0]*np.cos(ph*np.pi/180)],[0,data[0]*np.sin(ph*np.pi/180)])
 			num+=1
 		self.fitLabel.setHtml(msg)
-				
+		msg2 += u"<span style='color: magenta;font-size:12px;'>Phase Shift: %5.2f deg</span><br>"%(dPh)
+		self.dataLabel.setText(msg2)

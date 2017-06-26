@@ -34,6 +34,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.SQR1()
 		self.PV1()
 		self.PV2()
+		self.DOUTS()
 
 		self.paused = self.CHECKBOX('Pause')
 		self.timer = self.newTimer()

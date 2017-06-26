@@ -50,12 +50,18 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	('Full-wave rectifier','fullwave'),
 	('Diode IV','diode-IV'),
 	('Diode IV Hysterisis','diode-IV-hysterisis'),
+	('Diode Clipping','clipping'),
 	('RC Circuits','rc-circuit'),
 	('RL Circuits','rl-circuit'),
 	('RLC Discharge','rlc-discharge'),
 	('RLC Steady State','rlc-steady'),
 	 ])
-	examples = OrderedDict([
+	ics = OrderedDict([
+	('Operational amplifiers','opamps'),
+	 ])
+
+	physics = OrderedDict([
+	('AC Generator','acgen'),
 	('Plotting etc','example'),
 	 ])
 
@@ -63,9 +69,10 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	exptGroups = OrderedDict([
 	('Test And Measurement',TandM),
 	('Electrical',electrical),
-	('examples',examples)
+	('Op-amps and more',ics),
+	('Physics',physics)
 	])
-	defaultExperiment = 'RLC Steady State'
+	defaultExperiment = 'AC Generator'
 
 	allExpts = {}
 	for a in exptGroups:
@@ -146,7 +153,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 				self.expt.destroy()
 				self.experimentLayout.removeWidget(self.expt)
 				self.expt.deleteLater()
-				self.expt = None
+				#self.expt = None
 			except Exception as e:print (e.message)
 
 		FILE = importlib.import_module('experiments.'+fname)

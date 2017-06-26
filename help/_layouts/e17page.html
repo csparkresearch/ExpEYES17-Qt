@@ -12,8 +12,8 @@ layout: mainpage
 		<p class="lead"> {{ page.description }}</p>
 	</div>    
 	{% endif %}
+	{{ content }}
 	<section id="recent-works">
-		{{ content }}
 		<div class="container">
 			{% if page.imagebase %}
 			<div class="row" >
@@ -30,11 +30,11 @@ layout: mainpage
 					{% endif %}
 
 					{% if page.screencast=="yes" %}
+						{{page.imagebase}}
 						{% capture gifpath %}images/screencasts/{{page.imagebase}}.gif{% endcapture %}
 						{% capture posterpath %}images/screenshots/{{page.imagebase}}.png{% endcapture %}
 						{% include animated_gif.html url=gifpath poster=posterpath  title = page.screencast-title%}
 					{% elsif page.screencast == "ogv" %}
-					    what the deuce {{page.screencast}}
 						{% capture vidpath %}images/screencasts/{{page.imagebase}}.ogv{% endcapture %}
 						{% capture posterpath %}images/screenshots/{{page.imagebase}}.png{% endcapture %}
 						{% include html5_video.html poster=posterpath url=vidpath title = page.screencast-title%}
@@ -45,6 +45,8 @@ layout: mainpage
 						<img class="img-responsive" style="bottom:0px;" src="images/screenshots/{{page.imagebase}}.png">
 					</div>		
 				{% endif %}
+
+
 				<div class=" col-xs-12 col-sm-12 col-md-12">
 					<h2 style="text-align:left;">Photograph</h2><hr>
 					<img class="img-responsive" style="bottom:0px;width:600px" src="images/photographs/{{page.imagebase}}.jpg">
@@ -52,11 +54,29 @@ layout: mainpage
 			</div>
 
 
+			{% endif %}
+
+			{% if page.screencast2 %}
+				{% if page.screencast2=="giffer" %}
+					{% capture gifpath2 %}images/screencasts/{{page.screencast2_imagebase}}.gif{% endcapture %}
+					{% include giffer.html url=gifpath2 title = page.screencast2_title%}
+				{% endif %}
+
+				{% if page.screencast=="yes" %}
+					{% capture gifpath2 %}images/screencasts/{{page.screencast2_imagebase}}.gif{% endcapture %}
+					{% capture posterpath2 %}images/screenshots/{{page.screencast2_imagebase}}.png{% endcapture %}
+					{% include animated_gif.html url=gifpath2 poster=posterpath2  title = page.screencast2_title%}
+				{% elsif page.screencast2 == "ogv" %}
+					{% capture vidpath2 %}images/screencasts/{{page.screencast2_imagebase}}.ogv{% endcapture %}
+					{% capture posterpath2 %}images/screenshots/{{page.screencast2_imagebase}}.png{% endcapture %}
+					{% include html5_video.html poster=posterpath2 url=vidpath2 title = page.screencast2_title%}
+				{% endif %}
+			{% endif %}
+
 		</div>
 	</section>
 
 
-	{% endif %}
 
 
 	{% if page.videoUrl %}
