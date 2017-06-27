@@ -5,7 +5,7 @@ sensors={
 0x3c:['OLED SSD1306',],
 0x3d:['OLED SSD1306',],
 0x48:['ADS115 16-bit ADC'],
-0x29:['TSL2561'],
+0x29:['VL53L0X'],
 0x39:['TSL2561'],
 0x49:['TSL2561'],
 0x1D:['ADXL345','MMA7455L','LSM9DSO'],

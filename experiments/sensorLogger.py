@@ -11,6 +11,8 @@ import sys,time,functools,os
 import numpy as np
 
 class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
+	subsection = 'apps'
+	helpfile = 'sensor-logger.html'
 	def __init__(self, parent=None,**kwargs):
 		super(AppWindow, self).__init__(parent)
 		self.setupUi(self)

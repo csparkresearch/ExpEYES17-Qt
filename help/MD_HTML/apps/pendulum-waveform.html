@@ -135,8 +135,6 @@
 	  
 		<li><a href="../apps/transformer.html" title="Mutual inductance and the effect of cores">Transformer</a></li>
 	  
-		<li><a href="../apps/transistor-ce.html" title="Common Emitter characteristics of transistors">Transistor CE</a></li>
-	  
 		<li><a href="../apps/water-resistance.html" title="Measuring AC and DC resistance">Resistance of water</a></li>
 	  
 		<li><a href="../apps/RLcircuit.html" title="Transient response of RL circuits">RL Circuits</a></li>
@@ -144,6 +142,10 @@
 		<li><a href="../apps/fullwave.html" title="Study a full-wave rectifier">Full-wave rectifier</a></li>
 	  
 		<li><a href="../apps/oscilloscope.html" title="1MSPS, 4-channel oscilloscope with trigger and analog gain">Oscilloscope</a></li>
+	  
+		<li><a href="../apps/sensor-logger.html" title="Log data from I2C sensors">Sensor Logger</a></li>
+	  
+		<li><a href="../apps/transistor-ce.html" title="Common Emitter characteristics of transistors">Transistor CE</a></li>
 	  
   </ul>
 
@@ -158,33 +160,47 @@
 		<p class="lead"> Pendulum waveform : Digitization </p>
 	</div>    
 	
+	<h2 id="using-a-dc-motor-as-a-velocity-sensor">Using a DC motor as a velocity sensor</h2>
+
+<p>The object of this experiment is to find out the time period of oscillations of a simple pendulum. In order to measure the speed of oscillations as a function of time, we construct the following apparatus:</p>
+<ul>
+  <li>Fix a pendulum to the pivot of a DC motor.</li>
+  <li>Since the DC motor is essentially a coil in the vicinity of a permanent magnet, it also behaves as a dynamo when the pivot is rotated by an external source</li>
+  <li>We connect the motor’s wires to A3 (A high impedance voltmeter), and GND</li>
+  <li>When the pendulum is moved, a voltage proportional to its velocity is induced across the motor’s coils, since the EMF is proportional to the rate of change of magnetic flux</li>
+  <li>Simply monitoring this voltage as a function of time enables us to estimate the time period as well as the damping coefficient using curve fitting functions.</li>
+</ul>
+
+<p><img src="images/schematics/pendulum-wave.png" alt="" width="400px" /></p>
+
+<script type="text/javascript" src="../js/gifffer.min.js"></script>
+
+<div class=" col-xs-12 col-sm-12 col-md-12">
 	
+	<h2 style="text-align:left;">Introduction to the experiment: Click to play</h2><hr />
+	
+	<img class="img-responsive" data-gifffer="images/screencasts/pendulum-wave.gif" />
+</div>
+
+<script>
+window.onload = function() {
+  Gifffer({
+  playButtonStyles: {
+    'width': '60px',
+    'height': '60px',
+    'border-radius': '10px',
+    'background': 'rgba(100, 150, 200, 0.8)',
+    'position': 'absolute',
+    'top': '50%',
+    'left': '50%',
+    'margin': '-30px 0 0 -30px'
+  }
+});
+}</script>
+
 
 	<section id="recent-works">
 		<div class="container">
-			
-			<div class="row" >
-				<div >
-					<h2 style="text-align:left;">Schematic</h2><hr>
-					<img class="img-responsive" style="bottom:0px; width:500px" src="images/schematics/pendulum-wave.svg">
-				</div>		
-			</div>
-			<div class="row" >
-				
-					<div class=" col-xs-12 col-sm-12 col-md-12">
-						<h2 style="text-align:left;">Screenshot</h2><hr>
-						<img class="img-responsive" style="bottom:0px;" src="images/screenshots/pendulum-wave.png">
-					</div>		
-				
-
-
-				<div class=" col-xs-12 col-sm-12 col-md-12">
-					<h2 style="text-align:left;">Photograph</h2><hr>
-					<img class="img-responsive" style="bottom:0px;width:600px" src="images/photographs/pendulum-wave.jpg">
-				</div>		
-			</div>
-
-
 			
 
 

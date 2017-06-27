@@ -372,6 +372,7 @@ class I2C():
 				if verbose: print (hex(a),'\t\t',self.SENSORS.get(a,'None'))
 				n+=1
 			self.stop()
+
 		return addrs
 
 

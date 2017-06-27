@@ -10,6 +10,7 @@ import SHT21
 import BH1750
 import SSD1306
 import ADS1115
+import VL53L0X
 
 supported={
 0x68:MPU6050,  #3-axis gyro,3-axis accel,temperature
@@ -20,6 +21,7 @@ supported={
 0x40:SHT21,    #Temperature, Humidity
 0x48:ADS1115,   #16-bit ADC
 0x23:BH1750,    #Luminosity
+0x29:VL53L0X,    #Light based distance sensor
 #0x3C:SSD1306,    #OLED display
 }
 

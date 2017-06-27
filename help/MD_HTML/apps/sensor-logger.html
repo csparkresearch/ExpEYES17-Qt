@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 	<html>
 		<head>
-			<title>AC Generator</title>
+			<title>Sensor Logger</title>
 			<meta charset="utf-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
 			<meta name="description" content="">
@@ -156,43 +156,54 @@
 
 	
 	<div class="center wow fadeInDown">
-		<br><h2>AC Generator</h2>
-		<p class="lead"> Simple AC Generator</p>
+		<br><h2>Sensor Logger</h2>
+		<p class="lead"> Log data from I2C sensors</p>
 	</div>    
 	
-	<h2 id="schematic-a--single-phase">Schematic A : Single phase</h2>
+	<h2 id="i2c-sensors-supported-by-expeyes-so-far">I2C Sensors supported by ExpEYES so far</h2>
 
-<p><img src="images/schematics/ac-generator.png" alt="" width="400px" /></p>
+<ul>
+  <li>MPU6050 : 3-Axis Accelerometer , 3-Axis GyroScope</li>
+  <li>MPU925x : 3-Axis Accelerometer , 3-Axis GyroScope, - Separately enabled 3-axis magnetometer</li>
+  <li>HMC5883L : 3-Axis Magnetometer with adjustable ranges</li>
+  <li>MLX90614 : Passive IR temperature sensor</li>
+  <li>BMP180 : Pressure , Temperature and Altitude module.</li>
+  <li>TSL2561 , BH1750 : Luminosity measurements up to 40K Lux</li>
+  <li>SHT21 , Si7021 : Ambient Temperature and Humidity Module</li>
+</ul>
 
-<p>A magnet stuck on top of a rotating DC motor is used to create a changing magnetic field. Instead of the DC motor, you can also build any mechanical contraption such as a turbine to rotate the permanent magnet.</p>
+<p><img src="images/screenshots/sensor-logger-photos.png" alt="" width="400px" /></p>
 
-<p>A coil is placed near this rotating magnet the such that the magnetic flux passing through it continuously reverses its direction.</p>
+<h2 id="connecting-an-i2c-sensor">Connecting an I2C Sensor</h2>
 
-<p>The changing magnetic field induces a voltage that is recorded by A1. You can also enable the ‘fit’ button in order to calculate the frequency and amplitude of the signal. The frequency of the induced EMF will be the same as the rotation frequency of the magnet.</p>
+<p><img src="images/photographs/sensor-logger-connections.jpg" alt="" width="400px" /></p>
 
-<h2 id="schematic-b--dual-phase">Schematic B : Dual phase</h2>
-<p><img src="images/schematics/ac-generator2.png" alt="" width="400px" /></p>
+<p>I2C Sensors primarily require four connections</p>
+<ul>
+  <li>Vcc : Positive Supply. Check your sensor’s documentation for the rated voltage input. ExpEYES provides 5V on the I2C port since most commercial sensor modules have a built-in voltage regulator.</li>
+  <li>GND : Ground / Negative supply</li>
+  <li>SCL : Clock for exchanging data</li>
+  <li>SDA : Bidirectional data line</li>
+</ul>
 
-<p>In this instance , two coils are used. If they are placed diametrically opposite, the phase difference is 180 degrees.</p>
+<p>The sensor featured in the picture above is the MPU925x , a 10-DOF Inertial measurement unit that can measure 3-Axis acceleration, angular velocity, and magentic fields.</p>
 
-<p>Try changing the angle between the coils, and note that the phase difference in the induced signals depends on it.</p>
+<h2 id="detecting-the-presence-of-a-sensor">Detecting the presence of a sensor</h2>
 
-	<section id="recent-works">
-		<div class="container">
-			
+<ul>
+  <li>Once you have plugged in the sensor, click on the autoScan button which makes the device to detect the presence of any sensors</li>
+  <li>If a sensor is detected, and is also supported by the ExpEYES python library, it will automatically update the menu to show a button for that sensor.</li>
+  <li>Click on the detected sensor’s name , and you will see a bunch of graphs automatically appear in the <code class="highlighter-rouge">traces</code> section as well as the legend on the plot.</li>
+  <li>Select the number of points to record along the x-axis, and start the data logger</li>
+</ul>
 
+<script type="text/javascript" src="../js/gifffer.min.js"></script>
 
-		</div>
-
-			
-				
-					
-					<script type="text/javascript" src="../js/gifffer.min.js"></script>
 <div class=" col-xs-12 col-sm-12 col-md-12">
 	
-	<h2 style="text-align:left;">AC Generator: Screencast</h2><hr>
+	<h2 style="text-align:left;">An introductory screencast on how to repeat the above instructions. The sensor used is the MPU925x, and it was mechanically oscillated to generate some random data</h2><hr />
 	
-	<img class="img-responsive" data-gifffer="images/screencasts/ac-generator.gif" />
+	<img class="img-responsive" data-gifffer="images/screencasts/sensor-logger.gif" />
 </div>
 
 <script>
@@ -209,11 +220,17 @@ window.onload = function() {
     'margin': '-30px 0 0 -30px'
   }
 });
-}</script>		
+}</script>
 
-				
+<p><img src="images/photographs/sensor-logger.jpg" alt="" width="700px" /></p>
 
-				
+	<section id="recent-works">
+		<div class="container">
+			
+
+
+		</div>
+
 			
 
 	</section>

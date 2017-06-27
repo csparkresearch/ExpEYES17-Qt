@@ -60,6 +60,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	('Diode IV Hysterisis','diode-IV-hysterisis'),
 	('Diode Clipping','clipping'),
 	('Diode Clamping','clamping'),
+	('Transistor CE','transistor-CE'),
 	 ])
 
 
@@ -70,8 +71,9 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 
 	physics = OrderedDict([
 	('AC Generator','acgen'),
-	('Plotting etc','example'),
+	('Simple Pendulum','pendulum'),
 	('Ultrasound Echo SR04','sr04-dist'),
+	('Plotting etc','example'),
 	 ])
 
 	schoolLevel = OrderedDict([
@@ -87,12 +89,13 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	exptGroups = OrderedDict([
 	('Test And Measurement',TandM),
 	('Electrical',electrical),
+	('Elecronics',electronics),
 	('Op-amps and more',ics),
 	('Physics',physics),
 	('School Level',schoolLevel)
 	])
 
-	defaultExperiment = 'Ultrasound Echo SR04'
+	defaultExperiment = 'Simple Pendulum'
 
 	allExpts = {}
 	for a in exptGroups:
