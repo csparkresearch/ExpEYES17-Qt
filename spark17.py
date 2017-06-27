@@ -73,6 +73,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	('AC Generator','acgen'),
 	('Simple Pendulum','pendulum'),
 	('Ultrasound Echo SR04','sr04-dist'),
+	('Interference of Sound','sound-beats'),
 	('Plotting etc','example'),
 	 ])
 
@@ -95,7 +96,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	('School Level',schoolLevel)
 	])
 
-	defaultExperiment = 'Simple Pendulum'
+	defaultExperiment = 'Interference of Sound'
 
 	allExpts = {}
 	for a in exptGroups:
