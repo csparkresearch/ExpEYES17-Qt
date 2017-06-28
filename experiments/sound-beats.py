@@ -18,17 +18,21 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.setupUi(self)
 		self.p = kwargs.get('handler',None)
 		self.widgetLayout.setAlignment(QtCore.Qt.AlignTop)
-		self.samples = 10000
+		self.samples = 5000
 		self.timebase = 2
 		self.acquisition_channel = 'A3'
+
+		self.fftPlot = self.addPlot(yMin=-0,yMax=4, disableAutoRange = 'x',bottomLabel='frequency',bottomUnits='Hz',enableMenu=False,hideAxes='y')
+		self.fftPlot.setXRange(2000,4000); self.fftPlot.setTitle('FFT')
+		self.pop = self.PUSHBUTTON('Pop-up FFT',self.popup)
+
 
 		self.plot = self.newPlot([],xMin=0, bottomLabel = 'time',bottomUnits='S',leftLabel = 'MIC(loudness)',leftUnits='V',enableMenu=False,legend=True,autoRange='y')
 		self.addCrosshair(self.plot,self.updateLabels,'y');self.plot.setTitle('_')
 		self.MIC = self.addCurve(self.plot,'MIC','#FFF')
 		self.plot.setYRange(-3.2,3.2)
+		self.popupFFT=None
 
-		self.fftPlot = self.addPlot(yMin=-0,yMax=4, disableAutoRange = 'x',bottomLabel='frequency',bottomUnits='Hz',enableMenu=False,hideAxes='y')
-		self.fftPlot.setXRange(2000,4000); self.fftPlot.setTitle('FFT')
 		#self.fitLabel = pg.TextItem(anchor=(0,0));
 		#self.phasorplot.addItem(self.fitLabel)
 		#self.fitLabel.setPos(-4,4)
@@ -43,7 +47,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.TITLE('Timebase')
 		self.tb = self.timebaseWidget(self.getSamples,self.setTimebase); self.widgetLayout.addWidget(self.tb)
 		self.TITLE('Trigger')
-		self.activeTriggerWidget  =self.triggerWidget(self.acquisition_channel)
+		self.activeTriggerWidget  =self.triggerWidget([self.acquisition_channel])
 		self.widgetLayout.addWidget(self.activeTriggerWidget)
 		self.trigLine = self.addInfiniteLine(self.plot,angle=0, movable=True,cursor = QtCore.Qt.SizeVerCursor,tooltip="Trigger level. Enable the trigger checkbox, and drag up/down to set the level",value = 0,ignoreBounds=False)
 		self.trigLine.sigPositionChanged.connect(self.setTrigger)
@@ -68,6 +72,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.triggerArrow.setPos(-1,0)
 
 		self.setTrigger()
+
 
 	def setTrigger(self):
 		trigName = str(self.activeTriggerWidget.chanBox.currentText())
@@ -114,10 +119,17 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.x ,self.y = vals['A1']
 		self.MIC.setData(self.x,self.y)
 		try:
-			fr,tr = eyemath.fft(self.y, self.timebase*0.001)
-			self.pfft.setData(fr,tr)
+			self.fr,self.tr = eyemath.fft(self.y, self.timebase*0.001)
+			if self.popupFFT:
+				self.popupFFT.setData(self.fr,self.tr)
+			self.pfft.setData(self.fr,self.tr)
 		except Exception as e:
 				print ('fft error',e.message)
 
 		self.counter+=1
 		self.setTimeout(self.timer,100,self.update)
+
+	def popup(self):
+		plot,self.popupFFT = self.popupPlot(self.fr,self.tr)
+		plot.getAxis('bottom').setLabel('Frequency')
+		plot.getAxis('left').setLabel('')

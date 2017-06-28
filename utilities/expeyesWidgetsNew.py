@@ -245,6 +245,16 @@ class expeyesWidgets():
 			num+=1
 		return plot
 
+	def popupPlot(self,x,y,col='#FFF'):
+		self.newwin = pg.GraphicsWindow()#title="Data from file | %s"%fname)
+		self.newwin.resize(800,600)
+		p1 = self.newwin.addPlot()
+		C=pg.PlotCurveItem(name = 'data',pen = col)
+		p1.addItem(C)
+		C.setData(x,y)
+		return p1,C
+
+
 	def SCOPEPLOT(self,curvenames,**kwargs):
 		self.xmax = 1e-3 #assume 1mS
 
@@ -1210,3 +1220,5 @@ class expeyesWidgets():
 			if abs(si_level) > prefix_levels:
 				raise ValueError("Exponent out range of available prefixes.")
 			return '%.*f %s%s' % (precision, value,PREFIXES[si_level + prefix_levels],unit)
+
+

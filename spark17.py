@@ -90,7 +90,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	exptGroups = OrderedDict([
 	('Test And Measurement',TandM),
 	('Electrical',electrical),
-	('Elecronics',electronics),
+	('Electronics',electronics),
 	('Op-amps and more',ics),
 	('Physics',physics),
 	('School Level',schoolLevel)
