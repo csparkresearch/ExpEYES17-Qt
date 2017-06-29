@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>956</width>
-    <height>641</height>
+    <width>936</width>
+    <height>637</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -115,7 +115,7 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
       </widget>
       <widget class="QWidget" name="controlTab">
        <attribute name="title">
-        <string>Measurement and Controls</string>
+        <string>Controls/Readback</string>
        </attribute>
        <widget class="QGroupBox" name="groupBox">
         <property name="geometry">
@@ -213,7 +213,7 @@ QToolTip{background:#FBE9E7;color:#757575; padding:4px; border:0px; margin:0px;}
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>956</width>
+     <width>936</width>
      <height>25</height>
     </rect>
    </property>

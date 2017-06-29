@@ -96,7 +96,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	('School Level',schoolLevel)
 	])
 
-	defaultExperiment = 'Interference of Sound'
+	defaultExperiment = 'Oscilloscope'
 
 	allExpts = {}
 	for a in exptGroups:

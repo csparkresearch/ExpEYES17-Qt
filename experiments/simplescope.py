@@ -62,8 +62,9 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.PV1();self.PV2();
 		self.SW = self.SINE();self.SW.setValue(1500.)
 		self.SQR1();
-		self.SPACER(10)
 		self.DOUTS()
+		self.rbks = self.readbacksWidget(self.p)
+		self.widgetLayout.addWidget(self.rbks)
 		self.SPACER(20)
 		
 		self.sv = self.PUSHBUTTON('Save Data',self.savePlots)
@@ -73,6 +74,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.timer = self.newTimer()
 		self.setTimeout(self.timer,100,self.update)
 		self.p.sigPlot.connect(self.pt)
+		self.p.sigGeneric.connect(self.resCapFreqCallback)
 
 		self.timer2 = self.newTimer()
 		self.setInterval(self.timer2,3000,self.checkAlive)
@@ -187,3 +189,27 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		#print ('plot called..............',time.time()-T)
 		self.lastUpdateTime = time.time()
 		self.setTimeout(self.timer,10,self.update)
+
+	def resCapFreqCallback(self,name,res):
+		self.showStatus('%s : %s'%(name,str(res)))
+		if 'capacitance' in name:
+			if res<500e-6: ##500uF limit
+				txt = 'CAP: '+self.applySIPrefix(res,'F',2)
+			else :
+				txt = 'CAP: Inf'
+			self.rbks.capLabel.setText(txt)
+		elif 'resistance' in name:
+			if res<10e6: ##10 meg
+				txt = 'RES: '+self.applySIPrefix(res,u"\u03A9",2)
+			else :
+				txt = 'RES: NaN'
+			self.rbks.resLabel.setText(txt)
+		elif 'freq' in name:
+			if res<20e6: ##10 meg
+				txt = 'FRQ: '+self.applySIPrefix(res,'Hz',2)
+			else :
+				txt = 'FRQ: NaN'
+			self.rbks.freqLabel.setText(txt)
+
+
+

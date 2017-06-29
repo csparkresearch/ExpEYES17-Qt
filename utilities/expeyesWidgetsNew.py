@@ -11,6 +11,7 @@ from .templates import ui_flexibleChannelSelector as flexibleChannelSelector
 from .templates import ui_triggerWidget as triggerWidgetUi
 from .templates import ui_timebaseWidget as timebaseWidgetUi
 from .templates import ui_removableLabel as removableLabel
+from .templates import ui_ResCapFreq as ResCapFreq
 
 from PyQt4 import QtGui,QtCore
 import pyqtgraph as pg
@@ -946,6 +947,22 @@ class expeyesWidgets():
 		def delete(self):
 			self.deleteLater()
 			self.setParent(None)
+
+
+	###############################  RES/CAP/FREQ WIDGET ######################
+	class readbacksWidget(QtGui.QWidget,ResCapFreq.Ui_Form):
+		def __init__(self,handler=None):
+			super(expeyesWidgets.readbacksWidget, self).__init__()
+			self.setupUi(self)
+			self.handler=handler
+
+		def getResistance(self):
+			self.handler.get_resistance()
+		def getCapacitance(self):
+			self.handler.get_capacitance()
+		def getFrequency(self):
+			self.handler.get_freq('IN2')
+
 
 	###############################  LABEL WIDGET ######################
 
