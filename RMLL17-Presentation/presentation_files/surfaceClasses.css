@@ -1,0 +1,65 @@
+.bg-surf-grad-black {
+  background-color: #333;
+
+  /* background-image: radial-gradient(#333, #111); */
+}
+
+.bg-surf-grad-light {
+  background-color: #fff;
+
+  /* background-image: radial-gradient(#FFF, #DDD); */
+}
+
+.bg-surf-grad-smoke {
+  background-color: #eee;
+
+  /* background-image: radial-gradient(#EEE, #CCC); */
+}
+
+.bg-surf-grad-orange {
+  background-color: #945353;
+
+  /* background-image: radial-gradient(#945353, #774040); */
+}
+
+.bg-surf-grad-yellow {
+  background-color: #cfb98c;
+
+  /* background-image: radial-gradient(#cfb98c, #D1B377); */
+}
+
+.bg-surf-grad-darkgreen {
+  background-color: #4a939e;
+
+  /* background-image: radial-gradient(#4a939e, #134952); */
+}
+
+.bg-surf-grad-sky {
+  background-color: #5e699c;
+
+  /* background-image: radial-gradient(#5e699c, #515E99); */
+}
+
+.bg-surf-grad-lavender {
+  background-color: #554b61;
+
+  /* background-image: radial-gradient(#554b61, #443C4D); */
+}
+
+.bg-surf-grad-purple {
+  background-color: #775796;
+
+  /* background-image: radial-gradient(#775796, #6C478F); */
+}
+
+.bg-surf-grad-salmon {
+  background-color: #cfa2a2;
+
+  /* background-image: radial-gradient(#cfa2a2, #C98D8D); */
+}
+
+.bg-surf-grad-grass {
+  background-color: #6c855d;
+
+  /* background-image: radial-gradient(#6c855d, #597847); */
+}
