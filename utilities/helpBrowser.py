@@ -15,7 +15,9 @@ class helpBrowser(QWebView):
 		super(helpBrowser, self).__init__()
 		self.help_path = '.'
 		sys.path.append(self.help_path)
-
+		self.showMaximized()
+		self.setUrl(QtCore.QUrl("https://www.google.com"))
+				
 	def setFile(self,url='./help/MD_HTML/index.html'):
 		print ('SETTING URL',url)
 		self.setUrl(QtCore.QUrl(url))#pkg_resources.resource_filename('eyes_html',url)))
