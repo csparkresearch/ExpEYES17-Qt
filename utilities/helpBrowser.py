@@ -2,16 +2,21 @@
 import os,string,glob
 try:
 	from PyQt5 import QtWebKit,QtCore
+	from PyQt5.QtWebKitWidgets import QWebView , QWebPage
 except:
-	from PyQt4 import QtWebKit,QtCore
+	print ('trying yo use qt4 fallback')
+	from PyQt4 import QtCore
+	from pyqt4.QtWebKit import QWebView
+
 import sys,pkg_resources
 
-class helpBrowser(QtWebKit.QWebView):
+class helpBrowser(QWebView):
 	def __init__(self,*args,**kwargs):
 		super(helpBrowser, self).__init__()
 		self.help_path = '.'
 		sys.path.append(self.help_path)
 
 	def setFile(self,url='./help/MD_HTML/index.html'):
+		print ('SETTING URL',url)
 		self.setUrl(QtCore.QUrl(url))#pkg_resources.resource_filename('eyes_html',url)))
 		

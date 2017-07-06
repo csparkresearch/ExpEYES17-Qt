@@ -16,7 +16,9 @@ from .templates import ui_ResCapFreq as ResCapFreq
 try:
 	from PyQt5 import QtGui,QtCore
 except:
+	print 'using qt4'
 	from PyQt4 import QtGui,QtCore
+
 import pyqtgraph as pg
 import numpy as np
 from collections import OrderedDict
@@ -632,7 +634,9 @@ class expeyesWidgets():
 			self.callback = callback
 			self.enable.setText(self.name)
 			self.enable.setToolTip(self.name)
-			QtCore.QObject.connect(self.gain, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), functools.partial(self.callback,self.name))
+			#QtCore.QObject.connect(self.gain, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), functools.partial(self.callback,self.name))
+			self.gain.currentIndexChanged.connect(functools.partial(self.callback,self.name))
+
 			if col : self.enable.setStyleSheet("color:rgb%s"%str(col))
 
 	class flexibleChannelWidget(QtGui.QWidget,flexibleChannelSelector.Ui_Form,constants):
@@ -643,7 +647,9 @@ class expeyesWidgets():
 			self.chan1Box.addItems(chans)
 			self.name = name
 			self.callback = callback
-			QtCore.QObject.connect(self.gain, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), self.modifiedCallback)
+			#QtCore.QObject.connect(self.gain, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), self.modifiedCallback)
+			self.gain.currentIndexChanged.connect(self.modifiedCallback)
+			
 			if col : self.chan1Box.setStyleSheet("color:rgb%s"%str(col))
 
 		def modifiedCallback(self,val):
@@ -701,7 +707,8 @@ class expeyesWidgets():
 		if timer is None:
 			print (timer,'umm')
 			return
-		rcvs = timer.receivers(QtCore.SIGNAL("timeout()"))
+		#rcvs = timer.receivers(QtCore.SIGNAL("timeout()"))
+		rcvs = timer.receivers(timer.timeout)
 		#print ('----------------------------------',rcvs)
 		if rcvs > 0:
 			timer.timeout.disconnect()
@@ -1105,7 +1112,9 @@ class expeyesWidgets():
 		combo = QtGui.QComboBox()
 		combo.addItems(['3V','1V','80mV'])
 		W.combo = combo
-		QtCore.QObject.connect(W.combo, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), functools.partial(self.setSineAmp,handler))
+		#QtCore.QObject.connect(W.combo, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), functools.partial(self.setSineAmp,handler))
+		W.combo.currentIndexChanged.connect(functools.partial(self.setSineAmp,handler))
+
 		W.widgetLayout.addWidget(combo)
 		return W
 

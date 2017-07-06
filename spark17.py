@@ -23,10 +23,15 @@
 
 
 from __future__ import print_function
-from PyQt4 import QtGui,QtCore
+
+try:
+	from PyQt5 import QtGui,QtCore
+except:
+	from PyQt4 import QtGui,QtCore
+
 import os,string,time,sys
 
-from utilities.expeyesWidgets import expeyesWidgets
+from utilities.expeyesWidgetsNew import expeyesWidgets
 from templates import ui_layoutNew as layoutNew
 from collections import OrderedDict
 
@@ -201,7 +206,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 			elif hasattr(self.expt,'subsection'):
 				self.helpBrowser.setFile(os.path.join('.','help','MD_HTML',self.expt.subsection,self.expt.helpfile))
 		except Exception as e:
-			print ('help widget not loaded. install QtWebki',e)
+			print ('help widget not loaded. install QtWebkit',e)
 
 	def tabChanged(self,val):
 		pass
@@ -275,8 +280,8 @@ if __name__ == "__main__":
 	from utilities.fileBrowser import fileBrowser
 	try:
 		from utilities.helpBrowser import helpBrowser
-	except:
-		print ('qtwebkit help browser failed to import')
+	except Exception as e:
+		print ('qtwebkit help browser failed to import',e)
 
 
 	myapp = AppWindow()

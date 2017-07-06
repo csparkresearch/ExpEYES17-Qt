@@ -1,5 +1,8 @@
 # -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
-from PyQt4 import QtGui,QtCore
+try:
+	from PyQt5 import QtGui,QtCore
+except:
+	from PyQt4 import QtGui,QtCore
 
 from templates import ui_plot2Template as plotTemplate
 from utilities.expeyesWidgetsNew import expeyesWidgets

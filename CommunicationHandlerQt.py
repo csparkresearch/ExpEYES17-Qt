@@ -1,5 +1,9 @@
 # -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
-from PyQt4 import QtGui,QtCore
+try:
+	from PyQt5 import QtGui,QtCore
+except:
+	from PyQt4 import QtGui,QtCore
+
 import time,sys,inspect,copy,functools
 
 import expeyes.eyes17 as eyes
