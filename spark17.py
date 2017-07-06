@@ -200,8 +200,8 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 				print ('help override',os.path.join('.','help','MD_HTML','apps',self.helpfileOverride[name]))
 			elif hasattr(self.expt,'subsection'):
 				self.helpBrowser.setFile(os.path.join('.','help','MD_HTML',self.expt.subsection,self.expt.helpfile))
-		except:
-			print ('help widget not loaded. install QtWebki')
+		except Exception as e:
+			print ('help widget not loaded. install QtWebki',e)
 
 	def tabChanged(self,val):
 		pass

@@ -13,7 +13,10 @@ from .templates import ui_timebaseWidget as timebaseWidgetUi
 from .templates import ui_removableLabel as removableLabel
 from .templates import ui_ResCapFreq as ResCapFreq
 
-from PyQt4 import QtGui,QtCore
+try:
+	from PyQt5 import QtGui,QtCore
+except:
+	from PyQt4 import QtGui,QtCore
 import pyqtgraph as pg
 import numpy as np
 from collections import OrderedDict
