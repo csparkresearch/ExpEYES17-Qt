@@ -112,9 +112,14 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		self.fileBrowser = fileBrowser(thumbnail_directory = 'ExpEYES_thumbnails',app=app)#,clickCallback = self.showNewPlot)
 		self.saveLayout.addWidget(self.fileBrowser)
 
-		self.helpBrowser = helpBrowser()
-		self.helpLayout.addWidget(self.helpBrowser)
-		self.helpBrowser.setFile()
+		try:
+			self.helpBrowser = helpBrowser()
+			self.helpLayout.addWidget(self.helpBrowser)
+			self.helpBrowser.setFile()
+		except:
+			print ('faied to import help browser. check QtWebkit Version')
+			self.helpBrowser = None
+			
 		### Prepare the communication handler, and move it to a thread.
 		self.CH = communicationHandler()
 		self.worker_thread = QtCore.QThread()
@@ -189,11 +194,14 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		#self.expt = AppWindow(handler = self.CH)
 		self.experimentLayout.addWidget(self.expt)
 		self.expt.show()
-		if name in self.helpfileOverride:
-			self.helpBrowser.setFile(os.path.join('.','help','MD_HTML','apps',self.helpfileOverride[name]))
-			print ('help override',os.path.join('.','help','MD_HTML','apps',self.helpfileOverride[name]))
-		elif hasattr(self.expt,'subsection'):
-			self.helpBrowser.setFile(os.path.join('.','help','MD_HTML',self.expt.subsection,self.expt.helpfile))
+		try:
+			if name in self.helpfileOverride:
+				self.helpBrowser.setFile(os.path.join('.','help','MD_HTML','apps',self.helpfileOverride[name]))
+				print ('help override',os.path.join('.','help','MD_HTML','apps',self.helpfileOverride[name]))
+			elif hasattr(self.expt,'subsection'):
+				self.helpBrowser.setFile(os.path.join('.','help','MD_HTML',self.expt.subsection,self.expt.helpfile))
+		except:
+			print ('help widget not loaded. install QtWebki')
 
 	def tabChanged(self,val):
 		pass
@@ -265,8 +273,10 @@ if __name__ == "__main__":
 	import pyqtgraph.exporters
 
 	from utilities.fileBrowser import fileBrowser
-	from utilities.helpBrowser import helpBrowser
-
+	try:
+		from utilities.helpBrowser import helpBrowser
+	except:
+		print ('qtwebkit help browser failed to import')
 
 
 	myapp = AppWindow()
