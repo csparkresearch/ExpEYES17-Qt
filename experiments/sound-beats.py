@@ -20,7 +20,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.widgetLayout.setAlignment(QtCore.Qt.AlignTop)
 		self.samples = 5000
 		self.timebase = 2
-		self.acquisition_channel = 'A3'
+		self.acquisition_channel = 'MIC'
 
 		self.fftPlot = self.addPlot(yMin=-0,yMax=4, disableAutoRange = 'x',bottomLabel='frequency',bottomUnits='Hz',enableMenu=False,hideAxes='y')
 		self.fftPlot.setXRange(2000,4000); self.fftPlot.setTitle('FFT')
@@ -46,12 +46,12 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		#self.TRIGGER()
 		self.TITLE('Timebase')
 		self.tb = self.timebaseWidget(self.getSamples,self.setTimebase); self.widgetLayout.addWidget(self.tb)
-		self.TITLE('Trigger')
-		self.activeTriggerWidget  =self.triggerWidget([self.acquisition_channel])
+		#self.TITLE('Trigger')
+		#self.activeTriggerWidget  =self.triggerWidget([self.acquisition_channel])
 		self.widgetLayout.addWidget(self.activeTriggerWidget)
 		self.trigLine = self.addInfiniteLine(self.plot,angle=0, movable=True,cursor = QtCore.Qt.SizeVerCursor,tooltip="Trigger level. Enable the trigger checkbox, and drag up/down to set the level",value = 0,ignoreBounds=False)
 		self.trigLine.sigPositionChanged.connect(self.setTrigger)
-		self.activeTriggerWidget.chanBox.currentIndexChanged.connect(self.setTrigger)
+		#self.activeTriggerWidget.chanBox.currentIndexChanged.connect(self.setTrigger)
 
 		self.SPACER(10)
 
@@ -67,20 +67,20 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		#self.setTimeout(1000,functools.partial(self.capture,'A1',200,3),self.update)
 
 
-		self.triggerArrow = pg.ArrowItem(angle=-60,tipAngle = 90, headLen=10, tailLen=13, tailWidth=5, pen={'color': 'g', 'width': 1}) 
-		self.plot.addItem(self.triggerArrow)
-		self.triggerArrow.setPos(-1,0)
+		#self.triggerArrow = pg.ArrowItem(angle=-60,tipAngle = 90, headLen=10, tailLen=13, tailWidth=5, pen={'color': 'g', 'width': 1}) 
+		#self.plot.addItem(self.triggerArrow)
+		#self.triggerArrow.setPos(-1,0)
 
-		self.setTrigger()
+		#self.setTrigger()
 
 
-	def setTrigger(self):
-		trigName = str(self.activeTriggerWidget.chanBox.currentText())
-		self.trigger_level=self.trigLine.pos()
-		trignum = self.activeTriggerWidget.chanBox.currentIndex()
-		if trignum==-1 : #Index not found.
-			return
-		self.p.configure_trigger(0,self.acquisition_channel,self.trigger_level,resolution=10,prescaler=5)
+	#def setTrigger(self):
+	#	trigName = str(self.activeTriggerWidget.chanBox.currentText())
+	#	self.trigger_level=self.trigLine.pos()
+	#	trignum = self.activeTriggerWidget.chanBox.currentIndex()
+	#	if trignum==-1 : #Index not found.
+	#		return
+	#	self.p.configure_trigger(0,self.acquisition_channel,self.trigger_level,resolution=10,prescaler=5)
 
 
 	def updateLabels(self,evt):
@@ -107,8 +107,8 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	def update(self):
 		self.channels_enabled=[1,0,0,0]
 		
-		trig = self.activeTriggerWidget.enable.isChecked()
-		self.p.capture_traces(1,self.samples,self.timebase,self.acquisition_channel,trigger = trig,chans = self.channels_enabled)
+		#trig = self.activeTriggerWidget.enable.isChecked()
+		self.p.capture_traces(1,self.samples,self.timebase,self.acquisition_channel,chans = self.channels_enabled)
 		#The function doesn't end here. capture_traces will automatically call fetchData, which will then emit sigPlot with returned data, and self.pt is connected to sigPlot
 
 		#self.p.capture1('A3',self.samples,self.timebase)

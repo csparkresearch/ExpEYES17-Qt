@@ -17,8 +17,8 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.widgetLayout.setAlignment(QtCore.Qt.AlignTop)
 		self.widgets.setMinimumWidth(250)
 		
-		self.TITLE('Parameters')
-		self.totalTime=self.SPINBOX(prefix = 'Acquisition time: ',suffix=' S',range=[0,2000],value = 20,tooltip="Total time over which data should be recorded")
+		self.TITLE('Parameters: A3')
+		self.totalTime=self.SPINBOX(prefix = 'Acquisition time: ',suffix=' S',range=[0,2000],value = 30,tooltip="Total time over which data should be recorded")
 		self.minimumTime=self.SPINBOX(prefix = 'Time per sample: ',suffix=' mS',range=[0,2000],value = 2,tooltip="Minimum time per sample")
 
 		self.SPACER(10)
@@ -28,6 +28,8 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.TITLE('Initialize')
 		self.PUSHBUTTON('Start Logging' , self.start)
 		self.PUSHBUTTON('Stop Logging' , self.stop)
+		self.valLabel = self.LABEL('Result:')
+		self.valLabel.setStyleSheet('font-size:14pt')
 		self.SPACER(20)
 		self.PUSHBUTTON('Fit Data' , self.fit_curve)
 		self.activeCurve= None
@@ -36,7 +38,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		
 		xmax = self.totalTime.value()
 		self.endTime = 0
-		self.plot = self.newPlot([],detailedWidget=True,xMin=0,xMax = xmax, bottomLabel = 'time',bottomUnits='S',leftLabel = 'voltage', leftUnits='V', enableMenu=False, legend=True, autoRange='y')
+		self.plot = self.newPlot([],detailedWidget=True,xMin=0,xMax = xmax, bottomLabel = 'time',bottomUnits='S',leftLabel = 'voltage',leftUnits='V',enableMenu=False,legend=True,autoRange='y')
 		self.plot.setYRange(-3,3)
 		self.region = self.addRegion(self.plot,0,xmax*0.8)
 
@@ -49,9 +51,11 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		t = time.time()-self.start_time
 		self.xdata.append(t)
 		self.ydata.append(v)
-
-		if len(self.xdata)>3:
+		L = len(self.xdata)
+		if L>3:
 			self.activeCurve.setData(self.xdata,self.ydata)
+			if L%100==0:
+				self.valLabel.setText('Voltage:\t%s'%self.applySIPrefix(v,'V',2))
 
 		if t>self.endTime:
 			self.xmax=t+1
@@ -59,7 +63,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 			self.stop()
 
 	def start(self):
-		val,ok = QtGui.QInputDialog.getText(self,"Name this dataset","",text = "pend#")
+		val,ok = QtGui.QInputDialog.getText(self,"Name this dataset","",text = "A3#")
 		if ok :
 			self.activeCurve = self.addCurve(self.plot,val,self.randomColor())
 			self.xdata=[];self.ydata = []

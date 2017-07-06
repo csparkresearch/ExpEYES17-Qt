@@ -44,6 +44,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	TandM = OrderedDict([
 	('Oscilloscope','simplescope'),
 	('I2C Sensor Data Logger','sensorLogger'),
+	('Data-Logger','data-logger'),
 	 ])
 
 	electrical = OrderedDict([
