@@ -116,8 +116,8 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 			self.helpBrowser = helpBrowser()
 			self.helpLayout.addWidget(self.helpBrowser)
 			self.helpBrowser.setFile()
-		except:
-			print ('faied to import help browser. check QtWebkit Version')
+		except Exception as e:
+			print ('faied to import help browser. check QtWebkit Version',e)
 			self.helpBrowser = None
 			
 		### Prepare the communication handler, and move it to a thread.
