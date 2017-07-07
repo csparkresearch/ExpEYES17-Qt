@@ -67,6 +67,7 @@ class AppWindow(QtGui.QMainWindow, plotSave.Ui_MainWindow):
 
 	def saveImage(self):  #Save as png or something
 		path = QtGui.QFileDialog.getSaveFileName(self, 'Save File', '~/')
+		if(len(path)==2):path = path[0]
 		if path:
 			pieces = path.split('.')
 			if len(pieces)<2: #No extension specified
@@ -97,6 +98,7 @@ class AppWindow(QtGui.QMainWindow, plotSave.Ui_MainWindow):
 
 	def save(self):  #Save as CSV
 		path = QtGui.QFileDialog.getSaveFileName(self, 'Save File', '~/', 'CSV(*.csv)')
+		if(len(path)==2):path = path[0]
 		if path:
 			import csv
 			with open(unicode(path), 'wb') as stream:
