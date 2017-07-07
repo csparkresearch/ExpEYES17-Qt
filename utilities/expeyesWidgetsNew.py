@@ -460,7 +460,10 @@ class expeyesWidgets():
 
 
 	def changeGain(self,chan,val):
-		val = float(val[:-1]) #remove 'V'
+		print (chan,type(val))
+		if type(val) != int:
+			val = float(val[:-1]) #remove 'V'
+		print (chan,val)
 		chan  = str(chan)
 		print (chan,val)
 		if chan in ['A1','A2']:
@@ -635,7 +638,7 @@ class expeyesWidgets():
 			self.enable.setText(self.name)
 			self.enable.setToolTip(self.name)
 			#QtCore.QObject.connect(self.gain, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), functools.partial(self.callback,self.name))
-			self.gain.currentIndexChanged.connect(functools.partial(self.callback,self.name))
+			self.gain.currentIndexChanged['QString'].connect(functools.partial(self.callback,self.name))
 
 			if col : self.enable.setStyleSheet("color:rgb%s"%str(col))
 
@@ -648,7 +651,7 @@ class expeyesWidgets():
 			self.name = name
 			self.callback = callback
 			#QtCore.QObject.connect(self.gain, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), self.modifiedCallback)
-			self.gain.currentIndexChanged.connect(self.modifiedCallback)
+			self.gain.currentIndexChanged['QString'].connect(self.modifiedCallback)
 			
 			if col : self.chan1Box.setStyleSheet("color:rgb%s"%str(col))
 
@@ -854,7 +857,7 @@ class expeyesWidgets():
 		self.trigLine.sigPositionChanged.connect(self.setTrigger)
 		self.activeTriggerWidget.pushButton.clicked.connect(self.locateTrigger)
 
-		self.activeTriggerWidget.chanBox.currentIndexChanged.connect(self.setTrigger)
+		self.activeTriggerWidget.chanBox.currentIndexChanged['QString'].connect(self.setTrigger)
 
 		self.triggerArrow = pg.ArrowItem(angle=-60,tipAngle = 90, headLen=10, tailLen=13, tailWidth=5, pen={'color': 'g', 'width': 1}) 
 		self.plot.addItem(self.triggerArrow)
