@@ -2,7 +2,7 @@
 # -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
 
 try:
-	from PyQt5 import QtGui,QtCore
+	from PyQt5 import QtGui,QtCore,QtWidgets
 except:
 	from PyQt4 import QtGui,QtCore
 from .templates import ui_plotSave as plotSave
@@ -15,9 +15,14 @@ class AppWindow(QtGui.QMainWindow, plotSave.Ui_MainWindow):
 	def __init__(self, parent ,curveList,plot):
 		super(AppWindow, self).__init__(parent)
 		self.setupUi(self)
-		self.connect(QtGui.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Escape), self), QtCore.SIGNAL('activated()'), self.close)
-		self.connect(QtGui.QShortcut(QtGui.QKeySequence(plotSave._translate("MainWindow", "Ctrl+P", None)), self), QtCore.SIGNAL('activated()'), self.printImage)
-		self.connect(QtGui.QShortcut(QtGui.QKeySequence(plotSave._translate("MainWindow", "Ctrl+C", None)), self), QtCore.SIGNAL('activated()'), self.copyToClipboard)
+        self.escshortcut = QtWidgets.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Escape), self)
+        self.escshortcut.activated.connect(self.close)
+
+        self.escshortcut = QtWidgets.QShortcut(QtGui.QKeySequence("Ctrl+P"), self)
+        self.escshortcut.activated.connect(self.printImage)
+
+        self.escshortcut = QtWidgets.QShortcut(QtGui.QKeySequence("Ctrl+C"), self)
+        self.escshortcut.activated.connect(self.copyToClipboard)
 		
 		self.table.setColumnWidth(0,200)
 		colnum=0;labels=[]
