@@ -1,9 +1,16 @@
 # ExpEYES17-Qt
 Qt based toolkit for accessing ExpEYES-17
 
+Dependencies
+============
+python-pyqt5 , python-pyqtgraph, python-scipy, python-pyqt5.qtsvg
+pyqt5-dev-tools
+
+
 Building
 ========
-just launch `make`
+cd SPARK17
+make
 
 Housekeeping
 ============
