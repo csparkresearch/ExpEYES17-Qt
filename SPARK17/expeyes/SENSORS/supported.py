@@ -1,16 +1,7 @@
 # -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
 import inspect
 
-import HMC5883L
-import MPU6050
-import MLX90614
-import BMP180
-import TSL2561
-import SHT21
-import BH1750
-import SSD1306
-import ADS1115
-import VL53L0X
+from . import HMC5883L,MPU6050,MLX90614,BMP180,TSL2561,SHT21,BH1750,SSD1306,ADS1115,VL53L0X
 
 supported={
 0x68:MPU6050,  #3-axis gyro,3-axis accel,temperature
