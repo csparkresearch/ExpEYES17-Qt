@@ -1,0 +1,5 @@
+recursive-include SPARK17/templates *
+recursive-include SPARK17/utilities *
+recursive-include SPARK17/experiments *
+recursive-include SPARK17/help *
+
