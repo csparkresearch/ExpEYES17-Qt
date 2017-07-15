@@ -169,7 +169,7 @@ class communicationHandler(QtCore.QObject):
 				try:
 					while(not self.I.oscilloscope_progress()[0]):
 						time.sleep(0.1)
-						print ('correction required',n)
+						#print ('correction required',n)
 						n+=1
 						if n>15:
 							raise Exception
@@ -190,7 +190,7 @@ class communicationHandler(QtCore.QObject):
 						self.sigPlot.emit(returnData)
 
 				except Exception as e:
-					self.sigError.emit(name,e.message)
+					self.sigError.emit(name,str(e))
 			elif name == 'HX711':
 				res = self.I.HX711.read(*args)
 				self.sigGeneric.emit(name,res)
