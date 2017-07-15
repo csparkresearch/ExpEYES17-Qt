@@ -178,13 +178,11 @@
 
 <p><img src="images/photographs/sensor-logger-connections.jpg" alt="" width="400px" /></p>
 
-<p>I2C Sensors primarily require four connections</p>
-<ul>
-  <li>Vcc : Positive Supply. Check your sensor’s documentation for the rated voltage input. ExpEYES provides 5V on the I2C port since most commercial sensor modules have a built-in voltage regulator.</li>
-  <li>GND : Ground / Negative supply</li>
-  <li>SCL : Clock for exchanging data</li>
-  <li>SDA : Bidirectional data line</li>
-</ul>
+<p>I2C Sensors primarily require four connections
+* Vcc : Positive Supply. Check your sensor’s documentation for the rated voltage input. ExpEYES provides 5V on the I2C port since most commercial sensor modules have a built-in voltage regulator.
+* GND : Ground / Negative supply
+* SCL : Clock for exchanging data
+* SDA : Bidirectional data line</p>
 
 <p>The sensor featured in the picture above is the MPU925x , a 10-DOF Inertial measurement unit that can measure 3-Axis acceleration, angular velocity, and magentic fields.</p>
 
@@ -193,7 +191,7 @@
 <ul>
   <li>Once you have plugged in the sensor, click on the autoScan button which makes the device to detect the presence of any sensors</li>
   <li>If a sensor is detected, and is also supported by the ExpEYES python library, it will automatically update the menu to show a button for that sensor.</li>
-  <li>Click on the detected sensor’s name , and you will see a bunch of graphs automatically appear in the <code class="highlighter-rouge">traces</code> section as well as the legend on the plot.</li>
+  <li>Click on the detected sensor’s name , and you will see a bunch of graphs automatically appear in the <code>traces</code> section as well as the legend on the plot.</li>
   <li>Select the number of points to record along the x-axis, and start the data logger</li>
 </ul>
 

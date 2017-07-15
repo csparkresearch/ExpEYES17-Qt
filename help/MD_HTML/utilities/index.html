@@ -158,15 +158,18 @@
 	<h2 id="general-purpose-utilities-for-expeyes-17">General Purpose utilities for ExpEYES-17</h2>
 
 <h3 id="code-example-to-acquire-a-trace-from-a1-and-plot-it">Code example to acquire a trace from A1, and plot it</h3>
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c">#code snippet example</span>
-<span class="kn">from</span> <span class="nn">expeyes</span> <span class="kn">import</span> <span class="n">eyes17</span>
-<span class="n">p</span><span class="o">=</span><span class="n">eyes17</span><span class="o">.</span><span class="nb">open</span><span class="p">()</span>
-<span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">capture1</span><span class="p">(</span><span class="s">'CH1'</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">pylab</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
-<span class="n">show</span><span class="p">()</span>
-</code></pre>
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span style="color:#777">#code snippet example</span>
+<span class="line-numbers"><a href="#n2" name="n2">2</a></span><span style="color:#080;font-weight:bold">from</span> <span style="color:#B44;font-weight:bold">expeyes</span> <span style="color:#080;font-weight:bold">import</span> <span style="color:#B44;font-weight:bold">eyes17</span>
+<span class="line-numbers"><a href="#n3" name="n3">3</a></span>p=eyes17.open()
+<span class="line-numbers"><a href="#n4" name="n4">4</a></span>x,y = p.capture1(<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">CH1</span><span style="color:#710">'</span></span>,<span style="color:#00D">1000</span>,<span style="color:#00D">1</span>)
+<span class="line-numbers"><a href="#n5" name="n5">5</a></span>
+<span class="line-numbers"><a href="#n6" name="n6">6</a></span><span style="color:#080;font-weight:bold">from</span> <span style="color:#B44;font-weight:bold">pylab</span> <span style="color:#080;font-weight:bold">import</span> <span style="color:#B44;font-weight:bold">*</span>
+<span class="line-numbers"><a href="#n7" name="n7">7</a></span>plot(x,y)
+<span class="line-numbers"><a href="#n8" name="n8">8</a></span>show()
+</pre></div>
+</div>
 </div>
 
 	<section id="recent-works">
