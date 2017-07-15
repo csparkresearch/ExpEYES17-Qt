@@ -18,7 +18,10 @@ class helpBrowser(QWebView):
 		self.showMaximized()
 		self.setUrl(QtCore.QUrl("https://www.google.com"))
 				
-	def setFile(self,url='./help/MD_HTML/index.html'):
+	def setFile(self,url=None):
+		if url is None:
+			os.path.join(os.path.dirname(sys.argv[0]),'help','MD_HTML','index.html')
+			url = './help/MD_HTML/index.html'
 		newUrl = QtCore.QUrl.fromLocalFile(QtCore.QFileInfo(url).absoluteFilePath())
 		print ('SETTING URL',url,newUrl)
 		self.setUrl(newUrl)#pkg_resources.resource_filename('eyes_html',url)))

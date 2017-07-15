@@ -201,10 +201,12 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		self.expt.show()
 		try:
 			if name in self.helpfileOverride:
-				self.helpBrowser.setFile(os.path.join('.','help','MD_HTML','apps',self.helpfileOverride[name]))
-				print ('help override',os.path.join('.','help','MD_HTML','apps',self.helpfileOverride[name]))
+				helpPath = os.path.join(os.path.dirname(sys.argv[0]),'help','MD_HTML','apps',self.helpfileOverride[name])
+				self.helpBrowser.setFile(helpPath)
+				print ('help override',helpPath)
 			elif hasattr(self.expt,'subsection'):
-				self.helpBrowser.setFile(os.path.join('.','help','MD_HTML',self.expt.subsection,self.expt.helpfile))
+				helpPath = os.path.join(os.path.dirname(sys.argv[0]),'help','MD_HTML',self.expt.subsection,self.expt.helpfile)
+				self.helpBrowser.setFile(helpPath)
 		except Exception as e:
 			print ('help widget not loaded. install QtWebkit',e)
 
@@ -263,7 +265,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 if __name__ == "__main__":
 	app = QtGui.QApplication(sys.argv)
     # Create and display the splash screen
-    splash_pix = QtGui.QPixmap('./splash.png')
+    splash_pix = QtGui.QPixmap(os.path.join(os.path.dirname(sys.argv[0]),'splash.png'))
     splash = QtGui.QSplashScreen(splash_pix, QtCore.Qt.WindowStaysOnTopHint)
     splash.setMask(splash_pix.mask())
     splash.show()
