@@ -36,10 +36,10 @@ from templates import ui_layoutNew as layoutNew
 from collections import OrderedDict
 
 try:
-    _fromUtf8 = QtCore.QString.fromUtf8
+	_fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    def _fromUtf8(s):
-        return s
+	def _fromUtf8(s):
+		return s
 
 
 class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
@@ -124,7 +124,6 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		except Exception as e:
 			print ('failed to import help browser. check QtWebkit Version',e)
 			self.helpBrowser = None
-			
 		### Prepare the communication handler, and move it to a thread.
 		self.CH = communicationHandler(connectHandler = self.deviceConnected,disconnectHandler = self.deviceDisconnected, connectionDialogHandler= self.connectionDialog)
 		self.worker_thread = QtCore.QThread()
@@ -144,8 +143,8 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		self.exitBtn.setStyleSheet("height: 10px;padding:3px;color: #FF2222;")
 		self.statusBar.addPermanentWidget(self.exitBtn)
 
-        self.menuLoad = QtGui.QMenu(self.menuBar)
-        self.menuLoad.setObjectName(_fromUtf8("menuLoad"))
+		self.menuLoad = QtGui.QMenu(self.menuBar)
+		self.menuLoad.setObjectName(_fromUtf8("menuLoad"))
 
 		self.allMenus = []
 		for grp in self.exptGroups:
@@ -285,12 +284,12 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 
 if __name__ == "__main__":
 	app = QtGui.QApplication(sys.argv)
-    # Create and display the splash screen
-    splash_pix = QtGui.QPixmap(os.path.join(os.path.dirname(sys.argv[0]),os.path.join('templates','splash.png')))
-    splash = QtGui.QSplashScreen(splash_pix, QtCore.Qt.WindowStaysOnTopHint)
-    splash.setMask(splash_pix.mask())
-    splash.show()
-    for a in range(10):
+	# Create and display the splash screen
+	splash_pix = QtGui.QPixmap(os.path.join(os.path.dirname(sys.argv[0]),os.path.join('templates','splash.png')))
+	splash = QtGui.QSplashScreen(splash_pix, QtCore.Qt.WindowStaysOnTopHint)
+	splash.setMask(splash_pix.mask())
+	splash.show()
+	for a in range(10):
 		app.processEvents()
 		time.sleep(0.01)
 

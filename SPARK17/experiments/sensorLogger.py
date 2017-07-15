@@ -92,7 +92,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 			self.curves=curves
 
 	def addSensor(self,cls,addr):
-		print cls,addr
+		print(cls,addr)
 		if addr in self.acquireList:
 			QtGui.QMessageBox.critical(self,"Address already being logged","The Selected sensor address (%s) is already in use.\nPlease click on `Start Logging` to fetch data"%hex(addr),QtGui.QMessageBox.Ok)
 			return

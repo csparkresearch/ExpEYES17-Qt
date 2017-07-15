@@ -154,7 +154,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		#self.showStatus(str(self.traceOrder))
 		for a in self.myCurves:self.myCurves[a].clear()
 		self.traceData={}
-		keys = vals.keys()
+		keys = list(vals.keys())
 
 
 		self.xmax = vals[keys[0]][0][:-1]

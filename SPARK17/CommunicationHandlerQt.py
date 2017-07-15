@@ -95,7 +95,7 @@ class communicationHandler(QtCore.QObject):
 			return
 
 		try:L = self.I.H.listPorts()
-		except Exception as e:print e
+		except Exception as e:print (e)
 		total = len(L)
 		menuChanged = False
 		if L != self.shortlist:
@@ -201,8 +201,8 @@ class communicationHandler(QtCore.QObject):
 				else:
 					self.sigError.emit(name,' : unknown function')
 		except Exception as e:
-			print (e.message)
-			self.sigError.emit(name,e.message)
+			print ('ERROR',e)
+			self.sigError.emit(name,str(e))
 
 
 	@QtCore.pyqtSlot(str,object,object,object)

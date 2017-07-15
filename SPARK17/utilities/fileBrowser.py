@@ -33,7 +33,7 @@ class fileBrowser(QtGui.QFrame,fileBrowser.Ui_Form):
 		
 	def itemClicked(self,sel):
 		fname = self.thumbList[str(sel.text())][1]
-		print fname
+		print(fname)
 		self.clickCallback( fname )
 
 
@@ -98,7 +98,7 @@ class fileBrowser(QtGui.QFrame,fileBrowser.Ui_Form):
 					self.listWidget.addItem(a)
 					self.thumbList[fname] = [a,filepath]
 				except Exception as e:
-					print 'failed to load thumbnail for ',fname,e.message
+					print( 'failed to load thumbnail for ',fname,e.message)
 		self.pathLabel.setText('Current path : %s'%directory)
 		
 

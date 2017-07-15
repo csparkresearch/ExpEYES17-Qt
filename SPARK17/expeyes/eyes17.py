@@ -740,7 +740,8 @@ class Interface():
 		CHOSA = self.analogInputSources[channel_one_input].CHOSA
 
 		if self.version_number<=2.0 and (num==3 or num==4):  #Firmware bug in versions <= 2.0 for capture_four
-			self.H.fd.write('\02\04%c\02\00\16\00'%(CHOSA))
+			cmds = '\02\04%c\02\00\16\00'%(CHOSA)
+			self.H.fd.write(cmds.encode())
 			self.H.fd.read(1)
 
 		try:

@@ -16,7 +16,7 @@ from .templates import ui_ResCapFreq as ResCapFreq
 try:
 	from PyQt5 import QtGui,QtCore
 except:
-	print 'using qt4'
+	print ('using qt4')
 	from PyQt4 import QtGui,QtCore
 
 import pyqtgraph as pg

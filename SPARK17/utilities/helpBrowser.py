@@ -4,7 +4,7 @@ try:
 	from PyQt5 import QtWebKit,QtCore
 	from PyQt5.QtWebKitWidgets import QWebView , QWebPage
 except:
-	print ('trying yo use qt4 fallback')
+	print ('trying to use qt4 fallback')
 	from PyQt4 import QtCore
 	from pyqt4.QtWebKit import QWebView
 
@@ -16,7 +16,6 @@ class helpBrowser(QWebView):
 		self.help_path = '.'
 		sys.path.append(self.help_path)
 		self.showMaximized()
-		self.setUrl(QtCore.QUrl("https://www.google.com"))
 				
 	def setFile(self,url=None):
 		if url is None:
