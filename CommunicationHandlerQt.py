@@ -11,21 +11,50 @@ import expeyes.eyes17 as eyes
 class communicationHandler(QtCore.QObject):
 	sigStat = QtCore.pyqtSignal(str,bool)
 	sigPlot = QtCore.pyqtSignal(object)
+	sigConnected = QtCore.pyqtSignal()
+	sigDisconnected = QtCore.pyqtSignal()
+	sigConnectionDialog = QtCore.pyqtSignal()
+	
 	sigGeneric = QtCore.pyqtSignal(str,object)
 	sigError = QtCore.pyqtSignal(str,str)
 
 	sigExec = QtCore.pyqtSignal(str,object,object)
 	execThread = QtCore.pyqtSignal(str,object,object,object)
 	connected = False
+	menu_entries=[]
+
 	def __init__(self, parent=None,**kwargs):
 		super(self.__class__, self).__init__(parent)
+		self.connectHandler = kwargs.get('connectHandler',None)
+		self.disconnectHandler = kwargs.get('disconnectHandler',None)
+		self.connectionDialogHandler = kwargs.get('connectionDialogHandler',None)
+
+		self.sigConnected.connect(self.connectHandler)
+		self.sigDisconnected.connect(self.disconnectHandler)
+		self.sigConnectionDialog.connect(self.connectionDialogHandler)
+
+		self.sigExec.connect(self.process)
+		self.execThread.connect(self.processAndForward)
+
+		#Auto-Detector
+		self.shortlist=[]
+		self.timer4 = QtCore.QTimer()
+		self.timer4.timeout.connect(self.locateDevices)
+		self.timer4.start(300)
+
+		#self.tmr = QtCore.QTimer()
+		#self.tmr.setSingleShot(True)
+		#self.tmr.timeout.connect(self.connectToDevice)
+		#self.tmr.start(10)
+
+	def connectToDevice(self):
 		self.I = eyes.Interface()
 		self.busy=False
 		if self.I.connected:
 			self.connected = True
 			self.I.set_sine(1000)
-		self.sigExec.connect(self.process)
-		self.execThread.connect(self.processAndForward)
+		else:
+			return
 		self.evalGlobals = {k: getattr(self.I, k) for k in dir(self.I)}
 		
 		#Add methods dynamically from I into this threaded module.
@@ -56,8 +85,49 @@ class communicationHandler(QtCore.QObject):
 		self.buflen = 0
 		self.trigPre = 0 # prescaler for trigger waiting for the oscilloscope
 		self.channels_enabled=[0,0,0,0]
-		print ('finished connecting')
+
+		self.sigConnected.emit()
 		
+
+	def locateDevices(self):
+		if not hasattr(self,'I'):
+			self.connectToDevice() # May or may not be successful, but it goes through the library and does some init tasks
+			return
+
+		try:L = self.I.H.listPorts()
+		except Exception as e:print e
+		total = len(L)
+		menuChanged = False
+		if L != self.shortlist:
+			menuChanged = True
+			self.shortlist=L
+			
+			for a in self.menu_entries:
+				pass
+				#self.deviceCombo.removeItem(0)
+			self.menu_entries=[]
+			for a in L:
+				#self.deviceCombo.addItem(a)
+				self.menu_entries.append(a)
+
+		#Check for, and handle disconnect event
+		if menuChanged:
+			if self.I.connected:
+				if self.I.H.portname not in self.menu_entries:
+						print('Device Disconnected',True)
+						print('Error : Device Disconnected')
+						#QtGui.QMessageBox.warning(self, 'Connection Error', 'Device Disconnected. Please check the connections')
+						try:self.I.H.disconnect()
+						except:pass
+						self.I.H.connected = False
+						self.I.connected = False
+
+			elif len(self.menu_entries):
+				print ('found new device. prompting user...')
+				self.sigConnectionDialog.emit()
+
+
+
 		
 
 	@QtCore.pyqtSlot(str,object,object)

@@ -122,11 +122,11 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 			self.helpLayout.addWidget(self.helpBrowser)
 			self.helpBrowser.setFile()
 		except Exception as e:
-			print ('faied to import help browser. check QtWebkit Version',e)
+			print ('failed to import help browser. check QtWebkit Version',e)
 			self.helpBrowser = None
 			
 		### Prepare the communication handler, and move it to a thread.
-		self.CH = communicationHandler()
+		self.CH = communicationHandler(connectHandler = self.deviceConnected,disconnectHandler = self.deviceDisconnected, connectionDialogHandler= self.connectionDialog)
 		self.worker_thread = QtCore.QThread()
 		self.CH.moveToThread(self.worker_thread)
 		self.sigExec.connect(self.CH.process)
@@ -137,13 +137,6 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		self.worker_thread.start()
 		self.worker_thread.setPriority(QtCore.QThread.HighPriority)
 
-		if self.CH.connected==False:
-			self.showStatus("System Status | Device not found. Dummy mode.",True)
-		else:
-			self.showStatus("System Status | Connected to device. Version : %s"%str(self.CH.get_version()))
-
-		if self.CH.I.timestamp is not None:self.setWindowTitle(self.CH.I.generic_name + ' : '+self.CH.I.H.version_string.decode("utf-8")+' : '+str(self.CH.I.timestamp))
-		else:self.setWindowTitle(self.CH.I.generic_name + ' : '+self.CH.I.H.version_string.decode("utf-8")+' : Not calibrated')
 
 		############ MAKE AN EXIT BUTTON AND STYLE IT. SHOULD IDEALLY BE DONE IN THE LAYOUT.UI FILE USING QT4-DESIGNER.
 		self.exitBtn = QtGui.QPushButton("EXIT")
@@ -167,11 +160,39 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 
 		self.expt=None
 		self.actionSave.triggered.connect(self.savePlots)
+
+	def connectionDialog(self):
+		reply = QtGui.QMessageBox.question(self, 'Connection', 'New Device Found. Connect?', QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
+		if reply == QtGui.QMessageBox.Yes:
+			print (reply)
+			self.CH.connectToDevice()
+			#self.selectDevice()
+		
+	def deviceConnected(self):
+		if self.CH.I.timestamp is not None:self.setWindowTitle(self.CH.I.generic_name + ' : '+self.CH.I.H.version_string.decode("utf-8")+' : '+str(self.CH.I.timestamp))
+		else:self.setWindowTitle(self.CH.I.generic_name + ' : '+self.CH.I.H.version_string.decode("utf-8")+' : Not calibrated')
 		if self.CH.I.connected:
+			self.showStatus("System Status | Connected to device. Version : %s"%str(self.CH.get_version()))
 			self.launchExperiment(self.defaultExperiment)
 		else:
 			self.tabWidget.setCurrentIndex(0)
-
+			self.showStatus("System Status | Device not found. Dummy mode.",True)
+		
+	def deviceDisconnected(self):
+		self.tabWidget.setCurrentIndex(0)
+		self.showStatus("System Status | Device disconnected.",True)
+		if self.expt: #Close any running instance
+			try:
+				try:self.expt.windUp()
+				except Exception as e:print (e.message)
+				self.expt.close()
+				self.expt.destroy()
+				self.experimentLayout.removeWidget(self.expt)
+				self.expt.deleteLater()
+				#self.expt = None
+			except Exception as e:print (e.message)
+		
+		
 	def savePlots(self):
 		print ('wrong save fnction. inheritance not working properly. save from expeyesWidgetsNew must be called. This is defined in expeyesWidgetsNew')
 
