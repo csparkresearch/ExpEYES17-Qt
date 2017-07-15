@@ -2,61 +2,47 @@
 
 # Form implementation generated from reading ui file 'plotTemplate.ui'
 #
-# Created: Tue Apr  4 14:15:47 2017
-#      by: PyQt4 UI code generator 4.11.3
+# Created by: PyQt5 UI code generator 5.4.1
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt4 import QtCore, QtGui
-
-try:
-    _fromUtf8 = QtCore.QString.fromUtf8
-except AttributeError:
-    def _fromUtf8(s):
-        return s
-
-try:
-    _encoding = QtGui.QApplication.UnicodeUTF8
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig, _encoding)
-except AttributeError:
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig)
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_Form(object):
     def setupUi(self, Form):
-        Form.setObjectName(_fromUtf8("Form"))
+        Form.setObjectName("Form")
         Form.resize(624, 524)
-        self.verticalLayout = QtGui.QVBoxLayout(Form)
+        self.verticalLayout = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout.setSpacing(0)
-        self.verticalLayout.setMargin(0)
-        self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.splitter = QtGui.QSplitter(Form)
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.splitter = QtWidgets.QSplitter(Form)
         self.splitter.setOrientation(QtCore.Qt.Horizontal)
-        self.splitter.setObjectName(_fromUtf8("splitter"))
-        self.widgets = QtGui.QFrame(self.splitter)
+        self.splitter.setObjectName("splitter")
+        self.widgets = QtWidgets.QFrame(self.splitter)
         self.widgets.setMaximumSize(QtCore.QSize(300, 16777215))
         self.widgets.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.widgets.setFrameShape(QtGui.QFrame.StyledPanel)
-        self.widgets.setFrameShadow(QtGui.QFrame.Raised)
-        self.widgets.setObjectName(_fromUtf8("widgets"))
-        self.widgetLayout = QtGui.QVBoxLayout(self.widgets)
+        self.widgets.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.widgets.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.widgets.setObjectName("widgets")
+        self.widgetLayout = QtWidgets.QVBoxLayout(self.widgets)
         self.widgetLayout.setSpacing(2)
-        self.widgetLayout.setMargin(2)
-        self.widgetLayout.setObjectName(_fromUtf8("widgetLayout"))
-        self.plotFrame = QtGui.QFrame(self.splitter)
-        self.plotFrame.setFrameShape(QtGui.QFrame.StyledPanel)
-        self.plotFrame.setFrameShadow(QtGui.QFrame.Raised)
-        self.plotFrame.setObjectName(_fromUtf8("plotFrame"))
-        self.plotLayout = QtGui.QVBoxLayout(self.plotFrame)
+        self.widgetLayout.setContentsMargins(2, 2, 2, 2)
+        self.widgetLayout.setObjectName("widgetLayout")
+        self.plotFrame = QtWidgets.QFrame(self.splitter)
+        self.plotFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.plotFrame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.plotFrame.setObjectName("plotFrame")
+        self.plotLayout = QtWidgets.QVBoxLayout(self.plotFrame)
         self.plotLayout.setSpacing(0)
-        self.plotLayout.setMargin(0)
-        self.plotLayout.setObjectName(_fromUtf8("plotLayout"))
+        self.plotLayout.setContentsMargins(0, 0, 0, 0)
+        self.plotLayout.setObjectName("plotLayout")
         self.verticalLayout.addWidget(self.splitter)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
-        Form.setWindowTitle(_translate("Form", "Form", None))
+        _translate = QtCore.QCoreApplication.translate
+        Form.setWindowTitle(_translate("Form", "Form"))
 

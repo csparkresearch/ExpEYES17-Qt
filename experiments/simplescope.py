@@ -1,5 +1,8 @@
 # -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
-from PyQt4 import QtGui,QtCore
+try:
+	from PyQt5 import QtGui,QtCore
+except:
+	from PyQt4 import QtGui,QtCore
 
 from templates import ui_plotTemplate as plotTemplate
 from utilities.expeyesWidgetsNew import expeyesWidgets
@@ -93,7 +96,10 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 			index = mousePoint.x()
 			self.plot.vLine.setPos(mousePoint.x())
 			#self.plot.hLine.setPos(mousePoint.y())
-			index = np.abs(self.x-mousePoint.x()).argmin()
+			try:
+				index = np.abs(self.x-mousePoint.x()).argmin()
+			except:
+				return
 			msg = "<span >x=%s :[</span>"%self.applySIPrefix(self.x[index],'S')
 			if index > 0 and index < len(self.x):
 				for A in self.traceData:

@@ -9,6 +9,7 @@ active: utilities
 ## General Purpose utilities for ExpEYES-17
 
 ### Code example to acquire a trace from A1, and plot it
+
 ```python
 #code snippet example
 from expeyes import eyes17

@@ -1,7 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
 
-from PyQt4 import QtCore, QtGui
+try:
+	from PyQt5 import QtGui,QtCore,QtWidgets
+except:
+	from PyQt4 import QtGui,QtCore
 from .templates import ui_plotSave as plotSave
 import sys,os,time
 import pyqtgraph as pg
@@ -12,9 +15,14 @@ class AppWindow(QtGui.QMainWindow, plotSave.Ui_MainWindow):
 	def __init__(self, parent ,curveList,plot):
 		super(AppWindow, self).__init__(parent)
 		self.setupUi(self)
-		self.connect(QtGui.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Escape), self), QtCore.SIGNAL('activated()'), self.close)
-		self.connect(QtGui.QShortcut(QtGui.QKeySequence(plotSave._translate("MainWindow", "Ctrl+P", None)), self), QtCore.SIGNAL('activated()'), self.printImage)
-		self.connect(QtGui.QShortcut(QtGui.QKeySequence(plotSave._translate("MainWindow", "Ctrl+C", None)), self), QtCore.SIGNAL('activated()'), self.copyToClipboard)
+        self.escshortcut = QtWidgets.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Escape), self)
+        self.escshortcut.activated.connect(self.close)
+
+        self.escshortcut = QtWidgets.QShortcut(QtGui.QKeySequence("Ctrl+P"), self)
+        self.escshortcut.activated.connect(self.printImage)
+
+        self.escshortcut = QtWidgets.QShortcut(QtGui.QKeySequence("Ctrl+C"), self)
+        self.escshortcut.activated.connect(self.copyToClipboard)
 		
 		self.table.setColumnWidth(0,200)
 		colnum=0;labels=[]
@@ -59,6 +67,7 @@ class AppWindow(QtGui.QMainWindow, plotSave.Ui_MainWindow):
 
 	def saveImage(self):  #Save as png or something
 		path = QtGui.QFileDialog.getSaveFileName(self, 'Save File', '~/')
+		if(len(path)==2):path = path[0]
 		if path:
 			pieces = path.split('.')
 			if len(pieces)<2: #No extension specified
@@ -89,6 +98,7 @@ class AppWindow(QtGui.QMainWindow, plotSave.Ui_MainWindow):
 
 	def save(self):  #Save as CSV
 		path = QtGui.QFileDialog.getSaveFileName(self, 'Save File', '~/', 'CSV(*.csv)')
+		if(len(path)==2):path = path[0]
 		if path:
 			import csv
 			with open(unicode(path), 'wb') as stream:

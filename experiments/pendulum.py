@@ -1,5 +1,8 @@
 # -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
-from PyQt4 import QtGui,QtCore
+try:
+	from PyQt5 import QtGui,QtCore
+except:
+	from PyQt4 import QtGui,QtCore
 
 from templates import ui_plotTemplate as plotTemplate
 from utilities.expeyesWidgetsNew import expeyesWidgets
@@ -36,7 +39,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		
 		xmax = self.totalTime.value()
 		self.endTime = 0
-		self.plot = self.newPlot([],detailedWidget=True,xMin=0,xMax = xmax, bottomLabel = 'time',bottomUnits='S',leftLabel = 'voltage',leftUnits='V',enableMenu=False,legend=True,autoRange='y')
+		self.plot = self.newPlot([],detailedWidget=True,xMin=0,xMax = xmax, bottomLabel = 'time',bottomUnits='S',leftLabel = 'voltage', leftUnits='V', enableMenu=False, legend=True, autoRange='y')
 		self.plot.setYRange(-3,3)
 		self.region = self.addRegion(self.plot,0,xmax*0.8)
 

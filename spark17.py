@@ -23,10 +23,15 @@
 
 
 from __future__ import print_function
-from PyQt4 import QtGui,QtCore
+
+try:
+	from PyQt5 import QtGui,QtCore
+except:
+	from PyQt4 import QtGui,QtCore
+
 import os,string,time,sys
 
-from utilities.expeyesWidgets import expeyesWidgets
+from utilities.expeyesWidgetsNew import expeyesWidgets
 from templates import ui_layoutNew as layoutNew
 from collections import OrderedDict
 
@@ -44,6 +49,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	TandM = OrderedDict([
 	('Oscilloscope','simplescope'),
 	('I2C Sensor Data Logger','sensorLogger'),
+	('Data-Logger','data-logger'),
 	 ])
 
 	electrical = OrderedDict([
@@ -111,9 +117,14 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		self.fileBrowser = fileBrowser(thumbnail_directory = 'ExpEYES_thumbnails',app=app)#,clickCallback = self.showNewPlot)
 		self.saveLayout.addWidget(self.fileBrowser)
 
-		self.helpBrowser = helpBrowser()
-		self.helpLayout.addWidget(self.helpBrowser)
-		self.helpBrowser.setFile()
+		try:
+			self.helpBrowser = helpBrowser()
+			self.helpLayout.addWidget(self.helpBrowser)
+			self.helpBrowser.setFile()
+		except Exception as e:
+			print ('faied to import help browser. check QtWebkit Version',e)
+			self.helpBrowser = None
+			
 		### Prepare the communication handler, and move it to a thread.
 		self.CH = communicationHandler()
 		self.worker_thread = QtCore.QThread()
@@ -188,11 +199,16 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		#self.expt = AppWindow(handler = self.CH)
 		self.experimentLayout.addWidget(self.expt)
 		self.expt.show()
-		if name in self.helpfileOverride:
-			self.helpBrowser.setFile(os.path.join('.','help','MD_HTML','apps',self.helpfileOverride[name]))
-			print ('help override',os.path.join('.','help','MD_HTML','apps',self.helpfileOverride[name]))
-		elif hasattr(self.expt,'subsection'):
-			self.helpBrowser.setFile(os.path.join('.','help','MD_HTML',self.expt.subsection,self.expt.helpfile))
+		try:
+			if name in self.helpfileOverride:
+				helpPath = os.path.join(os.path.dirname(sys.argv[0]),'help','MD_HTML','apps',self.helpfileOverride[name])
+				self.helpBrowser.setFile(helpPath)
+				print ('help override',helpPath)
+			elif hasattr(self.expt,'subsection'):
+				helpPath = os.path.join(os.path.dirname(sys.argv[0]),'help','MD_HTML',self.expt.subsection,self.expt.helpfile)
+				self.helpBrowser.setFile(helpPath)
+		except Exception as e:
+			print ('help widget not loaded. install QtWebkit',e)
 
 	def tabChanged(self,val):
 		pass
@@ -249,7 +265,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 if __name__ == "__main__":
 	app = QtGui.QApplication(sys.argv)
     # Create and display the splash screen
-    splash_pix = QtGui.QPixmap('./splash.png')
+    splash_pix = QtGui.QPixmap(os.path.join(os.path.dirname(sys.argv[0]),'splash.png'))
     splash = QtGui.QSplashScreen(splash_pix, QtCore.Qt.WindowStaysOnTopHint)
     splash.setMask(splash_pix.mask())
     splash.show()
@@ -264,8 +280,10 @@ if __name__ == "__main__":
 	import pyqtgraph.exporters
 
 	from utilities.fileBrowser import fileBrowser
-	from utilities.helpBrowser import helpBrowser
-
+	try:
+		from utilities.helpBrowser import helpBrowser
+	except Exception as e:
+		print ('qtwebkit help browser failed to import',e)
 
 
 	myapp = AppWindow()
