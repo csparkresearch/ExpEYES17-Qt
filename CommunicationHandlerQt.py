@@ -56,6 +56,7 @@ class communicationHandler(QtCore.QObject):
 		self.buflen = 0
 		self.trigPre = 0 # prescaler for trigger waiting for the oscilloscope
 		self.channels_enabled=[0,0,0,0]
+		print ('finished connecting')
 		
 		
 

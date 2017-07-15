@@ -460,12 +460,10 @@ class expeyesWidgets():
 
 
 	def changeGain(self,chan,val):
-		print (chan,type(val))
+		#print (chan,type(val))
 		if type(val) != int:
 			val = float(val[:-1]) #remove 'V'
-		print (chan,val)
 		chan  = str(chan)
-		print (chan,val)
 		if chan in ['A1','A2']:
 			#v = self.rangevals12[val]
 			self.currentRange[chan] = val

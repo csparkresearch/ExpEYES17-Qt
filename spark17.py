@@ -159,7 +159,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 			menu = QtGui.QMenu(self.menuBar)
 			menu.setTitle(grp)
 			for a in self.exptGroups[grp]:
-				print ('adding',grp,a)
+				#print ('adding',grp,a)
 				menu.addAction(a,functools.partial(self.launchExperiment,a))
 			self.menuBar.addAction(menu.menuAction())
 			self.allMenus.append(menu)
@@ -203,7 +203,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 			if name in self.helpfileOverride:
 				helpPath = os.path.join(os.path.dirname(sys.argv[0]),'help','MD_HTML','apps',self.helpfileOverride[name])
 				self.helpBrowser.setFile(helpPath)
-				print ('help override',helpPath)
+				#print ('help override',helpPath)
 			elif hasattr(self.expt,'subsection'):
 				helpPath = os.path.join(os.path.dirname(sys.argv[0]),'help','MD_HTML',self.expt.subsection,self.expt.helpfile)
 				self.helpBrowser.setFile(helpPath)
