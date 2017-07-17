@@ -1,17 +1,15 @@
 # ExpEYES17-Qt
 Qt based toolkit for accessing ExpEYES-17
 
+PyQt4 version maintained for windows compatibility until issues are resolved with win-PyQt5
+
 Dependencies
 ============
-python-pyqt5 , python-pyqtgraph, python-scipy, python-pyqt5.qtsvg
-pyqt5-dev-tools
+python-pyqt4 , python-pyqtgraph, python-scipy, python-pyqt4.qtsvg
 
 
 Building
 ========
-cd SPARK17
-make
+No building required for this branch. All ui files are included
 
-Housekeeping
-============
-`make clean` wipes out all generated files and leves only sources.
+
