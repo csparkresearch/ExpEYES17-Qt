@@ -10,10 +10,11 @@
 /*.egg-info
 
 __pycache__/
-# user interface generated python files
-ui_*.py
+# user interface generated python files . include for windows branch
+#ui_*.py
 # resource generated python files
-*_rc.py
+#*_rc.py
+
 # Expeyes-Blocks data files
 *.eyeblk
 # build zones
