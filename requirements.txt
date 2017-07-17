@@ -1,2 +1,2 @@
 pyqtgraph>=0.9.10
-pyqt5
+pyqt4

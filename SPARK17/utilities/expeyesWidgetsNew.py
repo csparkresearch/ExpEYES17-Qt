@@ -13,11 +13,7 @@ from .templates import ui_timebaseWidget as timebaseWidgetUi
 from .templates import ui_removableLabel as removableLabel
 from .templates import ui_ResCapFreq as ResCapFreq
 
-try:
-	from PyQt5 import QtGui,QtCore
-except:
-	print ('using qt4')
-	from PyQt4 import QtGui,QtCore
+from PyQt4 import QtGui,QtCore
 
 import pyqtgraph as pg
 import numpy as np
@@ -708,8 +704,8 @@ class expeyesWidgets():
 		if timer is None:
 			print (timer,'umm')
 			return
-		#rcvs = timer.receivers(QtCore.SIGNAL("timeout()"))
-		rcvs = timer.receivers(timer.timeout)
+		rcvs = timer.receivers(QtCore.SIGNAL("timeout()"))
+		#rcvs = timer.receivers(timer.timeout)
 		#print ('----------------------------------',rcvs)
 		if rcvs > 0:
 			timer.timeout.disconnect()

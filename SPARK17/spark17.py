@@ -24,10 +24,7 @@
 
 from __future__ import print_function
 
-try:
-	from PyQt5 import QtGui,QtCore
-except:
-	from PyQt4 import QtGui,QtCore
+from PyQt4 import QtGui,QtCore
 
 import os,string,time,sys
 

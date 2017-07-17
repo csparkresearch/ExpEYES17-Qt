@@ -1,8 +1,5 @@
 # -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
-try:
-	from PyQt5 import QtGui,QtCore
-except:
-	from PyQt4 import QtGui,QtCore
+from PyQt4 import QtGui,QtCore
 
 import time,sys,inspect,copy,functools
 

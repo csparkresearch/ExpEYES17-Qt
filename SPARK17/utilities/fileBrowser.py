@@ -1,9 +1,7 @@
 # -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
 import os,string,glob
-try:
-	from PyQt5 import QtGui,QtCore
-except:
-	from PyQt4 import QtGui,QtCore
+from PyQt4 import QtGui,QtCore
+
 import numpy as np
 
 from .templates import ui_fileBrowser as fileBrowser
