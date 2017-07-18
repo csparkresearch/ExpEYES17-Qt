@@ -1,19 +1,19 @@
 ---
 layout: e17page
-title: AC,DC separating
+title: Séparation continu/alternatif
 date: 2017-05-21
-description: "Blocking the DC component of a waveform by using a capacitor"
+description: "Blocage de la composante continue d'un signal par un condensateur"
 ---
 
 ![](images/schematics/acdc-separating.png){: width="700px"}
 
 ## Instructions
 
-The output of SQ1 changes between 0 and 5 volts, as shown by the output A1.
+La sortie de SQ1 varie entre 0 et 5 volt, comme le montre l'entrée A1.
 
-That means it has an average of 2.5 volts, which is the DC part.
+Ça signifie que sa valeur moyenne est de 2,5 volt, ce qui est la composante continue.
 
-After passing through a capacitor the voltage changes from -2.5 to +2.5 volts since the DC part is blocked by the capacitor.
+Après passage à travers un condensateur la tension est changée en -2,5 à +2,5 volt, comme la partie continue est bloquée par le condensateur.
 
 ![](images/photographs/acdc-separating.jpg){: width="600px"}
 

@@ -1,29 +1,29 @@
 ---
 layout: mainpage
-title: ExpEYES help
+title: Aide ExpEYES
 active: home
 ---
 
-<h1 style="text-align:center;">ExpEYES-17 : Your Lab @ Home!</h1><hr>
+<h1 style="text-align:center;">ExpEYES-17 : Votre Labo @ Home !</h1><hr>
 
 
-* A tool for learning science by exploring and experimenting.
-* 50 documented experiments and easy to add more.
-* Wide range: High school and above.
-* 4 channel Oscilloscope, 1Msps, +/-16V input range. Programmable voltage ranges
-* Sine/Triangular Wave Generator, 5Hz to 5kHz
-* Programmable voltage sources, +/5V and +/-3.3V
-* Frequency Counter and time measurements.
-* Supports I2C standard sensors
-* 12-bit analog resolution.
-* Open Hardware and Free Software.
-* Software in Python programming language.
-* Requires USB port and Python 
+* Un outil pour étudier les sciences par l'exploration et l'expérimentation.
+* 50 expériences documentées ;ilest facile d'en ajouterplus.
+* Public large : lycée et au-delà.
+* Oscilloscope 4 canaux, 1M échantillon/s, calibres +/-16V et programmables.
+* Générateur basse fréquence Sinus/Triangle, 5Hz to 5kHz
+* Sources de tension programmables, +/5V et +/-3,3V
+* Fréquencemètre et mesures de durées.
+* Gestion des capteurs standards I2C.
+* Résolution analogique 12-bit.
+* Matérielet logiciel libres.
+* Logiciel en langage de programmation Python.
+* Nécessite un port USB et Python.
 
 
-{% include giffer.html url="apps/images/screencasts/oscilloscope.gif"  title = "Oscilloscope Utility Introduction: Click to play"%}
+{% include giffer.html url="apps/images/screencasts/oscilloscope.gif"  title = "Introduction à l'utilitaire d'Oscilloscope : Cliquer pour voir"%}
 
-{% include giffer.html url="apps/images/screencasts/ac-circuits.gif"  title = "An example experiment: RLC phase shifts"%}
+{% include giffer.html url="apps/images/screencasts/ac-circuits.gif"  title = "Un exemple d'expérience : déphasages dans un circuit RLC"%}
 
-{% include giffer.html url="apps/images/screencasts/sensor-logger.gif"  title = "Directly record data from sensors"%}
+{% include giffer.html url="apps/images/screencasts/sensor-logger.gif"  title = "Mesures directes à partir de capteurs de données"%}
 

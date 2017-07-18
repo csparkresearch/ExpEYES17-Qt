@@ -1,26 +1,31 @@
 ---
 layout: e17page
-title: AC and DC
+title: Continu et Alternatif
 date: 2017-05-21
-description: "Difference between AC and DC"
+description: "Difference entre courants continu et alternatif"
 ---
 
 ![](images/schematics/ac-dc.png){: width="700px"}
 
 ## Instructions
 
-Connect the wires  as shown in the figure.
+Connecter les fils comme montré dans la figure.
 
-Set PV1 to 2 volts. 
+Régler PV1 à 2V. 
 
-Graph of DC will be a horizontal line.
+Le graphique de la tension continue sera une ligne horizontale.
 
-Now set W1 to 1000Hz. This means the voltage output from W1 will oscillate between 3V and -3V 1000 times every second.
+Puis régler W1 à 1000Hz. Ça signifie que la sortie de tension de W1 
+va osciller entre 3V and -3V 1000 fois par seconde.
 
-From the graph, note the times when the voltage crosses 0 Volts in the upward direction.
- measure the time for one cycle and calculate the frequency from that. Verify that it is close to the set frequency.
+À partir du graphique, noter combien de fois la tension croise la 
+valeur de 0V dans le sens montant.
+ Mesurer la durée d'un cycle et calculer la fréquence à partir de là.
+ Vérifier que c'est proche de la fréquence du réglage.
  
- You may also use the 'fit' function by using the checkbox next to A2 in the controls section, and this will automatically derive a precise value of the frequency for you.
+ On peut aussi utiliser la fonction « fit » en utilisant la case à
+  cocher près de A2 dans la section de contrôle, ce qui fait calculer 
+  automatiquement une valeur précise de fréquence.
  
 
 ![](images/photographs/ac-dc.jpg){: width="600px"}

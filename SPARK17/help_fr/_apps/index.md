@@ -1,14 +1,16 @@
 ---
 layout: e17page
 title: "index"
-description: "introduction to experiment related apps goes on this page"
+description: "L'introduction aux applications pour les expériences vient ici"
 active: apps
 ---
 
 
 
 ```python
-#code snippet example
+###########################
+# un petit code d'exemple #
+###########################
 import numpy as np
 x=np.linspace(0,np.pi*2,1000)
 

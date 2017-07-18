@@ -1,17 +1,19 @@
 ---
 layout: e17page
 title: "index"
-description: "introduction to general purpose utilities goes on this page"
+description: "L'introduction aux utilitaires généraux vient ici"
 active: utilities
 ---
 
 
-## General Purpose utilities for ExpEYES-17
+## Utilitaires généraux pour ExpEYES-17
 
-### Code example to acquire a trace from A1, and plot it
+### Exemple de code pour capturer des échantillons de A1, et en tracer un graphique
 
 ```python
-#code snippet example
+#########################
+# petit exemple de code #
+#########################
 from expeyes import eyes17
 p=eyes17.open()
 x,y = p.capture1('CH1',1000,1)

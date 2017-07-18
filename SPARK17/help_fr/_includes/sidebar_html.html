@@ -1,8 +1,8 @@
 {% include base_url.html %}
 <div id="mySidenav" class="sidenav">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-  <a href="{{base}}/utilities/index.html"> Utilities Section </a>
-  <a href="{{base}}/apps/index.html"> Experiments Section </a>
+  <a href="{{base}}/utilities/index.html"> Utilitaires </a>
+  <a href="{{base}}/apps/index.html"> Expériences </a>
   <hr>
   <ul>
 	  {% for p in site.utilities %}
@@ -17,4 +17,4 @@
   </ul>
 
 </div>
-<div style="padding:10px;"><span id="menubutton" style="font-size:30px;cursor:pointer;" onclick="openNav()">&#9776; Experiments</span></div>
+<div style="padding:10px;"><span id="menubutton" style="font-size:30px;cursor:pointer;" onclick="openNav()">&#9776; Expériences</span></div>
