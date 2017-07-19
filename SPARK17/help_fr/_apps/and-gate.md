@@ -1,19 +1,19 @@
 ---
 layout: e17page
-title: AND Gate
+title: Porte ET
 date: 2017-05-21
-description: "Logic Gates : Study of AND gates"
+description: "Portes logiques : étude des portes ET"
 ---
 
 ![](images/schematics/and-gate.png){: width="700px"}
 
 ## Instructions
 
-Make the connetions, on a breadboard.
+Faires les connexions sur une plaquette de contacts.
 
-Set SQ1 to 100 Hz, watch both A1 and A2
+Régler SQ1 à 100 Hz, examiner A1 et A2
 
-Toggle OD1 and watch the difference in the output. Make the truth table.
+Changer l'état de OD1 voir la différence à la sortie. Faire la table de vérité.
 
 
 ![](images/photographs/and-gate.jpg){: width="600px"}
