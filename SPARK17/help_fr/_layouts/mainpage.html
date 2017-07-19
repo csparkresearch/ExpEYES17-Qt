@@ -1,0 +1,72 @@
+{% include base_url.html %}
+<!DOCTYPE html>
+	<html>
+		<head>
+			<title>{{ page.title }}</title>
+			<meta charset="utf-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<meta name="description" content="">
+			<meta name="author" content="">
+			<title>ide pour ExpEYES-17</title>
+			
+			<!-- core CSS -->
+			
+
+			<link href="{{base}}/css/bootstrap.min.css" rel="stylesheet">
+			<link href="{{base}}/css/main.css" rel="stylesheet">
+			<link href="{{base}}/css/highlight.css" rel="stylesheet">
+		</head>
+
+<body class="homepage">
+
+    <header id="header">
+
+	<nav class="navbar navbar-inverse"  role="banner">
+	  <div class="container-fluid">
+	    <div class="navbar-header pull-left">
+	            <a class="navbar-brand" href="{{base}}/index.html"><img src="{{base}}/images/eyes17-logo.png" style="max-height:50px;background:#7a7;" alt="logo"></a>
+	    </div>
+	    <ul class="nav navbar-nav pull-left">
+                        <li {% if page.active == "home" %}class="active"{% endif %}><a href="{{base}}/index.html">Accueil</a></li>
+                        <li {% if page.active == "utilities" %}class="active"{% endif %}><a href="{{base}}/utilities/index.html">Utilitaires</a></li>
+                        <li {% if page.active == "apps" %}class="active"{% endif %}><a href="{{base}}/apps/index.html">Expériences</a></li>
+	    </ul>
+	    <!--
+	    <form class="navbar-form navbar-left">
+	      <div class="form-group">
+		<input type="text" class="form-control" placeholder="Search">
+	      </div>
+	      <button type="submit" class="btn btn-default">Submit</button>
+	    </form>
+	    -->
+	  </div>
+	</nav>
+
+
+		
+    </header><!--/header-->
+
+		{{ content }}
+
+
+   	  	    {% if base == '.' %}
+		    <footer class="footer navbar-fixed-bottom">
+		      <div class="container">
+	    		<ul>
+	        		<li><a href="https://github.com/csparkresearch/ExpEYES17-Qt/">Rapports de bugs</a></li>
+	        		<li><a href="http://expeyes.in">Site web d'ExpEYES</a></li>
+			</ul>
+		      </div>
+		    </footer>
+		    {% endif %}
+
+    <!--
+    <script src="/js/jquery.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.prettyPhoto.js"></script>
+    <script src="/js/jquery.isotope.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/wow.min.js"></script>
+    -->
+	</body>
+</html>
