@@ -32,7 +32,7 @@ entre CAP et GND, et les prendre en note.
 ![](images/schematics/cap-parallel.png){: width="400px"}
 
 Connecter les deux condensateurs en parallèle comme montré ci-dessous,
-et observer la capacité de l'ensemble. C<sub>total</sub> = C<sub>1 + C<sub>2</sub>.
+et observer la capacité de l'ensemble. C<sub>total</sub> = C<sub>1</sub> + C<sub>2</sub>.
 
 ## En série
 
