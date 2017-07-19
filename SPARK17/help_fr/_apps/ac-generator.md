@@ -1,28 +1,36 @@
 ---
 layout: e17page
-title: AC Generator
+title: Générateur de courant alternatif
 date: 2017-05-21
-description: Simple AC Generator
+description: Simple générateur alternatif
 screencast2: "giffer"
 screencast2_imagebase: ac-generator
-screencast2_title: "AC Generator: Screencast"
+screencast2_title: "Générateur alternatif : Capture d'écran"
 ---
 
-## Schematic A : Single phase
+## Schéma A : simple phase
 
 ![](images/schematics/ac-generator.png){: width="400px"}
 
-A magnet stuck on top of a rotating DC motor is used to create a changing magnetic field. Instead of the DC motor, you can also build any mechanical contraption such as a turbine to rotate the permanent magnet.
+On utilise un aimant placé sur un moteur électrique, en rotation, 
+ pour créer un champ magnétique variable. À la place du moteur électrique,
+ on peut aussi concevoir n'importe quelle construction mécanique
+ comme une turbine pour entraîner la rotation de l'aimant permanent.
 
-A coil is placed near this rotating magnet the such that the magnetic flux passing through it continuously reverses its direction.
+On place une bobine au voisinage de l'aimant tournant de telle façon
+ que le flux qui la traverse change constamment de sens.
+ 
+Le champ magnétique variable induit une tension qui est enregistrée par
+ A1. On peut aussi activer le bouton « fit » afin de calculer la fréquence
+ et l'amplitude du signal. La fréquence de la f.e.m. induite sera la
+ même que la fréquence de rotation de l'aimant.
 
-The changing magnetic field induces a voltage that is recorded by A1. You can also enable the 'fit' button in order to calculate the frequency and amplitude of the signal. The frequency of the induced EMF will be the same as the rotation frequency of the magnet.
 
-
-## Schematic B : Dual phase
+## Schéma B : double phase
 ![](images/schematics/ac-generator2.png){: width="400px"}
 
+Dans ce cas, on utilise deux bobines. Si elles sont diamétralement
+opposées, la différence de phase est de 180°.
 
-In this instance , two coils are used. If they are placed diametrically opposite, the phase difference is 180 degrees.
-
-Try changing the angle between the coils, and note that the phase difference in the induced signals depends on it.
+On essaiera de changer l'angle entre les bobines, et on notera que
+la différence de phase des signaux induits dépend de cet angle.
