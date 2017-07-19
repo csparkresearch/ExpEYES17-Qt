@@ -1,19 +1,19 @@
 ---
 layout: e17page
-title: AM and FM modulation
+title: Modulations AM et FM
 date: 2017-05-21
-description: "Capture the AM and FM signals and plot the power spectrum. study sidebands in the AM signal"
+description: "Capture des signaux AM et FM et affichage du spectre de puissance. Étude des bandes latérales dans le signal AM"
 ---
 
 ![](images/schematics/amfm.png){: width="400px"}
 
 ## Instructions
 
-You require an external Amplitude modulated  signal to do this experiment.
+On a besoin d'un signal en modulation d'amplitude externe pour faire cette expérience.
 
-The program captures the data and it can also show the power spectrum.
+Le programme capture les données et il peut aussi montrer le spectre de puissance.
 
-the side bands will be visible in the spectrum of an AM input.
+Les bandes latérales sont visibles dans le spectre d'un signal AM.
 
 ![](images/photographs/acdc-separating.jpg){: width="600px"}
 
