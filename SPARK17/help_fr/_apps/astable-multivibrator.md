@@ -1,13 +1,13 @@
 ---
 layout: e17page
-title: Astable Multivibrator
+title: Multivibrateur astable
 date: 2017-05-21
-description: Multivibrator circuit using a pair of transistors
+description: Circuit multivibrateur réaliséà l'aide de deux transistors
 imagebase: astable-multivibrator
 ---
 
 
-### Sine wave plot example
+### Exemple de graphique d'un signal sinusoïdal
 --------------------------
 
 ```python
