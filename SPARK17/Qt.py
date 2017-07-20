@@ -1,1 +1,1 @@
-from PyQt5 import QtGui,QtCore
+from PyQt5 import QtGui,QtCore,QtWidgets

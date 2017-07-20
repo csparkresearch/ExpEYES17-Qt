@@ -1,9 +1,7 @@
 # -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
 import os,glob
-try:
-	from PyQt5 import QtGui,QtCore
-except:
-	from PyQt4 import QtGui,QtCore
+from ..Qt import QtGui, QtCore
+
 import numpy as np
 
 from .templates import ui_fileBrowser as fileBrowser
@@ -88,7 +86,7 @@ class fileBrowser(QtGui.QFrame,fileBrowser.Ui_Form):
 						self.loadFromFile(P2,curves,filepath) 
 						self.exporter.export(thumbpath)
 					except Exception as e:
-						print ('problem',e.message)
+						print ('problem',str(e))
 						continue
 				try:
 					self.pathLabel.setText('Loading thumbnail for %s'%(filepath));self.app.processEvents()
@@ -98,7 +96,7 @@ class fileBrowser(QtGui.QFrame,fileBrowser.Ui_Form):
 					self.listWidget.addItem(a)
 					self.thumbList[fname] = [a,filepath]
 				except Exception as e:
-					print( 'failed to load thumbnail for ',fname,e.message)
+					print( 'failed to load thumbnail for ',fname,str(e))
 		self.pathLabel.setText('Current path : %s'%directory)
 		
 

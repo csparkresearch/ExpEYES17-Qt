@@ -1,10 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
 
-try:
-	from PyQt5 import QtGui,QtCore,QtWidgets
-except:
-	from PyQt4 import QtGui,QtCore
+from ..Qt import QtGui, QtCore
+
 from .templates import ui_plotSave as plotSave
 import sys,os,time
 import pyqtgraph as pg
