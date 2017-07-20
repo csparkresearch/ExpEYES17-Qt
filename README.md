@@ -15,3 +15,5 @@ make
 Housekeeping
 ============
 `make clean` wipes out all generated files and leves only sources.
+
+[![Build Status](https://api.travis-ci.org/csparkresearch/ExpEYES17-Qt.svg?branch=master)](https://api.travis-ci.org/csparkresearch/ExpEYES17-Qt)
