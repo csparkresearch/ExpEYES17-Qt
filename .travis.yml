@@ -17,7 +17,6 @@ before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y libxml2-dev
   - sudo apt-get install -y mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev
-  - sudo apt-get install python-pyqt4 python-pyqt4.qtsvg python-pyqt4.qtwebkit
 
 install:
     - export DISPLAY=:99.0
