@@ -7,7 +7,7 @@ Qt based toolkit for accessing ExpEYES-17
 Dependencies
 ============
 ## On Debian/Ubuntu
-+ sudo apt-get install python-pyqt4 , python-pyqtgraph, python-scipy, python-pyqt4.qtsvg, pyqt4-dev-tools, python-pyqt4.qtwebkit
++ sudo apt-get install python-pyqt4 , python-pyqtgraph, python-scipy, python-pyqt4.qtsvg, pyqt4-dev-tools, python-pyqt4.qtwebkit, python-serial
 + make
 
 python -m SPARK17.spark17
@@ -18,7 +18,7 @@ python -m SPARK17.spark17
 Dependencies
 ============
 ## On Debian/Ubuntu
-+ sudo apt-get install python3-pyqt5 , python3-pyqtgraph, python3-scipy, python3-pyqt5.qtsvg, pyqt5-dev-tools, python3-pyqt5.qtwebkit
++ sudo apt-get install python3-pyqt5 , python3-pyqtgraph, python3-scipy, python3-pyqt5.qtsvg, pyqt5-dev-tools, python3-pyqt5.qtwebkit, python3-serial
 + make
 
 python3 -m SPARK17.spark17
