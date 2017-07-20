@@ -1,13 +1,10 @@
 # -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
-try:
-	from PyQt5 import QtGui,QtCore
-except:
-	from PyQt4 import QtGui,QtCore
+from ..Qt import QtGui, QtCore
+from ..templates import ui_plot2Template as plotTemplate
+from ..utilities.expeyesWidgetsNew import expeyesWidgets
 
-from templates import ui_plot2Template as plotTemplate
-from utilities.expeyesWidgetsNew import expeyesWidgets
 import pyqtgraph as pg
-from expeyes import eyemath17 as eyemath
+from ..expeyes import eyemath17 as eyemath
 
 import sys,time,functools,os
 import numpy as np

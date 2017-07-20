@@ -171,7 +171,7 @@ class expeyesWidgets():
 				self.colorDialog.move(pos.x(), pos.y())
 
 			def editLineStyle(self):
-				item,ok = QtGui.QInputDialog.getItem(self,"Select Line Style","", self.lineStyles.keys(), 0, False)
+				item,ok = QtGui.QInputDialog.getItem(self,"Select Line Style","", list(self.lineStyles.keys()), 0, False)
 				if (ok and not item.isEmpty()):
 					self.changeStyle(self.lineStyles[str(item)])
 
@@ -339,9 +339,9 @@ class expeyesWidgets():
 		#self.showStatus(str(self.traceOrder))
 		for a in self.myCurves:self.myCurves[a].clear()
 		self.traceData={}
-		keys = vals.keys()
+		keys = list(vals.keys())
 
-		extraTraces =self.myCurves.keys()
+		extraTraces = list(self.myCurves.keys())
 		for a in keys:
 			try:extraTraces.remove(a)
 			except:pass
@@ -381,7 +381,7 @@ class expeyesWidgets():
 				else: self.myCurveWidgets[A].fit.setText('Fit')
 
 		if len(extraTraces):  #Evaluate derived traces 
-			x = vals[self.traceData.keys()[0]][0]
+			x = vals[list(self.traceData.keys())[0]][0]
 			for A in extraTraces:
 				R = self.currentRange[A]
 				try:
@@ -509,7 +509,7 @@ class expeyesWidgets():
 			self.menuButton.setMenu(self.menu)
 
 		def editLineStyle(self):
-			item,ok = QtGui.QInputDialog.getItem(self,"Select Line Style","", self.lineStyles.keys(), 0, False)
+			item,ok = QtGui.QInputDialog.getItem(self,"Select Line Style","", list(self.lineStyles.keys()), 0, False)
 			if (ok and not item.isEmpty()):
 				self.changeStyle(self.lineStyles[str(item)])
 

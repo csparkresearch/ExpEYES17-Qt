@@ -1,11 +1,8 @@
 # -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
-try:
-	from PyQt5 import QtGui,QtCore
-except:
-	from PyQt4 import QtGui,QtCore
+from ..Qt import QtGui, QtCore
+from ..templates import ui_plot2Template as plotTemplate
+from ..utilities.expeyesWidgetsNew import expeyesWidgets
 
-from templates import ui_plot2Template as plotTemplate
-from utilities.expeyesWidgetsNew import expeyesWidgets
 import pyqtgraph as pg
 
 import sys,time,functools,os
@@ -69,7 +66,10 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 			index = mousePoint.x()
 			self.plot.vLine.setPos(mousePoint.x())
 			#self.plot.hLine.setPos(mousePoint.y())
-			index = np.abs(self.x-mousePoint.x()).argmin()
+			try:
+				index = np.abs(self.x-mousePoint.x()).argmin()
+			except:
+				return
 			if index > 0 and index < len(self.x):
 				self.plot.plotItem.titleLabel.setText("<span style='font-size: 12pt'>x=%s,   <span style='color: white'>y1=%0.1f</span>,   <span style='color: red'>y2=%0.1f</span>,   <span style='color: cyan'>y2=%0.1f</span>" % (self.applySIPrefix(self.x[index],'S'), self.y1[index], self.y2[index], self.y3[index]))
 				self.updatePhasor()

@@ -1,11 +1,7 @@
 # -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
-try:
-	from PyQt5 import QtGui,QtCore
-except:
-	from PyQt4 import QtGui,QtCore
-
-from templates import ui_plotTemplate as plotTemplate
-from utilities.expeyesWidgetsNew import expeyesWidgets
+from ..Qt import QtGui, QtCore
+from ..templates import ui_plotTemplate as plotTemplate
+from ..utilities.expeyesWidgetsNew import expeyesWidgets
 
 import sys,time,os
 import numpy as np
@@ -82,7 +78,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 			leftIndex = (np.abs(self.xdata*1e-3-start)).argmin()
 			rightIndex = (np.abs(self.xdata*1e-3-end)).argmin()
 			from expeyes import eyemath17
-			print start,end,leftIndex,rightIndex
+			#print (start,end,leftIndex,rightIndex)
 			fa = eyemath17.fit_exp(self.xdata[leftIndex:rightIndex],self.ydata[leftIndex:rightIndex])
 			if fa != None:
 				pa = fa[1]

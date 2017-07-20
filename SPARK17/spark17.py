@@ -206,7 +206,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 				self.experimentLayout.removeWidget(self.expt)
 				self.expt.deleteLater()
 				#self.expt = None
-			except Exception as e:print (e.message)
+			except Exception as e:print (str(e))
 
 		FILE = importlib.import_module('.experiments.'+fname,package='SPARK17')
 		self.expt = FILE.AppWindow(handler = self.CH)
