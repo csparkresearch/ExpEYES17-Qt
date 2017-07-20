@@ -312,9 +312,10 @@ class I2C():
 			data=self.H.fd.read(bytes_to_read)
 			self.H.__get_ack__()
 			try:
-				return [ord(a) for a in data]
-			except:
-				print ('Transaction failed')
+				#print (data)
+				return [int(a) for a in data]
+			except Exception as e:
+				print ('Transaction failed',str(e))
 				return False
 		except Exception as ex:
 			self.raiseException(ex, "Communication Error , Function : "+inspect.currentframe().f_code.co_name)

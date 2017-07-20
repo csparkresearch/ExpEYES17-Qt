@@ -23,7 +23,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.acquireList={}
 		self.POINTS=1000
 		self.updatepos=0
-		self.xdata=range(self.POINTS)
+		self.xdata=np.array(range(self.POINTS))
 		self.fps=0;self.lastTime=time.time();self.updatepos=0
 
 		
@@ -158,7 +158,8 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 					item.ydata[X][self.updatepos] = vals[X]
 				if self.updatepos%20==0:
 					for a in range(len(item.curves)):
-						if item.curves[a].checked:item.curves[a].setData(self.xdata,item.ydata[a])
+						if item.curves[a].checked:
+							item.curves[a].setData(self.xdata,item.ydata[a])
 		#N2.readADC(10)
 		if len(self.acquireList):
 			self.updatepos+=1
