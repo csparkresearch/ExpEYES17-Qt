@@ -24,12 +24,12 @@
 
 from __future__ import print_function
 
-from PyQt5 import QtGui,QtCore
+from .Qt import QtGui,QtCore
 
 import os,string,time,sys
 
-from utilities.expeyesWidgetsNew import expeyesWidgets
-from templates import ui_layoutNew as layoutNew
+from .utilities.expeyesWidgetsNew import expeyesWidgets
+from .templates import ui_layoutNew as layoutNew
 from collections import OrderedDict
 
 try:
@@ -208,7 +208,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 				#self.expt = None
 			except Exception as e:print (e.message)
 
-		FILE = importlib.import_module('experiments.'+fname)
+		FILE = importlib.import_module('.experiments.'+fname,package='SPARK17')
 		self.expt = FILE.AppWindow(handler = self.CH)
 		self.tabWidget.setTabText(self.tabWidget.indexOf(self.experimentTab),name)
 		
@@ -291,14 +291,14 @@ if __name__ == "__main__":
 		time.sleep(0.01)
 
 	import time, os,functools,importlib
-	from CommunicationHandlerQt import communicationHandler
+	from .CommunicationHandlerQt import communicationHandler
 	import numpy as np
 	import pyqtgraph as pg
 	import pyqtgraph.exporters
 
-	from utilities.fileBrowser import fileBrowser
+	from .utilities.fileBrowser import fileBrowser
 	try:
-		from utilities.helpBrowser import helpBrowser
+		from .utilities.helpBrowser import helpBrowser
 	except Exception as e:
 		print ('qtwebkit help browser failed to import',e)
 

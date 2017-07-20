@@ -15,21 +15,21 @@ class AppWindow(QtGui.QMainWindow, plotSave.Ui_MainWindow):
 	def __init__(self, parent ,curveList,plot):
 		super(AppWindow, self).__init__(parent)
 		self.setupUi(self)
-        self.escshortcut = QtWidgets.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Escape), self)
-        self.escshortcut.activated.connect(self.close)
+		self.escshortcut = QtWidgets.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Escape), self)
+		self.escshortcut.activated.connect(self.close)
 
-        self.escshortcut = QtWidgets.QShortcut(QtGui.QKeySequence("Ctrl+P"), self)
-        self.escshortcut.activated.connect(self.printImage)
+		self.escshortcut = QtWidgets.QShortcut(QtGui.QKeySequence("Ctrl+P"), self)
+		self.escshortcut.activated.connect(self.printImage)
 
-        self.escshortcut = QtWidgets.QShortcut(QtGui.QKeySequence("Ctrl+C"), self)
-        self.escshortcut.activated.connect(self.copyToClipboard)
-		
+		self.escshortcut = QtWidgets.QShortcut(QtGui.QKeySequence("Ctrl+C"), self)
+		self.escshortcut.activated.connect(self.copyToClipboard)
+
 		self.table.setColumnWidth(0,200)
 		colnum=0;labels=[]
 		self.maxRows=0
 		self.maxCols=0
 		for a in curveList:
-			print a.isEnabled()
+			#print (a.isEnabled())
 			if not a.isEnabled():continue
 			x,y = a.getData()
 			name = a.name()

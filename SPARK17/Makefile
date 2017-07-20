@@ -22,6 +22,6 @@ install:
 	cp -R help $(DESTDIR)/usr/share/expeyes/eyes17/help
 	cp -R templates $(DESTDIR)/usr/share/expeyes/eyes17/templates
 	cp ExpEYES17.desktop $(DESTDIR)/usr/share/applications/
-	python setup.py install --install-layout=deb \
+	python3 setup.py install --install-layout=deb \
 	         --root=$(DESTDIR)/ --prefix=/usr
 
