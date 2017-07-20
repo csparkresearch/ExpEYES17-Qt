@@ -49,6 +49,7 @@ install:
     - make
 
 script:
-  - python -m SPARK17.spark17
+    - nosetests
+#  - python -m SPARK17.spark17
 
 
