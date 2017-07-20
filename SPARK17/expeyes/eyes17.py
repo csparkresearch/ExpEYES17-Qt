@@ -659,7 +659,7 @@ class Interface():
 			msg = "Incorrect Number of Bytes Received\n"
 			raise RuntimeError(msg)
 
-		return self.buff[:samples]
+		return self.buff[:int(samples)]
 
 	def capture_traces(self,num,samples,tg,channel_one_input='A1',CH123SA=0,**kwargs):
 		"""
@@ -988,7 +988,7 @@ class Interface():
 
 		try:
 			for a in range(int(samples)): self.buff[a] = CP.ShortInt.unpack(data[a*2:a*2+2])[0]
-			self.achans[channel_number-1].yaxis = self.achans[channel_number-1].fix_value(self.buff[:samples])
+			self.achans[channel_number-1].yaxis = self.achans[channel_number-1].fix_value(self.buff[:int(samples)])
 		except Exception as ex:
 			msg = "Incorrect Number of bytes received.\n"
 			raise RuntimeError(msg)
@@ -1022,7 +1022,7 @@ class Interface():
 			data = self.H.fd.read(int(samples*2))        #reading int by int sometimes causes a communication error. this works better.
 			self.H.__get_ack__()
 			for a in range(int(samples)): self.buff[a] = CP.ShortInt.unpack(data[a*2:a*2+2])[0]
-			self.achans[channel_number-1].yaxis = self.achans[channel_number-1].fix_value(self.buff[:samples])
+			self.achans[channel_number-1].yaxis = self.achans[channel_number-1].fix_value(self.buff[:int(samples)])
 		except Exception as ex:
 			self.raiseException(ex, "Communication Error , Function : "+inspect.currentframe().f_code.co_name)
 
