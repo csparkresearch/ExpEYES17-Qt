@@ -95,7 +95,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.A1.setData(self.x,self.y1)
 		self.A2.setData(self.x,self.y2)
 		self.A1A2.setData(self.x,self.y3)
-		self.fitresults=[]
+		self.fitresults=[None,None,None]
 		msg='';num=0;colors=['white','red','cyan']
 		for data in [self.y1,self.y2,self.y3]:
 			try:
@@ -106,12 +106,13 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 							offset=fitres[2]
 							ph=fitres[3]
 							frequency = freq/1e6
-							self.fitresults.append([amp,frequency,ph,offset])
+							self.fitresults[num]=[amp,frequency,ph,offset]
 							s = ('%5.2f V, %5.0f Hz %.2f')%(amp,frequency,ph)
 							#self.myCurveWidgets[A].fit.setText(s)
 			except Exception as e:
 					self.fitresults.append(None)
 					print ('fit error',e.message)
+			num+=1
 		self.counter+=1
 		self.updatePhasor()
 		self.setTimeout(self.timer,100,self.update)
