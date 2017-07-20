@@ -1103,9 +1103,9 @@ class expeyesWidgets():
 		return self.sliderWidget(min = 5,max = 50000, label = 'SQR1' ,units = 'Hz', callback = handler.set_sqr1,**kwargs) 
 
 	def setSineAmp(self,handler,amp):
-		opts = {'3V':2,'1V':1,'80mV':0}
+		opts = {'3V':2,'1V':1,'80mV':0,'2':2,'1':1,'0':0}
 		handler.set_sine_amp(opts.get(str(amp),2))
-		print ('asdsadsadsakjhdakjsfha')
+		print ('Amplitude :',amp)
 
 	def addSine(self,handler,**kwargs):
 		W = self.sliderWidget(min = 5,max = 5000, label = 'W1' ,units = 'Hz', callback = handler.set_sine,**kwargs)
@@ -1113,7 +1113,7 @@ class expeyesWidgets():
 		combo.addItems(['3V','1V','80mV'])
 		W.combo = combo
 		#QtCore.QObject.connect(W.combo, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), functools.partial(self.setSineAmp,handler))
-		W.combo.currentIndexChanged.connect(functools.partial(self.setSineAmp,handler))
+		W.combo.currentIndexChanged['QString'].connect(functools.partial(self.setSineAmp,handler))
 
 		W.widgetLayout.addWidget(combo)
 		return W

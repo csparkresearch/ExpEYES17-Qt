@@ -1,5 +1,17 @@
-PYUIC = pyuic4
-PYRCC = pyrcc4
+QT_VERSION?='PyQt4'
+export QT_VERSION
+
+ifeq ($(QT_VERSION), 'PyQt5')
+  echo $(QT_VERSION)
+  PYUIC = pyuic5
+  PYRCC = pyrcc5
+else ifeq ($(QT_VERSION), 'PyQt4')
+  PYUIC = pyuic4
+  PYRCC = pyrcc4
+else
+  PYUIC = pyuic4
+  PYRCC = pyrcc4
+endif
 
 DESTDIR =
 SUBDIRS = SPARK17
