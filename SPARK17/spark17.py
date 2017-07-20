@@ -170,6 +170,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		if self.CH.I.connected:
 			self.showStatus("System Status | Connected to device. Version : %s"%str(self.CH.get_version()))
 			self.launchExperiment(self.defaultExperiment)
+			self.tabWidget.setCurrentIndex(1)
 		else:
 			self.tabWidget.setCurrentIndex(0)
 			self.showStatus("System Status | Device not found. Dummy mode.",True)
@@ -187,7 +188,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 				self.expt.deleteLater()
 				#self.expt = None
 			except Exception as e:print (e.message)
-		
+		QtGui.QMessageBox.critical(self, "Device Disconnected", "A communication error occurred, or the device was unexpectedly removed. Please reconnect the hardware.")
 		
 	def savePlots(self):
 		print ('wrong save fnction. inheritance not working properly. save from expeyesWidgetsNew must be called. This is defined in expeyesWidgetsNew')

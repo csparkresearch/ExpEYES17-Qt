@@ -118,6 +118,7 @@ class communicationHandler(QtCore.QObject):
 						except:pass
 						self.I.H.connected = False
 						self.I.connected = False
+						self.sigDisconnected.emit()
 
 			elif len(self.menu_entries):
 				print ('found new device. prompting user...')
