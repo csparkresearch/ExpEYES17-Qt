@@ -1,5 +1,5 @@
 # -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
-import os,string,glob
+import os,glob
 try:
 	from PyQt5 import QtGui,QtCore
 except:
@@ -32,7 +32,7 @@ class fileBrowser(QtGui.QFrame,fileBrowser.Ui_Form):
 		self.generateThumbnails(self._browserPath)
 		
 	def itemClicked(self,sel):
-		fname = self.thumbList[str(sel.text())][1]
+		fname = self.thumbList[str(sel)][1]
 		print(fname)
 		self.clickCallback( fname )
 
@@ -76,7 +76,7 @@ class fileBrowser(QtGui.QFrame,fileBrowser.Ui_Form):
 		for a in os.listdir(directory):
 			pcs = a.split('.')
 			if pcs[-1] in ['dat','csv','txt']:  #check if extension is acceptable 
-				fname = string.join(pcs[:-1],'.')
+				fname = str.join('.',pcs[:-1])
 				filepath = os.path.join(directory,a)
 				timestamp = int(os.path.getctime(filepath))
 				thumbpath = os.path.join(thumbdir,fname+str(timestamp)+'.'+thumbFormat)
@@ -119,7 +119,7 @@ class fileBrowser(QtGui.QFrame,fileBrowser.Ui_Form):
 				ar = np.loadtxt(filename,skiprows=1)                    #skip the header row and start loading
 
 			XR = [0,0];YR=[0,0]
-			for A in range(len(ar[0])/2): #integer division
+			for A in range(len(ar[0])//2): #integer division
 				self.x =ar[:,A*2]
 				self.y =ar[:,A*2+1]
 				if histMode:curves[A].setData(self.x,self.y[:-1], stepMode=True, fillLevel=0, brush=(126, 197, 220,100))
