@@ -1,10 +1,13 @@
+PYUIC = pyuic4
+PYRCC = pyrcc4
+
 DESTDIR =
 SUBDIRS = SPARK17
 
 all: recursive_all
 
 recursive_all:
-	for d in $(SUBDIRS); do make -C $$d all; done
+	for d in $(SUBDIRS); do make PYUIC=$(PYUIC) PYRCC=$(PYRCC) -C $$d all; done
 
 clean: recursive_clean
 	rm -rf *.pyc *~ __pycache__
