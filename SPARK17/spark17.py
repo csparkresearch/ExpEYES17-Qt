@@ -117,7 +117,11 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		try:
 			self.helpBrowser = helpBrowser()
 			self.helpLayout.addWidget(self.helpBrowser)
-			self.helpBrowser.setFile()
+			helpPath = os.path.join(os.path.dirname(sys.argv[0]),'help','MD_HTML','index.html')
+			self.helpBrowser.setFile(helpPath)
+			self.tabWidget.setCurrentIndex(0)
+			self.showStatus("System Status | Connecting to device...",True)
+
 		except Exception as e:
 			print ('failed to import help browser. check QtWebkit Version',e)
 			self.helpBrowser = None
