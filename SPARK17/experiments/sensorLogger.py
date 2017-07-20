@@ -1,5 +1,5 @@
 # -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
-from ..Qt import QtGui, QtCore
+from ..Qt import QtGui, QtCore, QtWidgets
 from ..templates import ui_plotTemplate as plotTemplate
 from ..utilities.expeyesWidgetsNew import expeyesWidgets
 
@@ -9,7 +9,7 @@ from ..expeyes.sensorlist import sensors as sensorHints
 import sys,time,functools,os
 import numpy as np
 
-class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
+class AppWindow( QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	subsection = 'apps'
 	helpfile = 'sensor-logger.html'
 	def __init__(self, parent=None,**kwargs):

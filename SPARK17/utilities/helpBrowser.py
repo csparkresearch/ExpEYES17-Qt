@@ -1,8 +1,14 @@
 # -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
 import os,string,glob
 
-from PyQt5 import QtWebKit,QtCore
-from PyQt5.QtWebKitWidgets import QWebView , QWebPage
+import os
+if os.environ['SPARK17_QT_LIB'] == 'PyQt5':
+	from PyQt5 import QtWebKit,QtCore
+	from PyQt5.QtWebKitWidgets import QWebView , QWebPage
+else:
+	from PyQt4 import QtGui,QtCore
+	from PyQt4.QtWebKit import QWebView
+
 
 import sys,pkg_resources
 

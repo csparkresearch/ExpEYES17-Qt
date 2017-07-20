@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
 
-from ..Qt import QtGui, QtCore
+from ..Qt import QtGui, QtCore,QtWidgets
 
 from .templates import ui_plotSave as plotSave
 import sys,os,time
@@ -9,7 +9,7 @@ import pyqtgraph as pg
 
 
 
-class AppWindow(QtGui.QMainWindow, plotSave.Ui_MainWindow):
+class AppWindow(QtWidgets.QMainWindow, plotSave.Ui_MainWindow):
 	def __init__(self, parent ,curveList,plot):
 		super(AppWindow, self).__init__(parent)
 		self.setupUi(self)

@@ -1,6 +1,6 @@
 # -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
 import os,glob
-from ..Qt import QtGui, QtCore
+from ..Qt import QtGui, QtCore,QtWidgets
 
 import numpy as np
 
@@ -12,7 +12,7 @@ class dummyApp:
 		pass
 
 
-class fileBrowser(QtGui.QFrame,fileBrowser.Ui_Form):
+class fileBrowser(QtWidgets.QFrame,fileBrowser.Ui_Form):
 	trace_names = ['#%d'%a for a in range(10)]
 	trace_colors = [(0,255,0),(255,0,0),(255,255,100),(10,255,255)]
 	textfiles=[]
