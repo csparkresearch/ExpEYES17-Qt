@@ -16,6 +16,7 @@ install:
   - sh -e /etc/init.d/xvfb start
   - make
 
-script: nosetests
+script:
+  - python -m SPARK17.spark17
 
 
