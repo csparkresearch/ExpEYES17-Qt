@@ -10,7 +10,7 @@ clean:
 	rm -rf *.pyc *~ __pycache__
 
 ui_%.py:  %.ui
-	$(PYUIC) $< -o $@
+	$(PYUIC) --from-import $< -o $@
 
 %_rc.py: %.qrc
 	$(PYRCC) $< -o $@
