@@ -51,7 +51,7 @@ except AttributeError:
         return QtGui.QApplication.translate(context, text, disambig)
 
 
-class expeyesWidgets():
+class expeyesWidgets(object):
 	"""
 	This class contains methods that simplify setting up and running
 	an experiment.
@@ -86,7 +86,7 @@ class expeyesWidgets():
 		#sys.path.append('/usr/share/seelablet')
 		pass
 
-	class utils:
+	class utils(object):
 		def __init__(self):
 			pass
 
@@ -209,7 +209,7 @@ class expeyesWidgets():
 	#   - plotLayout (If you wish to use 'newPlot'
 	#   - plotLayout, p (interface) (If you wish to use 'W1','SQR1','PV1' etc ..)
 	####################################################################################
-	class constants:
+	class constants(object):
 		gainAvailables = ['A1','A2']
 
 	def SINE(self,**kwargs):
@@ -1105,7 +1105,7 @@ class expeyesWidgets():
 	def setSineAmp(self,handler,amp):
 		opts = {'3V':2,'1V':1,'80mV':0,'2':2,'1':1,'0':0}
 		handler.set_sine_amp(opts.get(str(amp),2))
-		print ('Amplitude :',amp)
+		#print ('Amplitude :',amp)
 
 	def addSine(self,handler,**kwargs):
 		W = self.sliderWidget(min = 5,max = 5000, label = 'W1' ,units = 'Hz', callback = handler.set_sine,**kwargs)

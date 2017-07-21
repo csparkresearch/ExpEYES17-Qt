@@ -1,4 +1,4 @@
-QT_VERSION?='PyQt4'
+QT_VERSION?=PyQt4
 export QT_VERSION
 
 
@@ -8,6 +8,9 @@ ifeq ($(QT_VERSION),PyQt5)
 else ifeq ($(QT_VERSION),PyQt4)
   PYUIC = pyuic4
   PYRCC = pyrcc4
+else ifeq ($(QT_VERSION),PySide)
+  PYUIC = pyside-uic
+  PYRCC = pyside-rcc
 else
   PYUIC = pyuic4
   PYRCC = pyrcc4
@@ -20,6 +23,7 @@ all: recursive_all
 
 recursive_all:
 	@echo '?. Using QT Version:' $(QT_VERSION)  $(PYUIC) $(PYRCC)
+	@echo "QT_VERSION = '$(QT_VERSION)'" > SPARK17/build_details.py
 	for d in $(SUBDIRS); do make PYUIC=$(PYUIC) PYRCC=$(PYRCC) -C $$d all; done
 
 clean: recursive_clean
@@ -38,6 +42,6 @@ install:
 	cp -R help $(DESTDIR)/usr/share/expeyes/eyes17/help
 	cp -R templates $(DESTDIR)/usr/share/expeyes/eyes17/templates
 	cp ExpEYES17.desktop $(DESTDIR)/usr/share/applications/
-	python3 setup.py install --install-layout=deb \
+	python setup.py install --install-layout=deb \
 	         --root=$(DESTDIR)/ --prefix=/usr
 

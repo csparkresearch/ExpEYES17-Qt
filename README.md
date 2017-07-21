@@ -30,6 +30,6 @@ Qt based toolkit for accessing [ExpEYES-17](http://expeyes.in)
 
 ## Housekeeping
 
-`make clean` wipes out all generated files and leves only sources.
+`make clean` wipes out all generated files and leaves only sources.
 
 
