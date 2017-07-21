@@ -702,13 +702,17 @@ class expeyesWidgets(object):
 		Execute a function after a certain time interval
 		'''
 		if timer is None:
-			print (timer,'umm')
+			print (timer,'Does not exist. is None')
 			return
 		
-		if os.environ['SPARK17_QT_LIB'] == 'PyQt5':
-			rcvs = timer.receivers(timer.timeout)
-		else:
-			rcvs = timer.receivers(QtCore.SIGNAL("timeout()"))
+		try:
+			if os.environ['SPARK17_QT_LIB'] == 'PyQt5':
+				rcvs = timer.receivers(timer.timeout)
+			else:
+				rcvs = timer.receivers(QtCore.SIGNAL("timeout()"))
+		except:
+			print ('problem with fetching timer linked receivers')
+
 		#print ('----------------------------------',rcvs)
 		if rcvs > 0:
 			timer.timeout.disconnect()
@@ -880,12 +884,13 @@ class expeyesWidgets(object):
 		trignum = self.activeTriggerWidget.chanBox.currentIndex()
 		if trignum==-1 : #Index not found.
 			return
+		self.activeTriggerWidget.enable.setText('Trigger Level: %s'%self.applySIPrefix(self.trigger_level,'V',1))
 		self.p.configure_trigger(trignum,trigName,self.trigger_level,resolution=10,prescaler=5)
 
 
 	def addInfiniteLine(self,plot,**kwargs):
 		line = pg.InfiniteLine(angle=kwargs.get('angle',0), movable=kwargs.get('movable',True),pen=kwargs.get('pen',{'color':'#FFF','width':2,'style': QtCore.Qt.DashLine}) )
-		if 'cursor' in kwargs:line.setCursor(QtGui.QCursor(kwargs.get('cursor'))); 
+		if 'cursor' in kwargs and os.environ['SPARK17_QT_LIB'] != 'PySide':line.setCursor(QtGui.QCursor(kwargs.get('cursor'))); 
 		if 'tooltip' in kwargs:line.setToolTip(kwargs.get('tooltip'))
 		if 'value' in kwargs:line.setPos(kwargs.get('value'))
 		plot.addItem(line, ignoreBounds=kwargs.get('ignoreBounds'))
@@ -1104,8 +1109,8 @@ class expeyesWidgets(object):
 
 	def setSineAmp(self,handler,amp):
 		opts = {'3V':2,'1V':1,'80mV':0,'2':2,'1':1,'0':0}
+		#print ('Amplitude :',amp,opts.get(str(amp),2))
 		handler.set_sine_amp(opts.get(str(amp),2))
-		#print ('Amplitude :',amp)
 
 	def addSine(self,handler,**kwargs):
 		W = self.sliderWidget(min = 5,max = 5000, label = 'W1' ,units = 'Hz', callback = handler.set_sine,**kwargs)

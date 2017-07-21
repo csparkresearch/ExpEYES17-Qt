@@ -132,7 +132,7 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		self.sigExec.connect(self.CH.process)
 
 		self.CH.sigStat.connect(self.showStatus)
-		self.CH.sigGeneric.connect(self.genericDataReceived)
+		#self.CH.sigGeneric.connect(self.genericDataReceived)
 
 		self.worker_thread.start()
 		self.worker_thread.setPriority(QtCore.QThread.HighPriority)
@@ -256,14 +256,14 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 
 	##############  HANDLE DATA RETURNED FROM WORKER THREAD   #####################
 
+	'''
 	def genericDataReceived(self,name,res):
 		if name == 'get_states':
 			for nm,wid in zip(['IN2','SQR1_OUT','OD1_OUT','SEN','CCS'],[self.DIN_IN2,self.DIN_SQR1,self.DIN_OD1,self.DIN_SEN,self.DIN_CCS]):
-				wid.setStyleSheet('''background-color: %s;'''%('#0F0' if res[nm] else '#F00'))
+				wid.setStyleSheet("background-color: %s;"%('#0F0' if res[nm] else '#F00'))
 		else:
 			pass
-			#print (name,res)
-
+	'''
 	def handleError(self,name,err):
 		self.showStatus(name+err,True)
 		print ('packet drop',name,err)
@@ -279,10 +279,6 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		self.showStatus("Loaded data from file | %s"%fname)
 		self.fileBrowser.loadFromFile( self.plot,self.curves[self.plot],fname ) 
 		self.tabWidget.setCurrentIndex(self.experimentTabIndex)
-
-
-
-
 
 if __name__ == "__main__":
 	app = QtWidgets.QApplication(sys.argv)

@@ -23,7 +23,7 @@
    <item>
     <layout class="QHBoxLayout" name="widgetLayout">
      <property name="spacing">
-      <number>8</number>
+      <number>2</number>
      </property>
      <property name="topMargin">
       <number>0</number>
@@ -51,7 +51,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Trigger: 0V (Drag yellow line)</string>
+        <string>Trigger: 0V (Drag trigger line)</string>
        </property>
        <property name="checked">
         <bool>true</bool>

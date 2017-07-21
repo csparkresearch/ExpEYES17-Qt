@@ -69,7 +69,6 @@ class AppWindow(QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		
 		self.sv = self.PUSHBUTTON('Save Data',self.savePlots)
 		self.paused = self.CHECKBOX('Pause')
-
 		self.lastUpdateTime = time.time()
 		self.timer = self.newTimer()
 		self.setTimeout(self.timer,100,self.update)
@@ -194,7 +193,7 @@ class AppWindow(QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.setTimeout(self.timer,10,self.update)
 
 	def resCapFreqCallback(self,name,res):
-		self.showStatus('%s : %s'%(name,str(res)))
+		#self.showStatus('%s : %s'%(name,str(res)))
 		if 'capacitance' in name:
 			if res<500e-6: ##500uF limit
 				txt = 'CAP: '+self.applySIPrefix(res,'F',2)

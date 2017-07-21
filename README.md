@@ -33,3 +33,19 @@ Qt based toolkit for accessing [ExpEYES-17](http://expeyes.in)
 `make clean` wipes out all generated files and leaves only sources.
 
 
+## Using PySide
+
++ Work in progress. Currently segfaults under various scenarios.
+
+## Building from source for python2.7 with PySide
+
+### Dependencies
+
++ On Debian/Ubuntu
+  + sudo apt-get install python-pyside , python-pyqtgraph, python-scipy, pyside-tools
+  + make QT_VERSION=PySide
+
+`python -m SPARK17.spark17`
+
+
+

@@ -124,10 +124,6 @@ class communicationHandler(QtCore.QObject):
 				print ('found new device. prompting user...')
 				self.sigConnectionDialog.emit()
 
-
-
-		
-
 	@QtCore.pyqtSlot(str,object,object)
 	def process(self,name,args,kwargs):
 		name = str(name)
@@ -195,7 +191,8 @@ class communicationHandler(QtCore.QObject):
 			else:
 				if name in self.evalGlobals:
 					res = self.evalGlobals[name](*args,**kwargs)
-					self.sigGeneric.emit(name,res)
+					if res is not None:
+						self.sigGeneric.emit(name,res)
 				else:
 					self.sigError.emit(name,' : unknown function')
 		except Exception as e:
