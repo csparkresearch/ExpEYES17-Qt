@@ -313,7 +313,12 @@ class I2C():
 			self.H.__get_ack__()
 			try:
 				#print (data)
-				return [int(a) for a in data]
+				#The following try block should be resolved depending on Python Version. P3-serial treats it as Byte arrays
+				try:
+					return [int(a) for a in data]
+				except:
+					return [ord(a) for a in data]
+				
 			except Exception as e:
 				print ('Transaction failed',str(e))
 				return False
