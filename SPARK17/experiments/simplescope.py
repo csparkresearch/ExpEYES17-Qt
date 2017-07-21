@@ -44,7 +44,9 @@ class AppWindow(QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 			self.cols[a] = self.trace_colors[num]
 			if(num==0 and kwargs.get('flexibleChan1',True)):
 				self.myCurveWidgets[a] = self.flexibleChannelWidget(a,self.changeGain,self.p.I.allAnalogChannels,self.trace_colors[num])
-			else :self.myCurveWidgets[a] = self.channelWidget(a,self.changeGain,self.trace_colors[num])
+			else :
+				self.myCurveWidgets[a] = self.channelWidget(a,self.changeGain,self.trace_colors[num])
+				if a!='A2': self.myCurveWidgets[a].enable.setChecked(False)  #Only enable A1,A2 on startup
 			self.widgetLayout.addWidget(self.myCurveWidgets[a])
 			num+=1
 		self.makeLabels()
