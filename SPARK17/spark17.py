@@ -24,7 +24,7 @@
 
 from __future__ import print_function
 
-from .Qt import QtGui,QtCore
+from .Qt import QtGui,QtCore,QtWidgets
 
 import os,string,time,sys
 
@@ -39,7 +39,7 @@ except AttributeError:
 		return s
 
 
-class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
+class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	sigExec = QtCore.pyqtSignal(str,object,object)
 	sigHelp = QtCore.pyqtSignal(str)
 	xmax = 20 #mS
@@ -139,17 +139,17 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 
 
 		############ MAKE AN EXIT BUTTON AND STYLE IT. SHOULD IDEALLY BE DONE IN THE LAYOUT.UI FILE USING QT4-DESIGNER.
-		self.exitBtn = QtGui.QPushButton("EXIT")
+		self.exitBtn = QtWidgets.QPushButton("EXIT")
 		self.exitBtn.clicked.connect(self.askBeforeQuit)
 		self.exitBtn.setStyleSheet("height: 10px;padding:3px;color: #FF2222;")
 		self.statusBar.addPermanentWidget(self.exitBtn)
 
-		self.menuLoad = QtGui.QMenu(self.menuBar)
+		self.menuLoad = QtWidgets.QMenu(self.menuBar)
 		self.menuLoad.setObjectName(_fromUtf8("menuLoad"))
 
 		self.allMenus = []
 		for grp in self.exptGroups:
-			menu = QtGui.QMenu(self.menuBar)
+			menu = QtWidgets.QMenu(self.menuBar)
 			menu.setTitle(grp)
 			for a in self.exptGroups[grp]:
 				#print ('adding',grp,a)
@@ -162,8 +162,8 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		self.actionSave.triggered.connect(self.savePlots)
 
 	def connectionDialog(self):
-		reply = QtGui.QMessageBox.question(self, 'Connection', 'New Device Found. Connect?', QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
-		if reply == QtGui.QMessageBox.Yes:
+		reply = QtWidgets.QMessageBox.question(self, 'Connection', 'New Device Found. Connect?', QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.No)
+		if reply == QtWidgets.QMessageBox.Yes:
 			print (reply)
 			self.CH.connectToDevice()
 			#self.selectDevice()
@@ -285,10 +285,10 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 
 
 if __name__ == "__main__":
-	app = QtGui.QApplication(sys.argv)
+	app = QtWidgets.QApplication(sys.argv)
 	# Create and display the splash screen
 	splash_pix = QtGui.QPixmap(os.path.join(os.path.dirname(sys.argv[0]),os.path.join('templates','splash.png')))
-	splash = QtGui.QSplashScreen(splash_pix, QtCore.Qt.WindowStaysOnTopHint)
+	splash = QtWidgets.QSplashScreen(splash_pix, QtCore.Qt.WindowStaysOnTopHint)
 	splash.setMask(splash_pix.mask())
 	splash.show()
 	for a in range(10):
