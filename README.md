@@ -3,6 +3,7 @@
 Qt based toolkit for accessing [ExpEYES-17](http://expeyes.in)
 ### ExpEYES-17
 <img src="SPARK17/help/_apps/images/photographs/sensor-logger.jpg" width="700px">
+
 ### Screencast of the oscilloscope app
 <img src="SPARK17/help/_apps/images/screencasts/oscilloscope.gif" width="700px">
 
