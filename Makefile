@@ -1,11 +1,11 @@
 QT_VERSION?='PyQt4'
 export QT_VERSION
 
-ifeq ($(QT_VERSION), 'PyQt5')
-  echo $(QT_VERSION)
+
+ifeq ($(QT_VERSION),PyQt5)
   PYUIC = pyuic5
   PYRCC = pyrcc5
-else ifeq ($(QT_VERSION), 'PyQt4')
+else ifeq ($(QT_VERSION),PyQt4)
   PYUIC = pyuic4
   PYRCC = pyrcc4
 else
@@ -19,6 +19,7 @@ SUBDIRS = SPARK17
 all: recursive_all
 
 recursive_all:
+	@echo '?. Using QT Version:' $(QT_VERSION)  $(PYUIC) $(PYRCC)
 	for d in $(SUBDIRS); do make PYUIC=$(PYUIC) PYRCC=$(PYRCC) -C $$d all; done
 
 clean: recursive_clean
