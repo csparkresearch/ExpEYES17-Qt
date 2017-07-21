@@ -1,8 +1,8 @@
 [![Build Status](https://api.travis-ci.org/csparkresearch/ExpEYES17-Qt.svg?branch=master)](https://api.travis-ci.org/csparkresearch/ExpEYES17-Qt)
 # ExpEYES17-Qt
 Qt based toolkit for accessing [ExpEYES-17](http://expeyes.in)
-![](SPARK17/help/_apps/images/photographs/sensor-logger.jpg)
-![](SPARK17/help/_apps/images/screencasts/oscilloscope.gif)
+![](SPARK17/help/_apps/images/photographs/sensor-logger.jpg =600x)
+![](SPARK17/help/_apps/images/screencasts/oscilloscope.gif =600x)
 ## Building from source for python2.7 with PyQt4
 
 ### Dependencies
