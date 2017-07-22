@@ -26,7 +26,8 @@ if __name__ == "__main__":
 	import sys,os,time
 	app = QtWidgets.QApplication(sys.argv)
 	# Create and display the splash screen
-	splash_pix = QtGui.QPixmap(os.path.join(os.path.dirname(sys.argv[0]),os.path.join('templates','splash.png')))
+	curPath = os.path.dirname(os.path.realpath(__file__))
+	splash_pix = QtGui.QPixmap(os.path.join(curPath,'SPARK17','templates','splash.png'))
 	splash = QtWidgets.QSplashScreen(splash_pix, QtCore.Qt.WindowStaysOnTopHint)
 	splash.setMask(splash_pix.mask())
 	splash.show()
