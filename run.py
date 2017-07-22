@@ -22,6 +22,8 @@
 
 
 if __name__ == "__main__":
+	from SPARK17.Qt import QtWidgets,QtGui,QtCore
+	import sys,os,time
 	app = QtWidgets.QApplication(sys.argv)
 	# Create and display the splash screen
 	splash_pix = QtGui.QPixmap(os.path.join(os.path.dirname(sys.argv[0]),os.path.join('templates','splash.png')))
@@ -33,11 +35,6 @@ if __name__ == "__main__":
 		time.sleep(0.01)
 
 	from SPARK17.spark17 import *
-	import time, os,functools,importlib
-	import numpy as np
-	import pyqtgraph as pg
-	import pyqtgraph.exporters
-
 
 	myapp = AppWindow(app=app)
 	myapp.show()
