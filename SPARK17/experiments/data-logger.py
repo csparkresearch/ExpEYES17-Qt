@@ -1,16 +1,12 @@
 # -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
-try:
-	from PyQt5 import QtGui,QtCore
-except:
-	from PyQt4 import QtGui,QtCore
-
-from templates import ui_plotTemplate as plotTemplate
-from utilities.expeyesWidgetsNew import expeyesWidgets
+from ..Qt import QtGui, QtCore, QtWidgets
+from ..templates import ui_plotTemplate as plotTemplate
+from ..utilities.expeyesWidgetsNew import expeyesWidgets
 
 import sys,time,os
 import numpy as np
 
-class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
+class AppWindow( QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	subsection = 'apps'
 	helpfile = 'pendulum-waveform.html'
 	def __init__(self, parent=None,**kwargs):

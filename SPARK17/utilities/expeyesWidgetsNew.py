@@ -13,11 +13,7 @@ from .templates import ui_timebaseWidget as timebaseWidgetUi
 from .templates import ui_removableLabel as removableLabel
 from .templates import ui_ResCapFreq as ResCapFreq
 
-try:
-	from PyQt5 import QtGui,QtCore
-except:
-	print ('using qt4')
-	from PyQt4 import QtGui,QtCore
+from ..Qt import QtGui,QtCore,QtWidgets
 
 import pyqtgraph as pg
 import numpy as np
@@ -55,7 +51,7 @@ except AttributeError:
         return QtGui.QApplication.translate(context, text, disambig)
 
 
-class expeyesWidgets():
+class expeyesWidgets(object):
 	"""
 	This class contains methods that simplify setting up and running
 	an experiment.
@@ -90,7 +86,7 @@ class expeyesWidgets():
 		#sys.path.append('/usr/share/seelablet')
 		pass
 
-	class utils:
+	class utils(object):
 		def __init__(self):
 			pass
 
@@ -120,7 +116,7 @@ class expeyesWidgets():
 				return '%.*f %s%s' % (precision, value,PREFIXES[si_level + prefix_levels],unit)
 
 
-		class myColorButton(QtGui.QPushButton):
+		class myColorButton(QtWidgets.QPushButton):
 			'''
 			inheriting and overriding paint event to reduce the boundary.
 			'''
@@ -150,7 +146,7 @@ class expeyesWidgets():
 				elif mode == 'float':
 					return (color.red()/255., color.green()/255., color.blue()/255., color.alpha()/255.)
 
-		class traceRowWidget(QtGui.QWidget,tracesRow.Ui_Form):
+		class traceRowWidget(QtWidgets.QWidget,tracesRow.Ui_Form):
 			def __init__(self,name,curve,legend=None):
 				super(expeyesWidgets.utils.traceRowWidget, self).__init__()
 				self.setupUi(self)
@@ -175,7 +171,7 @@ class expeyesWidgets():
 				self.colorDialog.move(pos.x(), pos.y())
 
 			def editLineStyle(self):
-				item,ok = QtGui.QInputDialog.getItem(self,"Select Line Style","", self.lineStyles.keys(), 0, False)
+				item,ok = QtGui.QInputDialog.getItem(self,"Select Line Style","", list(self.lineStyles.keys()), 0, False)
 				if (ok and not item.isEmpty()):
 					self.changeStyle(self.lineStyles[str(item)])
 
@@ -213,7 +209,7 @@ class expeyesWidgets():
 	#   - plotLayout (If you wish to use 'newPlot'
 	#   - plotLayout, p (interface) (If you wish to use 'W1','SQR1','PV1' etc ..)
 	####################################################################################
-	class constants:
+	class constants(object):
 		gainAvailables = ['A1','A2']
 
 	def SINE(self,**kwargs):
@@ -343,9 +339,9 @@ class expeyesWidgets():
 		#self.showStatus(str(self.traceOrder))
 		for a in self.myCurves:self.myCurves[a].clear()
 		self.traceData={}
-		keys = vals.keys()
+		keys = list(vals.keys())
 
-		extraTraces =self.myCurves.keys()
+		extraTraces = list(self.myCurves.keys())
 		for a in keys:
 			try:extraTraces.remove(a)
 			except:pass
@@ -385,7 +381,7 @@ class expeyesWidgets():
 				else: self.myCurveWidgets[A].fit.setText('Fit')
 
 		if len(extraTraces):  #Evaluate derived traces 
-			x = vals[self.traceData.keys()[0]][0]
+			x = vals[list(self.traceData.keys())[0]][0]
 			for A in extraTraces:
 				R = self.currentRange[A]
 				try:
@@ -474,7 +470,7 @@ class expeyesWidgets():
 
 	##########################   controls for curves  ##########################
 
-	class tracesWidget(QtGui.QWidget,allTraces.Ui_Form,constants,utils):
+	class tracesWidget(QtWidgets.QWidget,allTraces.Ui_Form,constants,utils):
 		def __init__(self,plot = None):
 			super(expeyesWidgets.tracesWidget, self).__init__()
 			self.setupUi(self)
@@ -490,13 +486,13 @@ class expeyesWidgets():
 			self.widthBtn=QtGui.QSpinBox()
 			self.widthBtn.setRange(1,5);self.widthBtn.setPrefix('Width :')
 			self.widthBtn.valueChanged.connect(self.changeWidth)
-			self.widthAction = QtGui.QWidgetAction(self.menu)
+			self.widthAction = QtWidgets.QWidgetAction(self.menu)
 			self.widthAction.setDefaultWidget(self.widthBtn)
 			self.menu.addAction(self.widthAction)
 
 			self.editBtn=self.myColorButton('Change Color',[255,255,255,255])
 			self.editBtn.colorDialog.currentColorChanged.connect(self.changeColor)
-			self.editAction = QtGui.QWidgetAction(self.menu)
+			self.editAction = QtWidgets.QWidgetAction(self.menu)
 			self.editAction.setDefaultWidget(self.editBtn)
 			self.menu.addAction(self.editAction)
 
@@ -513,7 +509,7 @@ class expeyesWidgets():
 			self.menuButton.setMenu(self.menu)
 
 		def editLineStyle(self):
-			item,ok = QtGui.QInputDialog.getItem(self,"Select Line Style","", self.lineStyles.keys(), 0, False)
+			item,ok = QtGui.QInputDialog.getItem(self,"Select Line Style","", list(self.lineStyles.keys()), 0, False)
 			if (ok and not item.isEmpty()):
 				self.changeStyle(self.lineStyles[str(item)])
 
@@ -582,7 +578,7 @@ class expeyesWidgets():
 			self.traceList.removeItem(self.traceList.currentIndex())
 
 
-	class tracesWidgetDetailed(QtGui.QWidget,allTracesDetailed.Ui_Form,constants,utils):
+	class tracesWidgetDetailed(QtWidgets.QWidget,allTracesDetailed.Ui_Form,constants,utils):
 		def __init__(self,plot = None):
 			super(expeyesWidgets.tracesWidgetDetailed, self).__init__()
 			self.setupUi(self)
@@ -626,7 +622,7 @@ class expeyesWidgets():
 			self.traceList.removeItem(self.traceList.currentIndex())
 
 
-	class channelWidget(QtGui.QWidget,channelSelector.Ui_Form,constants):
+	class channelWidget(QtWidgets.QWidget,channelSelector.Ui_Form,constants):
 		def __init__(self,name,callback,col=None):
 			super(expeyesWidgets.channelWidget, self).__init__()
 			self.setupUi(self)
@@ -640,7 +636,7 @@ class expeyesWidgets():
 
 			if col : self.enable.setStyleSheet("color:rgb%s"%str(col))
 
-	class flexibleChannelWidget(QtGui.QWidget,flexibleChannelSelector.Ui_Form,constants):
+	class flexibleChannelWidget(QtWidgets.QWidget,flexibleChannelSelector.Ui_Form,constants):
 		def __init__(self,name,callback,chans,col=None):
 			super(expeyesWidgets.flexibleChannelWidget, self).__init__()
 			self.setupUi(self)
@@ -659,10 +655,10 @@ class expeyesWidgets():
 
 
 	def SPACER(self,size):
-		self.widgetLayout.addItem(QtGui.QSpacerItem(size, size, QtGui.QSizePolicy.Minimum))
+		self.widgetLayout.addItem( QtWidgets.QSpacerItem(size, size,  QtWidgets.QSizePolicy.Minimum))
 
 
-	class removableLabelWidget(QtGui.QWidget,removableLabel.Ui_Form,constants):
+	class removableLabelWidget(QtWidgets.QWidget,removableLabel.Ui_Form,constants):
 		def __init__(self,name,**kwargs):
 			super(expeyesWidgets.removableLabelWidget, self).__init__()
 			self.setupUi(self)
@@ -706,10 +702,17 @@ class expeyesWidgets():
 		Execute a function after a certain time interval
 		'''
 		if timer is None:
-			print (timer,'umm')
+			print (timer,'Does not exist. is None')
 			return
-		#rcvs = timer.receivers(QtCore.SIGNAL("timeout()"))
-		rcvs = timer.receivers(timer.timeout)
+		
+		try:
+			if os.environ['SPARK17_QT_LIB'] == 'PyQt5':
+				rcvs = timer.receivers(timer.timeout)
+			else:
+				rcvs = timer.receivers(QtCore.SIGNAL("timeout()"))
+		except:
+			print ('problem with fetching timer linked receivers')
+
 		#print ('----------------------------------',rcvs)
 		if rcvs > 0:
 			timer.timeout.disconnect()
@@ -863,7 +866,7 @@ class expeyesWidgets():
 
 		self.setTrigger()
 
-	class triggerWidget(QtGui.QWidget,triggerWidgetUi.Ui_Form):
+	class triggerWidget(QtWidgets.QWidget,triggerWidgetUi.Ui_Form):
 		'''
 		slider : 10x the range of dial. End values are divided by ten before passing to callback. This is because QSlider does not have a Double option
 		spinbox : numeric entry widget . double precision
@@ -881,12 +884,13 @@ class expeyesWidgets():
 		trignum = self.activeTriggerWidget.chanBox.currentIndex()
 		if trignum==-1 : #Index not found.
 			return
+		self.activeTriggerWidget.enable.setText('Trigger Level: %s'%self.applySIPrefix(self.trigger_level,'V',1))
 		self.p.configure_trigger(trignum,trigName,self.trigger_level,resolution=10,prescaler=5)
 
 
 	def addInfiniteLine(self,plot,**kwargs):
 		line = pg.InfiniteLine(angle=kwargs.get('angle',0), movable=kwargs.get('movable',True),pen=kwargs.get('pen',{'color':'#FFF','width':2,'style': QtCore.Qt.DashLine}) )
-		if 'cursor' in kwargs:line.setCursor(QtGui.QCursor(kwargs.get('cursor'))); 
+		if 'cursor' in kwargs and os.environ['SPARK17_QT_LIB'] != 'PySide':line.setCursor(QtGui.QCursor(kwargs.get('cursor'))); 
 		if 'tooltip' in kwargs:line.setToolTip(kwargs.get('tooltip'))
 		if 'value' in kwargs:line.setPos(kwargs.get('value'))
 		plot.addItem(line, ignoreBounds=kwargs.get('ignoreBounds'))
@@ -923,7 +927,7 @@ class expeyesWidgets():
 	def getSamples(self):
 		return self.samples
 
-	class timebaseWidget(QtGui.QWidget,timebaseWidgetUi.Ui_Form):
+	class timebaseWidget(QtWidgets.QWidget,timebaseWidgetUi.Ui_Form):
 		def __init__(self,getSamples,callback=None):
 			super(expeyesWidgets.timebaseWidget, self).__init__()
 			self.setupUi(self)
@@ -949,7 +953,7 @@ class expeyesWidgets():
 		self.widgetLayout.addWidget(widget)
 		return widget
 
-	class pushButtonWidget(QtGui.QPushButton):
+	class pushButtonWidget(QtWidgets.QPushButton):
 		def __init__(self,name,callback=None,**kwargs):
 			super(expeyesWidgets.pushButtonWidget, self).__init__()
 			self.setText(name)
@@ -961,7 +965,7 @@ class expeyesWidgets():
 
 
 	###############################  RES/CAP/FREQ WIDGET ######################
-	class readbacksWidget(QtGui.QWidget,ResCapFreq.Ui_Form):
+	class readbacksWidget(QtWidgets.QWidget,ResCapFreq.Ui_Form):
 		def __init__(self,handler=None):
 			super(expeyesWidgets.readbacksWidget, self).__init__()
 			self.setupUi(self)
@@ -983,7 +987,7 @@ class expeyesWidgets():
 		self.widgetLayout.addWidget(widget)
 		return widget
 
-	class labelWidget(QtGui.QLabel):
+	class labelWidget(QtWidgets.QLabel):
 		def __init__(self,name,**kwargs):
 			super(expeyesWidgets.labelWidget, self).__init__()
 			self.setText(name)
@@ -999,7 +1003,7 @@ class expeyesWidgets():
 		self.widgetLayout.addWidget(widget)
 		return widget
 
-	class checkBoxWidget(QtGui.QCheckBox):
+	class checkBoxWidget(QtWidgets.QCheckBox):
 		def __init__(self,name,callback=None,**kwargs):
 			super(expeyesWidgets.checkBoxWidget, self).__init__()
 			self.setText(name)
@@ -1031,14 +1035,14 @@ class expeyesWidgets():
 		self.widgetLayout.addWidget(widget)
 		return widget
 
-	class spinBoxWidget(QtGui.QSpinBox):
+	class spinBoxWidget(QtWidgets.QSpinBox):
 		def __init__(self,**kwargs):
 			super(expeyesWidgets.spinBoxWidget, self).__init__()
 		def delete(self):
 			self.deleteLater()
 			self.setParent(None)
 
-	class doubleSpinBoxWidget(QtGui.QDoubleSpinBox):
+	class doubleSpinBoxWidget(QtWidgets.QDoubleSpinBox):
 		def __init__(self,**kwargs):
 			super(expeyesWidgets.doubleSpinBoxWidget, self).__init__()
 		def delete(self):
@@ -1056,7 +1060,7 @@ class expeyesWidgets():
 			return
 		try:
 			self.TITLE(path)
-			label = QtGui.QLabel() 
+			label = QtWidgets.QLabel() 
 			self.widgetLayout.addWidget(label)
 			label.setScaledContents(True)
 			pixmap = QtGui.QPixmap(path)
@@ -1076,7 +1080,7 @@ class expeyesWidgets():
 		self.widgetLayout.addWidget(widget)
 		return widget
 
-	class DoutWidget(QtGui.QWidget,douts.Ui_Form):
+	class DoutWidget(QtWidgets.QWidget,douts.Ui_Form):
 		def __init__(self,handler):
 			super(expeyesWidgets.DoutWidget, self).__init__()
 			self.setupUi(self)
@@ -1104,22 +1108,22 @@ class expeyesWidgets():
 		return self.sliderWidget(min = 5,max = 50000, label = 'SQR1' ,units = 'Hz', callback = handler.set_sqr1,**kwargs) 
 
 	def setSineAmp(self,handler,amp):
-		opts = {'3V':2,'1V':1,'80mV':0}
+		opts = {'3V':2,'1V':1,'80mV':0,'2':2,'1':1,'0':0}
+		#print ('Amplitude :',amp,opts.get(str(amp),2))
 		handler.set_sine_amp(opts.get(str(amp),2))
-		print ('asdsadsadsakjhdakjsfha')
 
 	def addSine(self,handler,**kwargs):
 		W = self.sliderWidget(min = 5,max = 5000, label = 'W1' ,units = 'Hz', callback = handler.set_sine,**kwargs)
-		combo = QtGui.QComboBox()
+		combo = QtWidgets.QComboBox()
 		combo.addItems(['3V','1V','80mV'])
 		W.combo = combo
 		#QtCore.QObject.connect(W.combo, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), functools.partial(self.setSineAmp,handler))
-		W.combo.currentIndexChanged.connect(functools.partial(self.setSineAmp,handler))
+		W.combo.currentIndexChanged['QString'].connect(functools.partial(self.setSineAmp,handler))
 
 		W.widgetLayout.addWidget(combo)
 		return W
 
-	class sliderWidget(QtGui.QWidget,SliderAndSpinbox.Ui_Form,utils):
+	class sliderWidget(QtWidgets.QWidget,SliderAndSpinbox.Ui_Form,utils):
 		'''
 		slider : 10x the range of dial. End values are divided by ten before passing to callback. This is because QSlider does not have a Double option
 		spinbox : numeric entry widget . double precision

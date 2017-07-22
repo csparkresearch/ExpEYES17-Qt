@@ -1,18 +1,15 @@
 # -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
-try:
-	from PyQt5 import QtGui,QtCore
-except:
-	from PyQt4 import QtGui,QtCore
+from ..Qt import QtGui,QtCore,QtWidgets
 
-from templates import ui_plotTemplate as plotTemplate
-from utilities.expeyesWidgetsNew import expeyesWidgets
+from ..templates import ui_plotTemplate as plotTemplate
+from ..utilities.expeyesWidgetsNew import expeyesWidgets
 import numpy as np
 import sys,time,functools,os
 
 import pyqtgraph as pg
 from collections import OrderedDict
 
-class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
+class AppWindow(QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	subsection = 'apps'
 	helpfile = 'oscilloscope.html'
 	def __init__(self, parent=None,**kwargs):
@@ -47,7 +44,9 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 			self.cols[a] = self.trace_colors[num]
 			if(num==0 and kwargs.get('flexibleChan1',True)):
 				self.myCurveWidgets[a] = self.flexibleChannelWidget(a,self.changeGain,self.p.I.allAnalogChannels,self.trace_colors[num])
-			else :self.myCurveWidgets[a] = self.channelWidget(a,self.changeGain,self.trace_colors[num])
+			else :
+				self.myCurveWidgets[a] = self.channelWidget(a,self.changeGain,self.trace_colors[num])
+				if a!='A2': self.myCurveWidgets[a].enable.setChecked(False)  #Only enable A1,A2 on startup
 			self.widgetLayout.addWidget(self.myCurveWidgets[a])
 			num+=1
 		self.makeLabels()
@@ -72,7 +71,6 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		
 		self.sv = self.PUSHBUTTON('Save Data',self.savePlots)
 		self.paused = self.CHECKBOX('Pause')
-
 		self.lastUpdateTime = time.time()
 		self.timer = self.newTimer()
 		self.setTimeout(self.timer,100,self.update)
@@ -197,7 +195,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.setTimeout(self.timer,10,self.update)
 
 	def resCapFreqCallback(self,name,res):
-		self.showStatus('%s : %s'%(name,str(res)))
+		#self.showStatus('%s : %s'%(name,str(res)))
 		if 'capacitance' in name:
 			if res<500e-6: ##500uF limit
 				txt = 'CAP: '+self.applySIPrefix(res,'F',2)

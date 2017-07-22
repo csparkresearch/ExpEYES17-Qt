@@ -24,12 +24,18 @@
 
 from __future__ import print_function
 
-from PyQt5 import QtGui,QtCore
+from .Qt import QtGui,QtCore,QtWidgets
 
 import os,string,time,sys
 
-from utilities.expeyesWidgetsNew import expeyesWidgets
-from templates import ui_layoutNew as layoutNew
+import time,functools,importlib
+import numpy as np
+import pyqtgraph as pg
+import pyqtgraph.exporters
+
+
+from .utilities.expeyesWidgetsNew import expeyesWidgets
+from .templates import ui_layoutNew as layoutNew
 from collections import OrderedDict
 
 try:
@@ -39,7 +45,7 @@ except AttributeError:
 		return s
 
 
-class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
+class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	sigExec = QtCore.pyqtSignal(str,object,object)
 	sigHelp = QtCore.pyqtSignal(str)
 	xmax = 20 #mS
@@ -109,43 +115,53 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		super(AppWindow, self).__init__(parent)
 		self.setupUi(self)
 		self.statusBar = self.statusBar()
+		self.curPath = os.path.dirname(os.path.realpath(__file__))
+		
 		global app
 		self.experimentTabIndex = 1
-		self.fileBrowser = fileBrowser(thumbnail_directory = 'ExpEYES_thumbnails',app=app)#,clickCallback = self.showNewPlot)
+		from .utilities.fileBrowser import fileBrowser
+
+		self.fileBrowser = fileBrowser(thumbnail_directory = 'ExpEYES_thumbnails',app=kwargs.get('app',None))#,clickCallback = self.showNewPlot)
 		self.saveLayout.addWidget(self.fileBrowser)
 
 		try:
+			from .utilities.helpBrowser import helpBrowser
 			self.helpBrowser = helpBrowser()
 			self.helpLayout.addWidget(self.helpBrowser)
-			self.helpBrowser.setFile()
+			helpPath = os.path.join(self.curPath,'help','MD_HTML','index.html')
+			self.helpBrowser.setFile(helpPath)
+			self.tabWidget.setCurrentIndex(0)
+			self.showStatus("System Status | Connecting to device...",True)
+
 		except Exception as e:
 			print ('failed to import help browser. check QtWebkit Version',e)
 			self.helpBrowser = None
 		### Prepare the communication handler, and move it to a thread.
+		from .CommunicationHandlerQt import communicationHandler
 		self.CH = communicationHandler(connectHandler = self.deviceConnected,disconnectHandler = self.deviceDisconnected, connectionDialogHandler= self.connectionDialog)
 		self.worker_thread = QtCore.QThread()
 		self.CH.moveToThread(self.worker_thread)
 		self.sigExec.connect(self.CH.process)
 
 		self.CH.sigStat.connect(self.showStatus)
-		self.CH.sigGeneric.connect(self.genericDataReceived)
+		#self.CH.sigGeneric.connect(self.genericDataReceived)
 
 		self.worker_thread.start()
 		self.worker_thread.setPriority(QtCore.QThread.HighPriority)
 
 
 		############ MAKE AN EXIT BUTTON AND STYLE IT. SHOULD IDEALLY BE DONE IN THE LAYOUT.UI FILE USING QT4-DESIGNER.
-		self.exitBtn = QtGui.QPushButton("EXIT")
+		self.exitBtn = QtWidgets.QPushButton("EXIT")
 		self.exitBtn.clicked.connect(self.askBeforeQuit)
 		self.exitBtn.setStyleSheet("height: 10px;padding:3px;color: #FF2222;")
 		self.statusBar.addPermanentWidget(self.exitBtn)
 
-		self.menuLoad = QtGui.QMenu(self.menuBar)
+		self.menuLoad = QtWidgets.QMenu(self.menuBar)
 		self.menuLoad.setObjectName(_fromUtf8("menuLoad"))
 
 		self.allMenus = []
 		for grp in self.exptGroups:
-			menu = QtGui.QMenu(self.menuBar)
+			menu = QtWidgets.QMenu(self.menuBar)
 			menu.setTitle(grp)
 			for a in self.exptGroups[grp]:
 				#print ('adding',grp,a)
@@ -158,8 +174,8 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		self.actionSave.triggered.connect(self.savePlots)
 
 	def connectionDialog(self):
-		reply = QtGui.QMessageBox.question(self, 'Connection', 'New Device Found. Connect?', QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
-		if reply == QtGui.QMessageBox.Yes:
+		reply = QtWidgets.QMessageBox.question(self, 'Connection', 'New Device Found. Connect?', QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.No)
+		if reply == QtWidgets.QMessageBox.Yes:
 			print (reply)
 			self.CH.connectToDevice()
 			#self.selectDevice()
@@ -170,6 +186,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		if self.CH.I.connected:
 			self.showStatus("System Status | Connected to device. Version : %s"%str(self.CH.get_version()))
 			self.launchExperiment(self.defaultExperiment)
+			self.tabWidget.setCurrentIndex(1)
 		else:
 			self.tabWidget.setCurrentIndex(0)
 			self.showStatus("System Status | Device not found. Dummy mode.",True)
@@ -187,7 +204,7 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 				self.expt.deleteLater()
 				#self.expt = None
 			except Exception as e:print (e.message)
-		
+		QtGui.QMessageBox.critical(self, "Device Disconnected", "A communication error occurred, or the device was unexpectedly removed. Please reconnect the hardware.")
 		
 	def savePlots(self):
 		print ('wrong save fnction. inheritance not working properly. save from expeyesWidgetsNew must be called. This is defined in expeyesWidgetsNew')
@@ -206,9 +223,9 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 				self.experimentLayout.removeWidget(self.expt)
 				self.expt.deleteLater()
 				#self.expt = None
-			except Exception as e:print (e.message)
+			except Exception as e:print (str(e))
 
-		FILE = importlib.import_module('experiments.'+fname)
+		FILE = importlib.import_module('.experiments.'+fname,package='SPARK17')
 		self.expt = FILE.AppWindow(handler = self.CH)
 		self.tabWidget.setTabText(self.tabWidget.indexOf(self.experimentTab),name)
 		
@@ -218,11 +235,11 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		self.expt.show()
 		try:
 			if name in self.helpfileOverride:
-				helpPath = os.path.join(os.path.dirname(sys.argv[0]),'help','MD_HTML','apps',self.helpfileOverride[name])
+				helpPath = os.path.join(self.curPath,'help','MD_HTML','apps',self.helpfileOverride[name])
 				self.helpBrowser.setFile(helpPath)
 				#print ('help override',helpPath)
 			elif hasattr(self.expt,'subsection'):
-				helpPath = os.path.join(os.path.dirname(sys.argv[0]),'help','MD_HTML',self.expt.subsection,self.expt.helpfile)
+				helpPath = os.path.join(self.curPath,'help','MD_HTML',self.expt.subsection,self.expt.helpfile)
 				self.helpBrowser.setFile(helpPath)
 		except Exception as e:
 			print ('help widget not loaded. install QtWebkit',e)
@@ -251,14 +268,14 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 
 	##############  HANDLE DATA RETURNED FROM WORKER THREAD   #####################
 
+	'''
 	def genericDataReceived(self,name,res):
 		if name == 'get_states':
 			for nm,wid in zip(['IN2','SQR1_OUT','OD1_OUT','SEN','CCS'],[self.DIN_IN2,self.DIN_SQR1,self.DIN_OD1,self.DIN_SEN,self.DIN_CCS]):
-				wid.setStyleSheet('''background-color: %s;'''%('#0F0' if res[nm] else '#F00'))
+				wid.setStyleSheet("background-color: %s;"%('#0F0' if res[nm] else '#F00'))
 		else:
 			pass
-			#print (name,res)
-
+	'''
 	def handleError(self,name,err):
 		self.showStatus(name+err,True)
 		print ('packet drop',name,err)
@@ -275,35 +292,19 @@ class AppWindow(QtGui.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		self.fileBrowser.loadFromFile( self.plot,self.curves[self.plot],fname ) 
 		self.tabWidget.setCurrentIndex(self.experimentTabIndex)
 
-
-
-
-
 if __name__ == "__main__":
-	app = QtGui.QApplication(sys.argv)
+	app = QtWidgets.QApplication(sys.argv)
 	# Create and display the splash screen
-	splash_pix = QtGui.QPixmap(os.path.join(os.path.dirname(sys.argv[0]),os.path.join('templates','splash.png')))
-	splash = QtGui.QSplashScreen(splash_pix, QtCore.Qt.WindowStaysOnTopHint)
+	curPath = os.path.dirname(os.path.realpath(__file__))
+	splash_pix = QtGui.QPixmap(os.path.join(curPath,os.path.join('templates','splash.png')))
+	splash = QtWidgets.QSplashScreen(splash_pix, QtCore.Qt.WindowStaysOnTopHint)
 	splash.setMask(splash_pix.mask())
 	splash.show()
 	for a in range(10):
 		app.processEvents()
 		time.sleep(0.01)
 
-	import time, os,functools,importlib
-	from CommunicationHandlerQt import communicationHandler
-	import numpy as np
-	import pyqtgraph as pg
-	import pyqtgraph.exporters
-
-	from utilities.fileBrowser import fileBrowser
-	try:
-		from utilities.helpBrowser import helpBrowser
-	except Exception as e:
-		print ('qtwebkit help browser failed to import',e)
-
-
-	myapp = AppWindow()
+	myapp = AppWindow(app=app)
 	myapp.show()
 	splash.finish(myapp)
 	sys.exit(app.exec_())

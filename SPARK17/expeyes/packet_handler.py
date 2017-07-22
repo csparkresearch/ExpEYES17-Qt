@@ -73,7 +73,7 @@ class Handler():
 		connect to a port, and check for the right version
 		'''
 		
-		if platform.system() not in ["Windows","Darwin"]:   #Do this check only on Unix
+		if "Linux" in platform.system():   #Do this check only on Unix
 			try:
 				import socket
 				self.blockingSocket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
@@ -103,7 +103,7 @@ class Handler():
 		Change the BAUD rate to 500K if a raspberry pi is the base system
 		'''
 
-		if platform.system()!="Windows":   #Do this check only on Unix
+		if "Linux" in platform.system():   #Do this check only on Unix
 			brgval = ((64000000/self.RPIBAUD)/4)-1
 			if 'raspberrypi' in os.uname():
 				#print ('RPi detected . switching to %d BAUD'%self.RPIBAUD,brgval)
@@ -120,12 +120,17 @@ class Handler():
 		return fd
 
 	def disconnect(self):
-		if self.connected:
-			self.fd.close()
 		if self.blockingSocket:
 			self.blockingSocket.shutdown(1)
 			self.blockingSocket.close()
 			self.blockingSocket = None
+			try:
+				self.occupiedPorts.remove(self.fd.port)
+				print ('successfully disconnected',self.fd.port)
+			except Exception as e:
+				print (str(e))
+		if self.connected:
+			self.fd.close()
 
 	def get_version(self,fd):
 		fd.write(CP.COMMON)

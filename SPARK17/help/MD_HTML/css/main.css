@@ -343,13 +343,16 @@ input.search-form:hover {
 
 .footer {
   background: none repeat scroll 0 0 #2E2E2E;
-  border-top: 5px solid #C52D2F;
-  height: 60px;
-  margin-top: 10px;
+  border-top: 2px solid #C52D2F;
+  height: 50px;
+  margin-top: 50px;
 }
 
 .footer_left {
   padding: 10px;
 }
 
+.homepage{
+padding-bottom: 200px;
+}
 

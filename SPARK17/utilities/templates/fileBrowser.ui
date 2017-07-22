@@ -156,22 +156,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>listWidget</sender>
-   <signal>itemClicked(QListWidgetItem*)</signal>
-   <receiver>Form</receiver>
-   <slot>itemClicked(QListWidgetItem*)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>628</x>
-     <y>219</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>724</x>
-     <y>223</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>dirChange_2</sender>
    <signal>clicked()</signal>
    <receiver>Form</receiver>
@@ -187,10 +171,26 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>listWidget</sender>
+   <signal>currentTextChanged(QString)</signal>
+   <receiver>Form</receiver>
+   <slot>itemClicked(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>626</x>
+     <y>289</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>757</x>
+     <y>305</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>changeDirectory()</slot>
-  <slot>itemClicked(QListWidgetItem*)</slot>
+  <slot>itemClicked(QString)</slot>
   <slot>refresh()</slot>
  </slots>
 </ui>

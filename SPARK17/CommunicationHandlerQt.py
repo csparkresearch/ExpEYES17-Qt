@@ -1,12 +1,9 @@
 # -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
-try:
-	from PyQt5 import QtGui,QtCore
-except:
-	from PyQt4 import QtGui,QtCore
+from .Qt import QtGui,QtCore
 
 import time,sys,inspect,copy,functools
 
-import expeyes.eyes17 as eyes
+from .expeyes import eyes17 as eyes
 
 class communicationHandler(QtCore.QObject):
 	sigStat = QtCore.pyqtSignal(str,bool)
@@ -121,14 +118,11 @@ class communicationHandler(QtCore.QObject):
 						except:pass
 						self.I.H.connected = False
 						self.I.connected = False
+						self.sigDisconnected.emit()
 
 			elif len(self.menu_entries):
 				print ('found new device. prompting user...')
 				self.sigConnectionDialog.emit()
-
-
-
-		
 
 	@QtCore.pyqtSlot(str,object,object)
 	def process(self,name,args,kwargs):
@@ -197,7 +191,8 @@ class communicationHandler(QtCore.QObject):
 			else:
 				if name in self.evalGlobals:
 					res = self.evalGlobals[name](*args,**kwargs)
-					self.sigGeneric.emit(name,res)
+					if res is not None:
+						self.sigGeneric.emit(name,res)
 				else:
 					self.sigError.emit(name,' : unknown function')
 		except Exception as e:

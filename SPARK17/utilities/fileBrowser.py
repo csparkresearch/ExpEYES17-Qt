@@ -1,9 +1,7 @@
 # -*- coding: utf-8; mode: python; indent-tabs-mode: t; tab-width:4 -*-
-import os,string,glob
-try:
-	from PyQt5 import QtGui,QtCore
-except:
-	from PyQt4 import QtGui,QtCore
+import os,glob
+from ..Qt import QtGui, QtCore,QtWidgets
+
 import numpy as np
 
 from .templates import ui_fileBrowser as fileBrowser
@@ -14,7 +12,7 @@ class dummyApp:
 		pass
 
 
-class fileBrowser(QtGui.QFrame,fileBrowser.Ui_Form):
+class fileBrowser(QtWidgets.QFrame,fileBrowser.Ui_Form):
 	trace_names = ['#%d'%a for a in range(10)]
 	trace_colors = [(0,255,0),(255,0,0),(255,255,100),(10,255,255)]
 	textfiles=[]
@@ -32,7 +30,7 @@ class fileBrowser(QtGui.QFrame,fileBrowser.Ui_Form):
 		self.generateThumbnails(self._browserPath)
 		
 	def itemClicked(self,sel):
-		fname = self.thumbList[str(sel.text())][1]
+		fname = self.thumbList[str(sel)][1]
 		print(fname)
 		self.clickCallback( fname )
 
@@ -76,7 +74,7 @@ class fileBrowser(QtGui.QFrame,fileBrowser.Ui_Form):
 		for a in os.listdir(directory):
 			pcs = a.split('.')
 			if pcs[-1] in ['dat','csv','txt']:  #check if extension is acceptable 
-				fname = string.join(pcs[:-1],'.')
+				fname = str.join('.',pcs[:-1])
 				filepath = os.path.join(directory,a)
 				timestamp = int(os.path.getctime(filepath))
 				thumbpath = os.path.join(thumbdir,fname+str(timestamp)+'.'+thumbFormat)
@@ -88,7 +86,7 @@ class fileBrowser(QtGui.QFrame,fileBrowser.Ui_Form):
 						self.loadFromFile(P2,curves,filepath) 
 						self.exporter.export(thumbpath)
 					except Exception as e:
-						print ('problem',e.message)
+						print ('problem',str(e))
 						continue
 				try:
 					self.pathLabel.setText('Loading thumbnail for %s'%(filepath));self.app.processEvents()
@@ -98,7 +96,7 @@ class fileBrowser(QtGui.QFrame,fileBrowser.Ui_Form):
 					self.listWidget.addItem(a)
 					self.thumbList[fname] = [a,filepath]
 				except Exception as e:
-					print( 'failed to load thumbnail for ',fname,e.message)
+					print( 'failed to load thumbnail for ',fname,str(e))
 		self.pathLabel.setText('Current path : %s'%directory)
 		
 
@@ -119,7 +117,7 @@ class fileBrowser(QtGui.QFrame,fileBrowser.Ui_Form):
 				ar = np.loadtxt(filename,skiprows=1)                    #skip the header row and start loading
 
 			XR = [0,0];YR=[0,0]
-			for A in range(len(ar[0])/2): #integer division
+			for A in range(len(ar[0])//2): #integer division
 				self.x =ar[:,A*2]
 				self.y =ar[:,A*2+1]
 				if histMode:curves[A].setData(self.x,self.y[:-1], stepMode=True, fillLevel=0, brush=(126, 197, 220,100))
