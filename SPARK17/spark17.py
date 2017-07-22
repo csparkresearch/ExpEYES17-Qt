@@ -28,6 +28,12 @@ from .Qt import QtGui,QtCore,QtWidgets
 
 import os,string,time,sys
 
+import time,functools,importlib
+import numpy as np
+import pyqtgraph as pg
+import pyqtgraph.exporters
+
+
 from .utilities.expeyesWidgetsNew import expeyesWidgets
 from .templates import ui_layoutNew as layoutNew
 from collections import OrderedDict
@@ -109,15 +115,20 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		super(AppWindow, self).__init__(parent)
 		self.setupUi(self)
 		self.statusBar = self.statusBar()
+		self.curPath = os.path.dirname(os.path.realpath(__file__))
+		
 		global app
 		self.experimentTabIndex = 1
-		self.fileBrowser = fileBrowser(thumbnail_directory = 'ExpEYES_thumbnails',app=app)#,clickCallback = self.showNewPlot)
+		from .utilities.fileBrowser import fileBrowser
+
+		self.fileBrowser = fileBrowser(thumbnail_directory = 'ExpEYES_thumbnails',app=kwargs.get('app',None))#,clickCallback = self.showNewPlot)
 		self.saveLayout.addWidget(self.fileBrowser)
 
 		try:
+			from .utilities.helpBrowser import helpBrowser
 			self.helpBrowser = helpBrowser()
 			self.helpLayout.addWidget(self.helpBrowser)
-			helpPath = os.path.join(os.path.dirname(sys.argv[0]),'help','MD_HTML','index.html')
+			helpPath = os.path.join(self.curPath,'help','MD_HTML','index.html')
 			self.helpBrowser.setFile(helpPath)
 			self.tabWidget.setCurrentIndex(0)
 			self.showStatus("System Status | Connecting to device...",True)
@@ -126,6 +137,7 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 			print ('failed to import help browser. check QtWebkit Version',e)
 			self.helpBrowser = None
 		### Prepare the communication handler, and move it to a thread.
+		from .CommunicationHandlerQt import communicationHandler
 		self.CH = communicationHandler(connectHandler = self.deviceConnected,disconnectHandler = self.deviceDisconnected, connectionDialogHandler= self.connectionDialog)
 		self.worker_thread = QtCore.QThread()
 		self.CH.moveToThread(self.worker_thread)
@@ -223,11 +235,11 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		self.expt.show()
 		try:
 			if name in self.helpfileOverride:
-				helpPath = os.path.join(os.path.dirname(sys.argv[0]),'help','MD_HTML','apps',self.helpfileOverride[name])
+				helpPath = os.path.join(self.curPath,'help','MD_HTML','apps',self.helpfileOverride[name])
 				self.helpBrowser.setFile(helpPath)
 				#print ('help override',helpPath)
 			elif hasattr(self.expt,'subsection'):
-				helpPath = os.path.join(os.path.dirname(sys.argv[0]),'help','MD_HTML',self.expt.subsection,self.expt.helpfile)
+				helpPath = os.path.join(self.curPath,'help','MD_HTML',self.expt.subsection,self.expt.helpfile)
 				self.helpBrowser.setFile(helpPath)
 		except Exception as e:
 			print ('help widget not loaded. install QtWebkit',e)
@@ -283,7 +295,8 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 if __name__ == "__main__":
 	app = QtWidgets.QApplication(sys.argv)
 	# Create and display the splash screen
-	splash_pix = QtGui.QPixmap(os.path.join(os.path.dirname(sys.argv[0]),os.path.join('templates','splash.png')))
+	curPath = os.path.dirname(os.path.realpath(__file__))
+	splash_pix = QtGui.QPixmap(os.path.join(curPath,os.path.join('templates','splash.png')))
 	splash = QtWidgets.QSplashScreen(splash_pix, QtCore.Qt.WindowStaysOnTopHint)
 	splash.setMask(splash_pix.mask())
 	splash.show()
@@ -291,20 +304,7 @@ if __name__ == "__main__":
 		app.processEvents()
 		time.sleep(0.01)
 
-	import time, os,functools,importlib
-	from .CommunicationHandlerQt import communicationHandler
-	import numpy as np
-	import pyqtgraph as pg
-	import pyqtgraph.exporters
-
-	from .utilities.fileBrowser import fileBrowser
-	try:
-		from .utilities.helpBrowser import helpBrowser
-	except Exception as e:
-		print ('qtwebkit help browser failed to import',e)
-
-
-	myapp = AppWindow()
+	myapp = AppWindow(app=app)
 	myapp.show()
 	splash.finish(myapp)
 	sys.exit(app.exec_())
