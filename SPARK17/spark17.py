@@ -292,7 +292,7 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		self.fileBrowser.loadFromFile( self.plot,self.curves[self.plot],fname ) 
 		self.tabWidget.setCurrentIndex(self.experimentTabIndex)
 
-if __name__ == "__main__":
+def main_run():
 	app = QtWidgets.QApplication(sys.argv)
 	# Create and display the splash screen
 	curPath = os.path.dirname(os.path.realpath(__file__))
@@ -308,5 +308,7 @@ if __name__ == "__main__":
 	myapp.show()
 	splash.finish(myapp)
 	sys.exit(app.exec_())
-
+    
+if __name__ == "__main__":
+    main_run()
 
