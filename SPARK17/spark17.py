@@ -111,10 +111,13 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		self.statusBar = self.statusBar()
 		global app
 		self.experimentTabIndex = 1
-		self.fileBrowser = fileBrowser(thumbnail_directory = 'ExpEYES_thumbnails',app=app)#,clickCallback = self.showNewPlot)
+		from .utilities.fileBrowser import fileBrowser
+
+		self.fileBrowser = fileBrowser(thumbnail_directory = 'ExpEYES_thumbnails',app=kwargs.get('app',None))#,clickCallback = self.showNewPlot)
 		self.saveLayout.addWidget(self.fileBrowser)
 
 		try:
+			from .utilities.helpBrowser import helpBrowser
 			self.helpBrowser = helpBrowser()
 			self.helpLayout.addWidget(self.helpBrowser)
 			helpPath = os.path.join(os.path.dirname(sys.argv[0]),'help','MD_HTML','index.html')
@@ -126,6 +129,7 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 			print ('failed to import help browser. check QtWebkit Version',e)
 			self.helpBrowser = None
 		### Prepare the communication handler, and move it to a thread.
+		from .CommunicationHandlerQt import communicationHandler
 		self.CH = communicationHandler(connectHandler = self.deviceConnected,disconnectHandler = self.deviceDisconnected, connectionDialogHandler= self.connectionDialog)
 		self.worker_thread = QtCore.QThread()
 		self.CH.moveToThread(self.worker_thread)
@@ -297,14 +301,7 @@ if __name__ == "__main__":
 	import pyqtgraph as pg
 	import pyqtgraph.exporters
 
-	from .utilities.fileBrowser import fileBrowser
-	try:
-		from .utilities.helpBrowser import helpBrowser
-	except Exception as e:
-		print ('qtwebkit help browser failed to import',e)
-
-
-	myapp = AppWindow()
+	myapp = AppWindow(app=app)
 	myapp.show()
 	splash.finish(myapp)
 	sys.exit(app.exec_())
