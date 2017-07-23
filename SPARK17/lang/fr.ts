@@ -6,37 +6,37 @@
     <message>
         <location filename="../spark17.py" line="55"/>
         <source>Oscilloscope</source>
-        <translation>Oscilloscope</translation>
+        <translation type="obsolete">Oscilloscope</translation>
     </message>
     <message>
         <location filename="../spark17.py" line="55"/>
         <source>I2C Sensor Data Logger</source>
-        <translation>Capteur I2C, enregistrement des données</translation>
+        <translation type="obsolete">Capteur I2C, enregistrement des données</translation>
     </message>
     <message>
         <location filename="../spark17.py" line="55"/>
         <source>Data-Logger</source>
-        <translation>Enregistrement des données</translation>
+        <translation type="obsolete">Enregistrement des données</translation>
     </message>
     <message>
         <location filename="../spark17.py" line="61"/>
         <source>RC Circuits</source>
-        <translation>Circuits RC</translation>
+        <translation type="obsolete">Circuits RC</translation>
     </message>
     <message>
         <location filename="../spark17.py" line="61"/>
         <source>RL Circuits</source>
-        <translation>Circuits RL</translation>
+        <translation type="obsolete">Circuits RL</translation>
     </message>
     <message>
         <location filename="../spark17.py" line="61"/>
         <source>RLC Discharge</source>
-        <translation>RLC transitoire</translation>
+        <translation type="obsolete">RLC transitoire</translation>
     </message>
     <message>
         <location filename="../spark17.py" line="61"/>
         <source>RLC Steady State</source>
-        <translation>RLC régime continu</translation>
+        <translation type="obsolete">RLC régime continu</translation>
     </message>
 </context>
 <context>
@@ -703,6 +703,461 @@
         <location filename="../templates/ui_layoutNew.py" line="157"/>
         <source>save plot data</source>
         <translation>enregistrer les données des courbes</translation>
+    </message>
+</context>
+<context>
+    <name>app</name>
+    <message>
+        <location filename="../spark17.py" line="65"/>
+        <source>I2C Sensor Data Logger</source>
+        <translation>Capteur I2C, enregistrement des données</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="65"/>
+        <source>Oscilloscope</source>
+        <translation>Oscilloscope</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="65"/>
+        <source>Data-Logger</source>
+        <translation>Enregistrement des données</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="71"/>
+        <source>RC Circuits</source>
+        <translation>Circuits RC</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="71"/>
+        <source>RL Circuits</source>
+        <translation>Circuits RL</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="71"/>
+        <source>RLC Discharge</source>
+        <translation>RLC transitoire</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="71"/>
+        <source>RLC Steady State</source>
+        <translation>RLC régime continu</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="78"/>
+        <source>Half-wave rectifier</source>
+        <translation>Redresseur demi-onde</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="78"/>
+        <source>Full-wave rectifier</source>
+        <translation>Redresseur complet</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="78"/>
+        <source>Diode IV</source>
+        <translation>Caractéristique IU d&apos;une diode</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="78"/>
+        <source>Diode IV Hysterisis</source>
+        <translation>Hystérésis IU diode</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="78"/>
+        <source>Diode Clipping</source>
+        <translation>Écrêtage à l&apos;aide d&apos;une diode</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="78"/>
+        <source>Diode Clamping</source>
+        <translation>Stabilisation avec une diode</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="78"/>
+        <source>Transistor CE</source>
+        <translation>Caractéristique CE d&apos;un transistor</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="89"/>
+        <source>Operational amplifiers</source>
+        <translation>Amplificateurs opérationnels</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="107"/>
+        <source>Clock Divider</source>
+        <translation>Diviseur d&apos;horloge</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="94"/>
+        <source>AC Generator</source>
+        <translation>Générateur de courant alternatif</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="94"/>
+        <source>Simple Pendulum</source>
+        <translation>Pendule simple</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="94"/>
+        <source>Ultrasound Echo SR04</source>
+        <translation>Écho ultrason SR04</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="94"/>
+        <source>Interference of Sound</source>
+        <translation>Interférence du son</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="94"/>
+        <source>Plotting etc</source>
+        <translation>Courbes etc.</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="107"/>
+        <source>Transformer</source>
+        <translation>Transformateur</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="112"/>
+        <source>Test And Measurement</source>
+        <translation>Test et mesure</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="112"/>
+        <source>Electrical</source>
+        <translation>Électricité</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="112"/>
+        <source>Electronics</source>
+        <translation>Électronique</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="112"/>
+        <source>Op-amps and more</source>
+        <translation>Ampli-ops et plus</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="112"/>
+        <source>Physics</source>
+        <translation>Physique</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="112"/>
+        <source>School Level</source>
+        <translation>Niveau scolaire</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="141"/>
+        <source>System Status | Connecting to device...</source>
+        <translation>Statut système | connexion à l&apos;appareil ...</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="144"/>
+        <source>failed to import help browser. check QtWebkit Version</source>
+        <translation>Échec d&apos;importation du navigateur d&apos;aide. Vérifier la version de QtWebkit</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="184"/>
+        <source>Connection</source>
+        <translation>Connexion</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="184"/>
+        <source>New Device Found. Connect?</source>
+        <translation>Nouvel appareil trouvé. Connexion ?</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="192"/>
+        <source> : Not calibrated</source>
+        <translation> : non calibré</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="194"/>
+        <source>System Status | Connected to device. Version : %s</source>
+        <translation>Statut système | Connecté à l&apos;appareil. Version :%s</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="199"/>
+        <source>System Status | Device not found. Dummy mode.</source>
+        <translation>Statut système | Appareil non trouvé. Mode factice.</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="203"/>
+        <source>System Status | Device disconnected.</source>
+        <translation>Statut système | Appareil déconnecté.</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="214"/>
+        <source>Device Disconnected</source>
+        <translation>Appareil déconnecté</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="214"/>
+        <source>A communication error occurred, or the device was unexpectedly removed. Please reconnect the hardware.</source>
+        <translation>Une erreur de communication s&apos;est produite, ou l&apos;appareil a été retiré à l&apos;improviste. Veuillez reconnecter l&apos;appareil.</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="218"/>
+        <source>wrong save fnction. inheritance not working properly. save from expeyesWidgetsNew must be called. This is defined in expeyesWidgetsNew</source>
+        <translation>fonction d&apos;enregistrement incorrecte. L&apos;héritage ne fonctionne pas correctement, il faut appeler &quot;save&quot; depuis expeyesWidgetsNew. Ceci est défini dans expeyesWidgetsNew</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="223"/>
+        <source>missing experiment</source>
+        <translation>expérience manquante</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="253"/>
+        <source>help widget not loaded. install QtWebkit</source>
+        <translation>Widget d&apos;aide non installé. Installez QtWebkit</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="267"/>
+        <source>Warning</source>
+        <translation>Avertissement</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="267"/>
+        <source>Really quit?</source>
+        <translation>Vraiment quitter ?</translation>
+    </message>
+    <message>
+        <location filename="../spark17.py" line="289"/>
+        <source>packet drop</source>
+        <translation>perte de paquet</translation>
+    </message>
+</context>
+<context>
+    <name>ewn</name>
+    <message>
+        <location filename="../utilities/expeyesWidgetsNew.py" line="72"/>
+        <source>.5 V</source>
+        <translation>0,5 V</translation>
+    </message>
+    <message>
+        <location filename="../utilities/expeyesWidgetsNew.py" line="72"/>
+        <source>.25 V</source>
+        <translation>0,25 V</translation>
+    </message>
+    <message>
+        <location filename="../utilities/expeyesWidgetsNew.py" line="74"/>
+        <source>.5V</source>
+        <translation>0,5 V</translation>
+    </message>
+    <message>
+        <location filename="../utilities/expeyesWidgetsNew.py" line="511"/>
+        <source>Select Line Style</source>
+        <translation>Sélectionner le style de ligne</translation>
+    </message>
+    <message>
+        <location filename="../utilities/expeyesWidgetsNew.py" line="241"/>
+        <source>Trace List</source>
+        <translation>Liste des traces</translation>
+    </message>
+    <message>
+        <location filename="../utilities/expeyesWidgetsNew.py" line="266"/>
+        <source>Voltage</source>
+        <translation>Tension</translation>
+    </message>
+    <message>
+        <location filename="../utilities/expeyesWidgetsNew.py" line="795"/>
+        <source>time</source>
+        <translation>temps</translation>
+    </message>
+    <message>
+        <location filename="../utilities/expeyesWidgetsNew.py" line="795"/>
+        <source>S</source>
+        <translation>s</translation>
+    </message>
+    <message>
+        <location filename="../utilities/expeyesWidgetsNew.py" line="291"/>
+        <source>busy %s</source>
+        <translation>Occupé %s</translation>
+    </message>
+    <message>
+        <location filename="../utilities/expeyesWidgetsNew.py" line="412"/>
+        <source>plot called..............</source>
+        <translation>Tracé appelé ..........</translation>
+    </message>
+    <message>
+        <location filename="../utilities/expeyesWidgetsNew.py" line="415"/>
+        <source>labels printed..............</source>
+        <translation>étiquettes affichées .......</translation>
+    </message>
+    <message>
+        <location filename="../utilities/expeyesWidgetsNew.py" line="486"/>
+        <source>Width :</source>
+        <translation>Largeur :</translation>
+    </message>
+    <message>
+        <location filename="../utilities/expeyesWidgetsNew.py" line="492"/>
+        <source>Change Color</source>
+        <translation>Changer de couleur</translation>
+    </message>
+    <message>
+        <location filename="../utilities/expeyesWidgetsNew.py" line="498"/>
+        <source>Change Line Style</source>
+        <translation>Changer de style de ligne</translation>
+    </message>
+    <message>
+        <location filename="../utilities/expeyesWidgetsNew.py" line="504"/>
+        <source>Save Trace</source>
+        <translation>Enregistrer la trace</translation>
+    </message>
+    <message>
+        <location filename="../utilities/expeyesWidgetsNew.py" line="505"/>
+        <source>Save All Traces</source>
+        <translation>Enregistrer toutes les traces</translation>
+    </message>
+    <message>
+        <location filename="../utilities/expeyesWidgetsNew.py" line="507"/>
+        <source>Delete Trace</source>
+        <translation>Effacer la trace</translation>
+    </message>
+    <message>
+        <location filename="../utilities/expeyesWidgetsNew.py" line="750"/>
+        <source>winding up finished</source>
+        <translation>renroulage terminé</translation>
+    </message>
+    <message>
+        <location filename="../utilities/expeyesWidgetsNew.py" line="799"/>
+        <source>voltage</source>
+        <translation>tension</translation>
+    </message>
+    <message>
+        <location filename="../utilities/expeyesWidgetsNew.py" line="856"/>
+        <source>Trigger level. Enable the trigger checkbox, and drag up/down to set the level</source>
+        <translation>Niveau du seuil. Activer la case à cocher du seuil, et tirer (haut/bas) sur l&apos;écran pour régler le niveau</translation>
+    </message>
+    <message>
+        <location filename="../utilities/expeyesWidgetsNew.py" line="886"/>
+        <source>Trigger Level: %s</source>
+        <translation>Niveau du seuil : %s</translation>
+    </message>
+    <message>
+        <location filename="../utilities/expeyesWidgetsNew.py" line="920"/>
+        <source>Time Base</source>
+        <translation>Base de temps</translation>
+    </message>
+    <message>
+        <location filename="../utilities/expeyesWidgetsNew.py" line="1058"/>
+        <source>Path not found</source>
+        <translation>Chemin non trouvé</translation>
+    </message>
+    <message>
+        <location filename="../utilities/expeyesWidgetsNew.py" line="1254"/>
+        <source>Exponent out range of available prefixes.</source>
+        <translation>Exposant hors de portée des préfixes disponibles</translation>
+    </message>
+    <message>
+        <location filename="../utilities/expeyesWidgetsNew.py" line="853"/>
+        <source>Trigger</source>
+        <translation type="unfinished">Seuillage</translation>
+    </message>
+</context>
+<context>
+    <name>example</name>
+    <message>
+        <location filename="../experiments/example.py" line="22"/>
+        <source>4-Channel Oscilloscope</source>
+        <translation>Oscilloscope 4 canaux</translation>
+    </message>
+    <message>
+        <location filename="../experiments/example.py" line="33"/>
+        <source>Output Controls</source>
+        <translation>Contrôles de sorties</translation>
+    </message>
+    <message>
+        <location filename="../experiments/example.py" line="43"/>
+        <source>Pause</source>
+        <translation>Pause</translation>
+    </message>
+    <message>
+        <location filename="../experiments/example.py" line="61"/>
+        <source>capturing at :%s</source>
+        <translation>Capture à %s</translation>
+    </message>
+    <message>
+        <location filename="../experiments/example.py" line="64"/>
+        <source>Oscilloscope</source>
+        <translation>Oscilloscope</translation>
+    </message>
+</context>
+<context>
+    <name>oscilloscope</name>
+    <message>
+        <location filename="../experiments/oscilloscope.py" line="22"/>
+        <source>4-Channel Oscilloscope</source>
+        <translation>Oscilloscope 4 canaux</translation>
+    </message>
+    <message>
+        <location filename="../experiments/oscilloscope.py" line="33"/>
+        <source>Output Controls</source>
+        <translation>Contrôles de sorties</translation>
+    </message>
+    <message>
+        <location filename="../experiments/oscilloscope.py" line="40"/>
+        <source>Pause</source>
+        <translation>Pause</translation>
+    </message>
+    <message>
+        <location filename="../experiments/oscilloscope.py" line="40"/>
+        <source>capturing at :%s</source>
+        <translation>Capture à %s</translation>
+    </message>
+</context>
+<context>
+    <name>simplescope</name>
+    <message>
+        <location filename="../experiments/simplescope.py" line="35"/>
+        <source>time</source>
+        <translation>temps</translation>
+    </message>
+    <message>
+        <location filename="../experiments/simplescope.py" line="35"/>
+        <source>S</source>
+        <translation>s</translation>
+    </message>
+    <message>
+        <location filename="../experiments/simplescope.py" line="65"/>
+        <source>Output Controls</source>
+        <translation>Contrôles de sorties</translation>
+    </message>
+    <message>
+        <location filename="../experiments/simplescope.py" line="74"/>
+        <source>Save Data</source>
+        <translation>Enregistrer les données</translation>
+    </message>
+    <message>
+        <location filename="../experiments/simplescope.py" line="203"/>
+        <source>CAP: </source>
+        <translation>CAP : </translation>
+    </message>
+    <message>
+        <location filename="../experiments/simplescope.py" line="205"/>
+        <source>CAP: Inf</source>
+        <translation>CAP : Inf</translation>
+    </message>
+    <message>
+        <location filename="../experiments/simplescope.py" line="209"/>
+        <source>RES: </source>
+        <translation>Rés : </translation>
+    </message>
+    <message>
+        <location filename="../experiments/simplescope.py" line="211"/>
+        <source>RES: NaN</source>
+        <translation>Rés : indéf</translation>
+    </message>
+    <message>
+        <location filename="../experiments/simplescope.py" line="215"/>
+        <source>FRQ: </source>
+        <translation>Fréq : </translation>
+    </message>
+    <message>
+        <location filename="../experiments/simplescope.py" line="217"/>
+        <source>FRQ: NaN</source>
+        <translation>Fréq : indéf</translation>
     </message>
 </context>
 </TS>

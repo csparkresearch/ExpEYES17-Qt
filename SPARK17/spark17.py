@@ -3,7 +3,7 @@
 #
 # Source Link : https://github.com/csparkresearch/ExpEYES17-Qt
 #
-# Copyright (C) 2016 by Jithin B.P. <jithinbp@gmail.com>
+# Copyright (C) 2016, 2017 by Jithin B.P. <jithinbp@gmail.com>
 # Contributors:
 # - Jithin B.P
 # - Georges Khaznadar
@@ -44,83 +44,87 @@ except AttributeError:
 	def _fromUtf8(s):
 		return s
 
-def tr(s):
-    """ for later usage as a translation function """
-    return s
-    
+_translate = QtCore.QCoreApplication.translate
+
 class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	sigExec = QtCore.pyqtSignal(str,object,object)
 	sigHelp = QtCore.pyqtSignal(str)
 	xmax = 20 #mS
-	TandM = OrderedDict([
-	(tr('Oscilloscope'),'simplescope'),
-	(tr('I2C Sensor Data Logger'),'sensorLogger'),
-	(tr('Data-Logger'),'data-logger'),
-	 ])
-
-	electrical = OrderedDict([
-	(tr('RC Circuits'),'rc-circuit'),
-	(tr('RL Circuits'),'rl-circuit'),
-	(tr('RLC Discharge'),'rlc-discharge'),
-	(tr('RLC Steady State'),'rlc-steady'),
-	 ])
-
-	electronics = OrderedDict([
-	('Half-wave rectifier','halfwave'),
-	('Full-wave rectifier','fullwave'),
-	('Diode IV','diode-IV'),
-	('Diode IV Hysterisis','diode-IV-hysterisis'),
-	('Diode Clipping','clipping'),
-	('Diode Clamping','clamping'),
-	('Transistor CE','transistor-CE'),
-	 ])
-
-
-	ics = OrderedDict([
-	('Operational amplifiers','opamps'),
-	('Clock Divider','simplescope'),       ## the help file is overriden
-	 ])
-
-	physics = OrderedDict([
-	('AC Generator','acgen'),
-	('Simple Pendulum','pendulum'),
-	('Ultrasound Echo SR04','sr04-dist'),
-	('Interference of Sound','sound-beats'),
-	('Plotting etc','example'),
-	 ])
-
-	schoolLevel = OrderedDict([
-	('Transformer','simplescope'),
-	 ])
-
-
-	helpfileOverride = OrderedDict([
-	('Clock Divider','clock-divider.html'),
-	('Transformer','transformer.html'),
-	 ])
-
-	exptGroups = OrderedDict([
-	('Test And Measurement',TandM),
-	('Electrical',electrical),
-	('Electronics',electronics),
-	('Op-amps and more',ics),
-	('Physics',physics),
-	('School Level',schoolLevel)
-	])
-
-	defaultExperiment = 'Oscilloscope'
-
-	allExpts = {}
-	for a in exptGroups:
-		allExpts.update(exptGroups[a])
 
 	def __init__(self, parent=None,**kwargs):
 		super(AppWindow, self).__init__(parent)
 		self.setupUi(self)
 		self.statusBar = self.statusBar()
 		self.curPath = os.path.dirname(os.path.realpath(__file__))
-		
+
 		global app
+		# the following class static variables must be initialized
+		# *after* the initialization of translation domains, so they
+		# are initialized during the first and only instantiation of
+		# an object of AppWindow
+		AppWindow.TandM = OrderedDict([
+			(_translate("app",'Oscilloscope'),'simplescope'),
+			(_translate("app",'I2C Sensor Data Logger'),'sensorLogger'),
+			(_translate("app",'Data-Logger'),'data-logger'),
+		])
+
+		AppWindow.electrical = OrderedDict([
+			(_translate("app",'RC Circuits'),'rc-circuit'),
+			(_translate("app",'RL Circuits'),'rl-circuit'),
+			(_translate("app",'RLC Discharge'),'rlc-discharge'),
+			(_translate("app",'RLC Steady State'),'rlc-steady'),
+		])
+
+		AppWindow.electronics = OrderedDict([
+			(_translate("app",'Half-wave rectifier'),'halfwave'),
+			(_translate("app",'Full-wave rectifier'),'fullwave'),
+			(_translate("app",'Diode IV'),'diode-IV'),
+			(_translate("app",'Diode IV Hysterisis'),'diode-IV-hysterisis'),
+			(_translate("app",'Diode Clipping'),'clipping'),
+			(_translate("app",'Diode Clamping'),'clamping'),
+			(_translate("app",'Transistor CE'),'transistor-CE'),
+		])
+
+
+		AppWindow.ics = OrderedDict([
+			(_translate("app",'Operational amplifiers'),'opamps'),
+			(_translate("app",'Clock Divider'),'simplescope'),	   ## the help file is overriden
+		])
+
+		AppWindow.physics = OrderedDict([
+			(_translate("app",'AC Generator'),'acgen'),
+			(_translate("app",'Simple Pendulum'),'pendulum'),
+			(_translate("app",'Ultrasound Echo SR04'),'sr04-dist'),
+			(_translate("app",'Interference of Sound'),'sound-beats'),
+			(_translate("app",'Plotting etc'),'example'),
+		])
+
+		AppWindow.schoolLevel = OrderedDict([
+			(_translate("app",'Transformer'),'simplescope'),
+		])
+
+
+		AppWindow.helpfileOverride = OrderedDict([
+			(_translate("app",'Clock Divider'),'clock-divider.html'),
+			(_translate("app",'Transformer'),'transformer.html'),
+		])
+
+		AppWindow.exptGroups = OrderedDict([
+			(_translate("app",'Test And Measurement'),AppWindow.TandM),
+			(_translate("app",'Electrical'),AppWindow.electrical),
+			(_translate("app",'Electronics'),AppWindow.electronics),
+			(_translate("app",'Op-amps and more'),AppWindow.ics),
+			(_translate("app",'Physics'),AppWindow.physics),
+			(_translate("app",'School Level'),AppWindow.schoolLevel)
+		])
+
+		AppWindow.defaultExperiment = 'Oscilloscope'
+
+		AppWindow.allExpts = {}
+		for a in AppWindow.exptGroups:
+			AppWindow.allExpts.update(AppWindow.exptGroups[a])
+
+
 		self.experimentTabIndex = 1
 		from .utilities.fileBrowser import fileBrowser
 
@@ -134,10 +138,10 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 			helpPath = os.path.join(self.curPath,'help','MD_HTML','index.html')
 			self.helpBrowser.setFile(helpPath)
 			self.tabWidget.setCurrentIndex(0)
-			self.showStatus("System Status | Connecting to device...",True)
+			self.showStatus(_translate("app","System Status | Connecting to device..."),True)
 
 		except Exception as e:
-			print ('failed to import help browser. check QtWebkit Version',e)
+			print (_translate("app",'failed to import help browser. check QtWebkit Version'),e)
 			self.helpBrowser = None
 		### Prepare the communication handler, and move it to a thread.
 		from .CommunicationHandlerQt import communicationHandler
@@ -177,7 +181,7 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		self.actionSave.triggered.connect(self.savePlots)
 
 	def connectionDialog(self):
-		reply = QtWidgets.QMessageBox.question(self, 'Connection', 'New Device Found. Connect?', QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.No)
+		reply = QtWidgets.QMessageBox.question(self, _translate("app",'Connection'), _translate("app",'New Device Found. Connect?'), QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.No)
 		if reply == QtWidgets.QMessageBox.Yes:
 			print (reply)
 			self.CH.connectToDevice()
@@ -185,18 +189,18 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		
 	def deviceConnected(self):
 		if self.CH.I.timestamp is not None:self.setWindowTitle(self.CH.I.generic_name + ' : '+self.CH.I.H.version_string.decode("utf-8")+' : '+str(self.CH.I.timestamp))
-		else:self.setWindowTitle(self.CH.I.generic_name + ' : '+self.CH.I.H.version_string.decode("utf-8")+' : Not calibrated')
+		else:self.setWindowTitle(self.CH.I.generic_name + ' : '+self.CH.I.H.version_string.decode("utf-8")+_translate("app",' : Not calibrated'))
 		if self.CH.I.connected:
-			self.showStatus("System Status | Connected to device. Version : %s"%str(self.CH.get_version()))
+			self.showStatus(_translate("app","System Status | Connected to device. Version : %s") %str(self.CH.get_version()))
 			self.launchExperiment(self.defaultExperiment)
 			self.tabWidget.setCurrentIndex(1)
 		else:
 			self.tabWidget.setCurrentIndex(0)
-			self.showStatus("System Status | Device not found. Dummy mode.",True)
+			self.showStatus(_translate("app","System Status | Device not found. Dummy mode."),True)
 		
 	def deviceDisconnected(self):
 		self.tabWidget.setCurrentIndex(0)
-		self.showStatus("System Status | Device disconnected.",True)
+		self.showStatus(_translate("app","System Status | Device disconnected."),True)
 		if self.expt: #Close any running instance
 			try:
 				try:self.expt.windUp()
@@ -207,15 +211,16 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 				self.expt.deleteLater()
 				#self.expt = None
 			except Exception as e:print (e.message)
-		QtGui.QMessageBox.critical(self, "Device Disconnected", "A communication error occurred, or the device was unexpectedly removed. Please reconnect the hardware.")
-		
+		QtGui.QMessageBox.critical(self, _translate("app","Device Disconnected"),
+								   _translate("app","A communication error occurred, or the device was unexpectedly removed. Please reconnect the hardware."))
+
 	def savePlots(self):
-		print ('wrong save fnction. inheritance not working properly. save from expeyesWidgetsNew must be called. This is defined in expeyesWidgetsNew')
+		print (_translate("app",'wrong save fnction. inheritance not working properly. save from expeyesWidgetsNew must be called. This is defined in expeyesWidgetsNew'))
 
 	def launchExperiment(self,name):
 		fname = self.allExpts[name]
 		if name not in self.allExpts:
-			print ('missing experiment',name)
+			print (_translate("app",'missing experiment'),name)
 			return
 		if self.expt: #Close any running instance
 			try:
@@ -245,7 +250,7 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 				helpPath = os.path.join(self.curPath,'help','MD_HTML',self.expt.subsection,self.expt.helpfile)
 				self.helpBrowser.setFile(helpPath)
 		except Exception as e:
-			print ('help widget not loaded. install QtWebkit',e)
+			print (_translate("app",'help widget not loaded. install QtWebkit'),e)
 
 	def tabChanged(self,val):
 		pass
@@ -259,7 +264,7 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		sys.exit(0)
 	
 	def askBeforeQuit(self):
-		reply = QtGui.QMessageBox.question(self, 'Warning', 'Really quit?', QtGui.QMessageBox.No, QtGui.QMessageBox.Yes)
+		reply = QtGui.QMessageBox.question(self, _translate("app",'Warning'), _translate("app",'Really quit?'), QtGui.QMessageBox.No, QtGui.QMessageBox.Yes)
 		if reply == QtGui.QMessageBox.Yes:
 			global app
 			app.quit()
@@ -281,7 +286,7 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	'''
 	def handleError(self,name,err):
 		self.showStatus(name+err,True)
-		print ('packet drop',name,err)
+		print (_translate("app",'packet drop'),name,err)
 
 	##############  HANDLE DATA RETURNED FROM WORKER THREAD   #####################
 
@@ -295,8 +300,25 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		self.fileBrowser.loadFromFile( self.plot,self.curves[self.plot],fname ) 
 		self.tabWidget.setCurrentIndex(self.experimentTabIndex)
 
+langDir = "lang"
+
+def setPaths():
+	global langDir
+	langDir=os.path.abspath(os.path.join(os.path.dirname(__file__), "lang"))
+
 def main_run():
+	setPaths()
 	app = QtWidgets.QApplication(sys.argv)
+	# translation stuff
+	qtTranslator=QtCore.QTranslator()
+	qtTranslator.load("qt_" + QtCore.QLocale.system().name(),
+			QtCore.QLibraryInfo.location(QtCore.QLibraryInfo.TranslationsPath))
+	app.installTranslator(qtTranslator)
+
+	sparkTranslator=QtCore.QTranslator()
+	sparkTranslator.load(QtCore.QLocale.system().name(), langDir);
+	app.installTranslator(sparkTranslator);
+
 	# Create and display the splash screen
 	curPath = os.path.dirname(os.path.realpath(__file__))
 	splash_pix = QtGui.QPixmap(os.path.join(curPath,os.path.join('templates','splash.png')))
@@ -311,7 +333,6 @@ def main_run():
 	myapp.show()
 	splash.finish(myapp)
 	sys.exit(app.exec_())
-    
-if __name__ == "__main__":
-    main_run()
 
+if __name__ == "__main__":
+	main_run()

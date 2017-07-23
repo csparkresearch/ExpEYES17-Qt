@@ -20,7 +20,6 @@ import numpy as np
 from collections import OrderedDict
 import random,functools,os,time
 
-
 try:
 	import scipy.optimize as optimize
 except ImportError:
@@ -44,10 +43,10 @@ except AttributeError:
 
 try:
     _encoding = QtGui.QApplication.UnicodeUTF8
-    def _translate(context, text, disambig):
+    def _translate(context, text, disambig=None):
         return QtGui.QApplication.translate(context, text, disambig, _encoding)
 except AttributeError:
-    def _translate(context, text, disambig):
+    def _translate(context, text, disambig=None):
         return QtGui.QApplication.translate(context, text, disambig)
 
 
@@ -70,9 +69,9 @@ class expeyesWidgets(object):
 	max_samples_per_channel=[0,MAX_SAMPLES/4,MAX_SAMPLES/4,MAX_SAMPLES/4,MAX_SAMPLES/4]
 	samples = MAX_SAMPLES/4
 
-	Ranges12 = ['16 V', '8 V','4 V', '2.5 V','1.5 V', '1 V', '.5 V', '.25 V']	# Voltage ranges for A1 and A2
+	Ranges12 = ['16 V', '8 V','4 V', '2.5 V','1.5 V', '1 V', _translate("ewn",'.5 V'), _translate("ewn",'.25 V')]	# Voltage ranges for A1 and A2
 	rangevals12 = [16.,8.,4.,2.5,1.5,1.,0.5,0.25]
-	Ranges34 = ['4 V', '2 V', '1 V', '.5V']					# Voltage ranges for A3 and MIC
+	Ranges34 = ['4 V', '2 V', '1 V', _translate("ewn",'.5V')]					# Voltage ranges for A3 and MIC
 	rangevals34 = [4,2,1,0.5]
 
 	currentRange={'A1':4,'A2':4,'A3':4,'MIC':4}
@@ -171,7 +170,7 @@ class expeyesWidgets(object):
 				self.colorDialog.move(pos.x(), pos.y())
 
 			def editLineStyle(self):
-				item,ok = QtGui.QInputDialog.getItem(self,"Select Line Style","", list(self.lineStyles.keys()), 0, False)
+				item,ok = QtGui.QInputDialog.getItem(self,_translate("ewn","Select Line Style"),"", list(self.lineStyles.keys()), 0, False)
 				if (ok and not item.isEmpty()):
 					self.changeStyle(self.lineStyles[str(item)])
 
@@ -239,7 +238,7 @@ class expeyesWidgets(object):
 		else:
 			self.myTracesWidget = self.tracesWidget(plot)
 
-		self.TITLE('Trace List')
+		self.TITLE(_translate("ewn",'Trace List'))
 		self.widgetLayout.addWidget(self.myTracesWidget)
 		num=0
 		for a in curvenames:
@@ -264,10 +263,10 @@ class expeyesWidgets(object):
 		#ydict = {-4:'-4\n-2',-3:'-3',-2:'-2',-1:'-1',0:'0',1:'1',2:'2',3:'3',4:''}
 		ydict = {-4:'',-3:'',-2:'',-1:'',0:'',1:'',2:'',3:'',4:''}
 		stringaxis.setTicks([ydict.items()])
-		stringaxis.setLabel('Voltage',**{'color': '#FFF', 'font-size': '9pt'})
+		stringaxis.setLabel(_translate("ewn",'Voltage'),**{'color': '#FFF', 'font-size': '9pt'})
 		stringaxis.setWidth(15)
 
-		self.plot   = self.addPlot(xMin=0,xMax=self.xmax,yMin=-4,yMax=4, disableAutoRange = 'y',bottomLabel = 'time',bottomUnits='S',enableMenu=False,legend=True,leftAxis=stringaxis,**kwargs)
+		self.plot   = self.addPlot(xMin=0,xMax=self.xmax,yMin=-4,yMax=4, disableAutoRange = 'y',bottomLabel = _translate("ewn",'time'),bottomUnits=_translate("ewn",'S'),enableMenu=False,legend=True,leftAxis=stringaxis,**kwargs)
 		self.plot.setMouseEnabled(False,True)
 		self.plotLayout.addWidget(self.plot)
 		self.myCurves=OrderedDict()
@@ -289,7 +288,7 @@ class expeyesWidgets(object):
 
 	def CAPTURE(self,forwardingFunction=None):
 		if self.p.busy:
-			self.showStatus('busy %s'%time.ctime(),True)
+			self.showStatus(_translate("ewn",'busy %s') %time.ctime(),True)
 			return
 		self.traceOrder=[]  #This will store the order of the returned data
 		a = self.myCurveWidgets['A1'].enable.isChecked() if 'A1' in self.myCurveWidgets else False
@@ -410,10 +409,10 @@ class expeyesWidgets(object):
 
 
 
-		print ('plot called..............',time.time()-T)
+		print (_translate("ewn",'plot called..............'),time.time()-T)
 		T = time.time()
 		self.repositionLabels()
-		print ('labels printed..............',time.time()-T)
+		print (_translate("ewn",'labels printed..............'),time.time()-T)
 
 	def makeLabels(self):
 		self.labelTexts={}
@@ -484,32 +483,32 @@ class expeyesWidgets(object):
 			
 
 			self.widthBtn=QtGui.QSpinBox()
-			self.widthBtn.setRange(1,5);self.widthBtn.setPrefix('Width :')
+			self.widthBtn.setRange(1,5);self.widthBtn.setPrefix(_translate("ewn",'Width :'))
 			self.widthBtn.valueChanged.connect(self.changeWidth)
 			self.widthAction = QtWidgets.QWidgetAction(self.menu)
 			self.widthAction.setDefaultWidget(self.widthBtn)
 			self.menu.addAction(self.widthAction)
 
-			self.editBtn=self.myColorButton('Change Color',[255,255,255,255])
+			self.editBtn=self.myColorButton(_translate("ewn",'Change Color'),[255,255,255,255])
 			self.editBtn.colorDialog.currentColorChanged.connect(self.changeColor)
 			self.editAction = QtWidgets.QWidgetAction(self.menu)
 			self.editAction.setDefaultWidget(self.editBtn)
 			self.menu.addAction(self.editAction)
 
-			self.menu.addAction('Change Line Style',self.editLineStyle)
+			self.menu.addAction(_translate("ewn",'Change Line Style'),self.editLineStyle)
 
 
 
 			
 			self.menu.addSeparator()
-			self.menu.addAction('Save Trace', self.saveTrace)
-			self.menu.addAction('Save All Traces', self.saveTraces)
+			self.menu.addAction(_translate("ewn",'Save Trace'), self.saveTrace)
+			self.menu.addAction(_translate("ewn",'Save All Traces'), self.saveTraces)
 			self.menu.addSeparator()
-			self.menu.addAction('Delete Trace', self.deleteTrace)
+			self.menu.addAction(_translate("ewn",'Delete Trace'), self.deleteTrace)
 			self.menuButton.setMenu(self.menu)
 
 		def editLineStyle(self):
-			item,ok = QtGui.QInputDialog.getItem(self,"Select Line Style","", list(self.lineStyles.keys()), 0, False)
+			item,ok = QtGui.QInputDialog.getItem(self,_translate("ewn","Select Line Style"),"", list(self.lineStyles.keys()), 0, False)
 			if (ok and not item.isEmpty()):
 				self.changeStyle(self.lineStyles[str(item)])
 
@@ -748,7 +747,7 @@ class expeyesWidgets(object):
 		self.myTracesWidget = None
 		try:self.p.sigPlot.disconnect(self.updatePlot)
 		except:pass
-		print ('winding up finished')
+		print (_translate("ewn",'winding up finished'))
 	####################################################################################
 
 	def randomColor(self):
@@ -793,11 +792,11 @@ class expeyesWidgets(object):
 		plot.getAxis('left').setGrid(170);
 		self.xaxis.setGrid(170)
 		if 'bottomAxis' not in kwargs and 'x' not in hideAxes:
-			self.xaxis.setLabel(kwargs.get('bottomLabel','time'), units=kwargs.get('bottomUnits','S'))
+			self.xaxis.setLabel(kwargs.get('bottomLabel',_translate("ewn",'time')), units=kwargs.get('bottomUnits',_translate("ewn",'S')))
 		else:
 			self.xaxis.setHeight(0)			
 		if 'leftAxis' not in kwargs and 'y' not in hideAxes:
-			plot.getAxis('left').setLabel(kwargs.get('leftLabel','voltage'), units=kwargs.get('leftUnits','V'))
+			plot.getAxis('left').setLabel(kwargs.get('leftLabel',_translate("ewn",'voltage')), units=kwargs.get('leftUnits','V'))
 		else:
 			plot.getAxis('left').setLabel('')
 			plot.getAxis('left').setWidth(0)			
@@ -851,10 +850,10 @@ class expeyesWidgets(object):
 		
 	###############################  TRIGGERING THE OSCILLOSCOPE ######################
 	def TRIGGER(self):
-		self.TITLE('Trigger')
+		self.TITLE(_translate("ewn",'Trigger'))
 		self.activeTriggerWidget  =self.triggerWidget(self.trace_names)
 		self.widgetLayout.addWidget(self.activeTriggerWidget)
-		self.trigLine = self.addInfiniteLine(self.plot,angle=0, movable=True,cursor = QtCore.Qt.SizeVerCursor,tooltip="Trigger level. Enable the trigger checkbox, and drag up/down to set the level",value = 0,ignoreBounds=False)
+		self.trigLine = self.addInfiniteLine(self.plot,angle=0, movable=True,cursor = QtCore.Qt.SizeVerCursor,tooltip=_translate("ewn","Trigger level. Enable the trigger checkbox, and drag up/down to set the level"),value = 0,ignoreBounds=False)
 		self.trigLine.sigPositionChanged.connect(self.setTrigger)
 		self.activeTriggerWidget.pushButton.clicked.connect(self.locateTrigger)
 
@@ -884,7 +883,7 @@ class expeyesWidgets(object):
 		trignum = self.activeTriggerWidget.chanBox.currentIndex()
 		if trignum==-1 : #Index not found.
 			return
-		self.activeTriggerWidget.enable.setText('Trigger Level: %s'%self.applySIPrefix(self.trigger_level,'V',1))
+		self.activeTriggerWidget.enable.setText(_translate("ewn",'Trigger Level: %s') %self.applySIPrefix(self.trigger_level,'V',1))
 		self.p.configure_trigger(trignum,trigName,self.trigger_level,resolution=10,prescaler=5)
 
 
@@ -918,7 +917,7 @@ class expeyesWidgets(object):
 	###############################  TIMEBASE CONTROL FOR THE OSCILLOSCOPE ######################
 
 	def TIMEBASE(self,value = None):
-		self.TITLE('Time Base')
+		self.TITLE(_translate("ewn",'Time Base'))
 		self.activeTimebaseWidget  =self.timebaseWidget(self.getSamples)
 		self.widgetLayout.addWidget(self.activeTimebaseWidget)
 		if value:self.activeTimebaseWidget.slider.setValue(value)
@@ -1056,7 +1055,7 @@ class expeyesWidgets(object):
 
 	def IMAGE(self,path):
 		if not os.path.exists(path): 
-			print ('Path not found',path)
+			print (_translate("ewn",'Path not found'),path)
 			return
 		try:
 			self.TITLE(path)
@@ -1252,7 +1251,7 @@ class expeyesWidgets(object):
 			prefix_levels = (len(PREFIXES) - 1) // 2
 			si_level = exponent // 3
 			if abs(si_level) > prefix_levels:
-				raise ValueError("Exponent out range of available prefixes.")
+				raise ValueError(_translate("ewn","Exponent out range of available prefixes."))
 			return '%.*f %s%s' % (precision, value,PREFIXES[si_level + prefix_levels],unit)
 
 
