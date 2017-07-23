@@ -44,22 +44,25 @@ except AttributeError:
 	def _fromUtf8(s):
 		return s
 
-
+def tr(s):
+    """ for later usage as a translation function """
+    return s
+    
 class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	sigExec = QtCore.pyqtSignal(str,object,object)
 	sigHelp = QtCore.pyqtSignal(str)
 	xmax = 20 #mS
 	TandM = OrderedDict([
-	('Oscilloscope','simplescope'),
-	('I2C Sensor Data Logger','sensorLogger'),
-	('Data-Logger','data-logger'),
+	(tr('Oscilloscope'),'simplescope'),
+	(tr('I2C Sensor Data Logger'),'sensorLogger'),
+	(tr('Data-Logger'),'data-logger'),
 	 ])
 
 	electrical = OrderedDict([
-	('RC Circuits','rc-circuit'),
-	('RL Circuits','rl-circuit'),
-	('RLC Discharge','rlc-discharge'),
-	('RLC Steady State','rlc-steady'),
+	(tr('RC Circuits'),'rc-circuit'),
+	(tr('RL Circuits'),'rl-circuit'),
+	(tr('RLC Discharge'),'rlc-discharge'),
+	(tr('RLC Steady State'),'rlc-steady'),
 	 ])
 
 	electronics = OrderedDict([
