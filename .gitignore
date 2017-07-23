@@ -32,4 +32,6 @@ MD_HTML/
 
 # PRO file generated during pylupdate call
 spark17.pro
+# translation files in QM binary format
+*.qm
 

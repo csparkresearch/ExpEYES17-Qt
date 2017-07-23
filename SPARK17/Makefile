@@ -3,19 +3,22 @@ SUBDIRS = templates utilities expeyes
 PYLUPDATE = pylupdate5
 PRO_FILE = spark17.pro
 TS_FILES = $(shell ls lang/*.ts)
+QM_FILES = $(patsubst %.ts, %.qm, $(TS_FILES))
 TS_SOURCES = $(shell find . -name "*.py")
 
 all: recursive_all lang
 
-lang: $(TS_FILES)
+lang: $(TS_FILES) $(QM_FILES)
+
+$(QM_FILES): $(TS_FILES)
+	lrelease $(PRO_FILE)
 
 $(TS_FILES): $(TS_SOURCES)
-	echo -n "GENERATED FILE, DO NOT EDIT\nSOURCES = " > $(PRO_FILE)
+	echo -n "# GENERATED FILE, DO NOT EDIT\nSOURCES = " > $(PRO_FILE)
 	find . -name "*.py" | xargs echo >> $(PRO_FILE)
 	echo -n "TRANSLATIONS = " >> $(PRO_FILE)
 	find lang -name "*.ts" | xargs echo >> $(PRO_FILE)
 	$(PYLUPDATE) $(PRO_FILE)
-	# rm $(PRO_FILE)
 	
 recursive_all:
 	for d in $(SUBDIRS); do make PYUIC=$(PYUIC) PYRCC=$(PYRCC) -C $$d all; done
