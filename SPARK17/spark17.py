@@ -135,8 +135,7 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 			from .utilities.helpBrowser import helpBrowser
 			self.helpBrowser = helpBrowser()
 			self.helpLayout.addWidget(self.helpBrowser)
-			helpPath = os.path.join(self.curPath,'help','MD_HTML','index.html')
-			self.helpBrowser.setFile(helpPath)
+			self.helpBrowser.setFile(os.path.join(path["help"],"index.html"))
 			self.tabWidget.setCurrentIndex(0)
 			self.showStatus(_translate("app","System Status | Connecting to device..."),True)
 
@@ -243,12 +242,11 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		self.expt.show()
 		try:
 			if name in self.helpfileOverride:
-				helpPath = os.path.join(self.curPath,'help','MD_HTML','apps',self.helpfileOverride[name])
-				self.helpBrowser.setFile(helpPath)
-				#print ('help override',helpPath)
+				helpPathApp = os.path.join(path["help"],"apps",self.helpfileOverride[name])
+				self.helpBrowser.setFile(helpPathApp)
 			elif hasattr(self.expt,'subsection'):
-				helpPath = os.path.join(self.curPath,'help','MD_HTML',self.expt.subsection,self.expt.helpfile)
-				self.helpBrowser.setFile(helpPath)
+				helpPathSub = os.path.join(path["help"],self.expt.subsection,self.expt.helpfile)
+				self.helpBrowser.setFile(helpPathSub)
 		except Exception as e:
 			print (_translate("app",'help widget not loaded. install QtWebkit'),e)
 
@@ -321,28 +319,48 @@ def translators(langDir, lang=None):
 	result.append(sparkTranslator)
 	return result
 
-curPath=""        # path of the current file
-translationDir="" # path to translations (.qm format)
-templatePath=""   # path to templates
-splashPath=""     # path to the splash image
+def firstExistingPath(l):
+	"""
+	Returns the first existing path taken from a list of
+	possible paths.
+	@param l a list of paths
+	@return the first path which exists in the filesystem, or None
+	"""
+	for p in l:
+		if os.path.exists(p):
+			return p
+	return None
+
+curPath = ""        # path of the current file
+path    = {}        # dictionary of common paths
 
 def common_paths():
-	global translationDir, curPath, templatePath, splashPath
+	global curPath, path
 	curPath = os.path.dirname(os.path.realpath(__file__))
-	translationDir=os.path.join(curPath, "lang")
-	templatePath=os.path.join(curPath,'templates')
-	splashPath = os.path.join(templatePath,'splash.png')
-	print ("templatePath=", templatePath, "GRRRR splashPath=", splashPath)
+	path["current"] = curPath
+	sharedPath = "/usr/share/expeyes17"
+	path["translation"] = firstExistingPath(
+			[os.path.join(p, "lang") for p in
+			 (curPath, sharedPath,)])
+	path["template"] = firstExistingPath(
+			[os.path.join(p,'templates') for p in
+			 (curPath, sharedPath,)])
+	path["splash"] = firstExistingPath(
+			[os.path.join(p,'templates','splash.png') for p in
+			 (curPath, sharedPath,)])
+	path["help"] = firstExistingPath(
+			[os.path.join(curPath,'help','MD_HTML') for p in
+			 (curPath, sharedPath,)])
 	return
 
 def main_run():
-	app = QtWidgets.QApplication(sys.argv)
 	common_paths()
-	for t in translators(translationDir):
+	app = QtWidgets.QApplication(sys.argv)
+	for t in translators(path["translation"]):
 		app.installTranslator(t)
 
 	# Create and display the splash screen
-	splash_pix = QtGui.QPixmap(splashPath)
+	splash_pix = QtGui.QPixmap(path["splash"])
 	splash = QtWidgets.QSplashScreen(splash_pix, QtCore.Qt.WindowStaysOnTopHint)
 	splash.setMask(splash_pix.mask())
 	splash.show()
