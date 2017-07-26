@@ -1,0 +1,6 @@
+SUBSYSTEM=="tty",ATTRS{idVendor}=="04d8", ATTRS{idProduct}=="00df", MODE="666"
+ATTRS{idVendor}=="04d8", ATTRS{idProduct}=="00df", ENV{ID_MM_DEVICE_IGNORE}="1"
+SUBSYSTEM=="tty",ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="7523", MODE="666"
+ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="7523", ENV{ID_MM_DEVICE_IGNORE}="1"
+SUBSYSTEM=="tty",ATTRS{idVendor}=="067b", ATTRS{idProduct}=="2303", MODE="666"
+ATTRS{idVendor}=="067b", ATTRS{idProduct}=="2303", ENV{ID_MM_DEVICE_IGNORE}="1"
