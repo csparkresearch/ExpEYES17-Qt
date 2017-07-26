@@ -51,12 +51,13 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	sigHelp = QtCore.pyqtSignal(str)
 	xmax = 20 #mS
 
-	def __init__(self, parent=None,**kwargs):
+	def __init__(self, parent=None, path={}, **kwargs):
 		super(AppWindow, self).__init__(parent)
 		self.setupUi(self)
 		self.statusBar = self.statusBar()
-		self.curPath = os.path.dirname(os.path.realpath(__file__))
-
+		self.curPath = path["current"]
+		self.path=path
+		
 		global app
 		# the following class static variables must be initialized
 		# *after* the initialization of translation domains, so they
@@ -135,7 +136,7 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 			from .utilities.helpBrowser import helpBrowser
 			self.helpBrowser = helpBrowser()
 			self.helpLayout.addWidget(self.helpBrowser)
-			self.helpBrowser.setFile(os.path.join(path["help"],"index.html"))
+			self.helpBrowser.setFile(os.path.join(self.path["help"],"index.html"))
 			self.tabWidget.setCurrentIndex(0)
 			self.showStatus(_translate("app","System Status | Connecting to device..."),True)
 
@@ -242,10 +243,10 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		self.expt.show()
 		try:
 			if name in self.helpfileOverride:
-				helpPathApp = os.path.join(path["help"],"apps",self.helpfileOverride[name])
+				helpPathApp = os.path.join(self.path["help"],"apps",self.helpfileOverride[name])
 				self.helpBrowser.setFile(helpPathApp)
 			elif hasattr(self.expt,'subsection'):
-				helpPathSub = os.path.join(path["help"],self.expt.subsection,self.expt.helpfile)
+				helpPathSub = os.path.join(self.path["help"],self.expt.subsection,self.expt.helpfile)
 				self.helpBrowser.setFile(helpPathSub)
 		except Exception as e:
 			print (_translate("app",'help widget not loaded. install QtWebkit'),e)
@@ -331,11 +332,12 @@ def firstExistingPath(l):
 			return p
 	return None
 
-curPath = ""        # path of the current file
-path    = {}        # dictionary of common paths
-
 def common_paths():
-	global curPath, path
+	"""
+	Finds common paths
+	@result a dictionary of common paths
+	"""
+	path={}
 	curPath = os.path.dirname(os.path.realpath(__file__))
 	path["current"] = curPath
 	sharedPath = "/usr/share/expeyes17"
@@ -348,13 +350,22 @@ def common_paths():
 	path["splash"] = firstExistingPath(
 			[os.path.join(p,'templates','splash.png') for p in
 			 (curPath, sharedPath,)])
+	lang=QtCore.QLocale.system().name()
+	shortLang=lang[:2]
 	path["help"] = firstExistingPath(
-			[os.path.join(curPath,'help','MD_HTML') for p in
-			 (curPath, sharedPath,)])
-	return
+			[os.path.join(p,'MD_HTML') for p in
+			 (os.path.join(curPath,"help_"+lang),
+			  os.path.join(sharedPath,"help_"+lang),
+			  os.path.join(curPath,"help_"+shortLang),
+			  os.path.join(sharedPath,"help_"+shortLang),
+			  os.path.join(curPath,"help"),
+			  os.path.join(sharedPath,"help"),
+			  )
+			 ])
+	return path
 
 def main_run():
-	common_paths()
+	path = common_paths()
 	app = QtWidgets.QApplication(sys.argv)
 	for t in translators(path["translation"]):
 		app.installTranslator(t)
@@ -368,7 +379,7 @@ def main_run():
 		app.processEvents()
 		time.sleep(0.01)
 
-	myapp = AppWindow(app=app)
+	myapp = AppWindow(app=app, path=path)
 	myapp.show()
 	splash.finish(myapp)
 	sys.exit(app.exec_())
