@@ -300,28 +300,49 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		self.fileBrowser.loadFromFile( self.plot,self.curves[self.plot],fname ) 
 		self.tabWidget.setCurrentIndex(self.experimentTabIndex)
 
-langDir = "lang"
+def translators(langDir, lang=None):
+	"""
+	create a list of translators
+	@param langDir a path containing .qm translation
+	@param lang the preferred locale, like en_IN.UTF-8, fr_FR.UTF-8, etc.
+	@result a list of QtCore.QTranslator instances
+	"""
+	if lang==None:
+			lang=QtCore.QLocale.system().name()
+	result=[]
+	qtTranslator=QtCore.QTranslator()
+	qtTranslator.load("qt_" + lang,
+			QtCore.QLibraryInfo.location(QtCore.QLibraryInfo.TranslationsPath))
+	result.append(qtTranslator)
 
-def setPaths():
-	global langDir
-	langDir=os.path.abspath(os.path.join(os.path.dirname(__file__), "lang"))
+	# path to the translation files (.qm files)
+	sparkTranslator=QtCore.QTranslator()
+	sparkTranslator.load(lang, langDir);
+	result.append(sparkTranslator)
+	return result
+
+curPath=""        # path of the current file
+translationDir="" # path to translations (.qm format)
+templatePath=""   # path to templates
+splashPath=""     # path to the splash image
+
+def common_paths():
+	global translationDir, curPath, templatePath, splashPath
+	curPath = os.path.dirname(os.path.realpath(__file__))
+	translationDir=os.path.join(curPath, "lang")
+	templatePath=os.path.join(curPath,'templates')
+	splashPath = os.path.join(templatePath,'splash.png')
+	print ("templatePath=", templatePath, "GRRRR splashPath=", splashPath)
+	return
 
 def main_run():
-	setPaths()
 	app = QtWidgets.QApplication(sys.argv)
-	# translation stuff
-	qtTranslator=QtCore.QTranslator()
-	qtTranslator.load("qt_" + QtCore.QLocale.system().name(),
-			QtCore.QLibraryInfo.location(QtCore.QLibraryInfo.TranslationsPath))
-	app.installTranslator(qtTranslator)
-
-	sparkTranslator=QtCore.QTranslator()
-	sparkTranslator.load(QtCore.QLocale.system().name(), langDir);
-	app.installTranslator(sparkTranslator);
+	common_paths()
+	for t in translators(translationDir):
+		app.installTranslator(t)
 
 	# Create and display the splash screen
-	curPath = os.path.dirname(os.path.realpath(__file__))
-	splash_pix = QtGui.QPixmap(os.path.join(curPath,os.path.join('templates','splash.png')))
+	splash_pix = QtGui.QPixmap(splashPath)
 	splash = QtWidgets.QSplashScreen(splash_pix, QtCore.Qt.WindowStaysOnTopHint)
 	splash.setMask(splash_pix.mask())
 	splash.show()
