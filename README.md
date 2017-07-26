@@ -28,14 +28,12 @@ Qt based toolkit for accessing [ExpEYES-17](http://expeyes.in)
 
 `python3 -m SPARK17.spark17`
 
-## Using PySide
-
-+ Work in progress. Currently segfaults under various scenarios.
 
 ## Building from source for python2.7 with PySide
 
 ### Dependencies
 
++ Work in progress. Currently segfaults under various scenarios.
 + On Debian/Ubuntu
   + sudo apt-get install python-pyside , python-pyqtgraph, python-scipy, pyside-tools
   + make QT_VERSION=PySide
@@ -44,12 +42,12 @@ Qt based toolkit for accessing [ExpEYES-17](http://expeyes.in)
 
 ## Granting Permissions to the USB port
 
-We are working on a script to automatically copy a rules.d file and restart udev , but in the meantime please try
-+ sudo chmod 666 /dev/ttyACM*
-+ Launch the application `python -m SPARK17.spark17`
++ Copying the rules file permanently
+  + sudo ./postinst.sh
++ For temporary permissions
+  + sudo chmod 666 /dev/ttyACM*
+  + Launch the application `python -m SPARK17.spark17`
 
-### Copying the rules file for a more permanent effect
-+ sudo ./postinst.sh
 
 
 ## Housekeeping
