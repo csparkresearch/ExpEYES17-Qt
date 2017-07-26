@@ -1,43 +1,45 @@
 ---
 layout: e17page
-title: Sensor Logger
+title: Enregistreur de capteur
 date: 2017-06-26
-description: Log data from I2C sensors
+description: Enregistrer les données de capteurs I2C
 ---
 
-## I2C Sensors supported by ExpEYES so far
+## Les capteurs I2C supportés par ExpEYES à ce jour
 
-- MPU6050 : 3-Axis Accelerometer , 3-Axis GyroScope
-- MPU925x : 3-Axis Accelerometer , 3-Axis GyroScope, - Separately enabled 3-axis magnetometer
-- HMC5883L : 3-Axis Magnetometer with adjustable ranges
-- MLX90614 : Passive IR temperature sensor
-- BMP180 : Pressure , Temperature and Altitude module.
-- TSL2561 , BH1750 : Luminosity measurements up to 40K Lux
-- SHT21 , Si7021 : Ambient Temperature and Humidity Module
+- MPU6050 : Accéléromètre 3axes, Gyromètre 3 axes
+- MPU925x : Accéléromètre 3axes, Gyromètre 3 axes, - magnétomètre 3 axes activé séparément
+- HMC5883L : Magnétomètre 3 axes avec calibres ajustables
+- MLX90614 : Capteur de température à IR passif
+- BMP180 : Module pour la pression, la température et l'altitude
+- TSL2561 , BH1750 : Mesures d'éclairement jusqu'à 40 kLux
+- SHT21 , Si7021 : Module pour la température d'ambiance et l'humidité
 
 ![](images/screenshots/sensor-logger-photos.png){: width="400px"}
 
 
-## Connecting an I2C Sensor
+## Connection d'un capteur I2C
 
 ![](images/photographs/sensor-logger-connections.jpg){: width="400px"}
 
-I2C Sensors primarily require four connections
-* Vcc : Positive Supply. Check your sensor's documentation for the rated voltage input. ExpEYES provides 5V on the I2C port since most commercial sensor modules have a built-in voltage regulator.
-* GND : Ground / Negative supply
-* SCL : Clock for exchanging data
-* SDA : Bidirectional data line
+Les capteurs I2C nécessitent essentiellement quatre connexions
+* Vcc : Alimentation positive. Vérifier la documentation du capteur pour la tension d'alimentation préconisée. ExpEYES fournit 5V sur le port I2C comme la plupart des capteurs commerciaux viennent avec un régulateur de tension intégré.
+* GND : Terre / Moins de l'alimentation
+* SCL : Signal d'horloge pour l'échange de données
+* SDA : Ligne de données bidirectionnelle
 
-The sensor featured in the picture above is the MPU925x , a 10-DOF Inertial measurement unit that can measure 3-Axis acceleration, angular velocity, and magentic fields.
+Le capteur de l'image ci-dessus est le MPU925x, 
+une unité de mesure inertielle "dix en un" capable de mesurer
+l'accélération sur 3axes, la vitesse angulaire et lechamp magnétique.
 
-## Detecting the presence of a sensor
+## Détecter le branchement d'un capteur
 
-* Once you have plugged in the sensor, click on the autoScan button which makes the device to detect the presence of any sensors
-* If a sensor is detected, and is also supported by the ExpEYES python library, it will automatically update the menu to show a button for that sensor.
-* Click on the detected sensor's name , and you will see a bunch of graphs automatically appear in the `traces` section as well as the legend on the plot.
-* Select the number of points to record along the x-axis, and start the data logger
+* Dès qu'un capteur est branché, cliquer sur le bouton autoScan pour faire détecter les capteurs par l'appareil
+* Si un capteur est détecté, etqu'il est aussi supporté par la bibliothèque Python ExpEYES, il mettra à jour automatiquement le menu avec un bouton pour ce capteur.
+* Cliquer sur le nom du capteur détecté, et une série de graphiques sont automatiquement affichés dans la section `traces` et les légendes sont mises à jour.
+* Sélectionner le nombre de points à enregistrer le long de l'axe X, et démarrer l'enregistreur de données.
 
 
-{% include giffer.html url="images/screencasts/sensor-logger.gif" title = "An introductory screencast on how to repeat the above instructions. The sensor used is the MPU925x, and it was mechanically oscillated to generate some random data"%}
+{% include giffer.html url="images/screencasts/sensor-logger.gif" title = "Une capture d'écran présentant l'exécution des commandes ci-dessus. Le capteur utilisé est le MPU925x, et il est bougé mécaniquement pour générer quelques données aléatoires"%}
 
 ![](images/photographs/sensor-logger.jpg){: width="700px"}
