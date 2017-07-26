@@ -1,16 +1,16 @@
 ---
 layout: e17page
-title: Measure Capacitance
+title: Mesure de capacité
 date: 2017-05-21
-description: "Measure the values of capacitors"
+description: "Mesurer des valeurs de condensateurs"
 ---
 
 ![](images/schematics/cap-measure.png){: width="400px"}
 
 ## Instructions
-Connect the capacitors one by one from IN1 to Ground( any black terminal)
+Connecter les condensateurs un par un entre IN1 et GND (n'importe quelle borne noire)
 
-Measure the value by clicking on "Capacitance on IN1"
+Mesurer la valeur en clquant sur "Capacité en IN1"
 
 ![](images/photographs/cap-measure.jpg){: width="600px"}
 
