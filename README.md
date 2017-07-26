@@ -42,6 +42,14 @@ Qt based toolkit for accessing [ExpEYES-17](http://expeyes.in)
 
 `python -m SPARK17.spark17`
 
+## Granting Permissions to the USB port
+
+We are working on a script to automatically copy a rules.d file and restart udev , but in the meantime please try
++ sudo chmod 666 /dev/ttyACM*
++ Launch the application `python -m SPARK17.spark17`
+
+### Copying the rules file for a more permanent effect
++ sudo ./postinst.sh
 
 
 ## Housekeeping
