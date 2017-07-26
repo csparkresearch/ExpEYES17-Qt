@@ -9,6 +9,8 @@ import sys,time,functools,os
 import pyqtgraph as pg
 from collections import OrderedDict
 
+_translate = QtCore.QCoreApplication.translate
+
 class AppWindow(QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	subsection = 'apps'
 	helpfile = 'oscilloscope.html'
@@ -30,7 +32,7 @@ class AppWindow(QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		stringaxis.setLabel('Voltage',**{'color': '#FFF', 'font-size': '9pt'})
 		stringaxis.setWidth(15)
 
-		self.plot   = self.addPlot(xMin=0,xMax=self.xmax,yMin=-4,yMax=4, disableAutoRange = 'y',bottomLabel = 'time',bottomUnits='S',enableMenu=False,legend=True,leftAxis=stringaxis,enableYAxis=False,**kwargs)
+		self.plot   = self.addPlot(xMin=0,xMax=self.xmax,yMin=-4,yMax=4, disableAutoRange = 'y',bottomLabel = _translate("simplescope",'time'),bottomUnits=_translate("simplescope",'S'),enableMenu=False,legend=True,leftAxis=stringaxis,enableYAxis=False,**kwargs)
 		self.addCrosshair(self.plot,self.updateLabels,'y');self.plot.setTitle('_')
 		self.plot.setMouseEnabled(False,True)
 		self.plotLayout.addWidget(self.plot)
@@ -60,7 +62,7 @@ class AppWindow(QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.TRIGGER()
 
 		# ADD A SINE WIDGET SLIDER WITH NUMBERIC INPUT to the widgetLayout
-		self.TITLE('Output Controls')
+		self.TITLE(_translate("simplescope",'Output Controls'))
 		self.PV1();self.PV2();
 		self.SW = self.SINE();self.SW.setValue(1500.)
 		self.SQR1();
@@ -69,7 +71,7 @@ class AppWindow(QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.widgetLayout.addWidget(self.rbks)
 		self.SPACER(20)
 		
-		self.sv = self.PUSHBUTTON('Save Data',self.savePlots)
+		self.sv = self.PUSHBUTTON(_translate("simplescope",'Save Data'),self.savePlots)
 		self.paused = self.CHECKBOX('Pause')
 		self.lastUpdateTime = time.time()
 		self.timer = self.newTimer()
@@ -198,22 +200,20 @@ class AppWindow(QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		#self.showStatus('%s : %s'%(name,str(res)))
 		if 'capacitance' in name:
 			if res<500e-6: ##500uF limit
-				txt = 'CAP: '+self.applySIPrefix(res,'F',2)
+				txt = _translate("simplescope",'CAP: ')+self.applySIPrefix(res,'F',2)
 			else :
-				txt = 'CAP: Inf'
+				txt = _translate("simplescope",'CAP: Inf')
 			self.rbks.capLabel.setText(txt)
 		elif 'resistance' in name:
 			if res<10e6: ##10 meg
-				txt = 'RES: '+self.applySIPrefix(res,u"\u03A9",2)
+				txt = _translate("simplescope",'RES: ')+self.applySIPrefix(res,u"\u03A9",2)
 			else :
-				txt = 'RES: NaN'
+				txt = _translate("simplescope",'RES: NaN')
 			self.rbks.resLabel.setText(txt)
 		elif 'freq' in name:
 			if res<20e6: ##10 meg
-				txt = 'FRQ: '+self.applySIPrefix(res,'Hz',2)
+				txt = _translate("simplescope",'FRQ: ')+self.applySIPrefix(res,'Hz',2)
 			else :
-				txt = 'FRQ: NaN'
+				txt = _translate("simplescope",'FRQ: NaN')
 			self.rbks.freqLabel.setText(txt)
-
-
 

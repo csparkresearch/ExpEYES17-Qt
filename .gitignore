@@ -29,3 +29,9 @@ MD_HTML/
 
 # build details stored by Makefile
 #SPARK17/build_details.py
+
+# PRO file generated during pylupdate call
+spark17.pro
+# translation files in QM binary format
+*.qm
+
