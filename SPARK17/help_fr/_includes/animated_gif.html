@@ -3,7 +3,8 @@
 		{% if include.title %}
 		<h2 style="text-align:left;">{{include.title}}</h2><hr>
 		{% else %}
-		<h2 style="text-align:left;">Animation : Mouseover to play</h2><hr>
+                <h2 style="text-align:left;">Animation : survoler à la souris pour démarrer</h2>
+                <hr>
 		{% endif %}
 	<img class="img-responsive" style="bottom:0px;" src="{{include.poster}}" onmouseover="playGIF(this);" onmouseout="pauseGIF(this);">
 </div>
@@ -17,7 +18,7 @@ function pauseGIF(elm) {
 </script>		
 {% else %}
 <div class=" col-xs-12 col-sm-12 col-md-12">
-	<h2 style="text-align:left;">Screencast : A recording of the experiment</h2><hr>
+        <h2 style="text-align:left;">Capture d'écran : enregistrement de l'expérience</h2><hr>
 	<img class="img-responsive" style="bottom:0px;" src="{{include.url}}">
 </div>
 {% endif %}

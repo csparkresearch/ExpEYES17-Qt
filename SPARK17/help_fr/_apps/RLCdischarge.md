@@ -1,22 +1,26 @@
 ---
 layout: e17page
-title: RLC Discharge
+title: Décharge RLC
 date: 2017-05-21
-description: Transient response of RLC circuits
+description: Réponse transitoire de circuits RLC
 imagebase: RLCdischarge
 screencast: "yes"
 ---
 
 ## Introduction
 
+Un échelon de tension de 5 à 0V est appliqué à un circuit RLC série, et on
+enregistre la tension aux bornes du condensateur.
 
-A voltage step from 5V to 0V is applied to a series LCR circuit, and the voltage across the capacitor is recorded.
+L'induction est réalisée à l'aide d'une bobine de quelques 125 mH d'inductance,
+et de résistance 550 Ohm.
 
-The inductor used is a coil with around 125 mH of inductance, and 550 Ohms of coil resistance.
+Si la réponse montre une insuffisance d'amortissement, on peut ajouter une
+résistance en série pour amortir plus.
 
-If the response shows that it is under-damped, series resistance may be added to increase damping.
 
-## Analysis
+## Analyse
 
-Drag the blue region to select a portion of the graph, and click on the 'Fit data' button to fit it with a damped sine function
-
+Tirer-glisser la région bleue pour sélectionner uneportion du graphique, puis
+cliquer sur le bouton d'ajustement des données pour ajuster les données à l'aide
+d'une fonction sinusoïdale amortie.
