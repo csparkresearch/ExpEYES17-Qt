@@ -1,10 +1,10 @@
 ---
 layout: e17page
-title: Full-wave rectifier
+title: Redresseur complet
 date: 2017-06-24
-description: Study a full-wave rectifier
+description: Étude d'un redresseur complet
 imagebase: fullwave
 screencast: "giffer"
-screencast-title: "Full-wave rectifier recording"
+screencast-title: "Enregistrement d'un redresseur complet"
 ---
 

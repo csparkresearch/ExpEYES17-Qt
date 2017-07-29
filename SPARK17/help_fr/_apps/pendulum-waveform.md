@@ -1,22 +1,30 @@
 ---
 layout: e17page
-title: Pendulum waveform
+title: Signal d'un pendule
 date: 2017-05-21
-description: "Pendulum waveform : Digitization "
+description: "Signal d'un pendule : numérisation"
 ---
 
-## Using a DC motor as a velocity sensor
+## Utilisation d'un moteur à courant continu comme capteur de vitesse
 
-The object of this experiment is to find out the time period of oscillations of a simple pendulum. In order to measure the speed of oscillations as a function of time, we construct the following apparatus:
-* Fix a pendulum to the pivot of a DC motor.
-* Since the DC motor is essentially a coil in the vicinity of a permanent magnet, it also behaves as a dynamo when the pivot is rotated by an external source
-* We connect the motor's wires to A3 (A high impedance voltmeter), and GND
-* When the pendulum is moved, a voltage proportional to its velocity is induced across the motor's coils, since the EMF is proportional to the rate of change of magnetic flux
-* Simply monitoring this voltage as a function of time enables us to estimate the time period as well as the damping coefficient using curve fitting functions.
+L'objet de cette expérience est de déterminer lapériode des oscillations d'un
+pendule simple. Afin demesurer la vitesse des oscillations, on construit
+le montage suivant :
+* fixer un pendule à l'axe d'un moteurà courant continu
+* Comme le moteur à courant continu consiste en une bobine au voisinage d'un
+  aimant permanent, il se comporte aussi comme une dynamo quand l'axe est
+  actionné par une cause externe
+* On connecte les fils du moteur à A3 (un voltmètre à haute impédance) et à la
+  masse GND
+* Quand on déplace le pendule, une tension proportionnelle à sa vitesse est
+  induite aux bornes des bobinages du moteur, par ce que la force électromotrice
+  est proportionnel à la vitesse de changement du flux magnétique
+* Le simple fait d'enregistrer cette tension en fonction du temps permet
+  d'estimer la période ainsi que le coefficient d'amortissement, à l'aide des
+  fonctions d'ajustement des données.
 
 
 ![](images/schematics/pendulum-wave.png){: width="400px"}
 
-{% include giffer.html url="images/screencasts/pendulum-wave.gif" title = "Introduction to the experiment: Click to play"%}
-
-
+{% include giffer.html url="images/screencasts/pendulum-wave.gif" title =
+"Introduction à l'expérience : cliquer pour démarrer"%}
