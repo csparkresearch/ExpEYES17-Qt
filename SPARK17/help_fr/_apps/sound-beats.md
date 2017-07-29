@@ -1,8 +1,7 @@
 ---
 layout: e17page
-title: Sound Beats
+title: Battements sonores
 date: 2017-05-21
-description: Study the interference of sound, and observe the beats phenomenon
+description: Étude des interférences du son, et observation des battements
 imagebase: sound-beats
 ---
-
