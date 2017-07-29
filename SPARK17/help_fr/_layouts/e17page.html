@@ -61,7 +61,7 @@ layout: mainpage
       {% if page.screencast2 %}
         <!-- page.screencast2 is not null, it is {{page.screencast2}} -->
         {% if page.screencast2 == "giffer" %}
-        <!--  giffer expansion -->
+         <!--  giffer expansion -->
           {% capture gifpath2 %}images/screencasts/{{page.screencast2_imagebase}}.gif{% endcapture %}
           {% include giffer.html url=gifpath2 title = page.screencast2_title%}
         {% elsif page.screencast2 == "yes" %}
