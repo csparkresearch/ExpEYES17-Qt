@@ -1,10 +1,10 @@
 ---
 layout: e17page
-title: Half-wave Rectifier
+title: Redressement demi-onde
 date: 2017-05-21
-description: Study a half-wave rectifier
+description: Étude d'un redresseur demi-onde
 imagebase: halfwave
 screencast: "giffer"
-screencast-title: "Half-wave rectifier recording"
+screencast-title: "Enregistrement d'un redresseur demi-onde"
 ---
 
