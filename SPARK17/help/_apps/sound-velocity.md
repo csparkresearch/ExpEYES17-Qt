@@ -10,7 +10,7 @@ imagebase: sound
 
 The Piezo buzzer is excited by the sine wave from WG1. Choose the
 frequency that will give maximum sound intensity (find out this from the
-[Frequency Response](/images/sound-freq-resp.png) experiment). We
+[Frequency Response](./images/screenshots/sound-freq-resp.png) experiment). We
 need to adjust the distance between the buzzer and the microphone
 accurately. We have used a magnetic metal scale and mounted the microphone
 on a magnet, using cellophane tape ( This is not the best way to do this,
