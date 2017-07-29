@@ -8,15 +8,15 @@ active: home
 
 
 * Un outil pour étudier les sciences par l'exploration et l'expérimentation.
-* 50 expériences documentées ;ilest facile d'en ajouterplus.
-* Public large : lycée et au-delà.
+* 50 expériences documentées ; il est facile d'en ajouter plus.
+* Public large : lycée et au-delà.
 * Oscilloscope 4 canaux, 1M échantillon/s, calibres +/-16V et programmables.
-* Générateur basse fréquence Sinus/Triangle, 5Hz to 5kHz
+* Générateur basse fréquence Sinus/Triangle, 5Hz à 5kHz
 * Sources de tension programmables, +/5V et +/-3,3V
 * Fréquencemètre et mesures de durées.
 * Gestion des capteurs standards I2C.
 * Résolution analogique 12-bit.
-* Matérielet logiciel libres.
+* Matériel et logiciel libres.
 * Logiciel en langage de programmation Python.
 * Nécessite un port USB et Python.
 
