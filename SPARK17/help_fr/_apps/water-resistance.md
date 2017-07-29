@@ -1,8 +1,7 @@
 ---
 layout: e17page
-title: Resistance of water
+title: La résistance de l'eau
 date: 2017-05-21
-description: Measuring AC and DC resistance
+description: Mesure de résistance en courant continu et alternatif
 imagebase: water-resistance
 ---
-
