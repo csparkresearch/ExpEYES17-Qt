@@ -1,16 +1,19 @@
 ---
 layout: e17page
-title: Transformer
+title: Transformateur
 date: 2017-05-21
-description: Mutual inductance and the effect of cores
+description: L'inductance mutuelle et l'effet des noyaux
 ---
 
 ![](images/schematics/transformer.png){: width="500px"}
 
-The two coils provided with ExpEYES are used. Keep the coils close and parallel. One acts as the primary, and is connected to W1, the other is the secondary, and the voltage induced across it is monitored.
+On utilise les deux bobines fournies avec ExpEYES. Placer les bobines proches
+l'une de l'autre et parallèles. L'une joue le rôle de primaire, elle est
+connectée à W1, l'autre est le secondaire, et on surveille la tension induite
+à ses bornes.
 
-Insert some ferromagnetic marerial through the coils to increase the
-voltage induced on the secondary coil.
+Insérer un matériau ferromagnétique dans l'axe des bobines pour augmenter la
+tension induite dans la bobine secondaire.
 
 ![](images/screenshots/transformer.png){: width="500px"}
 ![](images/photographs/transformer.jpg){: width="500px"}
