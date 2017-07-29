@@ -6,83 +6,85 @@ layout: mainpage
 {% include sidebar_html.html %}
 <div id="main">
 
-	{% if page.title != "index" %}
-	<div class="center wow fadeInDown">
-		<br><h2>{{ page.title }}</h2>
-		<p class="lead"> {{ page.description }}</p>
-	</div>    
-	{% endif %}
-	{{ content }}
-	<section id="recent-works">
-		<div class="container">
-			{% if page.imagebase %}
-			<div class="row" >
-				<div >
-					<h2 style="text-align:left;">Schematic</h2><hr>
-					<img class="img-responsive" style="bottom:0px; width:500px" src="images/schematics/{{page.imagebase}}.svg">
-				</div>		
-			</div>
-			<div class="row" >
-				{% if page.screencast %}
-					{% if page.screencast=="giffer" %}
-						{% capture gifpath %}images/screencasts/{{page.imagebase}}.gif{% endcapture %}
-						{% include giffer.html url=gifpath title = page.screencast-title%}
-					{% endif %}
-
-					{% if page.screencast=="yes" %}
-						{% capture gifpath %}images/screencasts/{{page.imagebase}}.gif{% endcapture %}
-						{% capture posterpath %}images/screenshots/{{page.imagebase}}.png{% endcapture %}
-						{% include animated_gif.html url=gifpath poster=posterpath  title = page.screencast-title%}
-					{% elsif page.screencast == "ogv" %}
-						{% capture vidpath %}images/screencasts/{{page.imagebase}}.ogv{% endcapture %}
-						{% capture posterpath %}images/screenshots/{{page.imagebase}}.png{% endcapture %}
-						{% include html5_video.html poster=posterpath url=vidpath title = page.screencast-title%}
-					{% endif %}
-				{% else %}
-					<div class=" col-xs-12 col-sm-12 col-md-12">
-						<h2 style="text-align:left;">Screenshot</h2><hr>
-						<img class="img-responsive" style="bottom:0px;" src="images/screenshots/{{page.imagebase}}.png">
-					</div>		
-				{% endif %}
-
-
-				<div class=" col-xs-12 col-sm-12 col-md-12">
-					<h2 style="text-align:left;">Photograph</h2><hr>
-					<img class="img-responsive" style="bottom:0px;width:600px" src="images/photographs/{{page.imagebase}}.jpg">
-				</div>		
-			</div>
+  {% if page.title != "index" %}
+  <div class="center wow fadeInDown">
+    <br><h2>{{ page.title }}</h2>
+    <p class="lead"> {{ page.description }}</p>
+  </div>
+  {% endif %}
+  {{ content }}
+  <section id="recent-works">
+    <div class="container">
+      {% if page.imagebase %}
+      <div class="row" >
+        <div >
+          <h2 style="text-align:left;">Schéma</h2><hr>
+          <img class="img-responsive" style="bottom:0px; width:500px" src="images/schematics/{{page.imagebase}}.svg">
+        </div>
+      </div>
+      <div class="row" >
+        {% if page.screencast %}
+          <!-- page.screencast is not null, it is {{page.screencast}} -->
+          {% if page.screencast == "giffer" %}
+            <!-- giffer expansion -->
+            {% capture gifpath %}images/screencasts/{{page.imagebase}}.gif{% endcapture %}
+            {% include giffer.html url=gifpath title = page.screencast-title%}
+          {% elsif page.screencast == "yes" %}
+            <!-- "yes" expansion -->
+            {% capture gifpath %}images/screencasts/{{page.imagebase}}.gif{% endcapture %}
+            {% capture posterpath %}images/screenshots/{{page.imagebase}}.png{% endcapture %}
+            {% include animated_gif.html url=gifpath poster=posterpath  title = page.screencast-title%}
+          {% elsif page.screencast == "ogv" %}
+            <!-- "ogv" expansion -->
+            {% capture vidpath %}images/screencasts/{{page.imagebase}}.ogv{% endcapture %}
+            {% capture posterpath %}images/screenshots/{{page.imagebase}}.png{% endcapture %}
+            {% include html5_video.html poster=posterpath url=vidpath title = page.screencast-title%}
+          {% endif %}
+        {% else %}
+          <div class=" col-xs-12 col-sm-12 col-md-12">
+            <h2 style="text-align:left;">Copie d'écran</h2><hr>
+            <img class="img-responsive" style="bottom:0px;" src="images/screenshots/{{page.imagebase}}.png">
+                                        </div>
+        {% endif %}
 
 
-			{% endif %}
+        <div class=" col-xs-12 col-sm-12 col-md-12">
+          <h2 style="text-align:left;">Photographie</h2><hr>
+          <img class="img-responsive" style="bottom:0px;width:600px" src="images/photographs/{{page.imagebase}}.jpg">
+        </div>
+      </div>
+
+      {% endif %}
+
+    </div>
+
+      {% if page.screencast2 %}
+        <!-- page.screencast2 is not null, it is {{page.screencast2}} -->
+        {% if page.screencast2 == "giffer" %}
+        <!--  giffer expansion -->
+          {% capture gifpath2 %}images/screencasts/{{page.screencast2_imagebase}}.gif{% endcapture %}
+          {% include giffer.html url=gifpath2 title = page.screencast2_title%}
+        {% elsif page.screencast2 == "yes" %}
+          <!-- "yes" expansion -->
+          {% capture gifpath2 %}images/screencasts/{{page.screencast2_imagebase}}.gif{% endcapture %}
+          {% capture posterpath2 %}images/screenshots/{{page.screencast2_imagebase}}.png{% endcapture %}
+          {% include animated_gif.html url=gifpath2 poster=posterpath2  title = page.screencast2_title%}
+        {% elsif page.screencast2 == "ogv" %}
+          <!-- "ogv" expansion -->
+          {% capture vidpath2 %}images/screencasts/{{page.screencast2_imagebase}}.ogv{% endcapture %}
+          {% capture posterpath2 %}images/screenshots/{{page.screencast2_imagebase}}.png{% endcapture %}
+          {% include html5_video.html poster=posterpath2 url=vidpath2 title = page.screencast2_title%}
+        {% endif %}
+      {% endif %}
+
+  </section>
 
 
-		</div>
-
-			{% if page.screencast2 %}
-				{% if page.screencast2=="giffer" %}
-					{% capture gifpath2 %}images/screencasts/{{page.screencast2_imagebase}}.gif{% endcapture %}
-					{% include giffer.html url=gifpath2 title = page.screencast2_title%}
-				{% endif %}
-
-				{% if page.screencast=="yes" %}
-					{% capture gifpath2 %}images/screencasts/{{page.screencast2_imagebase}}.gif{% endcapture %}
-					{% capture posterpath2 %}images/screenshots/{{page.screencast2_imagebase}}.png{% endcapture %}
-					{% include animated_gif.html url=gifpath2 poster=posterpath2  title = page.screencast2_title%}
-				{% elsif page.screencast2 == "ogv" %}
-					{% capture vidpath2 %}images/screencasts/{{page.screencast2_imagebase}}.ogv{% endcapture %}
-					{% capture posterpath2 %}images/screenshots/{{page.screencast2_imagebase}}.png{% endcapture %}
-					{% include html5_video.html poster=posterpath2 url=vidpath2 title = page.screencast2_title%}
-				{% endif %}
-			{% endif %}
-
-	</section>
 
 
-
-
-	{% if page.videoUrl %}
-	{% include html5_video.html poster=page.videoPoster url=page.videoUrl %}
-	{% endif %}
+  {% if page.videoUrl %}
+  {% include html5_video.html poster=page.videoPoster url=page.videoUrl %}
+  {% endif %}
 
 </div>
 
