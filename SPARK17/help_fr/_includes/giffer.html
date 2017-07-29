@@ -1,11 +1,11 @@
 <script type="text/javascript" src="../js/gifffer.min.js"></script>
 <div class=" col-xs-12 col-sm-12 col-md-12">
-	{% if include.title %}
-	<h2 style="text-align:left;">{{include.title}}</h2><hr>
-	{% else %}
-	<h2 style="text-align:left;">Animation : Click to play</h2><hr>
-	{% endif %}
-	<img class="img-responsive" data-gifffer="{{include.url}}" />
+  {% if include.title %}
+  <h2 style="text-align:left;">{{include.title}}</h2><hr>
+  {% else %}
+  <h2 style="text-align:left;">Animation : clic pour démarrer</h2><hr>
+  {% endif %}
+  <img class="img-responsive" data-gifffer="{{include.url}}" />
 </div>
 
 <script>
@@ -20,6 +20,7 @@ window.onload = function() {
     'top': '50%',
     'left': '50%',
     'margin': '-30px 0 0 -30px'
-  }
-});
-}</script>		
+   }
+  });
+}
+</script>
