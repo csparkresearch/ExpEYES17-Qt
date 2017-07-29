@@ -1,13 +1,13 @@
 ---
 layout: e17page
-title: Diode Clipping
+title: Écrêtage à diodes
 date: 2017-05-21
-description: Clipping waveforms with a diode and a voltage source
+description: Écrêtage de signaux avec une diode et une source de tension
 imagebase: clipping
 screencast: "giffer"
-screencast-title: "Clipping using a diode: Animation"
+screencast-title: "Écrêtage avec une diode : Animation"
 screencast2: "giffer"
 screencast2_imagebase: clipping-negative
-screencast2_title: "Negative Clipping: Animation"
+screencast2_title: "Écrêtage négatif : Animation"
 
 ---
