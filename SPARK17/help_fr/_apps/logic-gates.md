@@ -1,8 +1,8 @@
 ---
 layout: e17page
-title: Logic Gates
+title: Portes logique
 date: 2017-05-21
-description: Study Logic Gates
+description: Étude de portes logiques
 imagebase: logic-gates
 ---
 
