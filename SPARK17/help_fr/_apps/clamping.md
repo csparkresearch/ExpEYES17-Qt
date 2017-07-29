@@ -1,14 +1,14 @@
 ---
 layout: e17page
-title: Diode Clamping
+title: Décalage à l'aide de diodes
 date: 2017-05-21
-description: Clamping waveforms with a diode and a voltage source. Adjust PV1 to change the clamping point
+description: Décalage de signaux à l'aide d'une diodes et d'une source de tension. Ajustement de PV1 pour changer le point de décalage
 imagebase: clamping
 screencast: "giffer"
-screencast-title: "Clamping using a diode: Animation"
+screencast-title: "Décalage à l'aide d'une diode : Animation"
 screencast2: "giffer"
 screencast2_imagebase: clamping-negative
-screencast2_title: "Negative Clamping: Animation"
+screencast2_title: "Décalage négatif : Animation"
 
 
 ---
