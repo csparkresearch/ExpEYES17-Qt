@@ -1,8 +1,8 @@
 ---
 layout: e17page
-title: EM Induction
+title: Induction électromagnétique
 date: 2017-05-21
-description: Electromagnetic induction using solenoids
+description: Étude de l'induction électrmagnétique avec des solénoïdes
 imagebase: em-induction
 ---
 
