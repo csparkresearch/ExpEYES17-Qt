@@ -21,25 +21,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+
 if __name__ == "__main__":
-	from SPARK17.Qt import QtWidgets,QtGui,QtCore
-	import sys,os,time
-	app = QtWidgets.QApplication(sys.argv)
-	# Create and display the splash screen
-	curPath = os.path.dirname(os.path.realpath(__file__))
-	splash_pix = QtGui.QPixmap(os.path.join(curPath,'SPARK17','templates','splash.png'))
-	splash = QtWidgets.QSplashScreen(splash_pix, QtCore.Qt.WindowStaysOnTopHint)
-	splash.setMask(splash_pix.mask())
-	splash.show()
-	for a in range(10):
-		app.processEvents()
-		time.sleep(0.01)
-
-	from SPARK17.spark17 import *
-
-	myapp = AppWindow(app=app)
-	myapp.show()
-	splash.finish(myapp)
-	sys.exit(app.exec_())
-
+	from SPARK17.spark17 import main_run
+	main_run()
 
