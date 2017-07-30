@@ -1,8 +1,8 @@
 ---
 layout: e17page
-title: Piezo Response
+title: Réponse d'un transducteur piézo
 date: 2017-05-21
-description: Frequency Response of piezo electric crystals
+description: Réponse en fréquence de cristaux piézoélectriques
 imagebase: sound
 ---
 
