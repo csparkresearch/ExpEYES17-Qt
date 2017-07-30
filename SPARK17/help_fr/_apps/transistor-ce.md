@@ -1,10 +1,10 @@
 ---
 layout: e17page
-title: Transistor CE
+title: Caractéristique E.C. d'un transistor
 date: 2017-06-27
-description: Common Emitter characteristics of transistors
+description: Caractéristique d'un transistore en émetteur commun
 imagebase: transistor-ce
 screencast: "giffer"
-screencast-title: "Screen recording of a 2N2222 transistor being characterised"
+screencast-title: "Capture d'écran de la caractéristique d'un transistor 2N2222"
 ---
 
