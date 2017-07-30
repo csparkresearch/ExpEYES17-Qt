@@ -1,28 +1,30 @@
 ---
 layout: e17page
-title: RL Circuits
+title: Circuits RL
 date: 2017-06-24
-description: Transient response of RL circuits
+description: Réponse transitoire de circuits RL
 ---
 
-# RL circuit, Transient response
+# Réponse transitoire, circuits RL
 
-A voltage step is applied to a series RL circuit and the voltage across
-the inductor is recorded.
+Un échelon de tension est appliqué à un circuit RL série et la tension aux
+bornes du bobinage est enregistrée.
 
 ![](images/schematics/RLcircuit.svg){: width="700px"}
 
-## The following constant voltage charging/discharging transitions can be recorded with the above schematic
-+ 0 - 5V step : OD1 is first set to to 0V . After a stabilisation delay of 0.5 seconds, it is set to 5V , and the transient behaviour is recorded
-+ 5V - 0V step : OD1 is first set to to 5V . After a stabilisation delay of 0.5 seconds, it is set to 0V , and the transient behaviour is recorded
+## Les transitions de charge décharge suivantes peuvent être enregistrées avec le schéma ci-dessus
++ échelon 0 - 5V : d'abord, OD1 est réglé à 0V. Après un délai de stabilisation de 0,5 s, la sortie est réglée à 5V, et la réponse transitoire est enregistrée
++ échelon 5 - 0V : d'abord, OD1 est réglé à 5V. Après un délai de stabilisation de 0,5 s, la sortie est réglée à 0V, et la réponse transitoire est enregistrée
 
 ![](images/screenshots/RLcircuit.png){: width="700px"}
 
-## Analysis
+## Analyse
 
-Drag the blue region using its handles on either side, and click on the 'Calculate RL' button . 
-The RL time constant of the last obtained data is calculated , and a new plot is overlaid on the original dataset
+Tirer-glisser la région bleue à l'aide des poignées de chaque côté, et cliquer
+sur le bouton pour le calcul de RL. La constante de temps RL des dernières
+données mesurées est calculée, et une nouvelle courbe est tracée par-dessus les
+données originales
 
-## Photograph of the setup 
+## Photo du montage
 
 ![](images/photographs/RLcircuit.jpg){: width="700px"}
