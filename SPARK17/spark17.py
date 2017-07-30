@@ -53,6 +53,7 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	('Oscilloscope','simplescope'),
 	('I2C Sensor Data Logger','sensorLogger'),
 	('Data-Logger','data-logger'),
+	('3D Scope','scope3d'),
 	 ])
 
 	electrical = OrderedDict([
@@ -83,7 +84,7 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	('Simple Pendulum','pendulum'),
 	('Ultrasound Echo SR04','sr04-dist'),
 	('Interference of Sound','sound-beats'),
-	('Plotting etc','example'),
+	('Plotting Fouriers','fourier-test'),
 	 ])
 
 	schoolLevel = OrderedDict([
@@ -105,7 +106,7 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	('School Level',schoolLevel)
 	])
 
-	defaultExperiment = 'Oscilloscope'
+	defaultExperiment = '3D Scope'
 
 	allExpts = {}
 	for a in exptGroups:
