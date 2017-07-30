@@ -1,31 +1,35 @@
 ---
 layout: e17page
-title: RC Circuit
+title: Circuits RC
 date: 2017-05-21
-description: Transient response of RC circuits
+description: Réponse transitoire de circuits RC
 ---
 
-# RC circuit, Transient response
+# Réponse transitoire, circuits RC
 
 ![](images/schematics/RCcircuit.svg){: width="700px"}
 
-## The following constant voltage charging/discharging transitions can be recorded with the above schematic
-+ 0 - 5V step : the capacitor is first drained by setting OD1 to 0V , then OD1 is set to 5V and the charging curve is recorded
-+ 5V - 0V step : the capacitor is first charged by setting OD1 to 5V , then OD1 is set to 0V and the discharge curve is recorded
+## Les transitions de charge/décharge à tension constante suivantes peuvent être enregistrées à l'aide du schéma ci-dessus
++ échelon 0 - 5V : on décharge d'abord le condensateur en réglant OD1 à 0V, puis
+  OD1 est réglé à 5V et la courbe de charge est enregistrée
++ échelon 5 - 0V : on charge d'abord le condensateur en réglant OD1 à 5V, puis
+  OD1 est réglé à 0V et la courbe de décharge est enregistrée
 
-## Charging characteristics with a constant current source
-+ The capacitor is connected between CCS and GND, and the charging curve is recorded via the internal current source voltage monitor.
+## Caractéristique de charge à courant constant
++ Le condensateur est connecté entre CSS et GND, et la courbe de charge est enregistrée à l'aide du contrôleur interne de la source de courant.
 
 ![](images/screenshots/RCcircuit.png){: width="700px"}
 
-A voltage step is applied to a series RC circuit and the voltage across
-the capacitor is recorded.
+Un échelon de tension est appliqué à un circuit RC série et la tension aux
+bornes du condensateur est enregistrée.
 
-## Analysis
+## Analyse
 
-Drag the blue region using its handles on either side, and click on the 'Calculate RC' button . 
-The RC time constant of the last obtained data is calculated , and a new plot is overlaid on the original dataset
+Tirer-glisser la région bleue en utilisant les poignées de chaque côté, puis
+cliquer sur le bouton pour calculer le produit RC. La constante de temps RC des
+dernières données enregistrées est calculée, et une nouvelle courbe est tracée
+par-dessus les données originales.
 
-## Photograph of the setup for constant voltage charging
+## Photo du montage pour la charge à tension constante
 
 ![](images/photographs/RCcircuit.jpg){: width="700px"}
