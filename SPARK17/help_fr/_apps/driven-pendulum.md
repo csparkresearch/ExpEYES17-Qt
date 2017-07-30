@@ -1,8 +1,8 @@
 ---
 layout: e17page
-title: Driven Pendulum
+title: Pendule forcé
 date: 2017-05-21
-description: Study resonance phenomena by driving a simple pendulum with a matching frequency
+description: Étude du phénomène de résonance obtenu quand on excite un pendule simple avec une fréquence appropriée
 imagebase: driven-pend
 ---
 
