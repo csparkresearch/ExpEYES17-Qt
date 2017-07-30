@@ -2,33 +2,33 @@
 layout: e17page
 title: Oscilloscope
 date: 2017-06-26
-description: 1MSPS, 4-channel oscilloscope with trigger and analog gain
+description: 1Méch/s, oscilloscope 4 voies avec seuillage et gain analogique
 
 screencast2: "giffer"
 screencast2_imagebase: oscilloscope
-screencast2_title: "Animation : Introduction to the oscilloscope"
+screencast2_title: "Animation : Introduction à l'oscilloscope"
 
 
 ---
 
 
-## Specifications and features
+## Specifications et propriétés
 
-* Simultaneous acquisition from up to 4-Channels
-  * Maximum 2 million samples per second total.
-  * Software Selectable amplification stages
-  * 10-bit resolution
-  * 12-bit resolution available in single channel mode
-  * Selectable trigger level and channels
-  * Channel 1 can be mapped to any of the analog inputs
-* Analog Inputs:
-  * A1 , A2 : +-16V to +/-500mV voltage ranges. Range selectable via software.
-  * A3 : +/-3V to +/-20mV : Range selectable via external resistor between Rg and GND.
-* Additional utilities:  
-  * 2x Programmable voltage sources: +/-3.3 V,+/-5V
-  * Sine wave generator: 5 Hz to 5 KHz. Three software selectable amplitude levels 3V,1V,80mV
-  * Square Wave generator : 10Hz to 50KHz, 0-5V
-  * Digital Outputs : SQR1, SQR2, OD1, CCS
-  * Capacitance Measurement. pF to uF range
-  * Resistance Measurement.
+* Acquisition simultanée jusqu'à 4 voies
+  * Maximum 2 millions d'échantillons au total par seconde
+  * Calibres amplifiés sélectionnés par le logiciel
+  * Résolution 10 bits
+  * Résolution 12 bits disponible en mode une voie
+  * Voies et niveaux de seuils au choix
+  * La voie 1 peut être câblée à toutes les entrées analogiques
+* Entrées analogiques :
+  * A1 , A2 : calibres +-16V à +/-500mV sélectionnés par le logiciel.
+  * A3 : calibre +/-3V à +/-20mV : sélectionné via une résitance externe entre Rg et GND
+* Utilitaires additionnels :
+  * 2x Souces de tension programmables : +/-3,3 V, +/-5V
+  * Générateur sinusoïdal : 5 Hz à 5 KHz. Trois amplitudes sélectionnées par logiciel, 3V, 1V, 80mV
+  * Générateur de signal carré : 10Hz à 50KHz, 0-5V
+  * Sorties numériques : SQR1, SQR2, OD1, CCS
+  * Mesure de capacité. Calibres du pF au µF
+  * Mesure de résistance
 

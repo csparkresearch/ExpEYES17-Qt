@@ -6,6 +6,8 @@ from ..utilities.expeyesWidgetsNew import expeyesWidgets
 import pyqtgraph as pg
 import sys,time,functools
 
+_translate = QtCore.QCoreApplication.translate
+
 class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	def __init__(self, parent=None,**kwargs):
 		super(AppWindow, self).__init__(parent)
@@ -17,7 +19,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		# This assumes self.plotLayout, and makes a dictionary self.curves with keys 'A1','A2','A3','MIC'
 		#You should be able to access after executing this function. self.myCurves is a dictionary of curves with 4 Elements
 		
-		self.TITLE('4-Channel Oscilloscope')
+		self.TITLE(_translate("oscilloscope",'4-Channel Oscilloscope'))
 		self.SCOPEPLOT(['A1','A2','A3','MIC'],rangeA1='4V',rangeA2='4V')   #You can also make up your own curve names. WORK IN PROGRESS [ e.g. A1+A2  should make a channel that automatically shows the sum]
 		self.xaxis = self.plot.getAxis('bottom')
 
@@ -28,14 +30,14 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.SPACER(20)
 
 		# ADD A SINE WIDGET SLIDER WITH NUMBERIC INPUT to the widgetLayout
-		self.TITLE('Output Controls')
+		self.TITLE(_translate("oscilloscope",'Output Controls'))
 		self.SINE(value=2000)
 		self.SQR1()
 		self.PV1()
 		self.PV2()
 		self.DOUTS()
 
-		self.paused = self.CHECKBOX('Pause')
+		self.paused = self.CHECKBOX(_translate("oscilloscope",_translate("oscilloscope",'Pause'))
 		self.timer = self.newTimer()
 		self.setInterval(self.timer,300,self.autoCapture)
 		
@@ -44,5 +46,5 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	def autoCapture(self):
 		if self.p.busy or self.paused.isChecked():return
 		self.CAPTURE()
-		self.showStatus('capturing at :%s'%time.ctime())
+		self.showStatus(_translate("oscilloscope",'capturing at :%s') %time.ctime())
 	

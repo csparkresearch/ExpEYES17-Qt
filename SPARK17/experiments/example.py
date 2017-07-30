@@ -6,6 +6,8 @@ from ..utilities.expeyesWidgetsNew import expeyesWidgets
 import pyqtgraph as pg
 import sys,time,functools
 
+_translate = QtCore.QCoreApplication.translate
+
 class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	def __init__(self, parent=None,**kwargs):
 		super(AppWindow, self).__init__(parent)
@@ -17,7 +19,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		# This assumes self.plotLayout, and makes a dictionary self.curves with keys 'A1','A2','A3','MIC'
 		#You should be able to access after executing this function. self.myCurves is a dictionary of curves with 4 Elements
 		
-		self.TITLE('4-Channel Oscilloscope')
+		self.TITLE(_translate("example",'4-Channel Oscilloscope'))
 		self.SCOPEPLOT(['A1','A2','A3','A1+A2'],rangeA1='4V',rangeA2='4V')   #You can also make up your own curve names. WORK IN PROGRESS [ e.g. A1+A2  should make a channel that automatically shows the sum]
 		self.xaxis = self.plot.getAxis('bottom')
 
@@ -28,7 +30,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.SPACER(20)
 
 		# ADD A SINE WIDGET SLIDER WITH NUMBERIC INPUT to the widgetLayout
-		self.TITLE('Output Controls')
+		self.TITLE(_translate("example",'Output Controls'))
 		self.SINE(value=2000)
 
 		# Example 1 . 
@@ -38,7 +40,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		
 		# Example 2 . 
 		# manualUpdate keeps calling 'CAPTURE' with self.processor as the argument. This will automatically forward the returned data to self.manualUpdateProcessor which can then call updatePlot if required
-		self.paused = self.CHECKBOX('Pause')
+		self.paused = self.CHECKBOX(_translate("example",'Pause'))
 		self.timer = self.newTimer()
 		self.setTimeout(self.timer,100,self.manualUpdate)
 		#self.setTimeout(1000,functools.partial(self.capture,'A1',200,3),self.update)
@@ -47,7 +49,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	def autoCapture(self):
 		if self.p.busy:return
 		self.CAPTURE()
-		self.showStatus('capturing at :%s'%time.ctime())
+		self.showStatus(_translate("example",'capturing at :%s') %time.ctime())
 	
 
 	def manualUpdate(self):
@@ -56,13 +58,11 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 			return
 
 		self.CAPTURE(self.manualUpdateProcessor)
-		self.showStatus('capturing at :%s'%time.ctime())
+		self.showStatus(_translate("example",'capturing at :%s') %time.ctime())
 
 	def manualUpdateProcessor(self,*args,**kwargs):
-		print ('######################################## Oscilloscope',self.allTimers)
+		print ('########################################', _translate("example",'Oscilloscope'),self.allTimers)
 		self.updatePlot(*args,**kwargs)
 		print ('########################################')
 		self.setTimeout(self.timer,100,self.manualUpdate)
 		#print (args,kwargs)
-
-

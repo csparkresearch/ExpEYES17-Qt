@@ -11,6 +11,7 @@ else ifeq ($(QT_VERSION),PyQt4)
 else ifeq ($(QT_VERSION),PySide)
   PYUIC = pyside-uic
   PYRCC = pyside-rcc
+  PYLUPDATE = pylupdate4
 else
   PYUIC = pyuic4
   PYRCC = pyrcc4
@@ -22,9 +23,9 @@ SUBDIRS = SPARK17
 all: recursive_all
 
 recursive_all:
-	@echo '?. Using QT Version:' $(QT_VERSION)  $(PYUIC) $(PYRCC)
+	@echo '?. Using QT Version:' $(QT_VERSION)  $(PYUIC) $(PYRCC)  $(PYLUPDATE)
 	@echo "QT_VERSION = '$(QT_VERSION)'" > SPARK17/build_details.py
-	for d in $(SUBDIRS); do make PYUIC=$(PYUIC) PYRCC=$(PYRCC) -C $$d all; done
+	for d in $(SUBDIRS); do make PYUIC=$(PYUIC) PYRCC=$(PYRCC) PYLUPDATE=$(PYLUPDATE) -C $$d all; done
 
 clean: recursive_clean
 	rm -rf *.pyc *~ __pycache__
