@@ -1,19 +1,20 @@
 ---
 layout: e17page
-title: IV Hysterisis
+title: Hystérésis courant-tension
 date: 2017-05-21
-description: Measure hysterisis in IV characteristics of devices like memristors
+description: Mesure de l'hystérésis d'une caractéristique courant-tension pour des dipôles comme les memristors
 imagebase: ej_iv_hysterisis
 screencast: "ogv"
-screencast-title: "Screen recording of a 3.3V zener diode being used"
+screencast-title: "Capture d'écran, une diode Zéner de 3,3V est utilisée"
 ---
 
-## Parameters
+## Paramètres
 
-The voltage on PV1 is swept in equal step sizes along the following path, startVoltage -> Maximum Voltage -> Minimum Voltage -> startVoltage, in order to generate the hysterisis curve.
+La tension de PV1 est balayée de façon identique le long d'un même chemin,
+tension de départ -> tension maximale -> tension minimale -> tension de
+départ, afin de générer la courbe d'hystérésis.
 
-+ Minimum Voltage : minimum voltage to be set on PV1
-+ Maximum Voltage : Maximum voltage to be set on PV1
-+ Steps : Total number of datapoints to acquire. 
-+ StartVoltage : Starting voltage value for the hysteresis
-
++ Tension minimale : tension minimale à mettre pour PV1
++ Tension maximale : tension maximale à mettre pour PV1
++ Étapes : nombre total de points de données à acquérir
++ Tension de départ : tension de départ pour l'hystérésis
