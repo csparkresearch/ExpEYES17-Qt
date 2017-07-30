@@ -1,8 +1,8 @@
 ---
 layout: e17page
-title: Rod Pendulum
+title: Pendule à barre
 date: 2017-05-21
-description: Measure the time period of oscillations of a physical pendulum
+description: Mesure de la période des oscillations d'un pendule
 imagebase: rod-pend
 ---
 
