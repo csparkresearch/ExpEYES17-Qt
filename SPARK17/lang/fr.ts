@@ -41,7 +41,7 @@
 <context>
     <name>Form</name>
     <message>
-        <location filename="utilities/templates/ui_triggerWidget.py" line="74"/>
+        <location filename="templates/ui_plot2Template.py" line="80"/>
         <source>Form</source>
         <translation>Form</translation>
     </message>
@@ -51,47 +51,47 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="utilities/templates/ui_flexibleChannelSelector.py" line="81"/>
+        <location filename="utilities/templates/ui_channelSelector.py" line="78"/>
         <source>16V</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="utilities/templates/ui_flexibleChannelSelector.py" line="82"/>
+        <location filename="utilities/templates/ui_channelSelector.py" line="79"/>
         <source>8V</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="utilities/templates/ui_flexibleChannelSelector.py" line="83"/>
+        <location filename="utilities/templates/ui_channelSelector.py" line="80"/>
         <source>4V</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="utilities/templates/ui_flexibleChannelSelector.py" line="84"/>
+        <location filename="utilities/templates/ui_channelSelector.py" line="81"/>
         <source>2.5V</source>
         <translation>2,5V</translation>
     </message>
     <message>
-        <location filename="utilities/templates/ui_flexibleChannelSelector.py" line="85"/>
+        <location filename="utilities/templates/ui_channelSelector.py" line="82"/>
         <source>1.5V</source>
         <translation>1,5V</translation>
     </message>
     <message>
-        <location filename="utilities/templates/ui_flexibleChannelSelector.py" line="86"/>
+        <location filename="utilities/templates/ui_channelSelector.py" line="83"/>
         <source>1V</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="utilities/templates/ui_flexibleChannelSelector.py" line="87"/>
+        <location filename="utilities/templates/ui_channelSelector.py" line="84"/>
         <source>.5V</source>
         <translation>0,5V</translation>
     </message>
     <message>
-        <location filename="utilities/templates/ui_flexibleChannelSelector.py" line="88"/>
+        <location filename="utilities/templates/ui_channelSelector.py" line="85"/>
         <source>.25V</source>
         <translation>0,25V</translation>
     </message>
     <message>
-        <location filename="utilities/templates/ui_flexibleChannelSelector.py" line="89"/>
+        <location filename="utilities/templates/ui_channelSelector.py" line="86"/>
         <source>FIT</source>
         <translation>FIT</translation>
     </message>
@@ -176,7 +176,7 @@
         <translation>mV</translation>
     </message>
     <message>
-        <location filename="utilities/templates/ui_tracesRow.py" line="106"/>
+        <location filename="utilities/templates/ui_removableLabel.py" line="61"/>
         <source>X</source>
         <translation>X</translation>
     </message>
@@ -319,7 +319,7 @@
         <translation>Séparateur :</translation>
     </message>
     <message>
-        <location filename="utilities/templates/ui_plotSave.py" line="149"/>
+        <location filename="templates/ui_layout.py" line="880"/>
         <source>Save Data</source>
         <translation>Enregistrer les données</translation>
     </message>
@@ -334,7 +334,7 @@
         <translation>Enregistrer l&apos;image</translation>
     </message>
     <message>
-        <location filename="templates/ui_layoutNew.py" line="157"/>
+        <location filename="templates/ui_layout.py" line="831"/>
         <source>ExpEYES - 17</source>
         <translation>ExpEYES - 17</translation>
     </message>
@@ -384,12 +384,12 @@
         <translation>WG</translation>
     </message>
     <message>
-        <location filename="templates/ui_layoutNew.py" line="163"/>
+        <location filename="templates/ui_layout.py" line="950"/>
         <source>OD1</source>
         <translation>OD1</translation>
     </message>
     <message>
-        <location filename="templates/ui_layoutNew.py" line="165"/>
+        <location filename="templates/ui_layout.py" line="952"/>
         <source>CCS</source>
         <translation>CCS</translation>
     </message>
@@ -504,7 +504,7 @@
         <translation>T</translation>
     </message>
     <message>
-        <location filename="templates/ui_layoutNew.py" line="172"/>
+        <location filename="templates/ui_testing.py" line="158"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
@@ -609,22 +609,22 @@
         <translation>INTERVALLE D&apos;ENTRÉE SIMPLE</translation>
     </message>
     <message>
-        <location filename="templates/ui_layoutNew.py" line="160"/>
+        <location filename="templates/ui_layout.py" line="947"/>
         <source>Digital Inputs</source>
         <translation>Entrées numériques</translation>
     </message>
     <message>
-        <location filename="templates/ui_layoutNew.py" line="161"/>
+        <location filename="templates/ui_layout.py" line="948"/>
         <source>IN2</source>
         <translation>IN2</translation>
     </message>
     <message>
-        <location filename="templates/ui_layoutNew.py" line="162"/>
+        <location filename="templates/ui_layout.py" line="949"/>
         <source>SQR1</source>
         <translation>SQR1</translation>
     </message>
     <message>
-        <location filename="templates/ui_layoutNew.py" line="164"/>
+        <location filename="templates/ui_layout.py" line="951"/>
         <source>SEN</source>
         <translation>SEN</translation>
     </message>
@@ -634,17 +634,17 @@
         <translation>Mesures et contrôles</translation>
     </message>
     <message>
-        <location filename="templates/ui_layoutNew.py" line="159"/>
+        <location filename="templates/ui_layout.py" line="954"/>
         <source>Experiments</source>
         <translation>Expériences</translation>
     </message>
     <message>
-        <location filename="templates/ui_layoutNew.py" line="167"/>
+        <location filename="templates/ui_layout.py" line="955"/>
         <source>Saved plots</source>
         <translation>Courbes enregistrées</translation>
     </message>
     <message>
-        <location filename="templates/ui_layoutNew.py" line="168"/>
+        <location filename="templates/ui_layout.py" line="956"/>
         <source>View saved plots. Click on them to load them to the plot window for analysis</source>
         <translation>Voir les courbes enregistrées. Cliquer dessus pour les charger dans la fenêtre pour analyse</translation>
     </message>
