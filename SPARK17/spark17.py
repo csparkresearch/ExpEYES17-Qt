@@ -120,7 +120,7 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 			(_translate("app",'School Level'),AppWindow.schoolLevel)
 		])
 
-		AppWindow.defaultExperiment = 'Oscilloscope'
+		AppWindow.defaultExperiment = _translate("app",'Oscilloscope')
 
 		AppWindow.allExpts = {}
 		for a in AppWindow.exptGroups:
@@ -192,7 +192,7 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		if self.CH.I.timestamp is not None:self.setWindowTitle(self.CH.I.generic_name + ' : '+self.CH.I.H.version_string.decode("utf-8")+' : '+str(self.CH.I.timestamp))
 		else:self.setWindowTitle(self.CH.I.generic_name + ' : '+self.CH.I.H.version_string.decode("utf-8")+_translate("app",' : Not calibrated'))
 		if self.CH.I.connected:
-			self.showStatus(_translate("app","System Status | Connected to device. Version : %s") %str(self.CH.get_version()))
+			self.showStatus(_translate("app","System Status | Connected to device. Version : ")+str(self.CH.get_version()))
 			self.launchExperiment(self.defaultExperiment)
 			self.tabWidget.setCurrentIndex(1)
 		else:
@@ -351,7 +351,7 @@ def common_paths():
 	path["splash"] = firstExistingPath(
 			[os.path.join(p,'templates','splash.png') for p in
 			 (curPath, sharedPath,)])
-	lang=QtCore.QLocale.system().name()
+	lang=str(QtCore.QLocale.system().name()) #Dear Georges, Please review this casting. It was a necessary change to make the app run with Python2.7
 	shortLang=lang[:2]
 	path["help"] = firstExistingPath(
 			[os.path.join(p,'MD_HTML') for p in
