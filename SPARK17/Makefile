@@ -1,6 +1,6 @@
 DESTDIR =
 SUBDIRS = templates utilities expeyes
-PYLUPDATE = pylupdate5
+PYLUPDATE ?= pylupdate5
 PRO_FILE = spark17.pro
 TS_FILES = $(shell ls lang/*.ts)
 QM_FILES = $(patsubst %.ts, %.qm, $(TS_FILES))
@@ -18,10 +18,11 @@ $(TS_FILES): $(TS_SOURCES)
 	find . -name "*.py" | xargs echo >> $(PRO_FILE)
 	echo -n "TRANSLATIONS = " >> $(PRO_FILE)
 	find lang -name "*.ts" | xargs echo >> $(PRO_FILE)
+	@echo "PYLUPDATE:" $(PYLUPDATE)  $(PRO_FILE)
 	$(PYLUPDATE) $(PRO_FILE)
 	
 recursive_all:
-	for d in $(SUBDIRS); do make PYUIC=$(PYUIC) PYRCC=$(PYRCC) -C $$d all; done
+	for d in $(SUBDIRS); do make PYUIC=$(PYUIC) PYRCC=$(PYRCC) PYLUPDATE=$(PYLUPDATE) -C $$d all; done
 
 clean: recursive_clean
 	rm -rf *.pyc *~ __pycache__

@@ -3,7 +3,7 @@ SUBDIRS = templates
 all: recursive_all
 
 recursive_all:
-	for d in $(SUBDIRS); do make PYUIC=$(PYUIC) PYRCC=$(PYRCC) -C $$d all; done
+	for d in $(SUBDIRS); do make PYUIC=$(PYUIC) PYRCC=$(PYRCC) PYLUPDATE=$(PYLUPDATE) -C $$d all; done
 
 clean: recursive_clean
 	rm -rf *.pyc *~ __pycache__

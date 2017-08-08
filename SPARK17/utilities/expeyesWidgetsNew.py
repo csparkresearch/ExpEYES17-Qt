@@ -288,7 +288,7 @@ class expeyesWidgets(object):
 
 	def CAPTURE(self,forwardingFunction=None):
 		if self.p.busy:
-			self.showStatus(_translate("ewn",'busy %s') %time.ctime(),True)
+			self.showStatus(_translate("ewn",'busy ')+str(time.ctime()),True)
 			return
 		self.traceOrder=[]  #This will store the order of the returned data
 		a = self.myCurveWidgets['A1'].enable.isChecked() if 'A1' in self.myCurveWidgets else False
@@ -883,7 +883,7 @@ class expeyesWidgets(object):
 		trignum = self.activeTriggerWidget.chanBox.currentIndex()
 		if trignum==-1 : #Index not found.
 			return
-		self.activeTriggerWidget.enable.setText(_translate("ewn",'Trigger Level: %s') %self.applySIPrefix(self.trigger_level,'V',1))
+		self.activeTriggerWidget.enable.setText(_translate("ewn",'Trigger Level: %s').arg(self.applySIPrefix(self.trigger_level,'V',1)))
 		self.p.configure_trigger(trignum,trigName,self.trigger_level,resolution=10,prescaler=5)
 
 

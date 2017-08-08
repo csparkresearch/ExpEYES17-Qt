@@ -1,1 +1,1 @@
-QT_VERSION = 'PyQt5'
+QT_VERSION = 'PyQt4'
