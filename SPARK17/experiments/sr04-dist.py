@@ -5,6 +5,7 @@ from ..utilities.expeyesWidgetsNew import expeyesWidgets
 
 import sys,time,os
 import numpy as np
+_translate = QtCore.QCoreApplication.translate
 
 class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	subsection = 'apps'
@@ -16,26 +17,26 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.widgetLayout.setAlignment(QtCore.Qt.AlignTop)
 		self.widgets.setMinimumWidth(250)
 		
-		self.TITLE('Parameters')
-		self.timeDelay=self.SPINBOX(prefix = 'Minimum Time/sample: ',suffix=' mS',range=[0,2000],value = 20,tooltip="minimum acquisition time per sample. 0 implies fastest possible")
-		self.totalSamples=self.SPINBOX(prefix = 'Total Samples: ',range=[0,2000],value = 100,tooltip="Total samples to acquire")
+		self.TITLE(_translate("sr04-dist",'Parameters'))
+		self.timeDelay=self.SPINBOX(prefix = _translate("sr04-dist",'Minimum Time/sample: '),suffix=_translate("sr04-dist",' mS'),range=[0,2000],value = 20,tooltip="minimum acquisition time per sample. 0 implies fastest possible")
+		self.totalSamples=self.SPINBOX(prefix = _translate("sr04-dist",'Total Samples: '),range=[0,2000],value = 100,tooltip="Total samples to acquire")
 
 		self.SPACER(10)
 
 		#Add a vertical spacer in the widgetLayout . about 0.5cm
 		self.SPACER(20)
-		self.TITLE('Initialize')
-		self.PUSHBUTTON('Start Logging' , self.start)
-		self.PUSHBUTTON('Stop Logging' , self.stop)
+		self.TITLE(_translate("sr04-dist",'Initialize'))
+		self.PUSHBUTTON(_translate("sr04-dist",'Start Logging') , self.start)
+		self.PUSHBUTTON(_translate("sr04-dist",'Stop Logging') , self.stop)
 		self.SPACER(20)
-		self.PUSHBUTTON('Fit Data' , self.fit_curve)
+		self.PUSHBUTTON(_translate("sr04-dist",'Fit Data') , self.fit_curve)
 		self.activeCurve= None
 
 		self.stepV = 0.1
 		self.xdata=[];self.ydata = []
 		
 		xmax = self.totalSamples.value()*self.timeDelay.value()*1e-3
-		self.plot = self.newPlot([],detailedWidget=True,xMin=0,xMax = xmax, bottomLabel = 'time',bottomUnits='S',leftLabel = 'distance',leftUnits='m',enableMenu=False,legend=True,autoRange='y')
+		self.plot = self.newPlot([],detailedWidget=True,xMin=0,xMax = xmax, bottomLabel = _translate("sr04-dist",'time'),bottomUnits=_translate("sr04-dist",'S'),leftLabel = _translate("sr04-dist",'distance'),leftUnits='m',enableMenu=False,legend=True,autoRange='y')
 		self.plot.setYRange(0,2)
 		self.region = self.addRegion(self.plot,0,xmax*0.8)
 
@@ -73,7 +74,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 
 
 	def fit_curve(self):
-		msg = 'fit failed. please acquire some data first'
+		msg = _translate("sr04-dist",'fit failed. please acquire some data first')
 		if self.xdata is not None:
 			start,end=self.region.getRegion()
 			xdata = np.array(self.xdata)
@@ -84,12 +85,12 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 			if fa != None:
 				pa = fa[1]
 				damping = pa[4] / (2*np.pi*pa[1]) # unitless damping factor
-				msg = 'Resonant Frequency = %5.2f Hz\nDamping = %5.3f'%(pa[1], damping)
-				fitcurve = self.addCurve(self.plot,'%s\n%s %5.3f'%(self.activeCurve.name(),self.applySIPrefix(pa[1],'Hz',1),damping),'#fff')
+				msg = _translate("sr04-dist",'Resonant Frequency = %5.2f Hz\nDamping = %5.3f')%(pa[1], damping)
+				fitcurve = self.addCurve(self.plot,_translate("sr04-dist",'%s\n%s %5.3f')%(self.activeCurve.name(),self.applySIPrefix(pa[1],'Hz',1),damping),'#fff')
 				fitcurve.setData(xdata[leftIndex:rightIndex],fa[0])
 			else:
-				msg = 'Failed to fit the curve '
-		QtGui.QMessageBox.information(self, 'Fit Results', msg)
+				msg = _translate("sr04-dist",'Failed to fit the curve ')
+		QtGui.QMessageBox.information(self, _translate("sr04-dist",'Fit Results'), msg)
 
 	def stop(self):
 		self.timer.stop()

@@ -5,6 +5,7 @@ from ..utilities.expeyesWidgetsNew import expeyesWidgets
 
 import sys,time,os
 import numpy as np
+_translate = QtCore.QCoreApplication.translate
 
 class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	subsection = 'apps'
@@ -16,14 +17,14 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.widgetLayout.setAlignment(QtCore.Qt.AlignTop)
 		self.widgets.setMinimumWidth(250)
 		
-		self.TITLE('Controls')
-		self.PUSHBUTTON('0V to 5V step' , self.ZeroToFive)
-		self.PUSHBUTTON('5V to 0V step' , self.FiveToZero)
+		self.TITLE(_translate("rl-circuit",'Controls'))
+		self.PUSHBUTTON(_translate("rl-circuit",'0V to 5V step') , self.ZeroToFive)
+		self.PUSHBUTTON(_translate("rl-circuit",'5V to 0V step') , self.FiveToZero)
 		self.SPACER(10)
-		self.TITLE('external resistance')
+		self.TITLE(_translate("rl-circuit",'external resistance'))
 		self.res = self.SPINBOX(decimals = True,suffix=u' \u03A9',range=[10,2000],value=1000)
-		self.TITLE('Analyse data')
-		self.PUSHBUTTON('Calculate RL' , self.calcRL)
+		self.TITLE(_translate("rl-circuit",'Analyse data'))
+		self.PUSHBUTTON(_translate("rl-circuit",'Calculate RL') , self.calcRL)
 		self.tb = self.timebaseWidget(self.getSamples,self.setTimebase); self.widgetLayout.addWidget(self.tb)
 
 		self.p.I.select_range('A1',8)
@@ -31,7 +32,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.samples = 200;self.timebase = 2
 		self.xdata=None;self.ydata=None
 
-		self.plot = self.newPlot([],detailedWidget=True,xMin=0,xMax = self.timebase*self.samples, bottomLabel = 'time',bottomUnits='S',leftLabel = 'Voltage',leftUnits='V',enableMenu=False,legend=True,autoRange='y')
+		self.plot = self.newPlot([],detailedWidget=True,xMin=0,xMax = self.timebase*self.samples, bottomLabel = _translate("rl-circuit",'time'),bottomUnits=_translate("rl-circuit",'S'),leftLabel = _translate("rl-circuit",'Voltage'),leftUnits='V',enableMenu=False,legend=True,autoRange='y')
 		self.plot.setYRange(-5,5)
 
 		self.region = self.addRegion(self.plot,0,9*4./10)
@@ -66,7 +67,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 			self.curve.setData(self.xdata*1e-3,self.ydata) #mS to Seconds
 
 	def calcRL(self):
-		msg = 'fit failed. please acquire some data first'
+		msg = _translate("rl-circuit",'fit failed. please acquire some data first')
 		if self.xdata is not None:
 			start,end=self.region.getRegion()
 			leftIndex = (np.abs(self.xdata*1e-3-start)).argmin()
@@ -86,16 +87,9 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 			if fa != None:
 				pa = fa[1]
 				par1 = abs(1.0 / pa[1])
-				msg = u'L/R = %5.3f mSec\nRind = %5.0f \u03A9\nL = %5.1f mH'%(par1, Rind, (Rext+Rind)*par1)
-				fitcurve = self.addCurve(self.plot,'%s_%5.2fmS'%(self.curve.name(),par1),'#fff')
+				msg = u_translate("rl-circuit",'L/R = %5.3f mSec\nRind = %5.0f \u03A9\nL = %5.1f mH')%(par1, Rind, (Rext+Rind)*par1)
+				fitcurve = self.addCurve(self.plot,_translate("rl-circuit",'%s_%5.2fmS')%(self.curve.name(),par1),'#fff')
 				fitcurve.setData(self.xdata[leftIndex:rightIndex]*1e-3,fa[0])
 			else:
-				msg = 'Failed to fit the curve with V=Vo*exp(-t/RC)'
-		QtGui.QMessageBox.information(self, 'Fit Results', msg)
-
-
-
-
-
-
-
+				msg = _translate("rl-circuit",'Failed to fit the curve with V=Vo*exp(-t/RC)')
+		QtGui.QMessageBox.information(self, _translate("rl-circuit",'Fit Results'), msg)
