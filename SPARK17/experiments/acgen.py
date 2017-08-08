@@ -5,6 +5,7 @@ from ..utilities.expeyesWidgetsNew import expeyesWidgets
 
 
 import sys,time,functools,os
+_translate = QtCore.QCoreApplication.translate
 
 class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	subsection = 'apps'
@@ -21,7 +22,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 
 		self.tb =self.TIMEBASE(6)
 		self.TRIGGER()
-		self.TITLE('Controls')
+		self.TITLE(_translate("acgen",'Controls'))
 		self.DOUTS()
 		self.timer = self.newTimer()
 		self.setInterval(self.timer,200,self.update)

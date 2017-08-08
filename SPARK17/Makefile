@@ -10,6 +10,13 @@ all: recursive_all lang
 
 lang: $(TS_FILES) $(QM_FILES)
 
+lang-todo:
+	for f in $$(find experiments/ -name "*.py"); do\
+	  if ! grep -q _translate $$f; \
+	    then echo $$f; \
+	  fi; \
+	done
+
 $(QM_FILES): $(TS_FILES)
 	lrelease $(PRO_FILE)
 
@@ -20,7 +27,7 @@ $(TS_FILES): $(TS_SOURCES)
 	find lang -name "*.ts" | xargs echo >> $(PRO_FILE)
 	@echo "PYLUPDATE:" $(PYLUPDATE)  $(PRO_FILE)
 	$(PYLUPDATE) $(PRO_FILE)
-	
+
 recursive_all:
 	for d in $(SUBDIRS); do make PYUIC=$(PYUIC) PYRCC=$(PYRCC) PYLUPDATE=$(PYLUPDATE) -C $$d all; done
 

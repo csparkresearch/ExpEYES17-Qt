@@ -5,6 +5,7 @@ from ..utilities.expeyesWidgetsNew import expeyesWidgets
 
 import sys,time,os
 import numpy as np
+_translate = QtCore.QCoreApplication.translate
 
 class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	subsection = 'apps'
@@ -16,26 +17,26 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.widgetLayout.setAlignment(QtCore.Qt.AlignTop)
 		self.widgets.setMinimumWidth(250)
 		
-		self.TITLE('Parameters')
-		self.totalTime=self.SPINBOX(prefix = 'Acquisition time: ',suffix=' S',range=[0,2000],value = 20,tooltip="Total time over which data should be recorded")
-		self.minimumTime=self.SPINBOX(prefix = 'Time per sample: ',suffix=' mS',range=[0,2000],value = 2,tooltip="Minimum time per sample")
+		self.TITLE(_translate("pendulum",'Parameters'))
+		self.totalTime=self.SPINBOX(prefix = _translate("pendulum",'Acquisition time: '),suffix=_translate("pendulum",' S'),range=[0,2000],value = 20,tooltip="Total time over which data should be recorded")
+		self.minimumTime=self.SPINBOX(prefix = _translate("pendulum",'Time per sample: '),suffix=_translate("pendulum",' mS'),range=[0,2000],value = 2,tooltip="Minimum time per sample")
 
 		self.SPACER(10)
 
 		#Add a vertical spacer in the widgetLayout . about 0.5cm
 		self.SPACER(20)
-		self.TITLE('Initialize')
-		self.PUSHBUTTON('Start Logging' , self.start)
-		self.PUSHBUTTON('Stop Logging' , self.stop)
+		self.TITLE(_translate("pendulum",'Initialize'))
+		self.PUSHBUTTON(_translate("pendulum",'Start Logging') , self.start)
+		self.PUSHBUTTON(_translate("pendulum",'Stop Logging') , self.stop)
 		self.SPACER(20)
-		self.PUSHBUTTON('Fit Data' , self.fit_curve)
+		self.PUSHBUTTON(_translate("pendulum",'Fit Data') , self.fit_curve)
 		self.activeCurve= None
 
 		self.xdata=[];self.ydata = []
 		
 		xmax = self.totalTime.value()
 		self.endTime = 0
-		self.plot = self.newPlot([],detailedWidget=True,xMin=0,xMax = xmax, bottomLabel = 'time',bottomUnits='S',leftLabel = 'voltage', leftUnits='V', enableMenu=False, legend=True, autoRange='y')
+		self.plot = self.newPlot([],detailedWidget=True,xMin=0,xMax = xmax, bottomLabel = _translate("pendulum",'time'),bottomUnits=_translate("pendulum",'S'),leftLabel = _translate("pendulum",'voltage'), leftUnits='V', enableMenu=False, legend=True, autoRange='y')
 		self.plot.setYRange(-3,3)
 		self.region = self.addRegion(self.plot,0,xmax*0.8)
 
@@ -71,7 +72,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 
 
 	def fit_curve(self):
-		msg = 'fit failed. please acquire some data first'
+		msg = _translate("pendulum",'fit failed. please acquire some data first')
 		if self.xdata is not None:
 			start,end=self.region.getRegion()
 			xdata = np.array(self.xdata)
@@ -82,12 +83,12 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 			if fa != None:
 				pa = fa[1]
 				damping = pa[4] / (2*np.pi*pa[1]) # unitless damping factor
-				msg = 'Resonant Frequency = %5.2f Hz\nDamping = %5.3f'%(pa[1], damping)
-				fitcurve = self.addCurve(self.plot,'%s\n%s %5.3f'%(self.activeCurve.name(),self.applySIPrefix(pa[1],'Hz',1),damping),'#fff')
+				msg = _translate("pendulum",'Resonant Frequency = %5.2f Hz\nDamping = %5.3f')%(pa[1], damping)
+				fitcurve = self.addCurve(self.plot,_translate("pendulum",'%s\n%s %5.3f')%(self.activeCurve.name(),self.applySIPrefix(pa[1],'Hz',1),damping),'#fff')
 				fitcurve.setData(xdata[leftIndex:rightIndex],fa[0])
 			else:
-				msg = 'Failed to fit the curve '
-		QtGui.QMessageBox.information(self, 'Fit Results', msg)
+				msg = _translate("pendulum",'Failed to fit the curve ')
+		QtGui.QMessageBox.information(self, _translate("pendulum",'Fit Results'), msg)
 
 	def stop(self):
 		self.timer.stop()

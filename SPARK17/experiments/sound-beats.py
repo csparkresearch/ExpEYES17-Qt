@@ -8,6 +8,7 @@ from ..expeyes import eyemath17 as eyemath
 
 import sys,time,functools,os
 import numpy as np
+_translate = QtCore.QCoreApplication.translate
 
 class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	subsection = 'apps'
@@ -22,14 +23,14 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.timebase = 2
 		self.acquisition_channel = 'MIC'
 
-		self.fftPlot = self.addPlot(yMin=-0,yMax=4, disableAutoRange = 'x',bottomLabel='frequency',bottomUnits='Hz',enableMenu=False,hideAxes='y')
-		self.fftPlot.setXRange(2000,4000); self.fftPlot.setTitle('FFT')
-		self.pop = self.PUSHBUTTON('Pop-up FFT',self.popup)
+		self.fftPlot = self.addPlot(yMin=-0,yMax=4, disableAutoRange = 'x',bottomLabel=_translate("sound-beats",'frequency'),bottomUnits='Hz',enableMenu=False,hideAxes='y')
+		self.fftPlot.setXRange(2000,4000); self.fftPlot.setTitle(_TRANSLATE("sound-beats",'FFT'))
+		self.pop = self.PUSHBUTTON(_translate("sound-beats",'Pop-up FFT'),self.popup)
 
 
-		self.plot = self.newPlot([],xMin=0, bottomLabel = 'time',bottomUnits='S',leftLabel = 'MIC(loudness)',leftUnits='V',enableMenu=False,legend=True,autoRange='y')
+		self.plot = self.newPlot([],xMin=0, bottomLabel = _translate("sound-beats",'time'),bottomUnits=_translate("sound-beats",'S'),leftLabel = _translate("sound-beats",'MIC(loudness)'),leftUnits='V',enableMenu=False,legend=True,autoRange='y')
 		self.addCrosshair(self.plot,self.updateLabels,'y');self.plot.setTitle('_')
-		self.MIC = self.addCurve(self.plot,'MIC','#FFF')
+		self.MIC = self.addCurve(self.plot,_TRANSLATE("sound-beats",'MIC'),'#FFF')
 		self.plot.setYRange(-3.2,3.2)
 		self.popupFFT=None
 
@@ -37,14 +38,14 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		#self.phasorplot.addItem(self.fitLabel)
 		#self.fitLabel.setPos(-4,4)
 		self.plot2Layout.addWidget(self.fftPlot)
-		self.pfft = self.addCurve(self.fftPlot,'MIC_FFT','#FFF',False)
+		self.pfft = self.addCurve(self.fftPlot,_TRANSLATE("sound-beats",'MIC_FFT'),'#FFF',False)
 		
 		#Add a vertical spacer in the widgetLayout . about 0.5cm
 		self.SPACER(20)
 
 		# ADD A SINE WIDGET SLIDER WITH NUMBERIC INPUT to the widgetLayout
 		#self.TRIGGER()
-		self.TITLE('Timebase')
+		self.TITLE(_translate("sound-beats",'Timebase'))
 		self.tb = self.timebaseWidget(self.getSamples,self.setTimebase); self.widgetLayout.addWidget(self.tb)
 		#self.TITLE('Trigger')
 		#self.activeTriggerWidget  =self.triggerWidget([self.acquisition_channel])
@@ -55,7 +56,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 
 		self.SPACER(10)
 
-		self.TITLE('Controls')
+		self.TITLE(_translate("sound-beats",'Controls'))
 
 		self.SW = self.SINE();self.SW.setValue(3300.)
 		self.SQ = self.SQR1();self.SQ.setValue(3400.)
@@ -92,7 +93,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 			#self.plot.hLine.setPos(mousePoint.y())
 			index = np.abs(self.x-mousePoint.x()).argmin()
 			if index > 0 and index < len(self.x):
-				self.plot.plotItem.titleLabel.setText("<span style='font-size: 12pt'>x=%s,   <span style='color: white'>y1=%0.1f</span>" % (self.applySIPrefix(self.x[index],'S'), self.y[index]))
+				self.plot.plotItem.titleLabel.setText("<span style='font-size: 12pt'>x=%s,   <span style='color: white'>y1=%0.1f</span>" % (self.applySIPrefix(self.x[index],_translate("sound-beats",'S')), self.y[index]))
 
 	def getSamples(self):
 		return self.samples
@@ -124,12 +125,12 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 				self.popupFFT.setData(self.fr,self.tr)
 			self.pfft.setData(self.fr,self.tr)
 		except Exception as e:
-				print ('fft error',e.message)
+				print (_translate("sound-beats",'fft error'),e.message)
 
 		self.counter+=1
 		self.setTimeout(self.timer,100,self.update)
 
 	def popup(self):
 		plot,self.popupFFT = self.popupPlot(self.fr,self.tr)
-		plot.getAxis('bottom').setLabel('Frequency')
+		plot.getAxis('bottom').setLabel(_translate("sound-beats",'Frequency'))
 		plot.getAxis('left').setLabel('')
