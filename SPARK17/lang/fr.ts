@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="fr_FR" sourcelanguage="">
+<!DOCTYPE TS>
+<TS version="2.0" language="fr_FR">
 <context>
     <name>@default</name>
     <message>
@@ -929,7 +930,7 @@
     <message>
         <location filename="spark17.py" line="195"/>
         <source>System Status | Connected to device. Version : </source>
-        <translation type="unfinished"></translation>
+        <translation>Statut système | Connecté à l&apos;appareil. Version : </translation>
     </message>
 </context>
 <context>
@@ -1057,12 +1058,12 @@
     <message>
         <location filename="utilities/expeyesWidgetsNew.py" line="853"/>
         <source>Trigger</source>
-        <translation type="unfinished">Seuillage</translation>
+        <translation>Seuillage</translation>
     </message>
     <message>
         <location filename="utilities/expeyesWidgetsNew.py" line="291"/>
         <source>busy </source>
-        <translation type="unfinished"></translation>
+        <translation>occupé</translation>
     </message>
 </context>
 <context>
