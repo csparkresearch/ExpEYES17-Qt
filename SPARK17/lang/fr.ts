@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="fr_FR">
+<!DOCTYPE TS><TS version="2.0" language="fr_FR" sourcelanguage="">
 <context>
     <name>@default</name>
     <message>
@@ -1041,7 +1040,7 @@
     </message>
     <message>
         <location filename="../experiments/data-logger.py" line="58"/>
-        <source>Voltage:	%s</source>
+        <source>Voltage:<byte value="x9"/>%s</source>
         <translation>Tension : %s</translation>
     </message>
     <message>
@@ -1491,7 +1490,7 @@ IF=%5.1f</translation>
         <translation>Pause</translation>
     </message>
     <message>
-        <location filename="../experiments/oscilloscope.py" line="40"/>
+        <location filename="../experiments/oscilloscope.py" line="49"/>
         <source>capturing at :%s</source>
         <translation>Capture à %s</translation>
     </message>
