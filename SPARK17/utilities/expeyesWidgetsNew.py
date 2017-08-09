@@ -883,7 +883,7 @@ class expeyesWidgets(object):
 		trignum = self.activeTriggerWidget.chanBox.currentIndex()
 		if trignum==-1 : #Index not found.
 			return
-		self.activeTriggerWidget.enable.setText(_translate("ewn",'Trigger Level: %s').arg(self.applySIPrefix(self.trigger_level,'V',1)))
+		self.activeTriggerWidget.enable.setText(_translate("ewn",'Trigger Level: %s') %self.applySIPrefix(self.trigger_level,'V',1))
 		self.p.configure_trigger(trignum,trigName,self.trigger_level,resolution=10,prescaler=5)
 
 
