@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="fr_FR" sourcelanguage="">
+<!DOCTYPE TS>
+<TS version="2.0" language="fr_FR">
 <context>
     <name>@default</name>
     <message>
@@ -1040,7 +1041,7 @@
     </message>
     <message>
         <location filename="../experiments/data-logger.py" line="58"/>
-        <source>Voltage:<byte value="x9"/>%s</source>
+        <source>Voltage:	%s</source>
         <translation>Tension : %s</translation>
     </message>
     <message>
@@ -1470,6 +1471,14 @@ IF=%5.1f</translation>
         <location filename="../experiments/halfwave.py" line="31"/>
         <source>Controls</source>
         <translation>Contrôles</translation>
+    </message>
+</context>
+<context>
+    <name>opamps</name>
+    <message>
+        <location filename="../experiments/opamps.py" line="26"/>
+        <source>opamps</source>
+        <translation>Ampli-ops</translation>
     </message>
 </context>
 <context>
@@ -2040,7 +2049,7 @@ Amortissement = %5.3f</translation>
         <translation>temps</translation>
     </message>
     <message>
-        <location filename="../experiments/sound-beats.py" line="96"/>
+        <location filename="../experiments/sound-beats.py" line="97"/>
         <source>S</source>
         <translation>s</translation>
     </message>
@@ -2060,12 +2069,12 @@ Amortissement = %5.3f</translation>
         <translation>Contrôles</translation>
     </message>
     <message>
-        <location filename="../experiments/sound-beats.py" line="128"/>
+        <location filename="../experiments/sound-beats.py" line="129"/>
         <source>fft error</source>
         <translation>erreur de FFT</translation>
     </message>
     <message>
-        <location filename="../experiments/sound-beats.py" line="135"/>
+        <location filename="../experiments/sound-beats.py" line="138"/>
         <source>Frequency</source>
         <translation>Fréquence</translation>
     </message>
