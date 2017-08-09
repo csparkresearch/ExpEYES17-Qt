@@ -23,7 +23,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 
 		self.TIMEBASE()
 		self.TRIGGER()
-		self.TITLE(opamps)
+		self.TITLE(_translate("opamps",'opamps'))
 		self.sineW = self.SINE()
 		self.sineW.setValue(1500)
 		self.pv1W = self.PV1()
