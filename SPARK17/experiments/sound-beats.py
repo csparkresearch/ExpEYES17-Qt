@@ -73,6 +73,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		#self.triggerArrow.setPos(-1,0)
 
 		#self.setTrigger()
+		self.fr,self.tr = None, None # vectors used for the FFT
 
 
 	#def setTrigger(self):
@@ -131,6 +132,9 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.setTimeout(self.timer,100,self.update)
 
 	def popup(self):
+		if not self.fr:
+		    return # no FFT data so far
 		plot,self.popupFFT = self.popupPlot(self.fr,self.tr)
 		plot.getAxis('bottom').setLabel(_translate("sound-beats",'Frequency'))
 		plot.getAxis('left').setLabel('')
+		return
