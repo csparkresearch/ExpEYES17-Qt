@@ -956,6 +956,7 @@ class expeyesWidgets(object):
 		def __init__(self,name,callback=None,**kwargs):
 			super(expeyesWidgets.pushButtonWidget, self).__init__()
 			self.setText(name)
+			self.setStyleSheet("font-size: 16px;")
 			self.callback = callback
 			if callback is not None:self.clicked.connect(self.callback)
 		def delete(self):

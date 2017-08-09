@@ -249,7 +249,7 @@
     <message>
         <location filename="../utilities/templates/ui_allTracesDetailed.py" line="50"/>
         <source>SAVE DATA</source>
-        <translation>ENREGISTRER LES DONNÉES</translation>
+        <translation type="unfinished">ENREGISTRER</translation>
     </message>
     <message>
         <location filename="../utilities/templates/ui_douts.py" line="60"/>
