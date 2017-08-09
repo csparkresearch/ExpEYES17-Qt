@@ -125,7 +125,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 				self.popupFFT.setData(self.fr,self.tr)
 			self.pfft.setData(self.fr,self.tr)
 		except Exception as e:
-				print (_translate("sound-beats",'fft error'),e.message)
+				print (_translate("sound-beats",'fft error'), e)
 
 		self.counter+=1
 		self.setTimeout(self.timer,100,self.update)
