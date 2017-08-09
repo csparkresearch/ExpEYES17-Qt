@@ -5,6 +5,7 @@ from ..utilities.expeyesWidgetsNew import expeyesWidgets
 
 import sys,time,os
 import numpy as np
+_translate = QtCore.QCoreApplication.translate
 
 class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	subsection = 'apps'
@@ -16,23 +17,23 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.widgetLayout.setAlignment(QtCore.Qt.AlignTop)
 		self.widgets.setMinimumWidth(250)
 		
-		self.TITLE('Parameters')
-		self.startVoltage=self.SPINBOX(decimals=True,prefix = 'Start Voltage: ',range=[0,4.9],value = 0)
-		self.stopVoltage=self.SPINBOX(decimals=True,prefix = 'Stop Voltage: ',range=[0,4.9],value = 4)
-		self.stepVoltage=self.SPINBOX(prefix = 'Steps: ',range=[5,1000],value = 100)
+		self.TITLE(_translate("transistor-ce",'Parameters'))
+		self.startVoltage=self.SPINBOX(decimals=True,prefix = _translate("transistor-ce",'Start Voltage: '),range=[0,4.9],value = 0)
+		self.stopVoltage=self.SPINBOX(decimals=True,prefix = _translate("transistor-ce",'Stop Voltage: '),range=[0,4.9],value = 4)
+		self.stepVoltage=self.SPINBOX(prefix = _translate("transistor-ce",'Steps: '),range=[5,1000],value = 100)
 		self.SPACER(10)
-		self.baseVoltage=self.SPINBOX(decimals=True,prefix = 'Base Voltage: ',range=[0,3.3],value = 1)
+		self.baseVoltage=self.SPINBOX(decimals=True,prefix = _translate("transistor-ce",'Base Voltage: '),range=[0,3.3],value = 1)
 
 		self.SPACER(10)
-		self.minimumTime=self.SPINBOX(prefix = 'acquisition time: ',suffix=' S',range=[0,2000],value = 5,tooltip="minimum acquisition time. 0 implies fastest possible")
+		self.minimumTime=self.SPINBOX(prefix = _translate("transistor-ce",'acquisition time: '),suffix=_translate("transistor-ce",' S'),range=[0,2000],value = 5,tooltip="minimum acquisition time. 0 implies fastest possible")
 
 		#Add a vertical spacer in the widgetLayout . about 0.5cm
 		self.SPACER(20)
-		self.TITLE('Initialize')
-		self.PUSHBUTTON('Start Logging' , self.start)
-		self.PUSHBUTTON('Stop Logging' , self.stop)
+		self.TITLE(_translate("transistor-ce",'Initialize'))
+		self.PUSHBUTTON(_translate("transistor-ce",'Start Logging') , self.start)
+		self.PUSHBUTTON(_translate("transistor-ce",'Stop Logging') , self.stop)
 		self.SPACER(20)
-		self.PUSHBUTTON('Fit Data' , self.fit_curve)
+		self.PUSHBUTTON(_translate("transistor-ce",'Fit Data') , self.fit_curve)
 		self.activeCurve= None
 
 		self.stepV = 0.1
@@ -40,7 +41,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		
 		self.p.I.select_range('A1',4)
 
-		self.plot = self.newPlot([],detailedWidget=True,xMin=0,xMax = 4, bottomLabel = 'voltage',bottomUnits='V',leftLabel = 'current',leftUnits='A',enableMenu=False,legend=True,autoRange='y')
+		self.plot = self.newPlot([],detailedWidget=True,xMin=0,xMax = 4, bottomLabel = _translate("transistor-ce",'voltage'),bottomUnits='V',leftLabel = _translate("transistor-ce",'current'),leftUnits='A',enableMenu=False,legend=True,autoRange='y')
 		self.plot.setYRange(0,5e-3)
 
 		self.start_time = time.time()
@@ -79,7 +80,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 			self.setInterval(self.timer,1e3*float(self.minimumTime.value())/self.stepVoltage.value(),self.update)
 
 	def fit_curve(self):
-		msg = 'fit failed. please acquire some data first'
+		msg = _translate("transistor-ce",'fit failed. please acquire some data first')
 		if self.xdata is not None and self.activeCurve is not None:
 			from expeyes import eyemath17
 			f = eyemath17.fit_exp(self.xdata, self.ydata)
@@ -91,12 +92,12 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 				T = 300.0		# Room temp in Kelvin
 				n = q/(a1*k*T)
 
-				msg = 'Fitted with Diode Equation :\nIo = %s\nIdeality factor = %5.2f'%(self.applySIPrefix(Io,'A',2),n)
-				fitcurve = self.addCurve(self.plot,'%s\n%s\nIF=%5.1f'%(self.activeCurve.name(),self.applySIPrefix(Io,'A',2),n),'#fff')
+				msg = _translate("transistor-ce",'Fitted with Diode Equation :\nIo = %s\nIdeality factor = %5.2f')%(self.applySIPrefix(Io,'A',2),n)
+				fitcurve = self.addCurve(self.plot,_translate("transistor-ce",'%s\n%s\nIF=%5.1f')%(self.activeCurve.name(),self.applySIPrefix(Io,'A',2),n),'#fff')
 				fitcurve.setData(self.xdata,f[0])
 			else:
-				msg = 'Failed to fit the curve '
-		QtGui.QMessageBox.information(self, 'Fit Results', msg)
+				msg = _translate("transistor-ce",'Failed to fit the curve ')
+		QtGui.QMessageBox.information(self, _translate("transistor-ce",'Fit Results'), msg)
 
 	def stop(self):
 		self.timer.stop()

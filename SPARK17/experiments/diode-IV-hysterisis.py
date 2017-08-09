@@ -6,6 +6,7 @@ from ..utilities.expeyesWidgetsNew import expeyesWidgets
 import sys,time,os
 import numpy as np
 import pyqtgraph as pg
+_translate = QtCore.QCoreApplication.translate
 
 class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	subsection = 'apps'
@@ -18,19 +19,19 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.widgets.setMinimumWidth(250)
 		#Constants
 		
-		self.TITLE('Parameters')
-		self.minVoltage=self.SPINBOX(decimals=True,prefix = 'Minimum Voltage: ',range=[-5,0],value = -4)
-		self.maxVoltage=self.SPINBOX(decimals=True,prefix = 'Maximum Voltage: ',range=[0,5],value = 4)
-		self.stepVoltage=self.SPINBOX(prefix = 'Steps: ',range=[5,1000],value = 100)
+		self.TITLE(_translate("diode-iv-hysterisis",'Parameters'))
+		self.minVoltage=self.SPINBOX(decimals=True,prefix = _translate("diode-iv-hysterisis",'Minimum Voltage: '),range=[-5,0],value = -4)
+		self.maxVoltage=self.SPINBOX(decimals=True,prefix = _translate("diode-iv-hysterisis",'Maximum Voltage: '),range=[0,5],value = 4)
+		self.stepVoltage=self.SPINBOX(prefix = _translate("diode-iv-hysterisis",'Steps: '),range=[5,1000],value = 100)
 		self.SPACER(10)
-		self.startVoltage=self.SPINBOX(decimals=True,prefix = 'Starting Voltage: ',range=[-5,5],value = 0)
-		self.minimumTime=self.SPINBOX(prefix = 'acquisition time: ',suffix=' S',range=[0,2000],value = 5,tooltip="minimum acquisition time. 0 implies fastest possible")
+		self.startVoltage=self.SPINBOX(decimals=True,prefix = _translate("diode-iv-hysterisis",'Starting Voltage: '),range=[-5,5],value = 0)
+		self.minimumTime=self.SPINBOX(prefix = _translate("diode-iv-hysterisis",'acquisition time: '),suffix=_translate("diode-iv-hysterisis",' S'),range=[0,2000],value = 5,tooltip="minimum acquisition time. 0 implies fastest possible")
 
 		#Add a vertical spacer in the widgetLayout . about 0.5cm
 		self.SPACER(20)
-		self.TITLE('Initialize')
-		self.PUSHBUTTON('Start Acquisition' , self.start)
-		self.PUSHBUTTON('Stop Acquisition' , self.stop)
+		self.TITLE(_translate("diode-iv-hysterisis",'Initialize'))
+		self.PUSHBUTTON(_translate("diode-iv-hysterisis",'Start Acquisition') , self.start)
+		self.PUSHBUTTON(_translate("diode-iv-hysterisis",'Stop Acquisition') , self.stop)
 		self.activeCurve= None
 
 		self.stepV = 0.1
@@ -39,7 +40,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		
 		self.p.I.select_range('A1',4)
 
-		self.plot = self.newPlot([],detailedWidget=True,xMin=0,xMax = 4, bottomLabel = 'voltage',bottomUnits='V',leftLabel = 'current',leftUnits='A',enableMenu=False,legend=True,autoRange='y')
+		self.plot = self.newPlot([],detailedWidget=True,xMin=0,xMax = 4, bottomLabel = _translate("diode-iv-hysterisis",'voltage'),bottomUnits='V',leftLabel = _translate("diode-iv-hysterisis",'current'),leftUnits='A',enableMenu=False,legend=True,autoRange='y')
 		self.plot.setYRange(-5e-3,5e-3)
 
 		self.arrow = pg.ArrowItem(angle=-120,tipAngle = 80, headLen=5, tailLen=9, tailWidth=3, pen={'color': 'g', 'width': 1}) 

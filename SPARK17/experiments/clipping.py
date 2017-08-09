@@ -5,6 +5,7 @@ from ..utilities.expeyesWidgetsNew import expeyesWidgets
 
 
 import sys,time,functools,os
+_translate = QtCore.QCoreApplication.translate
 
 class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	subsection = 'apps'
@@ -24,7 +25,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		# ADD A SINE WIDGET SLIDER WITH NUMBERIC INPUT to the widgetLayout
 		self.TRIGGER()
 		self.TIMEBASE(4)
-		self.TITLE('Controls')
+		self.TITLE(_translate("clipping",'Controls'))
 		self.PV1()
 		self.IMAGE(os.path.join('pics','clipping.png'))
 		

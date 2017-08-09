@@ -8,6 +8,7 @@ from ..expeyes.sensorlist import sensors as sensorHints
 
 import sys,time,functools,os
 import numpy as np
+_translate = QtCore.QCoreApplication.translate
 
 class AppWindow( QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	subsection = 'apps'
@@ -27,10 +28,10 @@ class AppWindow( QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.fps=0;self.lastTime=time.time();self.updatepos=0
 
 		
-		self.TITLE('Initialize')
-		self.scanButton = self.PUSHBUTTON('Auto Scan')
+		self.TITLE(_translate("sensorlogger",'Initialize'))
+		self.scanButton = self.PUSHBUTTON(_translate("sensorlogger",'Auto Scan'))
 		self.scanMenu = QtGui.QMenu(); self.scanMenu.setMinimumWidth(self.widgets.width())
-		self.scanMenu.addAction('Run Scan', self.autoScan)
+		self.scanMenu.addAction(_translate("sensorlogger",'Run Scan'), self.autoScan)
 		self.scanMenu.addSeparator()
 		#self.scanMenu.addAction('Exit', self.askBeforeQuit)
 		self.scanButton.setMenu(self.scanMenu)
@@ -40,18 +41,18 @@ class AppWindow( QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 
 		#Add a vertical spacer in the widgetLayout . about 0.5cm
 		self.SPACER(20)
-		self.TITLE('Controls')
+		self.TITLE(_translate("sensorlogger",'Controls'))
 
 		self.samplesBtn=QtGui.QSpinBox()
-		self.samplesBtn.setRange(10,50000);self.samplesBtn.setPrefix('Samples :');self.samplesBtn.setValue(self.POINTS)
+		self.samplesBtn.setRange(10,50000);self.samplesBtn.setPrefix(_translate("sensorlogger",'Samples :'));self.samplesBtn.setValue(self.POINTS)
 		self.samplesBtn.editingFinished.connect(self.changeSamples)
 		self.widgetLayout.addWidget(self.samplesBtn)
 
-		self.PUSHBUTTON('Start Logging' , self.start)
-		self.PUSHBUTTON('Stop Logging' , self.stop)
+		self.PUSHBUTTON(_translate("sensorlogger",'Start Logging') , self.start)
+		self.PUSHBUTTON(_translate("sensorlogger",'Stop Logging') , self.stop)
 		
 
-		self.plot = self.newPlot([],detailedWidget=True,xMin=0,xMax = self.POINTS, disableAutoRange = 'y',bottomLabel = 'time',bottomUnits='S',enableMenu=False,legend=True)
+		self.plot = self.newPlot([],detailedWidget=True,xMin=0,xMax = self.POINTS, disableAutoRange = 'y',bottomLabel = _translate("sensorlogger",'time'),bottomUnits=_translate("sensorlogger",'S'),enableMenu=False,legend=True)
 		self.plot.setYRange(-1000,1000)
 
 
@@ -77,7 +78,7 @@ class AppWindow( QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.sensorEntries={}
 		for a in lst:
 			if a in supported:
-				action = self.scanMenu.addAction(sensorHints.get(a,['Unknown'])[0]+':%s'%hex(a), functools.partial(self.addSensor,supported[a],a))
+				action = self.scanMenu.addAction(sensorHints.get(a,[_translate("sensorlogger",'Unknown')])[0]+':%s'%hex(a), functools.partial(self.addSensor,supported[a],a))
 				self.sensorEntries[a] = [action,supported[a]]
 		self.scanMenu.exec_() #Re-open menu
 
@@ -109,7 +110,7 @@ class AppWindow( QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 
 	def createMenu(self,bridge):
 		label = self.TITLE(bridge.name[:15],removable=True,removeCallback = functools.partial(self.deleteSensor,bridge.ADDRESS))
-		menuButton = self.PUSHBUTTON('Options')
+		menuButton = self.PUSHBUTTON(_translate("sensorlogger",'Options'))
 		menu = QtGui.QMenu()
 		menuButton.setMenu(menu)
 
@@ -173,7 +174,7 @@ class AppWindow( QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 			else:
 				s = np.clip(dt*3., 0, 1)
 				self.fps = self.fps * (1-s) + (1.0/dt) * s
-			if not self.updatepos%100 :self.plot.setTitle('%0.2f fps' % (self.fps) )
+			if not self.updatepos%100 :self.plot.setTitle(_translate("sensorlogger",'%0.2f fps') % (self.fps) )
 
 
 

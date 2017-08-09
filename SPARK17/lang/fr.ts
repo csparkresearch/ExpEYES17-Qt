@@ -706,6 +706,14 @@
     </message>
 </context>
 <context>
+    <name>acgen</name>
+    <message>
+        <location filename="../experiments/acgen.py" line="25"/>
+        <source>Controls</source>
+        <translation>Contrôles</translation>
+    </message>
+</context>
+<context>
     <name>app</name>
     <message>
         <location filename="../spark17.py" line="67"/>
@@ -934,6 +942,293 @@
     </message>
 </context>
 <context>
+    <name>clamping</name>
+    <message>
+        <location filename="../experiments/clamping.py" line="25"/>
+        <source>time</source>
+        <translation>temps</translation>
+    </message>
+    <message>
+        <location filename="../experiments/clamping.py" line="59"/>
+        <source>S</source>
+        <translation>s</translation>
+    </message>
+    <message>
+        <location filename="../experiments/clamping.py" line="25"/>
+        <source>Voltage</source>
+        <translation>Tension</translation>
+    </message>
+    <message>
+        <location filename="../experiments/clamping.py" line="37"/>
+        <source>Controls</source>
+        <translation>Contrôles</translation>
+    </message>
+</context>
+<context>
+    <name>clipping</name>
+    <message>
+        <location filename="../experiments/clipping.py" line="28"/>
+        <source>Controls</source>
+        <translation>Contrôles</translation>
+    </message>
+</context>
+<context>
+    <name>data-logger</name>
+    <message>
+        <location filename="../experiments/data-logger.py" line="20"/>
+        <source>Parameters: A3</source>
+        <translation>Paramètres : A3</translation>
+    </message>
+    <message>
+        <location filename="../experiments/data-logger.py" line="21"/>
+        <source>Acquisition time: </source>
+        <translation>Temps d&apos;acquisition : </translation>
+    </message>
+    <message>
+        <location filename="../experiments/data-logger.py" line="21"/>
+        <source> S</source>
+        <translation> s</translation>
+    </message>
+    <message>
+        <location filename="../experiments/data-logger.py" line="22"/>
+        <source>Time per sample: </source>
+        <translation>Durée par échantillon : </translation>
+    </message>
+    <message>
+        <location filename="../experiments/data-logger.py" line="22"/>
+        <source> mS</source>
+        <translation> ms</translation>
+    </message>
+    <message>
+        <location filename="../experiments/data-logger.py" line="28"/>
+        <source>Initialize</source>
+        <translation>Initialiser</translation>
+    </message>
+    <message>
+        <location filename="../experiments/data-logger.py" line="29"/>
+        <source>Start Logging</source>
+        <translation>Commencer l&apos;enregistrement</translation>
+    </message>
+    <message>
+        <location filename="../experiments/data-logger.py" line="30"/>
+        <source>Stop Logging</source>
+        <translation>Arrêter l&apos;enregistrement</translation>
+    </message>
+    <message>
+        <location filename="../experiments/data-logger.py" line="31"/>
+        <source>Result:</source>
+        <translation>Résultats :</translation>
+    </message>
+    <message>
+        <location filename="../experiments/data-logger.py" line="34"/>
+        <source>Fit Data</source>
+        <translation>Ajuster les données</translation>
+    </message>
+    <message>
+        <location filename="../experiments/data-logger.py" line="41"/>
+        <source>time</source>
+        <translation>temps</translation>
+    </message>
+    <message>
+        <location filename="../experiments/data-logger.py" line="41"/>
+        <source>S</source>
+        <translation>s</translation>
+    </message>
+    <message>
+        <location filename="../experiments/data-logger.py" line="41"/>
+        <source>voltage</source>
+        <translation>tension</translation>
+    </message>
+    <message>
+        <location filename="../experiments/data-logger.py" line="58"/>
+        <source>Voltage:	%s</source>
+        <translation>Tension : %s</translation>
+    </message>
+    <message>
+        <location filename="../experiments/data-logger.py" line="79"/>
+        <source>fit failed. please acquire some data first</source>
+        <translation>échec de l&apos;ajustement. Veuillez acquérir plus de données</translation>
+    </message>
+    <message>
+        <location filename="../experiments/data-logger.py" line="90"/>
+        <source>Resonant Frequency = %5.2f Hz
+Damping = %5.3f</source>
+        <translation>Fréquence de résonance = %5.2f Hz
+Amortissement = %5.3f</translation>
+    </message>
+    <message>
+        <location filename="../experiments/data-logger.py" line="91"/>
+        <source>%s
+%s %5.3f</source>
+        <translation>%s
+%s %5.3f</translation>
+    </message>
+    <message>
+        <location filename="../experiments/data-logger.py" line="94"/>
+        <source>Failed to fit the curve </source>
+        <translation>Échec d&apos;ajustement de la courbe</translation>
+    </message>
+    <message>
+        <location filename="../experiments/data-logger.py" line="95"/>
+        <source>Fit Results</source>
+        <translation>Résultats de l&apos;ajustement</translation>
+    </message>
+</context>
+<context>
+    <name>diode-iv</name>
+    <message>
+        <location filename="../experiments/diode-IV.py" line="20"/>
+        <source>Parameters</source>
+        <translation>Paramètres</translation>
+    </message>
+    <message>
+        <location filename="../experiments/diode-IV.py" line="21"/>
+        <source>Start Voltage: </source>
+        <translation>Tension de départ : </translation>
+    </message>
+    <message>
+        <location filename="../experiments/diode-IV.py" line="22"/>
+        <source>Stop Voltage: </source>
+        <translation>Tension d&apos;arrêt : </translation>
+    </message>
+    <message>
+        <location filename="../experiments/diode-IV.py" line="23"/>
+        <source>Steps: </source>
+        <translation>Étapes :</translation>
+    </message>
+    <message>
+        <location filename="../experiments/diode-IV.py" line="26"/>
+        <source>acquisition time: </source>
+        <translation>durée d&apos;acquisition : </translation>
+    </message>
+    <message>
+        <location filename="../experiments/diode-IV.py" line="26"/>
+        <source> S</source>
+        <translation> s</translation>
+    </message>
+    <message>
+        <location filename="../experiments/diode-IV.py" line="30"/>
+        <source>Initialize</source>
+        <translation>Initialiser</translation>
+    </message>
+    <message>
+        <location filename="../experiments/diode-IV.py" line="31"/>
+        <source>Start Logging</source>
+        <translation>Commencer l&apos;enregistrement</translation>
+    </message>
+    <message>
+        <location filename="../experiments/diode-IV.py" line="32"/>
+        <source>Stop Logging</source>
+        <translation>Arrêter l&apos;enregistrement</translation>
+    </message>
+    <message>
+        <location filename="../experiments/diode-IV.py" line="34"/>
+        <source>Fit Data</source>
+        <translation>Ajuster les données</translation>
+    </message>
+    <message>
+        <location filename="../experiments/diode-IV.py" line="42"/>
+        <source>voltage</source>
+        <translation>tension</translation>
+    </message>
+    <message>
+        <location filename="../experiments/diode-IV.py" line="78"/>
+        <source>fit failed. please acquire some data first</source>
+        <translation>échec de l&apos;ajustement. Veuillez acquérir plus de données</translation>
+    </message>
+    <message>
+        <location filename="../experiments/diode-IV.py" line="90"/>
+        <source>Fitted with Diode Equation :
+Io = %s
+Ideality factor = %5.2f</source>
+        <translation>Ajustement de la diode par l&apos;équation :
+Io = %s
+Facteur d&apos;idéalité = %5.2f</translation>
+    </message>
+    <message>
+        <location filename="../experiments/diode-IV.py" line="91"/>
+        <source>%s
+%s
+IF=%5.1f</source>
+        <translation>%s
+%s
+IF=%5.1f</translation>
+    </message>
+    <message>
+        <location filename="../experiments/diode-IV.py" line="94"/>
+        <source>Failed to fit the curve </source>
+        <translation>Échec d&apos;ajustement de la courbe</translation>
+    </message>
+    <message>
+        <location filename="../experiments/diode-IV.py" line="95"/>
+        <source>Fit Results</source>
+        <translation>Résultats de l&apos;ajustement</translation>
+    </message>
+</context>
+<context>
+    <name>diode-iv-hysterisis</name>
+    <message>
+        <location filename="../experiments/diode-IV-hysterisis.py" line="22"/>
+        <source>Parameters</source>
+        <translation>Paramètres</translation>
+    </message>
+    <message>
+        <location filename="../experiments/diode-IV-hysterisis.py" line="23"/>
+        <source>Minimum Voltage: </source>
+        <translation>Tension de départ : </translation>
+    </message>
+    <message>
+        <location filename="../experiments/diode-IV-hysterisis.py" line="24"/>
+        <source>Maximum Voltage: </source>
+        <translation>Tension maximale : </translation>
+    </message>
+    <message>
+        <location filename="../experiments/diode-IV-hysterisis.py" line="25"/>
+        <source>Steps: </source>
+        <translation>Étapes :</translation>
+    </message>
+    <message>
+        <location filename="../experiments/diode-IV-hysterisis.py" line="27"/>
+        <source>Starting Voltage: </source>
+        <translation>Tension de départ : </translation>
+    </message>
+    <message>
+        <location filename="../experiments/diode-IV-hysterisis.py" line="28"/>
+        <source>acquisition time: </source>
+        <translation>durée d&apos;acquisition : </translation>
+    </message>
+    <message>
+        <location filename="../experiments/diode-IV-hysterisis.py" line="28"/>
+        <source> S</source>
+        <translation> s</translation>
+    </message>
+    <message>
+        <location filename="../experiments/diode-IV-hysterisis.py" line="32"/>
+        <source>Initialize</source>
+        <translation>Initialiser</translation>
+    </message>
+    <message>
+        <location filename="../experiments/diode-IV-hysterisis.py" line="33"/>
+        <source>Start Acquisition</source>
+        <translation>Lancer l&apos;acquisition</translation>
+    </message>
+    <message>
+        <location filename="../experiments/diode-IV-hysterisis.py" line="34"/>
+        <source>Stop Acquisition</source>
+        <translation>Arrêter l&apos;acquisition</translation>
+    </message>
+    <message>
+        <location filename="../experiments/diode-IV-hysterisis.py" line="44"/>
+        <source>voltage</source>
+        <translation>tension</translation>
+    </message>
+    <message>
+        <location filename="../experiments/diode-IV-hysterisis.py" line="44"/>
+        <source>current</source>
+        <translation>courant</translation>
+    </message>
+</context>
+<context>
     <name>ewn</name>
     <message>
         <location filename="../utilities/expeyesWidgetsNew.py" line="72"/>
@@ -1095,6 +1390,90 @@
     </message>
 </context>
 <context>
+    <name>fourier-test</name>
+    <message>
+        <location filename="../experiments/fourier-test.py" line="30"/>
+        <source>frequency</source>
+        <translation>fréquence</translation>
+    </message>
+    <message>
+        <location filename="../experiments/fourier-test.py" line="32"/>
+        <source>Pop-up FFT</source>
+        <translation>Pop-up FFT</translation>
+    </message>
+    <message>
+        <location filename="../experiments/fourier-test.py" line="33"/>
+        <source>Pop-up 3D FFT</source>
+        <translation>Pop-up 3D FFT</translation>
+    </message>
+    <message>
+        <location filename="../experiments/fourier-test.py" line="36"/>
+        <source>time</source>
+        <translation>temps</translation>
+    </message>
+    <message>
+        <location filename="../experiments/fourier-test.py" line="106"/>
+        <source>S</source>
+        <translation>s</translation>
+    </message>
+    <message>
+        <location filename="../experiments/fourier-test.py" line="36"/>
+        <source>MIC(loudness)</source>
+        <translation>MIC (volume)</translation>
+    </message>
+    <message>
+        <location filename="../experiments/fourier-test.py" line="58"/>
+        <source>Timebase</source>
+        <translation>Base de temps</translation>
+    </message>
+    <message>
+        <location filename="../experiments/fourier-test.py" line="60"/>
+        <source>Trigger</source>
+        <translation>Seuillage</translation>
+    </message>
+    <message>
+        <location filename="../experiments/fourier-test.py" line="69"/>
+        <source>Controls</source>
+        <translation>Contrôles</translation>
+    </message>
+    <message>
+        <location filename="../experiments/fourier-test.py" line="147"/>
+        <source>fft error</source>
+        <translation>erreur de FFT</translation>
+    </message>
+    <message>
+        <location filename="../experiments/fourier-test.py" line="154"/>
+        <source>Frequency</source>
+        <translation>Fréquence</translation>
+    </message>
+    <message>
+        <location filename="../experiments/fourier-test.py" line="31"/>
+        <source>FFT</source>
+        <translation>FFT</translation>
+    </message>
+    <message>
+        <location filename="../experiments/fourier-test.py" line="51"/>
+        <source>MIC_FFT</source>
+        <translation>MIC_FFT</translation>
+    </message>
+</context>
+<context>
+    <name>fullwave</name>
+    <message>
+        <location filename="../experiments/fullwave.py" line="31"/>
+        <source>Controls</source>
+        <translation>Contrôles</translation>
+    </message>
+</context>
+<context>
+    <name>halfwave</name>
+    <message>
+        <location filename="../experiments/halfwave.py" line="31"/>
+        <source>Controls</source>
+        <translation>Contrôles</translation>
+    </message>
+</context>
+<context>
     <name>oscilloscope</name>
     <message>
         <location filename="../experiments/oscilloscope.py" line="22"/>
@@ -1115,6 +1494,163 @@
         <location filename="../experiments/oscilloscope.py" line="40"/>
         <source>capturing at :%s</source>
         <translation>Capture à %s</translation>
+    </message>
+</context>
+<context>
+    <name>pendulum</name>
+    <message>
+        <location filename="../experiments/pendulum.py" line="20"/>
+        <source>Parameters</source>
+        <translation>Paramètres</translation>
+    </message>
+    <message>
+        <location filename="../experiments/pendulum.py" line="21"/>
+        <source>Acquisition time: </source>
+        <translation>Temps d&apos;acquisition : </translation>
+    </message>
+    <message>
+        <location filename="../experiments/pendulum.py" line="21"/>
+        <source> S</source>
+        <translation> s</translation>
+    </message>
+    <message>
+        <location filename="../experiments/pendulum.py" line="22"/>
+        <source>Time per sample: </source>
+        <translation>Durée par échantillon : </translation>
+    </message>
+    <message>
+        <location filename="../experiments/pendulum.py" line="22"/>
+        <source> mS</source>
+        <translation> ms</translation>
+    </message>
+    <message>
+        <location filename="../experiments/pendulum.py" line="28"/>
+        <source>Initialize</source>
+        <translation>Initialiser</translation>
+    </message>
+    <message>
+        <location filename="../experiments/pendulum.py" line="29"/>
+        <source>Start Logging</source>
+        <translation>Commencer l&apos;enregistrement</translation>
+    </message>
+    <message>
+        <location filename="../experiments/pendulum.py" line="30"/>
+        <source>Stop Logging</source>
+        <translation>Arrêter l&apos;enregistrement</translation>
+    </message>
+    <message>
+        <location filename="../experiments/pendulum.py" line="32"/>
+        <source>Fit Data</source>
+        <translation>Ajuster les données</translation>
+    </message>
+    <message>
+        <location filename="../experiments/pendulum.py" line="39"/>
+        <source>time</source>
+        <translation>temps</translation>
+    </message>
+    <message>
+        <location filename="../experiments/pendulum.py" line="39"/>
+        <source>S</source>
+        <translation>s</translation>
+    </message>
+    <message>
+        <location filename="../experiments/pendulum.py" line="39"/>
+        <source>voltage</source>
+        <translation>tension</translation>
+    </message>
+    <message>
+        <location filename="../experiments/pendulum.py" line="75"/>
+        <source>fit failed. please acquire some data first</source>
+        <translation>échec de l&apos;ajustement. Veuillez acquérir plus de données</translation>
+    </message>
+    <message>
+        <location filename="../experiments/pendulum.py" line="86"/>
+        <source>Resonant Frequency = %5.2f Hz
+Damping = %5.3f</source>
+        <translation>Fréquence de résonance = %5.2f Hz
+Amortissement = %5.3f</translation>
+    </message>
+    <message>
+        <location filename="../experiments/pendulum.py" line="87"/>
+        <source>%s
+%s %5.3f</source>
+        <translation>%s
+%s %5.3f</translation>
+    </message>
+    <message>
+        <location filename="../experiments/pendulum.py" line="90"/>
+        <source>Failed to fit the curve </source>
+        <translation>Échec d&apos;ajustement de la courbe</translation>
+    </message>
+    <message>
+        <location filename="../experiments/pendulum.py" line="91"/>
+        <source>Fit Results</source>
+        <translation>Résultats de l&apos;ajustement</translation>
+    </message>
+</context>
+<context>
+    <name>rc-circuit</name>
+    <message>
+        <location filename="../experiments/rc-circuit.py" line="20"/>
+        <source>Controls</source>
+        <translation>Contrôles</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rc-circuit.py" line="21"/>
+        <source>0V to 5V step</source>
+        <translation>Échelon de 0 à 5V</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rc-circuit.py" line="22"/>
+        <source>5V to 0V step</source>
+        <translation>Échelon de 5 à 0V</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rc-circuit.py" line="25"/>
+        <source>Calculate RC</source>
+        <translation>Calculer RC</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rc-circuit.py" line="32"/>
+        <source>time</source>
+        <translation>temps</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rc-circuit.py" line="32"/>
+        <source>S</source>
+        <translation>s</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rc-circuit.py" line="32"/>
+        <source>Voltage</source>
+        <translation>Tension</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rc-circuit.py" line="76"/>
+        <source>fit failed. please acquire some data first</source>
+        <translation>échec de l&apos;ajustement. Veuillez acquérir plus de données</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rc-circuit.py" line="87"/>
+        <source>RC time constant = %5.2f mSec
+New curve (%s_%5.2fmS) overlaid</source>
+        <translation>Constante de temps RC = %5.2f ms
+Nouvelle courbe (%s_%5.2f ms) superposée</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rc-circuit.py" line="88"/>
+        <source>%s_%5.2fmS</source>
+        <translation>%s_%5.2f ms</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rc-circuit.py" line="91"/>
+        <source>Failed to fit the curve with V=Vo*exp(-t/RC)</source>
+        <translation>Échec d&apos;ajustement de la courbe avec V=Vo*exp(-t/RC)</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rc-circuit.py" line="92"/>
+        <source>Fit Results</source>
+        <translation>Résultats de l&apos;ajustement</translation>
     </message>
 </context>
 <context>
@@ -1186,6 +1722,255 @@
     </message>
 </context>
 <context>
+    <name>rlc-discharge</name>
+    <message>
+        <location filename="../experiments/rlc-discharge.py" line="20"/>
+        <source>Controls</source>
+        <translation>Contrôles</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rlc-discharge.py" line="21"/>
+        <source>5V to 0V step</source>
+        <translation>Échelon de 5 à 0V</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rlc-discharge.py" line="23"/>
+        <source>Fit data</source>
+        <translation>Ajuster les données</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rlc-discharge.py" line="30"/>
+        <source>time</source>
+        <translation>temps</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rlc-discharge.py" line="30"/>
+        <source>S</source>
+        <translation>s</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rlc-discharge.py" line="30"/>
+        <source>Voltage</source>
+        <translation>Tension</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rlc-discharge.py" line="56"/>
+        <source>fit failed. please acquire some data first</source>
+        <translation>échec de l&apos;ajustement. Veuillez acquérir plus de données</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rlc-discharge.py" line="67"/>
+        <source>Resonant Frequency = %5.2f kHz
+Damping = %5.3f</source>
+        <translation>Fréquence de résonance = %5.2f Hz
+Amortissement = %5.3f</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rlc-discharge.py" line="68"/>
+        <source>%s_%5.2fHz</source>
+        <translation>%s_%5.2f Hz</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rlc-discharge.py" line="71"/>
+        <source>Failed to fit the curve </source>
+        <translation>Échec d&apos;ajustement de la courbe</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rlc-discharge.py" line="72"/>
+        <source>Fit Results</source>
+        <translation>Résultats de l&apos;ajustement</translation>
+    </message>
+</context>
+<context>
+    <name>rlc-steady</name>
+    <message>
+        <location filename="../experiments/rlc-steady.py" line="27"/>
+        <source>Follow crosshair</source>
+        <translation>Suivre le réticule</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rlc-steady.py" line="29"/>
+        <source>time</source>
+        <translation>temps</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rlc-steady.py" line="75"/>
+        <source>S</source>
+        <translation>s</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rlc-steady.py" line="29"/>
+        <source>Voltage</source>
+        <translation>Tension</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rlc-steady.py" line="52"/>
+        <source>Controls</source>
+        <translation>Contrôles</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rlc-steady.py" line="55"/>
+        <source>results:</source>
+        <translation>Résultats :</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rlc-steady.py" line="115"/>
+        <source>fit error</source>
+        <translation>erreur de FFT</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rlc-steady.py" line="132"/>
+        <source>A1: Total Voltage:</source>
+        <translation>A1 : tension totale :</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rlc-steady.py" line="132"/>
+        <source>A2: Voltage across R:</source>
+        <translation>A2 : tension aux bornes de R :</translation>
+    </message>
+    <message>
+        <location filename="../experiments/rlc-steady.py" line="132"/>
+        <source>A1-A2: Voltage across LC:</source>
+        <translation>A1-A2 : tnesion aux bornes de LC :</translation>
+    </message>
+</context>
+<context>
+    <name>scope3d</name>
+    <message>
+        <location filename="../experiments/scope3d.py" line="25"/>
+        <source>Pop-up 3D</source>
+        <translation>Pop-up 3D</translation>
+    </message>
+    <message>
+        <location filename="../experiments/scope3d.py" line="36"/>
+        <source>Voltage</source>
+        <translation>Tension</translation>
+    </message>
+    <message>
+        <location filename="../experiments/scope3d.py" line="39"/>
+        <source>time</source>
+        <translation>temps</translation>
+    </message>
+    <message>
+        <location filename="../experiments/scope3d.py" line="107"/>
+        <source>S</source>
+        <translation>s</translation>
+    </message>
+    <message>
+        <location filename="../experiments/scope3d.py" line="69"/>
+        <source>Output Controls</source>
+        <translation>Contrôles de sorties</translation>
+    </message>
+    <message>
+        <location filename="../experiments/scope3d.py" line="78"/>
+        <source>Save Data</source>
+        <translation>Enregistrer les données</translation>
+    </message>
+    <message>
+        <location filename="../experiments/scope3d.py" line="79"/>
+        <source>Pause</source>
+        <translation>Pause</translation>
+    </message>
+    <message>
+        <location filename="../experiments/scope3d.py" line="198"/>
+        <source>Fit</source>
+        <translation>Ajustement</translation>
+    </message>
+    <message>
+        <location filename="../experiments/scope3d.py" line="224"/>
+        <source>CAP: Inf</source>
+        <translation>CAP : Inf</translation>
+    </message>
+    <message>
+        <location filename="../experiments/scope3d.py" line="230"/>
+        <source>RES: NaN</source>
+        <translation>Rés : indéf</translation>
+    </message>
+    <message>
+        <location filename="../experiments/scope3d.py" line="236"/>
+        <source>FRQ: NaN</source>
+        <translation>Fréq : indéf</translation>
+    </message>
+    <message>
+        <location filename="../experiments/scope3d.py" line="222"/>
+        <source>CAP: </source>
+        <translation>CAP : </translation>
+    </message>
+    <message>
+        <location filename="../experiments/scope3d.py" line="228"/>
+        <source>RES: </source>
+        <translation>Rés : </translation>
+    </message>
+    <message>
+        <location filename="../experiments/scope3d.py" line="234"/>
+        <source>FRQ: </source>
+        <translation>Fréq : </translation>
+    </message>
+</context>
+<context>
+    <name>sensorlogger</name>
+    <message>
+        <location filename="../experiments/sensorLogger.py" line="31"/>
+        <source>Initialize</source>
+        <translation>Initialiser</translation>
+    </message>
+    <message>
+        <location filename="../experiments/sensorLogger.py" line="32"/>
+        <source>Auto Scan</source>
+        <translation>Scan auto</translation>
+    </message>
+    <message>
+        <location filename="../experiments/sensorLogger.py" line="34"/>
+        <source>Run Scan</source>
+        <translation>Lancer scan</translation>
+    </message>
+    <message>
+        <location filename="../experiments/sensorLogger.py" line="44"/>
+        <source>Controls</source>
+        <translation>Contrôles</translation>
+    </message>
+    <message>
+        <location filename="../experiments/sensorLogger.py" line="47"/>
+        <source>Samples :</source>
+        <translation>Échantillons :</translation>
+    </message>
+    <message>
+        <location filename="../experiments/sensorLogger.py" line="51"/>
+        <source>Start Logging</source>
+        <translation>Commencer l&apos;enregistrement</translation>
+    </message>
+    <message>
+        <location filename="../experiments/sensorLogger.py" line="52"/>
+        <source>Stop Logging</source>
+        <translation>Arrêter l&apos;enregistrement</translation>
+    </message>
+    <message>
+        <location filename="../experiments/sensorLogger.py" line="55"/>
+        <source>time</source>
+        <translation>temps</translation>
+    </message>
+    <message>
+        <location filename="../experiments/sensorLogger.py" line="55"/>
+        <source>S</source>
+        <translation>s</translation>
+    </message>
+    <message>
+        <location filename="../experiments/sensorLogger.py" line="81"/>
+        <source>Unknown</source>
+        <translation>Inconnu</translation>
+    </message>
+    <message>
+        <location filename="../experiments/sensorLogger.py" line="114"/>
+        <source>Options</source>
+        <translation>Options</translation>
+    </message>
+    <message>
+        <location filename="../experiments/sensorLogger.py" line="178"/>
+        <source>%0.2f fps</source>
+        <translation>%0.2f fps</translation>
+    </message>
+</context>
+<context>
     <name>simplescope</name>
     <message>
         <location filename="../experiments/simplescope.py" line="35"/>
@@ -1236,6 +2021,69 @@
         <location filename="../experiments/simplescope.py" line="217"/>
         <source>FRQ: NaN</source>
         <translation>Fréq : indéf</translation>
+    </message>
+</context>
+<context>
+    <name>sound-beats</name>
+    <message>
+        <location filename="../experiments/sound-beats.py" line="26"/>
+        <source>frequency</source>
+        <translation>fréquence</translation>
+    </message>
+    <message>
+        <location filename="../experiments/sound-beats.py" line="28"/>
+        <source>Pop-up FFT</source>
+        <translation>Pop-up FFT</translation>
+    </message>
+    <message>
+        <location filename="../experiments/sound-beats.py" line="31"/>
+        <source>time</source>
+        <translation>temps</translation>
+    </message>
+    <message>
+        <location filename="../experiments/sound-beats.py" line="96"/>
+        <source>S</source>
+        <translation>s</translation>
+    </message>
+    <message>
+        <location filename="../experiments/sound-beats.py" line="31"/>
+        <source>MIC(loudness)</source>
+        <translation>MIC (volume)</translation>
+    </message>
+    <message>
+        <location filename="../experiments/sound-beats.py" line="48"/>
+        <source>Timebase</source>
+        <translation>Base de temps</translation>
+    </message>
+    <message>
+        <location filename="../experiments/sound-beats.py" line="59"/>
+        <source>Controls</source>
+        <translation>Contrôles</translation>
+    </message>
+    <message>
+        <location filename="../experiments/sound-beats.py" line="128"/>
+        <source>fft error</source>
+        <translation>erreur de FFT</translation>
+    </message>
+    <message>
+        <location filename="../experiments/sound-beats.py" line="135"/>
+        <source>Frequency</source>
+        <translation>Fréquence</translation>
+    </message>
+    <message>
+        <location filename="../experiments/sound-beats.py" line="27"/>
+        <source>FFT</source>
+        <translation>FFT</translation>
+    </message>
+    <message>
+        <location filename="../experiments/sound-beats.py" line="33"/>
+        <source>MIC</source>
+        <translation>MIC</translation>
+    </message>
+    <message>
+        <location filename="../experiments/sound-beats.py" line="41"/>
+        <source>MIC_FFT</source>
+        <translation>MIC_FFT</translation>
     </message>
 </context>
 <context>
@@ -1321,6 +2169,107 @@ Amortissement = %5.3f</translation>
     </message>
     <message>
         <location filename="../experiments/sr04-dist.py" line="93"/>
+        <source>Fit Results</source>
+        <translation>Résultats de l&apos;ajustement</translation>
+    </message>
+</context>
+<context>
+    <name>transistor-ce</name>
+    <message>
+        <location filename="../experiments/transistor-CE.py" line="20"/>
+        <source>Parameters</source>
+        <translation>Paramètres</translation>
+    </message>
+    <message>
+        <location filename="../experiments/transistor-CE.py" line="21"/>
+        <source>Start Voltage: </source>
+        <translation>Tension de départ : </translation>
+    </message>
+    <message>
+        <location filename="../experiments/transistor-CE.py" line="22"/>
+        <source>Stop Voltage: </source>
+        <translation>Tension d&apos;arrêt : </translation>
+    </message>
+    <message>
+        <location filename="../experiments/transistor-CE.py" line="23"/>
+        <source>Steps: </source>
+        <translation>Étapes :</translation>
+    </message>
+    <message>
+        <location filename="../experiments/transistor-CE.py" line="25"/>
+        <source>Base Voltage: </source>
+        <translation>Tension de base : </translation>
+    </message>
+    <message>
+        <location filename="../experiments/transistor-CE.py" line="28"/>
+        <source>acquisition time: </source>
+        <translation>durée d&apos;acquisition : </translation>
+    </message>
+    <message>
+        <location filename="../experiments/transistor-CE.py" line="28"/>
+        <source> S</source>
+        <translation> s</translation>
+    </message>
+    <message>
+        <location filename="../experiments/transistor-CE.py" line="32"/>
+        <source>Initialize</source>
+        <translation>Initialiser</translation>
+    </message>
+    <message>
+        <location filename="../experiments/transistor-CE.py" line="33"/>
+        <source>Start Logging</source>
+        <translation>Commencer l&apos;enregistrement</translation>
+    </message>
+    <message>
+        <location filename="../experiments/transistor-CE.py" line="34"/>
+        <source>Stop Logging</source>
+        <translation>Arrêter l&apos;enregistrement</translation>
+    </message>
+    <message>
+        <location filename="../experiments/transistor-CE.py" line="36"/>
+        <source>Fit Data</source>
+        <translation>Ajuster les données</translation>
+    </message>
+    <message>
+        <location filename="../experiments/transistor-CE.py" line="44"/>
+        <source>voltage</source>
+        <translation>tension</translation>
+    </message>
+    <message>
+        <location filename="../experiments/transistor-CE.py" line="44"/>
+        <source>current</source>
+        <translation>courant</translation>
+    </message>
+    <message>
+        <location filename="../experiments/transistor-CE.py" line="83"/>
+        <source>fit failed. please acquire some data first</source>
+        <translation>échec de l&apos;ajustement. Veuillez acquérir plus de données</translation>
+    </message>
+    <message>
+        <location filename="../experiments/transistor-CE.py" line="95"/>
+        <source>Fitted with Diode Equation :
+Io = %s
+Ideality factor = %5.2f</source>
+        <translation>Ajustement de la diode par l&apos;équation :
+Io = %s
+Facteur d&apos;idéalité = %5.2f</translation>
+    </message>
+    <message>
+        <location filename="../experiments/transistor-CE.py" line="96"/>
+        <source>%s
+%s
+IF=%5.1f</source>
+        <translation>%s
+%s
+IF=%5.1f</translation>
+    </message>
+    <message>
+        <location filename="../experiments/transistor-CE.py" line="99"/>
+        <source>Failed to fit the curve </source>
+        <translation>Échec d&apos;ajustement de la courbe</translation>
+    </message>
+    <message>
+        <location filename="../experiments/transistor-CE.py" line="100"/>
         <source>Fit Results</source>
         <translation>Résultats de l&apos;ajustement</translation>
     </message>

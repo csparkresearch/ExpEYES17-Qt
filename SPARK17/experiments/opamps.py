@@ -5,6 +5,7 @@ from ..utilities.expeyesWidgetsNew import expeyesWidgets
 
 
 import sys,time,functools,os
+_translate = QtCore.QCoreApplication.translate
 
 class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	subsection = 'apps'
@@ -22,7 +23,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 
 		self.TIMEBASE()
 		self.TRIGGER()
-		self.TITLE('Controls')
+		self.TITLE(opamps)
 		self.sineW = self.SINE()
 		self.sineW.setValue(1500)
 		self.pv1W = self.PV1()

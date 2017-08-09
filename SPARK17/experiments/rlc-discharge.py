@@ -5,6 +5,7 @@ from ..utilities.expeyesWidgetsNew import expeyesWidgets
 
 import sys,time,os
 import numpy as np
+_translate = QtCore.QCoreApplication.translate
 
 class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	subsection = 'apps'
@@ -16,17 +17,17 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.widgetLayout.setAlignment(QtCore.Qt.AlignTop)
 		self.widgets.setMinimumWidth(250)
 		
-		self.TITLE('Controls')
-		self.PUSHBUTTON('5V to 0V step' , self.FiveToZero)
+		self.TITLE(_translate("rlc-discharge",'Controls'))
+		self.PUSHBUTTON(_translate("rlc-discharge",'5V to 0V step') , self.FiveToZero)
 		self.SPACER(10)
-		self.PUSHBUTTON('Fit data' , self.calcRLC)
+		self.PUSHBUTTON(_translate("rlc-discharge",'Fit data') , self.calcRLC)
 		self.tb = self.timebaseWidget(self.getSamples,self.setTimebase); self.widgetLayout.addWidget(self.tb)
 
 		self.p.I.select_range('A1',8)
 		self.samples = 200;self.timebase = 2
 		self.xdata=None;self.ydata=None
 
-		self.plot = self.newPlot([],detailedWidget=True,xMin=0,xMax = self.timebase*self.samples, bottomLabel = 'time',bottomUnits='S',leftLabel = 'Voltage',leftUnits='V',enableMenu=False,legend=True,autoRange='y')
+		self.plot = self.newPlot([],detailedWidget=True,xMin=0,xMax = self.timebase*self.samples, bottomLabel = _translate("rlc-discharge",'time'),bottomUnits=_translate("rlc-discharge",'S'),leftLabel = _translate("rlc-discharge",'Voltage'),leftUnits='V',enableMenu=False,legend=True,autoRange='y')
 		self.plot.setYRange(-5,5)
 
 		self.region = self.addRegion(self.plot,0,9*4./10)
@@ -52,7 +53,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 			self.curve.setData(self.xdata*1e-3,self.ydata) #mS to Seconds
 
 	def calcRLC(self):
-		msg = 'fit failed. please acquire some data first'
+		msg = _translate("rlc-discharge",'fit failed. please acquire some data first')
 		if self.xdata is not None:
 			start,end=self.region.getRegion()
 			leftIndex = (np.abs(self.xdata*1e-3-start)).argmin()
@@ -63,16 +64,9 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 				pa = fa[1]
 				rc = 1.0 / pa[1]
 				damping = pa[4] / (2*np.pi*pa[1]) # unitless damping factor
-				msg = 'Resonant Frequency = %5.2f kHz\nDamping = %5.3f'%(pa[1], damping)
-				fitcurve = self.addCurve(self.plot,'%s_%5.2fHz'%(self.curve.name(),pa[1]),'#fff')
+				msg = _translate("rlc-discharge",'Resonant Frequency = %5.2f kHz\nDamping = %5.3f')%(pa[1], damping)
+				fitcurve = self.addCurve(self.plot,_translate("rlc-discharge",'%s_%5.2fHz')%(self.curve.name(),pa[1]),'#fff')
 				fitcurve.setData(self.xdata[leftIndex:rightIndex]*1e-3,fa[0])
 			else:
-				msg = 'Failed to fit the curve '
-		QtGui.QMessageBox.information(self, 'Fit Results', msg)
-
-
-
-
-
-
-
+				msg = _translate("rlc-discharge",'Failed to fit the curve ')
+		QtGui.QMessageBox.information(self, _translate("rlc-discharge",'Fit Results'), msg)

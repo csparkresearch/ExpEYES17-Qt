@@ -28,7 +28,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.acquisition_channel = 'A1'
 
 		self.fftPlot = self.addPlot(yMin=-0,yMax=8, disableAutoRange = 'x',bottomLabel=_translate("fourier-test",'frequency'),bottomUnits='Hz',enableMenu=False,hideAxes='y')
-		self.fftPlot.setXRange(2000,4000); self.fftPlot.setTitle(_TRANSLATE("fourier-test",'FFT'))
+		self.fftPlot.setXRange(2000,4000); self.fftPlot.setTitle(_translate("fourier-test",'FFT'))
 		self.pop = self.PUSHBUTTON(_translate("fourier-test",'Pop-up FFT'),self.popup)
 		self.pop = self.PUSHBUTTON(_translate("fourier-test",'Pop-up 3D FFT'),self.popup3d)
 
@@ -48,7 +48,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		#self.phasorplot.addItem(self.fitLabel)
 		#self.fitLabel.setPos(-4,4)
 		self.plot2Layout.addWidget(self.fftPlot)
-		self.pfft = self.addCurve(self.fftPlot,_TRANSLATE("fourier-test",'MIC_FFT'),'#FFF',False)
+		self.pfft = self.addCurve(self.fftPlot,_translate("fourier-test",'MIC_FFT'),'#FFF',False)
 		
 		#Add a vertical spacer in the widgetLayout . about 0.5cm
 		self.SPACER(20)

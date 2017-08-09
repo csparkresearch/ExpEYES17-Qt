@@ -24,13 +24,13 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.acquisition_channel = 'MIC'
 
 		self.fftPlot = self.addPlot(yMin=-0,yMax=4, disableAutoRange = 'x',bottomLabel=_translate("sound-beats",'frequency'),bottomUnits='Hz',enableMenu=False,hideAxes='y')
-		self.fftPlot.setXRange(2000,4000); self.fftPlot.setTitle(_TRANSLATE("sound-beats",'FFT'))
+		self.fftPlot.setXRange(2000,4000); self.fftPlot.setTitle(_translate("sound-beats",'FFT'))
 		self.pop = self.PUSHBUTTON(_translate("sound-beats",'Pop-up FFT'),self.popup)
 
 
 		self.plot = self.newPlot([],xMin=0, bottomLabel = _translate("sound-beats",'time'),bottomUnits=_translate("sound-beats",'S'),leftLabel = _translate("sound-beats",'MIC(loudness)'),leftUnits='V',enableMenu=False,legend=True,autoRange='y')
 		self.addCrosshair(self.plot,self.updateLabels,'y');self.plot.setTitle('_')
-		self.MIC = self.addCurve(self.plot,_TRANSLATE("sound-beats",'MIC'),'#FFF')
+		self.MIC = self.addCurve(self.plot,_translate("sound-beats",'MIC'),'#FFF')
 		self.plot.setYRange(-3.2,3.2)
 		self.popupFFT=None
 
@@ -38,7 +38,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		#self.phasorplot.addItem(self.fitLabel)
 		#self.fitLabel.setPos(-4,4)
 		self.plot2Layout.addWidget(self.fftPlot)
-		self.pfft = self.addCurve(self.fftPlot,_TRANSLATE("sound-beats",'MIC_FFT'),'#FFF',False)
+		self.pfft = self.addCurve(self.fftPlot,_translate("sound-beats",'MIC_FFT'),'#FFF',False)
 		
 		#Add a vertical spacer in the widgetLayout . about 0.5cm
 		self.SPACER(20)

@@ -7,6 +7,7 @@ import pyqtgraph as pg
 
 import sys,time,functools,os
 import numpy as np
+_translate = QtCore.QCoreApplication.translate
 
 class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	subsection = 'apps'
@@ -23,9 +24,9 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.p.I.select_range('A1',4)
 		self.p.I.select_range('A2',4)
 		self.fitresults=[None,None,None]
-		self.phasorCheck = self.CHECKBOX('Follow crosshair')
+		self.phasorCheck = self.CHECKBOX(_translate("rlc-steady",'Follow crosshair'))
 		
-		self.plot = self.newPlot([],xMin=0,xMax = self.timebase*self.samples, bottomLabel = 'time',bottomUnits='S',leftLabel = 'Voltage',leftUnits='V',enableMenu=False,legend=True,autoRange='y')
+		self.plot = self.newPlot([],xMin=0,xMax = self.timebase*self.samples, bottomLabel = _translate("rlc-steady",'time'),bottomUnits=_translate("rlc-steady",'S'),leftLabel = _translate("rlc-steady",'Voltage'),leftUnits='V',enableMenu=False,legend=True,autoRange='y')
 		self.addCrosshair(self.plot,self.updateLabels,'y');self.plot.setTitle('_')
 		self.A1 = self.addCurve(self.plot,'A1','#FFF')
 		self.A2 = self.addCurve(self.plot,'A2','#F00')
@@ -48,10 +49,10 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 
 		# ADD A SINE WIDGET SLIDER WITH NUMBERIC INPUT to the widgetLayout
 		#self.TRIGGER()
-		self.TITLE('Controls')
+		self.TITLE(_translate("rlc-steady",'Controls'))
 		self.tb = self.timebaseWidget(self.getSamples,self.setTimebase); self.widgetLayout.addWidget(self.tb)
 		self.SW = self.SINE();self.SW.setValue(200.)
-		self.dataLabel = self.LABEL('results:')
+		self.dataLabel = self.LABEL(_translate("rlc-steady",'results:'))
 		
 		self.tb.slider.setValue(6) 
 		self.timer = self.newTimer()
@@ -71,7 +72,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 			except:
 				return
 			if index > 0 and index < len(self.x):
-				self.plot.plotItem.titleLabel.setText("<span style='font-size: 12pt'>x=%s,   <span style='color: white'>y1=%0.1f</span>,   <span style='color: red'>y2=%0.1f</span>,   <span style='color: cyan'>y2=%0.1f</span>" % (self.applySIPrefix(self.x[index],'S'), self.y1[index], self.y2[index], self.y3[index]))
+				self.plot.plotItem.titleLabel.setText("<span style='font-size: 12pt'>x=%s,   <span style='color: white'>y1=%0.1f</span>,   <span style='color: red'>y2=%0.1f</span>,   <span style='color: cyan'>y2=%0.1f</span>" % (self.applySIPrefix(self.x[index],_translate("rlc-steady",'S')), self.y1[index], self.y2[index], self.y3[index]))
 				self.updatePhasor()
 	def getSamples(self):
 		return self.samples
@@ -111,7 +112,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 							#self.myCurveWidgets[A].fit.setText(s)
 			except Exception as e:
 					self.fitresults.append(None)
-					print ('fit error',e.message)
+					print (_translate("rlc-steady",'fit error'),e.message)
 			num+=1
 		self.counter+=1
 		self.updatePhasor()
@@ -127,7 +128,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		msg2=u''
 		if self.fitresults[0]:
 			msg2 = u"<span style='color: magenta;font-size:12px;'>Frequency: %5.2f Hz</span><br>"%(self.fitresults[0][1])
-		for data,b in zip(self.fitresults,['A1: Total Voltage:','A2: Voltage across R:','A1-A2: Voltage across LC:']):
+		for data,b in zip(self.fitresults,[_translate("rlc-steady",'A1: Total Voltage:'),_translate("rlc-steady",'A2: Voltage across R:'),_translate("rlc-steady",'A1-A2: Voltage across LC:')]):
 			if data is not None:
 				frq = data[1]
 				if num==0:	phaseInit = data[2]

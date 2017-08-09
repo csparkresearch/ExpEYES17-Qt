@@ -8,6 +8,7 @@ import sys,time,functools,os
 
 import pyqtgraph as pg
 from collections import OrderedDict
+_translate = QtCore.QCoreApplication.translate
 
 class AppWindow(QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	subsection = 'apps'
@@ -21,7 +22,7 @@ class AppWindow(QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		from ..utilities.pg3d import pg3dWidgets
 		self.PLOT3D = pg3dWidgets()
 		self.num3d=0;self.MAX3D = 100;self.DATA3D=[];self.popup3d = None
-		self.pop = self.PUSHBUTTON('Pop-up 3D',self.popup3dPlot)
+		self.pop = self.PUSHBUTTON(_translate("scope3d",'Pop-up 3D'),self.popup3dPlot)
 
 
 		self.timebase = 4
@@ -32,10 +33,10 @@ class AppWindow(QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		#ydict = {-4:'-4\n-2',-3:'-3',-2:'-2',-1:'-1',0:'0',1:'1',2:'2',3:'3',4:''}
 		ydict = {-4:'',-3:'',-2:'',-1:'',0:'',1:'',2:'',3:'',4:''}
 		stringaxis.setTicks([ydict.items()])
-		stringaxis.setLabel('Voltage',**{'color': '#FFF', 'font-size': '9pt'})
+		stringaxis.setLabel(_translate("scope3d",'Voltage'),**{'color': '#FFF', 'font-size': '9pt'})
 		stringaxis.setWidth(15)
 
-		self.plot   = self.addPlot(xMin=0,xMax=self.xmax,yMin=-4,yMax=4, disableAutoRange = 'y',bottomLabel = 'time',bottomUnits='S',enableMenu=False,legend=True,leftAxis=stringaxis,enableYAxis=False,**kwargs)
+		self.plot   = self.addPlot(xMin=0,xMax=self.xmax,yMin=-4,yMax=4, disableAutoRange = 'y',bottomLabel = _translate("scope3d",'time'),bottomUnits=_translate("scope3d",'S'),enableMenu=False,legend=True,leftAxis=stringaxis,enableYAxis=False,**kwargs)
 		self.addCrosshair(self.plot,self.updateLabels,'y');self.plot.setTitle('_')
 		self.plot.setMouseEnabled(False,True)
 		self.plotLayout.addWidget(self.plot)
@@ -65,7 +66,7 @@ class AppWindow(QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.TRIGGER()
 
 		# ADD A SINE WIDGET SLIDER WITH NUMBERIC INPUT to the widgetLayout
-		self.TITLE('Output Controls')
+		self.TITLE(_translate("scope3d",'Output Controls'))
 		self.PV1();self.PV2();
 		self.SW = self.SINE();self.SW.setValue(1500.)
 		self.SQR1();
@@ -74,8 +75,8 @@ class AppWindow(QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.widgetLayout.addWidget(self.rbks)
 		self.SPACER(20)
 		
-		self.sv = self.PUSHBUTTON('Save Data',self.savePlots)
-		self.paused = self.CHECKBOX('Pause')
+		self.sv = self.PUSHBUTTON(_translate("scope3d",'Save Data'),self.savePlots)
+		self.paused = self.CHECKBOX(_translate("scope3d",'Pause'))
 		self.lastUpdateTime = time.time()
 		self.timer = self.newTimer()
 		self.setTimeout(self.timer,100,self.update)
@@ -103,7 +104,7 @@ class AppWindow(QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 				index = np.abs(self.x-mousePoint.x()).argmin()
 			except:
 				return
-			msg = "<span >x=%s :[</span>"%self.applySIPrefix(self.x[index],'S')
+			msg = "<span >x=%s :[</span>"%self.applySIPrefix(self.x[index],_translate("scope3d",'S'))
 			if index > 0 and index < len(self.x):
 				for A in self.traceData:
 					msg+="<span style='color: rgb%s'>%s:%0.1f </span>"%(self.cols[A],A,self.currentRange[A]*self.traceData[A][1][index]/4)
@@ -194,7 +195,7 @@ class AppWindow(QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 							#print (e.message)
 							self.showStatus (e.message,True)
 							pass
-				else: self.myCurveWidgets[A].fit.setText('Fit')
+				else: self.myCurveWidgets[A].fit.setText(_translate("scope3d",'Fit'))
 				#3d plot
 
 				if ((self.popup3d is not None) and A=='A1'):
@@ -218,21 +219,21 @@ class AppWindow(QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		#self.showStatus('%s : %s'%(name,str(res)))
 		if 'capacitance' in name:
 			if res<500e-6: ##500uF limit
-				txt = 'CAP: '+self.applySIPrefix(res,'F',2)
+				txt = _translate("scope3d",'CAP: ')+self.applySIPrefix(res,'F',2)
 			else :
-				txt = 'CAP: Inf'
+				txt = _translate("scope3d",'CAP: Inf')
 			self.rbks.capLabel.setText(txt)
 		elif 'resistance' in name:
 			if res<10e6: ##10 meg
-				txt = 'RES: '+self.applySIPrefix(res,u"\u03A9",2)
+				txt = _translate("scope3d",'RES: ')+self.applySIPrefix(res,u"\u03A9",2)
 			else :
-				txt = 'RES: NaN'
+				txt = _translate("scope3d",'RES: NaN')
 			self.rbks.resLabel.setText(txt)
 		elif 'freq' in name:
 			if res<20e6: ##10 meg
-				txt = 'FRQ: '+self.applySIPrefix(res,'Hz',2)
+				txt = _translate("scope3d",'FRQ: ')+self.applySIPrefix(res,'Hz',2)
 			else :
-				txt = 'FRQ: NaN'
+				txt = _translate("scope3d",'FRQ: NaN')
 			self.rbks.freqLabel.setText(txt)
 
 	def popup3dPlot(self):

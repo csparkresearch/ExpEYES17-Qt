@@ -6,6 +6,7 @@ from ..utilities.expeyesWidgetsNew import expeyesWidgets
 import numpy as np
 
 import sys,time,functools,os
+_translate = QtCore.QCoreApplication.translate
 
 class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	subsection = 'apps'
@@ -21,7 +22,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.samples = 200
 		self.timebase = 2
 		
-		self.plot = self.newPlot([],xMin=0,xMax = self.timebase*self.samples, bottomLabel = 'time',bottomUnits='S',leftLabel = 'Voltage',leftUnits='V',enableMenu=False,legend=True,enableYAxis=False)
+		self.plot = self.newPlot([],xMin=0,xMax = self.timebase*self.samples, bottomLabel = _translate("clamping",'time'),bottomUnits=_translate("clamping",'S'),leftLabel = _translate("clamping",'Voltage'),leftUnits='V',enableMenu=False,legend=True,enableYAxis=False)
 		self.addCrosshair(self.plot,self.updateLabels,'y');self.plot.setTitle('_')
 		self.A1 = self.addCurve(self.plot,'A1','#FFF')
 		self.A2 = self.addCurve(self.plot,'A2','#F00')
@@ -33,7 +34,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.tb = self.timebaseWidget(self.getSamples,self.setTimebase); self.widgetLayout.addWidget(self.tb)
 		self.tb.slider.setValue(2)
 		# ADD A SINE WIDGET SLIDER WITH NUMBERIC INPUT to the widgetLayout
-		self.TITLE('Controls')
+		self.TITLE(_translate("clamping",'Controls'))
 		self.pvW=self.PV1()
 		self.pvW.setValue(-3)
 
@@ -55,7 +56,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 			#self.plot.hLine.setPos(mousePoint.y())
 			index = np.abs(self.x-mousePoint.x()).argmin()
 			if index > 0 and index < len(self.x):
-				self.plot.plotItem.titleLabel.setText("<span style='font-size: 12pt'>x=%s,   <span style='color: white'>y1=%0.1f</span>,   <span style='color: red'>y2=%0.1f</span>" % (self.applySIPrefix(self.x[index],'S'), self.y1[index], self.y2[index]))
+				self.plot.plotItem.titleLabel.setText("<span style='font-size: 12pt'>x=%s,   <span style='color: white'>y1=%0.1f</span>,   <span style='color: red'>y2=%0.1f</span>" % (self.applySIPrefix(self.x[index],_translate("clamping",'S')), self.y1[index], self.y2[index]))
 
 	def getSamples(self):
 		return self.samples

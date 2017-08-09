@@ -5,6 +5,7 @@ from ..utilities.expeyesWidgetsNew import expeyesWidgets
 
 import sys,time,os
 import numpy as np
+_translate = QtCore.QCoreApplication.translate
 
 class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	subsection = 'apps'
@@ -16,19 +17,19 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.widgetLayout.setAlignment(QtCore.Qt.AlignTop)
 		self.widgets.setMinimumWidth(250)
 		
-		self.TITLE('Controls')
-		self.PUSHBUTTON('0V to 5V step' , self.ZeroToFive)
-		self.PUSHBUTTON('5V to 0V step' , self.FiveToZero)
+		self.TITLE(_translate("rc-circuit",'Controls'))
+		self.PUSHBUTTON(_translate("rc-circuit",'0V to 5V step') , self.ZeroToFive)
+		self.PUSHBUTTON(_translate("rc-circuit",'5V to 0V step') , self.FiveToZero)
 		#self.PUSHBUTTON('CC Charge' , self.CCCharge)
 		self.SPACER(10)
-		self.PUSHBUTTON('Calculate RC' , self.calcRC)
+		self.PUSHBUTTON(_translate("rc-circuit",'Calculate RC') , self.calcRC)
 		self.tb = self.timebaseWidget(self.getSamples,self.setTimebase); self.widgetLayout.addWidget(self.tb)
 
 		self.p.I.select_range('A1',8)
 		self.samples = 200;self.timebase = 2
 		self.xdata=None;self.ydata=None
 
-		self.plot = self.newPlot([],detailedWidget=True,xMin=0,xMax = self.timebase*self.samples, bottomLabel = 'time',bottomUnits='S',leftLabel = 'Voltage',leftUnits='V',enableMenu=False,legend=True,autoRange='y')
+		self.plot = self.newPlot([],detailedWidget=True,xMin=0,xMax = self.timebase*self.samples, bottomLabel = _translate("rc-circuit",'time'),bottomUnits=_translate("rc-circuit",'S'),leftLabel = _translate("rc-circuit",'Voltage'),leftUnits='V',enableMenu=False,legend=True,autoRange='y')
 		self.plot.setYRange(0,5)
 
 		self.region = self.addRegion(self.plot,0,9*4./10)
@@ -72,7 +73,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 			self.curve.setData(self.xdata*1e-3,self.ydata) #mS to Seconds
 
 	def calcRC(self):
-		msg = 'fit failed. please acquire some data first'
+		msg = _translate("rc-circuit",'fit failed. please acquire some data first')
 		if self.xdata is not None:
 			start,end=self.region.getRegion()
 			leftIndex = (np.abs(self.xdata*1e-3-start)).argmin()
@@ -83,16 +84,9 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 			if fa != None:
 				pa = fa[1]
 				rc = np.abs(1.0 / pa[1])
-				msg = 'RC time constant = %5.2f mSec\nNew curve (%s_%5.2fmS) overlaid'%(rc,self.curve.name(),rc)
-				fitcurve = self.addCurve(self.plot,'%s_%5.2fmS'%(self.curve.name(),rc),'#fff')
+				msg = _translate("rc-circuit",'RC time constant = %5.2f mSec\nNew curve (%s_%5.2fmS) overlaid')%(rc,self.curve.name(),rc)
+				fitcurve = self.addCurve(self.plot,_translate("rc-circuit",'%s_%5.2fmS')%(self.curve.name(),rc),'#fff')
 				fitcurve.setData(self.xdata[leftIndex:rightIndex]*1e-3,fa[0])
 			else:
-				msg = 'Failed to fit the curve with V=Vo*exp(-t/RC)'
-		QtGui.QMessageBox.information(self, 'Fit Results', msg)
-
-
-
-
-
-
-
+				msg = _translate("rc-circuit",'Failed to fit the curve with V=Vo*exp(-t/RC)')
+		QtGui.QMessageBox.information(self, _translate("rc-circuit",'Fit Results'), msg)

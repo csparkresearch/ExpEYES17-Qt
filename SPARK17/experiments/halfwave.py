@@ -5,6 +5,7 @@ from ..utilities.expeyesWidgetsNew import expeyesWidgets
 
 
 import sys,time,functools,os
+_translate = QtCore.QCoreApplication.translate
 
 class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 	subsection = 'apps'
@@ -27,7 +28,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		# ADD A SINE WIDGET SLIDER WITH NUMBERIC INPUT to the widgetLayout
 		self.TIMEBASE()
 		self.TRIGGER()
-		self.TITLE('Controls')
+		self.TITLE(_translate("halfwave",'Controls'))
 		self.SINE()
 		self.IMAGE(os.path.join('pics','halfwave.png'))
 		
