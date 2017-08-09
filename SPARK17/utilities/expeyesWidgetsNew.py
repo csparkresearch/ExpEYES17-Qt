@@ -517,7 +517,7 @@ class expeyesWidgets(object):
 			C = self.curveRefs[str(self.traceList.currentText())]
 			if C is not None:
 				C.opts['pen'].setColor(btn)
-				self.editBtn.setStyleSheet("border:5px solid %s;"%btn.name())
+				self.editBtn.setStyleSheet("font-size: 14px; border:5px solid %s;" %btn.name())
 
 		def changeStyle(self,style):
 			C = self.curveRefs[str(self.traceList.currentText())]

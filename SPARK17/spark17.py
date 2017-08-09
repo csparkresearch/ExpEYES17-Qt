@@ -161,7 +161,7 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 		############ MAKE AN EXIT BUTTON AND STYLE IT. SHOULD IDEALLY BE DONE IN THE LAYOUT.UI FILE USING QT4-DESIGNER.
 		self.exitBtn = QtWidgets.QPushButton("EXIT")
 		self.exitBtn.clicked.connect(self.askBeforeQuit)
-		self.exitBtn.setStyleSheet("height: 10px;padding:3px;color: #FF2222;")
+		self.exitBtn.setStyleSheet("height: 10px; font-size: 8px; padding:3px; color: #FF2222;")
 		self.statusBar.addPermanentWidget(self.exitBtn)
 
 		self.menuLoad = QtWidgets.QMenu(self.menuBar)

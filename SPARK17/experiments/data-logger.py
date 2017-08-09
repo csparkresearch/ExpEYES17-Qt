@@ -29,7 +29,7 @@ class AppWindow( QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.PUSHBUTTON(_translate("data-logger",'Start Logging') , self.start)
 		self.PUSHBUTTON(_translate("data-logger",'Stop Logging') , self.stop)
 		self.valLabel = self.LABEL(_translate("data-logger",'Result:'))
-		self.valLabel.setStyleSheet('font-size:14pt')
+		self.valLabel.setStyleSheet('font-size: 12px;')
 		self.SPACER(20)
 		self.PUSHBUTTON(_translate("data-logger",'Fit Data') , self.fit_curve)
 		self.activeCurve= None
