@@ -991,6 +991,8 @@ class expeyesWidgets(object):
 		def __init__(self,name,**kwargs):
 			super(expeyesWidgets.labelWidget, self).__init__()
 			self.setText(name)
+			self.setStyleSheet("font-size: 16px;")
+
 		def delete(self):
 			self.deleteLater()
 			self.setParent(None)
@@ -1007,6 +1009,7 @@ class expeyesWidgets(object):
 		def __init__(self,name,callback=None,**kwargs):
 			super(expeyesWidgets.checkBoxWidget, self).__init__()
 			self.setText(name)
+			self.setStyleSheet("font-size: 16px;")
 			self.callback = callback
 			if self.callback:self.clicked[bool].connect(self.callback)
 		def delete(self):
@@ -1038,6 +1041,8 @@ class expeyesWidgets(object):
 	class spinBoxWidget(QtWidgets.QSpinBox):
 		def __init__(self,**kwargs):
 			super(expeyesWidgets.spinBoxWidget, self).__init__()
+			self.setStyleSheet("font-size: 16px;")
+
 		def delete(self):
 			self.deleteLater()
 			self.setParent(None)
@@ -1151,6 +1156,7 @@ class expeyesWidgets(object):
 
 			self.slider.valueChanged.connect(self.sliderChanged)
 			self.spinbox.valueChanged.connect(self.spinboxChanged)
+			self.setStyleSheet("font-size: 16px;")
 
 		def sliderChanged(self,val):
 			self.spinbox.setValue(val/10.)
