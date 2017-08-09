@@ -37,7 +37,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.PV2()
 		self.DOUTS()
 
-		self.paused = self.CHECKBOX(_translate("oscilloscope",_translate("oscilloscope",'Pause'))
+		self.paused = self.CHECKBOX(_translate("oscilloscope",'Pause'))
 		self.timer = self.newTimer()
 		self.setInterval(self.timer,300,self.autoCapture)
 		
