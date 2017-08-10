@@ -29,6 +29,9 @@ class Include(Module):
     # matches header delimiters which are used to define variables
     headre = re.compile(r"^(-{3,})$")
 
+    # matches links in Markdown files
+    linkre = re.compile(r"\[([^\]]*)\]\s*\(([^\)]+)\)")
+
     # includes should happen before anything else
     priority = 0
 
@@ -56,7 +59,9 @@ class Include(Module):
 
         shift = int(match.group(3) or 0)
 
+        reldir=None # relative directory to prepend to relative links
         if not path.isabs(filename):
+            reldir = path.dirname(filename)
             filename = path.join(pwd, filename)
 
         try:
@@ -82,6 +87,11 @@ class Include(Module):
             # line by line, apply shift and recursively include file data
             linenum = 0
             for line in data:
+                l=self.linkre.search(line)
+                if l and reldir: # ajust relative links
+                    new=re.sub(self.linkre, r"[\1](%s/\2)" %reldir, line)
+                    data[linenum]=new
+
                 match = self.includere.search(line)
                 if match:
                     dirname = path.dirname(filename)
