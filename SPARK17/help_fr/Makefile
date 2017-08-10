@@ -7,7 +7,7 @@ MD_FILES = $(shell find . -name "*.md")
 all:
 	mkdir -p $(STATIC_OUTPUTDIR)
 	$(JEKYLL) build --incremental
-	
+
 todo:
 	@for f in $(MD_FILES); do \
 	  g=../help/$$f; \
@@ -15,8 +15,13 @@ todo:
 	  if [ $$g -nt $$f ]; then echo "Update? $$g is newer than $$f"; fi; \
 	done
 
+manual.pdf: $(MD_FILES)
+	./manual.sh
+
 clean:
 	rm -rf $(STATIC_OUTPUTDIR)
+	# clean outputs of manual.sh
+	rm -f manual.md manual.mdpp manual.odt manual.pdf manual.tex
 
 install:
 	install -d $(DESTDIR)/usr/share/expeyes/eyes17/help_$(LANG)
