@@ -1,4 +1,0 @@
-#!/bin/sh
-
-PYTHONPATH=../markdown-pp python3 -m MarkdownPP.main $@
-
