@@ -18,10 +18,6 @@ echo "making manual.md with markdown-pp"
 
 ./md-pp -o manual.md manual.mdpp
 
-echo "fixing paths to application images"
-sed -e 's%images/%_apps/images/%g' manual.md > manual.md.tmp &&
-    mv manual.md.tmp manual.md
-
 echo "making manual.tex with pandoc"
 pandoc -t latex -o manual.tex manual.md
 
