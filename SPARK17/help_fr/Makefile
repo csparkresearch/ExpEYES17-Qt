@@ -21,7 +21,8 @@ manual.pdf: $(MD_FILES)
 clean:
 	rm -rf $(STATIC_OUTPUTDIR)
 	# clean outputs of manual.sh
-	rm -f manual.md manual.mdpp manual.odt manual.pdf manual.tex
+	rm -f manual.md manual.mdpp manual.odt manual.pdf manual.tex \
+	      manual.aux manual.out manual.log
 
 install:
 	install -d $(DESTDIR)/usr/share/expeyes/eyes17/help_$(LANG)

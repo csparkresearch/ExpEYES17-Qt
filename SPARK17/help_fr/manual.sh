@@ -19,11 +19,13 @@ echo "making manual.md with markdown-pp"
 ./md-pp -o manual.md manual.mdpp
 
 echo "making manual.tex with pandoc"
-pandoc -t latex -o manual.tex manual.md
+pandoc --template=pandoc.latex -t latex -o manual.tex manual.md
 
 echo "making manual.odt with pandoc"
 pandoc -o manual.odt manual.md
 
-echo "making manual.pdf with unoconv"
-unoconv -f pdf manual.odt
+echo "making manual.pdf with pdfLaTeX"
+pdflatex -interaction=nonstopmode manual.tex
+pdflatex -interaction=nonstopmode manual.tex
+
 
