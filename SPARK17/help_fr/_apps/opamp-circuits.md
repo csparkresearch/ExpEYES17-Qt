@@ -7,7 +7,6 @@ description: Circuits utilisant des amplificateurs opérationnels
 
 Circuits à amplis-ops
 =====================
------------------------
 
 Avec le générateur BF intégré, l'oscilloscope et l'alimentation +/- 6V continue,
 on peut étudier des circuits à amplis-ops jusqu'à une fréquence de 100 kHz.
@@ -23,7 +22,6 @@ Plusieurs exemples sont donnés ci-dessous.
 
 Amplificateur inverseur
 =======================
--------------------
 
 <div class="row" >
 	<div class=" col-xs-12 col-sm-6 col-md-6">
@@ -46,7 +44,6 @@ Amplificateur inverseur
 
 Amplificateur non-inverseur
 ===========================
------------------------
 
 
 <div class="row" >
@@ -70,7 +67,6 @@ Amplificateur non-inverseur
 
 Intégrateur à ampli op :
 ========================
------------------------
 
 <div class="row" >
 	<div class=" col-xs-12 col-sm-6 col-md-6">
@@ -92,7 +88,6 @@ Intégrateur à ampli op :
 
 Différentiateur à ampli op :
 ============================
------------------------
 
 <div class="row" >
 	<div class=" col-xs-12 col-sm-6 col-md-6">
