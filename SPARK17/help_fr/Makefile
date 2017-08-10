@@ -16,7 +16,7 @@ todo:
 	done
 
 manual.pdf: $(MD_FILES)
-	./manual.sh
+	LANG=fr_FR.UTF-8 ./manual.sh
 
 clean:
 	rm -rf $(STATIC_OUTPUTDIR)
