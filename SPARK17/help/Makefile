@@ -1,5 +1,5 @@
 DESTDIR =
-LANG = fr
+LANG = en
 JEKYLL = jekyll
 STATIC_OUTPUTDIR = MD_HTML
 MD_FILES = $(shell find . -name "*.md")
@@ -16,7 +16,7 @@ todo:
 	done
 
 manual.pdf: $(MD_FILES)
-	LANG=fr_FR.UTF-8 ./manual.sh
+	LANG=en_IN.UTF-8 ./manual.sh
 
 clean:
 	rm -rf $(STATIC_OUTPUTDIR)

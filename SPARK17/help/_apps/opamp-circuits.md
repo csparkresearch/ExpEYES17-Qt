@@ -7,7 +7,6 @@ description: Circuits using operational amplifiers
 
 Op-amp Circuits
 ===============
------------------------
 
 With the built-in Waveform generator, Oscilloscope and the +/- 6V DC supply,
 we can study Op-amp circuits upto 100kHz range. 
@@ -23,7 +22,6 @@ Several examples are given below
 
 Inverting Amplifier
 ===================
--------------------
 
 <div class="row" >
 	<div class=" col-xs-12 col-sm-6 col-md-6">
@@ -46,7 +44,6 @@ Inverting Amplifier
 
 Non-Inverting Amplifier
 =======================
------------------------
 
 
 <div class="row" >
@@ -70,7 +67,6 @@ Non-Inverting Amplifier
 
 Op-Amp Integrator:
 =======================
------------------------
 
 <div class="row" >
 	<div class=" col-xs-12 col-sm-6 col-md-6">
@@ -92,7 +88,6 @@ Op-Amp Integrator:
 
 Op-Amp Differentiator
 =======================
------------------------
 
 <div class="row" >
 	<div class=" col-xs-12 col-sm-6 col-md-6">
