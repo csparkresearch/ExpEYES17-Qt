@@ -8,7 +8,7 @@ import re, sys
 from difflib import SequenceMatcher
 
 def safeLabel(s):
-    return re.sub(r"[^a-zA-Z]",":",s)
+    return "l:"+re.sub(r"[^a-zA-Z]",":",s)
 
 if __name__=="__main__":
     labelRe=re.compile(r"\\label\{([^}]+)\}", re.I)
@@ -22,6 +22,6 @@ if __name__=="__main__":
         label=bestRatio[0]
         # replace hyperlinks
         newlabel=safeLabel(label)
-        data=data.replace(r"\hyperlink{%s}" %h, r"\hyperlink{l%s}" %newlabel)
-        data=data.replace(r"\label{%s}" %label, r"\label{l%s}\hypertarget{l%s}{}" %(newlabel,newlabel))
+        data=data.replace(r"\hyperlink{%s}" %h, r"\hyperlink{%s}" %newlabel)
+        data=data.replace(r"\label{%s}" %label, r"\label{%s}\hypertarget{%s}{}" %(newlabel,newlabel))
     sys.stdout.write(data)
