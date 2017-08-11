@@ -23,8 +23,8 @@ echo "making manual.md with markdown-pp"
 
 echo "making manual.tex with pandoc"
 pandoc --template=pandoc.latex -t latex -o manual.tex manual.md
-# fix width syntax for images
-./imgWidthFilter.py < manual.tex > manual.tex.tmp &&
+# fix width syntax for images, fix hyperlink discrepancies
+cat manual.tex | ./imgWidthFilter.py | ./labelFilter.py > manual.tex.tmp &&
   mv manual.tex.tmp manual.tex
 
 echo "making manual.odt with pandoc"
