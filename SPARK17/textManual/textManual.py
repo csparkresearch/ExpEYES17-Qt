@@ -8,6 +8,10 @@ from tm import imgWidthFilter, labelFilter, svgFilter
 from MarkdownPP import MarkdownPP
 from MarkdownPP.Modules import modules
 
+# just for translations
+from PyQt5 import QtCore, QtWidgets
+_translate = QtCore.QCoreApplication.translate
+
 def includeMd(path, outFile):
     """
     Includes files from a subdirectory, eventually taking in account
@@ -28,11 +32,18 @@ def makeMdpp(outdir="."):
     """
     with open(os.path.join(outdir,"manual.mdpp"),"w") as mdppFile :
         mdppFile.write("""\
+# {toc}
 !TOC
 
+# {intro}
 !INCLUDE "index.md", 1
 
-""")
+# {apps}
+        """.format(
+            toc=_translate("textmanual","Table of contents"),
+            intro=_translate("textmanual","Introduction"),
+            apps=_translate("textmanual","Applications"),
+        ))
         includeMd("_apps", mdppFile)
 
 def makeTex(outdir="."):
@@ -63,7 +74,59 @@ def PDFnotYetIndexed(fname):
         call("grep -iq 'Rerun to get outlines ' "+f,
              shell=True)==0
     
+def translators(langDir, lang=None):
+    """
+    create a list of translators
+    @param langDir a path containing .qm translation
+    @param lang the preferred locale, like en_IN.UTF-8, fr_FR.UTF-8, etc.
+    @result a list of QtCore.QTranslator instances
+    """
+    if lang==None:
+            lang=QtCore.QLocale.system().name()
+    result=[]
+    qtTranslator=QtCore.QTranslator()
+    qtTranslator.load("qt_" + lang,
+            QtCore.QLibraryInfo.location(QtCore.QLibraryInfo.TranslationsPath))
+    result.append(qtTranslator)
+
+    # path to the translation files (.qm files)
+    sparkTranslator=QtCore.QTranslator()
+    sparkTranslator.load(lang, langDir);
+    result.append(sparkTranslator)
+    return result
+
+def firstExistingPath(l):
+    """
+    Returns the first existing path taken from a list of
+    possible paths.
+    @param l a list of paths
+    @return the first path which exists in the filesystem, or None
+    """
+    for p in l:
+        if os.path.exists(p):
+            return p
+    return None
+
+def common_paths():
+    """
+    Finds common paths
+    @result a dictionary of common paths
+    """
+    path={}
+    curPath = os.path.dirname(os.path.realpath(__file__))
+    path["current"] = curPath
+    sharedPath = "/usr/share/expeyes17"
+    path["translation"] = firstExistingPath(
+            [os.path.join(p, "lang") for p in
+             (curPath, "..",)])
+    return path
+
 if __name__=="__main__":
+    app = QtWidgets.QApplication(sys.argv)
+    path = common_paths()
+    for t in translators(path["translation"]):
+        print("GRRR",t)
+        app.installTranslator(t)
     
     outdir="manual"
     if len(sys.argv) >1:
@@ -75,8 +138,8 @@ if __name__=="__main__":
     
     print("making %s/manual.md with markdown-pp" %outdir)
     MarkdownPP(input=open("%s/manual.mdpp" %outdir,"r"),
-               output=open("%s/manual.md" %outdir,"w"),
-               modules=list(modules))
+           output=open("%s/manual.md" %outdir,"w"),
+           modules=list(modules))
     
     print("making %s/manual.tex with pandoc" %outdir)
     makeTex(outdir=outdir)
