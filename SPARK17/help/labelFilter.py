@@ -28,7 +28,7 @@ def run(data):
         newlabel=safeLabel(label)
         data=data.replace(r"\hyperlink{%s}" %h, r"\hyperlink{%s}" %newlabel)
         data=data.replace(r"\label{%s}" %label, r"\label{%s}\hypertarget{%s}{}" %(newlabel,newlabel))
-        return data
+    return data
     
 if __name__=="__main__":
     data=run(sys.stdin.read())

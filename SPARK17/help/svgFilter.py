@@ -10,7 +10,7 @@ def run(data):
     """
     fixes included SVG files, by making PDF files from them and
     changing the TEX code
-    @param dataIn input data stream
+    @param data input data stream
     @return output data stream
     """
     svgRe=re.compile(r"\\includegraphics([^{]*)\{([^}]+)\.svg\}", re.I)
