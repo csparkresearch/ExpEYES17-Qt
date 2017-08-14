@@ -15,14 +15,11 @@ todo:
 	  if [ $$g -nt $$f ]; then echo "Update? $$g is newer than $$f"; fi; \
 	done
 
-manual.pdf: $(MD_FILES)
+manual/manual.pdf: $(MD_FILES)
 	LANG=fr_FR.UTF-8 ../textManual/textManual.py
 
 clean:
-	rm -rf $(STATIC_OUTPUTDIR)
-	# clean outputs of textManual.py
-	rm -f manual.md manual.mdpp manual.odt manual.pdf manual.tex \
-	      manual.aux manual.out manual.log texput.log
+	rm -rf $(STATIC_OUTPUTDIR) manual
 
 install:
 	install -d $(DESTDIR)/usr/share/expeyes/eyes17/help_$(LANG)

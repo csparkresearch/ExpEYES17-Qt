@@ -20,12 +20,13 @@ def includeMd(path, outFile):
             if f.endswith(".md"):
                 outFile.write("!INCLUDE \"%s\", 1\n" %os.path.join(root,f))
 
-def makeMdpp():
+def makeMdpp(outdir="."):
     """
-    make the file manual.mdpp to use with the command ./md-pp
+    make the file manual.mdpp to use with the preprocessor
     which will include multiple .md files to feed later pandoc.
+    @param outdir output directory
     """
-    with open("manual.mdpp","w") as mdppFile :
+    with open(os.path.join(outdir,"manual.mdpp"),"w") as mdppFile :
         mdppFile.write("""\
 !TOC
 
@@ -34,18 +35,21 @@ def makeMdpp():
 """)
         includeMd("_apps", mdppFile)
 
-def makeTex():
+def makeTex(outdir="."):
     """
     use pandoc to create TEX file from MD file, and fixes some
     drawbacks of pandoc
+    @param outdir output directory
     """
-    call("pandoc --template=pandoc.latex -t latex -o manual.tex manual.md",
+    mdFile=os.path.join(outdir,"manual.md")
+    texFile=os.path.join(outdir,"manual.tex")
+    call("pandoc --template=pandoc.latex -t latex -o %s %s" %(texFile, mdFile),
          shell=True)
     # fix width syntax for images, fix hyperlink discrepancies, fix SVG includes
-    data=open("manual.tex","r").read()
+    data=open(texFile,"r").read()
     for m in (imgWidthFilter, labelFilter, svgFilter):
         data=m.run(data)
-    open("manual.tex","w").write(data)
+    open(texFile,"w").write(data)
 
 def PDFnotYetIndexed(fname):
     """
@@ -60,24 +64,29 @@ def PDFnotYetIndexed(fname):
              shell=True)==0
     
 if __name__=="__main__":
-    print("making manual.mdpp to feed the Markdown Preprocessor")
-    makeMdpp()
     
-    print("making manual.md with markdown-pp")
-    #call("LANG=en_GB.UTF-8 ./md-pp -o manual.md manual.mdpp",shell=True)
-    MarkdownPP(input=open("manual.mdpp","r"),
-               output=open("manual.md","w"),
+    outdir="manual"
+    if len(sys.argv) >1:
+        outdir=sys.argv[1]
+    os.makedirs(outdir, exist_ok=True)
+    
+    print("making %s/manual.mdpp to feed the Markdown Preprocessor" %outdir)
+    makeMdpp(outdir=outdir)
+    
+    print("making %s/manual.md with markdown-pp" %outdir)
+    MarkdownPP(input=open("%s/manual.mdpp" %outdir,"r"),
+               output=open("%s/manual.md" %outdir,"w"),
                modules=list(modules))
     
-    print("making manual.tex with pandoc")
-    makeTex()
+    print("making %s/manual.tex with pandoc" %outdir)
+    makeTex(outdir=outdir)
 
-    print("making manual.odt with pandoc")
-    call("pandoc -o manual.odt manual.md", shell=True)
+    print("making %s/manual.odt with pandoc" %outdir)
+    call("pandoc -o %s/manual.odt %s/manual.md" %(outdir,outdir), shell=True)
 
-    print("making manual.pdf with pdfLaTeX")
-    if os.path.exists("manual.log"):
-        os.unlink("manual.log")
-    while PDFnotYetIndexed("manual"):
-        call("pdflatex -interaction=nonstopmode manual.tex",
+    print("making %s/manual.pdf with pdfLaTeX" %outdir)
+    if os.path.exists("%s/manual.log" %outdir):
+        os.unlink("%s/manual.log" %outdir)
+    while PDFnotYetIndexed("%s/manual" %outdir):
+        call("cd %s; pdflatex -interaction=nonstopmode manual.tex" %outdir,
              shell=True)
