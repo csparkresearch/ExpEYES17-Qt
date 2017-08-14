@@ -7,8 +7,7 @@ imagebase: astable-multivibrator
 ---
 
 
-### Sine wave plot example
---------------------------
+## Sine wave plot example
 
 ```python
 from pylab import *

@@ -7,8 +7,7 @@ imagebase: astable-multivibrator
 ---
 
 
-### Exemple de graphique d'un signal sinusoïdal
---------------------------
+## Exemple de graphique d'un signal sinusoïdal
 
 ```python
 from pylab import *
