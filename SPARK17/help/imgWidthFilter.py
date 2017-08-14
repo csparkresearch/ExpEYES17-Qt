@@ -2,10 +2,15 @@
 
 import re, sys
 
-if __name__=="__main__":
+def run(data):
+    """
+    fixes unused code snippets '{: width ...}' which are usual in
+    MD files
+    @param data input data stream
+    @return output data stream
+    """
     imgWidthRe=re.compile(r"(\\includegraphics{(\S+)}\\{:[ \n]*width=``(.*)''\\})", re.I)
     widthRe=re.compile(r"^(.*)\\includegraphics\[width=(\d*)(.+)\]{([^}]+)}(.*)$")
-    data=sys.stdin.read()
     lines=re.sub(imgWidthRe,r"\\includegraphics[width=\3]{\2}",data).split("\n")
     for i in range(len(lines)):
         m=widthRe.match(lines[i])
@@ -17,6 +22,9 @@ if __name__=="__main__":
                 w=int(m.group(2))/800 # assuming that the navigator's width would be 800 px.
             lines[i]=r"%s\includegraphics[width=%s\textwidth]{%s}%s" \
               %(m.group(1),w,m.group(4),m.group(5))
-    data2="\n".join(lines)
-    sys.stdout.write(data2)
-    
+    return "\n".join(lines)
+
+
+if __name__=="__main__":
+    data=run(sys.stdin.read())
+    sys.stdout.write(data)

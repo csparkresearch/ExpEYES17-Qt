@@ -10,10 +10,14 @@ from difflib import SequenceMatcher
 def safeLabel(s):
     return "l:"+re.sub(r"[^a-zA-Z]",":",s)
 
-if __name__=="__main__":
+def run(data):
+    """
+    fixes spurious labels and hyperlinks made by pandoc from MD files
+    @param data input data stream
+    @return output data stream
+    """
     labelRe=re.compile(r"\\label\{([^}]+)\}", re.I)
     hyperlinkRe=re.compile(r"\\hyperlink\{([^}]+)\}", re.I)
-    data=sys.stdin.read()
     labels=labelRe.findall(data)
     hyperlinks=hyperlinkRe.findall(data)
     for h in hyperlinks:
@@ -24,4 +28,8 @@ if __name__=="__main__":
         newlabel=safeLabel(label)
         data=data.replace(r"\hyperlink{%s}" %h, r"\hyperlink{%s}" %newlabel)
         data=data.replace(r"\label{%s}" %label, r"\label{%s}\hypertarget{%s}{}" %(newlabel,newlabel))
+        return data
+    
+if __name__=="__main__":
+    data=run(sys.stdin.read())
     sys.stdout.write(data)
