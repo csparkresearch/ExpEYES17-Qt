@@ -16,13 +16,13 @@ todo:
 	done
 
 manual.pdf: $(MD_FILES)
-	LANG=en_IN.UTF-8 ./manual.sh
+	LANG=en_IN.UTF-8 ../textManual/textManual.py
 
 clean:
 	rm -rf $(STATIC_OUTPUTDIR)
-	# clean outputs of manual.sh
+	# clean outputs of textManual.py
 	rm -f manual.md manual.mdpp manual.odt manual.pdf manual.tex \
-	      manual.aux manual.out manual.log
+	      manual.aux manual.out manual.log texput.log
 
 install:
 	install -d $(DESTDIR)/usr/share/expeyes/eyes17/help_$(LANG)

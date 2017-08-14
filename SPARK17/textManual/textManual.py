@@ -1,8 +1,12 @@
 #!/usr/bin/python3
 
 import os, os.path
+import sys
+sys.path=[os.path.dirname(__file__)]+sys.path
 from subprocess import call, Popen, PIPE, STDOUT
-import imgWidthFilter, labelFilter, svgFilter
+from tm import imgWidthFilter, labelFilter, svgFilter
+from MarkdownPP import MarkdownPP
+from MarkdownPP.Modules import modules
 
 def includeMd(path, outFile):
     """
@@ -60,7 +64,10 @@ if __name__=="__main__":
     makeMdpp()
     
     print("making manual.md with markdown-pp")
-    call("LANG=en_GB.UTF-8 ./md-pp -o manual.md manual.mdpp",shell=True)
+    #call("LANG=en_GB.UTF-8 ./md-pp -o manual.md manual.mdpp",shell=True)
+    MarkdownPP(input=open("manual.mdpp","r"),
+               output=open("manual.md","w"),
+               modules=list(modules))
     
     print("making manual.tex with pandoc")
     makeTex()
