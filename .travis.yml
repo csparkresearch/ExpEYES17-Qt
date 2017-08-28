@@ -1,5 +1,8 @@
 language: python
-cache: pip
+
+cache:
+  bundler: true
+  pip: true
 
 python:
   - "2.7"
@@ -41,7 +44,7 @@ install:
     # PyQt4
     - tar xzf /downloads/pyqt4.tar.gz --keep-newer-files
     - pushd PyQt-x11-gpl-4.11.3
-    - python configure.py -c --confirm-license -e QtCore -e QtGui -e QtTest -e QtDesigner -e QtWebKit
+    - python configure.py -c --confirm-license -e QtCore -e QtGui -e QtTest -e QtDesigner -e QtWebKit -e QtNetwork
     - make
     - sudo make install
     - popd
