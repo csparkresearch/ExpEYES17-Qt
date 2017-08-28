@@ -1,4 +1,7 @@
 [![Build Status](https://api.travis-ci.org/csparkresearch/ExpEYES17-Qt.svg?branch=master)](https://api.travis-ci.org/csparkresearch/ExpEYES17-Qt)
+[Experiment help files](https://eyes17-help.surge.sh/index.html)
+
+
 # ExpEYES17-Qt
 Qt based toolkit for accessing [ExpEYES-17](http://expeyes.in)
 ### ExpEYES-17
@@ -69,5 +72,5 @@ Please raise an issue on this repository
 
 ## Resources
 + [ExpEYES Website](http://expeyes.in/)
-
++ [ExpEYES experiment helpfiles](https://eyes17-help.surge.sh/index.html) : These are automatically deployed to surge.sh by the Travis build
 
