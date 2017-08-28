@@ -48,6 +48,13 @@ Qt based toolkit for accessing [ExpEYES-17](http://expeyes.in)
   + sudo chmod 666 /dev/ttyACM*
   + Launch the application `python -m SPARK17.spark17`
 
+## Building help files
+
++ Install [Jekyll](https://jekyllrb.com/docs/installation/) . 
++ cd SPARK17/help
++ jekyll build
++ cd ../..
++ Launch the application : `python -m SPARK17.spark17`
 
 
 ## Housekeeping

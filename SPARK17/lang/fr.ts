@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="fr_FR">
+<!DOCTYPE TS><TS version="2.0" language="fr_FR" sourcelanguage="">
 <context>
     <name>@default</name>
     <message>
@@ -42,642 +41,667 @@
 <context>
     <name>Form</name>
     <message>
-        <location filename="../templates/ui_plot2Template.py" line="66"/>
+        <location filename="../utilities/templates/ui_triggerWidget.py" line="73"/>
         <source>Form</source>
-        <translation type="obsolete">Form</translation>
+        <translation type="unfinished">Form</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_flexibleChannelSelector.py" line="70"/>
+        <location filename="../utilities/templates/ui_flexibleChannelSelector.py" line="83"/>
         <source>2.5V</source>
-        <translation type="obsolete">2,5V</translation>
+        <translation type="unfinished">2,5V</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_flexibleChannelSelector.py" line="71"/>
+        <location filename="../utilities/templates/ui_flexibleChannelSelector.py" line="84"/>
         <source>1.5V</source>
-        <translation type="obsolete">1,5V</translation>
+        <translation type="unfinished">1,5V</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_flexibleChannelSelector.py" line="73"/>
+        <location filename="../utilities/templates/ui_flexibleChannelSelector.py" line="86"/>
         <source>.5V</source>
-        <translation type="obsolete">0,5V</translation>
+        <translation type="unfinished">0,5V</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_flexibleChannelSelector.py" line="74"/>
+        <location filename="../utilities/templates/ui_flexibleChannelSelector.py" line="87"/>
         <source>.25V</source>
-        <translation type="obsolete">0,25V</translation>
+        <translation type="unfinished">0,25V</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_flexibleChannelSelector.py" line="75"/>
+        <location filename="../utilities/templates/ui_flexibleChannelSelector.py" line="88"/>
         <source>FIT</source>
-        <translation type="obsolete">FIT</translation>
+        <translation type="unfinished">FIT</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_triggerWidget.py" line="61"/>
+        <location filename="../utilities/templates/ui_triggerWidget.py" line="74"/>
         <source>Trigger: 0V (Drag trigger line)</source>
-        <translation type="obsolete">Seuil : 0V (tirer la ligne de seuil)</translation>
+        <translation type="unfinished">Seuil : 0V (tirer la ligne de seuil)</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_triggerWidget.py" line="62"/>
+        <location filename="../utilities/templates/ui_triggerWidget.py" line="75"/>
         <source>?</source>
-        <translation type="obsolete">?</translation>
+        <translation type="unfinished">?</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_ResCapFreq.py" line="51"/>
+        <location filename="../utilities/templates/ui_ResCapFreq.py" line="64"/>
         <source>Measure Capacitance on IN1</source>
-        <translation type="obsolete">Mesure de capacité en IN1</translation>
+        <translation type="unfinished">Mesure de capacité en IN1</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_ResCapFreq.py" line="52"/>
+        <location filename="../utilities/templates/ui_ResCapFreq.py" line="65"/>
         <source>CAP</source>
-        <translation type="obsolete">CAP</translation>
+        <translation type="unfinished">CAP</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_ResCapFreq.py" line="53"/>
+        <location filename="../utilities/templates/ui_ResCapFreq.py" line="66"/>
         <source>Measure Resistance on SEN</source>
-        <translation type="obsolete">Mesure de résistance en SEN</translation>
+        <translation type="unfinished">Mesure de résistance en SEN</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_ResCapFreq.py" line="54"/>
+        <location filename="../utilities/templates/ui_ResCapFreq.py" line="67"/>
         <source>RES</source>
-        <translation type="obsolete">RES</translation>
+        <translation type="unfinished">RES</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_ResCapFreq.py" line="55"/>
+        <location filename="../utilities/templates/ui_ResCapFreq.py" line="68"/>
         <source>Measure Frequency on IN2</source>
-        <translation type="obsolete">Mesure de fréquence en IN2</translation>
+        <translation type="unfinished">Mesure de fréquence en IN2</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_ResCapFreq.py" line="56"/>
+        <location filename="../utilities/templates/ui_ResCapFreq.py" line="69"/>
         <source>FREQ</source>
-        <translation type="obsolete">FREQ</translation>
+        <translation type="unfinished">FREQ</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_ResCapFreq.py" line="57"/>
+        <location filename="../utilities/templates/ui_ResCapFreq.py" line="70"/>
         <source>Result of Resistance measured on SEN</source>
-        <translation type="obsolete">Valeur de résistance mesurée en SEN</translation>
+        <translation type="unfinished">Valeur de résistance mesurée en SEN</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_ResCapFreq.py" line="58"/>
+        <location filename="../utilities/templates/ui_ResCapFreq.py" line="71"/>
         <source>Res : SEN</source>
-        <translation type="obsolete">Rés : SEN</translation>
+        <translation type="unfinished">Rés : SEN</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_ResCapFreq.py" line="59"/>
+        <location filename="../utilities/templates/ui_ResCapFreq.py" line="72"/>
         <source>Result of Capacitance measured on IN1</source>
-        <translation type="obsolete">Valeur de capacité mesurée en IN1</translation>
+        <translation type="unfinished">Valeur de capacité mesurée en IN1</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_ResCapFreq.py" line="60"/>
+        <location filename="../utilities/templates/ui_ResCapFreq.py" line="73"/>
         <source>Cap: IN1</source>
-        <translation type="obsolete">Cap : IN1</translation>
+        <translation type="unfinished">Cap : IN1</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_ResCapFreq.py" line="61"/>
+        <location filename="../utilities/templates/ui_ResCapFreq.py" line="74"/>
         <source>Result of measured Frequency on IN2</source>
-        <translation type="obsolete">Valeur de fréquence mesurée en IN2</translation>
+        <translation type="unfinished">Valeur de fréquence mesurée en IN2</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_ResCapFreq.py" line="62"/>
+        <location filename="../utilities/templates/ui_ResCapFreq.py" line="75"/>
         <source>Freq: IN2</source>
-        <translation type="obsolete">Fréq : IN2</translation>
+        <translation type="unfinished">Fréq : IN2</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_SliderAndSpinbox.py" line="61"/>
+        <location filename="../utilities/templates/ui_SliderAndSpinbox.py" line="74"/>
         <source>___</source>
-        <translation type="obsolete">___</translation>
+        <translation type="unfinished">___</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_SliderAndSpinbox.py" line="62"/>
+        <location filename="../utilities/templates/ui_SliderAndSpinbox.py" line="75"/>
         <source>mV</source>
-        <translation type="obsolete">mV</translation>
+        <translation type="unfinished">mV</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_tracesRow.py" line="92"/>
+        <location filename="../utilities/templates/ui_tracesRow.py" line="105"/>
         <source>X</source>
-        <translation type="obsolete">X</translation>
+        <translation type="unfinished">X</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_timebaseWidget.py" line="70"/>
+        <location filename="../utilities/templates/ui_timebaseWidget.py" line="83"/>
         <source>Time</source>
-        <translation type="obsolete">Temps</translation>
+        <translation type="unfinished">Temps</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_timebaseWidget.py" line="71"/>
+        <location filename="../utilities/templates/ui_timebaseWidget.py" line="84"/>
         <source>mS</source>
-        <translation type="obsolete">ms</translation>
+        <translation type="unfinished">ms</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_fileBrowser.py" line="67"/>
+        <location filename="../utilities/templates/ui_fileBrowser.py" line="80"/>
         <source>deep</source>
-        <translation type="obsolete">profondeur</translation>
+        <translation type="unfinished">profondeur</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_fileBrowser.py" line="68"/>
+        <location filename="../utilities/templates/ui_fileBrowser.py" line="81"/>
         <source>Directory:</source>
-        <translation type="obsolete">Répertoire :</translation>
+        <translation type="unfinished">Répertoire :</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_fileBrowser.py" line="69"/>
+        <location filename="../utilities/templates/ui_fileBrowser.py" line="82"/>
         <source>Change Directory</source>
-        <translation type="obsolete">Changer de répertoire</translation>
+        <translation type="unfinished">Changer de répertoire</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_fileBrowser.py" line="70"/>
+        <location filename="../utilities/templates/ui_fileBrowser.py" line="83"/>
         <source>refresh</source>
-        <translation type="obsolete">rafraîchir</translation>
+        <translation type="unfinished">rafraîchir</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_tracesRow.py" line="85"/>
+        <location filename="../utilities/templates/ui_tracesRow.py" line="98"/>
         <source>Show/Hide this trace</source>
-        <translation type="obsolete">Montrer/cacher cette trace</translation>
+        <translation type="unfinished">Montrer/cacher cette trace</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_tracesRow.py" line="86"/>
+        <location filename="../utilities/templates/ui_tracesRow.py" line="99"/>
         <source>TextLabel</source>
-        <translation type="obsolete">Label texte</translation>
+        <translation type="unfinished">Label texte</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_tracesRow.py" line="87"/>
+        <location filename="../utilities/templates/ui_tracesRow.py" line="100"/>
         <source>Set the width of the trace</source>
-        <translation type="obsolete">Régler la largeur de latrace</translation>
+        <translation type="unfinished">Régler la largeur de latrace</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_tracesRow.py" line="88"/>
+        <location filename="../utilities/templates/ui_tracesRow.py" line="101"/>
         <source> px</source>
-        <translation type="obsolete"> px</translation>
+        <translation type="unfinished"> px</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_tracesRow.py" line="89"/>
+        <location filename="../utilities/templates/ui_tracesRow.py" line="102"/>
         <source>Change the color of the trace</source>
-        <translation type="obsolete">Changer la couleur de la trace</translation>
+        <translation type="unfinished">Changer la couleur de la trace</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_tracesRow.py" line="90"/>
+        <location filename="../utilities/templates/ui_tracesRow.py" line="103"/>
         <source>Color</source>
-        <translation type="obsolete">Couleur</translation>
+        <translation type="unfinished">Couleur</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_tracesRow.py" line="91"/>
+        <location filename="../utilities/templates/ui_tracesRow.py" line="104"/>
         <source>Delete this trace</source>
-        <translation type="obsolete">Supprimer cette trace</translation>
+        <translation type="unfinished">Supprimer cette trace</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_allTracesDetailed.py" line="50"/>
+        <location filename="../utilities/templates/ui_allTracesDetailed.py" line="63"/>
         <source>SAVE DATA</source>
-        <translation type="obsolete">ENREGISTRER</translation>
+        <translation type="unfinished">ENREGISTRER</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_douts.py" line="60"/>
+        <location filename="../utilities/templates/ui_douts.py" line="73"/>
         <source>OD1</source>
-        <translation type="obsolete">OD1</translation>
+        <translation type="unfinished">OD1</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_douts.py" line="61"/>
+        <location filename="../utilities/templates/ui_douts.py" line="74"/>
         <source>SQR1</source>
-        <translation type="obsolete">SQR1</translation>
+        <translation type="unfinished">SQR1</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_douts.py" line="62"/>
+        <location filename="../utilities/templates/ui_douts.py" line="75"/>
         <source>SQR2</source>
-        <translation type="obsolete">SQR2</translation>
+        <translation type="unfinished">SQR2</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_douts.py" line="63"/>
+        <location filename="../utilities/templates/ui_douts.py" line="76"/>
         <source>CCS</source>
-        <translation type="obsolete">CCS</translation>
+        <translation type="unfinished">CCS</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_allTraces.py" line="53"/>
+        <location filename="../utilities/templates/ui_allTraces.py" line="66"/>
         <source>Visible</source>
-        <translation type="obsolete">Visible</translation>
+        <translation type="unfinished">Visible</translation>
+    </message>
+    <message>
+        <location filename="../utilities/templates/ui_channelSelector.py" line="76"/>
+        <source>_</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utilities/templates/ui_flexibleChannelSelector.py" line="80"/>
+        <source>16V</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utilities/templates/ui_flexibleChannelSelector.py" line="81"/>
+        <source>8V</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utilities/templates/ui_flexibleChannelSelector.py" line="82"/>
+        <source>4V</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utilities/templates/ui_flexibleChannelSelector.py" line="85"/>
+        <source>1V</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../utilities/templates/ui_plotSave.py" line="127"/>
+        <location filename="../utilities/templates/ui_plotSave.py" line="140"/>
         <source>Save Your Results</source>
-        <translation type="obsolete">Enregistrer les résultats</translation>
+        <translation type="unfinished">Enregistrer les résultats</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_plotSave.py" line="128"/>
+        <location filename="../utilities/templates/ui_plotSave.py" line="141"/>
         <source>Include Headers</source>
-        <translation type="obsolete">Inclure les en-têtes</translation>
+        <translation type="unfinished">Inclure les en-têtes</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_plotSave.py" line="129"/>
+        <location filename="../utilities/templates/ui_plotSave.py" line="142"/>
         <source>Cancel</source>
-        <translation type="obsolete">Échappement</translation>
+        <translation type="unfinished">Échappement</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_plotSave.py" line="130"/>
+        <location filename="../utilities/templates/ui_plotSave.py" line="143"/>
         <source>space</source>
-        <translation type="obsolete">espace</translation>
+        <translation type="unfinished">espace</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_plotSave.py" line="131"/>
+        <location filename="../utilities/templates/ui_plotSave.py" line="144"/>
         <source>tab</source>
-        <translation type="obsolete">tabulation</translation>
+        <translation type="unfinished">tabulation</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_plotSave.py" line="132"/>
+        <location filename="../utilities/templates/ui_plotSave.py" line="145"/>
         <source>comma</source>
-        <translation type="obsolete">virgule</translation>
+        <translation type="unfinished">virgule</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_plotSave.py" line="133"/>
+        <location filename="../utilities/templates/ui_plotSave.py" line="146"/>
         <source>semicolon</source>
-        <translation type="obsolete">point-virgule</translation>
+        <translation type="unfinished">point-virgule</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_plotSave.py" line="134"/>
+        <location filename="../utilities/templates/ui_plotSave.py" line="147"/>
         <source>Separator:</source>
-        <translation type="obsolete">Séparateur :</translation>
+        <translation type="unfinished">Séparateur :</translation>
     </message>
     <message>
-        <location filename="../templates/ui_layout.py" line="866"/>
+        <location filename="../utilities/templates/ui_plotSave.py" line="148"/>
         <source>Save Data</source>
-        <translation type="obsolete">Enregistrer les données</translation>
+        <translation type="unfinished">Enregistrer les données</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_plotSave.py" line="136"/>
+        <location filename="../utilities/templates/ui_plotSave.py" line="149"/>
         <source>Width:</source>
-        <translation type="obsolete">Largeur :</translation>
+        <translation type="unfinished">Largeur :</translation>
     </message>
     <message>
-        <location filename="../utilities/templates/ui_plotSave.py" line="137"/>
+        <location filename="../utilities/templates/ui_plotSave.py" line="150"/>
         <source>Save image</source>
-        <translation type="obsolete">Enregistrer l&apos;image</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layoutNew.py" line="143"/>
-        <source>ExpEYES - 17</source>
-        <translation type="obsolete">ExpEYES - 17</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_testing.py" line="142"/>
-        <source>deep</source>
-        <translation type="obsolete">profondeur</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="819"/>
-        <source>SINE .1V</source>
-        <translation type="obsolete">SINUS 0,1V</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="820"/>
-        <source>SINE 1V</source>
-        <translation type="obsolete">SINUS 1V</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="821"/>
-        <source>SINE 3V</source>
-        <translation type="obsolete">SINUS 3V</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="822"/>
-        <source>TRIA .1V</source>
-        <translation type="obsolete">TRIA 0,1V</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="823"/>
-        <source>TRIA 1V</source>
-        <translation type="obsolete">TRIA 1V</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="824"/>
-        <source>TRIA 3V</source>
-        <translation type="obsolete">TRIA 3V</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="825"/>
-        <source>SQR2</source>
-        <translation type="obsolete">SQR2</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="826"/>
-        <source>WG</source>
-        <translation type="obsolete">WG</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layoutNew.py" line="149"/>
-        <source>OD1</source>
-        <translation type="obsolete">OD1</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layoutNew.py" line="151"/>
-        <source>CCS</source>
-        <translation type="obsolete">CCS</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="829"/>
-        <source>Set Outputs</source>
-        <translation type="obsolete">Régler les sorties</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="830"/>
-        <source>Four Channel Oscilloscope</source>
-        <translation type="obsolete">Oscilloscope 4 canaux</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="854"/>
-        <source>4V</source>
-        <translation type="obsolete">4V</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="855"/>
-        <source>2V</source>
-        <translation type="obsolete">2V</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="856"/>
-        <source>1V</source>
-        <translation type="obsolete">1V</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="857"/>
-        <source>.5V</source>
-        <translation type="obsolete">0,5V</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="835"/>
-        <source>A3</source>
-        <translation type="obsolete">A3</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="845"/>
-        <source>16V</source>
-        <translation type="obsolete">16V</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="846"/>
-        <source>8V</source>
-        <translation type="obsolete">8V</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="848"/>
-        <source>2.5V</source>
-        <translation type="obsolete">2,5V</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="849"/>
-        <source>1.5V</source>
-        <translation type="obsolete">1,5V</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="852"/>
-        <source>.25V</source>
-        <translation type="obsolete">0,25V</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="844"/>
-        <source>A2</source>
-        <translation type="obsolete">A2</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="853"/>
-        <source>MIC</source>
-        <translation type="obsolete">MIC</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="858"/>
-        <source>FIT</source>
-        <translation type="obsolete">FIT</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="859"/>
-        <source>Range</source>
-        <translation type="obsolete">Calibre</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="860"/>
-        <source>Input</source>
-        <translation type="obsolete">Entrée</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="861"/>
-        <source>Time</source>
-        <translation type="obsolete">Temps</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="921"/>
-        <source>mS</source>
-        <translation type="obsolete">ms</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="863"/>
-        <source>Trigger: 0V (Drag yellow line)</source>
-        <translation type="obsolete">Seuil : 0V (tirer la ligne jaune)</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="864"/>
-        <source>?</source>
-        <translation type="obsolete">?</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="865"/>
-        <source>T</source>
-        <translation type="obsolete">T</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layoutNew.py" line="158"/>
-        <source>Ctrl+S</source>
-        <translation type="obsolete">Ctrl+S</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="868"/>
-        <source>LAUNCH</source>
-        <translation type="obsolete">LANCER</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="869"/>
-        <source>PAUSE</source>
-        <translation type="obsolete">PAUSE</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="870"/>
-        <source>Space</source>
-        <translation type="obsolete">Espace</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="871"/>
-        <source>Oscilloscope</source>
-        <translation type="obsolete">Oscilloscope</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="872"/>
-        <source>Data Acquisition and controls</source>
-        <translation type="obsolete">Acquisition de données et contrôles</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="920"/>
-        <source>PeripheralCollectionInner</source>
-        <translation type="obsolete">Collection de périphériques internes</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="922"/>
-        <source>Measure &gt;</source>
-        <translation type="obsolete">Mesurer &gt;</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="923"/>
-        <source>Timeout:</source>
-        <translation type="obsolete">Délai max :</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="926"/>
-        <source>rising</source>
-        <translation type="obsolete">montant</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="927"/>
-        <source>falling</source>
-        <translation type="obsolete">descendant</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="928"/>
-        <source>four rising edges</source>
-        <translation type="obsolete">quatre fronts montants</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="881"/>
-        <source>TIME INTERVAL MEASUREMENT</source>
-        <translation type="obsolete">MESURE D&apos;INTERVALLE DE TEMPS</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_testing.py" line="139"/>
-        <source>1</source>
-        <translation type="obsolete">1</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_testing.py" line="141"/>
-        <source>2</source>
-        <translation type="obsolete">2</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="931"/>
-        <source>3</source>
-        <translation type="obsolete">3</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="932"/>
-        <source>4</source>
-        <translation type="obsolete">4</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="908"/>
-        <source>4xrising</source>
-        <translation type="obsolete">4xmontant</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="909"/>
-        <source>16xrising</source>
-        <translation type="obsolete">16xmontant</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="904"/>
-        <source>DOUBLE INPUT INTERVAL</source>
-        <translation type="obsolete">INTERVALLE D&apos;ENTRÉE DOUBLE</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="924"/>
-        <source>SINGLE INPUT INTERVAL</source>
-        <translation type="obsolete">INTERVALLE D&apos;ENTRÉE SIMPLE</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layoutNew.py" line="146"/>
-        <source>Digital Inputs</source>
-        <translation type="obsolete">Entrées numériques</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layoutNew.py" line="147"/>
-        <source>IN2</source>
-        <translation type="obsolete">IN2</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layoutNew.py" line="148"/>
-        <source>SQR1</source>
-        <translation type="obsolete">SQR1</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layoutNew.py" line="150"/>
-        <source>SEN</source>
-        <translation type="obsolete">SEN</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layout.py" line="939"/>
-        <source>Measurement and Controls</source>
-        <translation type="obsolete">Mesures et contrôles</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layoutNew.py" line="145"/>
-        <source>Experiments</source>
-        <translation type="obsolete">Expériences</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layoutNew.py" line="153"/>
-        <source>Saved plots</source>
-        <translation type="obsolete">Courbes enregistrées</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layoutNew.py" line="154"/>
-        <source>View saved plots. Click on them to load them to the plot window for analysis</source>
-        <translation type="obsolete">Voir les courbes enregistrées. Cliquer dessus pour les charger dans la fenêtre pour analyse</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_testing.py" line="136"/>
-        <source>Edit Calibration</source>
-        <translation type="obsolete">Éditer la calibration</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_testing.py" line="138"/>
-        <source>Evaluate Group 1</source>
-        <translation type="obsolete">Évaluer le groupe 1</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_testing.py" line="140"/>
-        <source>Evaluate Group 2</source>
-        <translation type="obsolete">Évaluer le groupe 2</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_testing.py" line="143"/>
-        <source>Save Values and Screenshot</source>
-        <translation type="obsolete">Enregistrer les valeurs et la copie d&apos;écran</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_testing.py" line="145"/>
-        <source>Automated</source>
-        <translation type="obsolete">Automatique</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_testing.py" line="146"/>
-        <source>Advanced tests</source>
-        <translation type="obsolete">Tests avancés</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layoutNew.py" line="144"/>
-        <source>Help</source>
-        <translation type="obsolete">Aide</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layoutNew.py" line="152"/>
-        <source>Controls/Readback</source>
-        <translation type="obsolete">Contrôles/rétro-lecture</translation>
-    </message>
-    <message>
-        <location filename="../templates/ui_layoutNew.py" line="155"/>
-        <source>File</source>
-        <translation type="obsolete">Fichier</translation>
+        <translation type="unfinished">Enregistrer l&apos;image</translation>
     </message>
     <message>
         <location filename="../templates/ui_layoutNew.py" line="156"/>
-        <source>save</source>
-        <translation type="obsolete">enregistrer</translation>
+        <source>ExpEYES - 17</source>
+        <translation type="unfinished">ExpEYES - 17</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_testing.py" line="155"/>
+        <source>deep</source>
+        <translation type="unfinished">profondeur</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="832"/>
+        <source>SINE .1V</source>
+        <translation type="unfinished">SINUS 0,1V</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="833"/>
+        <source>SINE 1V</source>
+        <translation type="unfinished">SINUS 1V</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="834"/>
+        <source>SINE 3V</source>
+        <translation type="unfinished">SINUS 3V</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="835"/>
+        <source>TRIA .1V</source>
+        <translation type="unfinished">TRIA 0,1V</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="836"/>
+        <source>TRIA 1V</source>
+        <translation type="unfinished">TRIA 1V</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="837"/>
+        <source>TRIA 3V</source>
+        <translation type="unfinished">TRIA 3V</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="838"/>
+        <source>SQR2</source>
+        <translation type="unfinished">SQR2</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="839"/>
+        <source>WG</source>
+        <translation type="unfinished">WG</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layoutNew.py" line="162"/>
+        <source>OD1</source>
+        <translation type="unfinished">OD1</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layoutNew.py" line="164"/>
+        <source>CCS</source>
+        <translation type="unfinished">CCS</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="842"/>
+        <source>Set Outputs</source>
+        <translation type="unfinished">Régler les sorties</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="843"/>
+        <source>Four Channel Oscilloscope</source>
+        <translation type="unfinished">Oscilloscope 4 canaux</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="867"/>
+        <source>4V</source>
+        <translation type="unfinished">4V</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="868"/>
+        <source>2V</source>
+        <translation type="unfinished">2V</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="869"/>
+        <source>1V</source>
+        <translation type="unfinished">1V</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="870"/>
+        <source>.5V</source>
+        <translation type="unfinished">0,5V</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="848"/>
+        <source>A3</source>
+        <translation type="unfinished">A3</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="858"/>
+        <source>16V</source>
+        <translation type="unfinished">16V</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="859"/>
+        <source>8V</source>
+        <translation type="unfinished">8V</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="861"/>
+        <source>2.5V</source>
+        <translation type="unfinished">2,5V</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="862"/>
+        <source>1.5V</source>
+        <translation type="unfinished">1,5V</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="865"/>
+        <source>.25V</source>
+        <translation type="unfinished">0,25V</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="857"/>
+        <source>A2</source>
+        <translation type="unfinished">A2</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="866"/>
+        <source>MIC</source>
+        <translation type="unfinished">MIC</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="871"/>
+        <source>FIT</source>
+        <translation type="unfinished">FIT</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="872"/>
+        <source>Range</source>
+        <translation type="unfinished">Calibre</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="873"/>
+        <source>Input</source>
+        <translation type="unfinished">Entrée</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="874"/>
+        <source>Time</source>
+        <translation type="unfinished">Temps</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="934"/>
+        <source>mS</source>
+        <translation type="unfinished">ms</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="876"/>
+        <source>Trigger: 0V (Drag yellow line)</source>
+        <translation type="unfinished">Seuil : 0V (tirer la ligne jaune)</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="877"/>
+        <source>?</source>
+        <translation type="unfinished">?</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="878"/>
+        <source>T</source>
+        <translation type="unfinished">T</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layoutNew.py" line="171"/>
+        <source>Ctrl+S</source>
+        <translation type="unfinished">Ctrl+S</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="881"/>
+        <source>LAUNCH</source>
+        <translation type="unfinished">LANCER</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="882"/>
+        <source>PAUSE</source>
+        <translation type="unfinished">PAUSE</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="883"/>
+        <source>Space</source>
+        <translation type="unfinished">Espace</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="884"/>
+        <source>Oscilloscope</source>
+        <translation type="unfinished">Oscilloscope</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="885"/>
+        <source>Data Acquisition and controls</source>
+        <translation type="unfinished">Acquisition de données et contrôles</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="933"/>
+        <source>PeripheralCollectionInner</source>
+        <translation type="unfinished">Collection de périphériques internes</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="935"/>
+        <source>Measure &gt;</source>
+        <translation type="unfinished">Mesurer &gt;</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="936"/>
+        <source>Timeout:</source>
+        <translation type="unfinished">Délai max :</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="939"/>
+        <source>rising</source>
+        <translation type="unfinished">montant</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="940"/>
+        <source>falling</source>
+        <translation type="unfinished">descendant</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="941"/>
+        <source>four rising edges</source>
+        <translation type="unfinished">quatre fronts montants</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="894"/>
+        <source>TIME INTERVAL MEASUREMENT</source>
+        <translation type="unfinished">MESURE D&apos;INTERVALLE DE TEMPS</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_testing.py" line="152"/>
+        <source>1</source>
+        <translation type="unfinished">1</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_testing.py" line="154"/>
+        <source>2</source>
+        <translation type="unfinished">2</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="944"/>
+        <source>3</source>
+        <translation type="unfinished">3</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="945"/>
+        <source>4</source>
+        <translation type="unfinished">4</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="921"/>
+        <source>4xrising</source>
+        <translation type="unfinished">4xmontant</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="922"/>
+        <source>16xrising</source>
+        <translation type="unfinished">16xmontant</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="917"/>
+        <source>DOUBLE INPUT INTERVAL</source>
+        <translation type="unfinished">INTERVALLE D&apos;ENTRÉE DOUBLE</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="937"/>
+        <source>SINGLE INPUT INTERVAL</source>
+        <translation type="unfinished">INTERVALLE D&apos;ENTRÉE SIMPLE</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layoutNew.py" line="159"/>
+        <source>Digital Inputs</source>
+        <translation type="unfinished">Entrées numériques</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layoutNew.py" line="160"/>
+        <source>IN2</source>
+        <translation type="unfinished">IN2</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layoutNew.py" line="161"/>
+        <source>SQR1</source>
+        <translation type="unfinished">SQR1</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layoutNew.py" line="163"/>
+        <source>SEN</source>
+        <translation type="unfinished">SEN</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layout.py" line="952"/>
+        <source>Measurement and Controls</source>
+        <translation type="unfinished">Mesures et contrôles</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layoutNew.py" line="158"/>
+        <source>Experiments</source>
+        <translation type="unfinished">Expériences</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layoutNew.py" line="166"/>
+        <source>Saved plots</source>
+        <translation type="unfinished">Courbes enregistrées</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layoutNew.py" line="167"/>
+        <source>View saved plots. Click on them to load them to the plot window for analysis</source>
+        <translation type="unfinished">Voir les courbes enregistrées. Cliquer dessus pour les charger dans la fenêtre pour analyse</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_testing.py" line="149"/>
+        <source>Edit Calibration</source>
+        <translation type="unfinished">Éditer la calibration</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_testing.py" line="151"/>
+        <source>Evaluate Group 1</source>
+        <translation type="unfinished">Évaluer le groupe 1</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_testing.py" line="153"/>
+        <source>Evaluate Group 2</source>
+        <translation type="unfinished">Évaluer le groupe 2</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_testing.py" line="156"/>
+        <source>Save Values and Screenshot</source>
+        <translation type="unfinished">Enregistrer les valeurs et la copie d&apos;écran</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_testing.py" line="158"/>
+        <source>Automated</source>
+        <translation type="unfinished">Automatique</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_testing.py" line="159"/>
+        <source>Advanced tests</source>
+        <translation type="unfinished">Tests avancés</translation>
     </message>
     <message>
         <location filename="../templates/ui_layoutNew.py" line="157"/>
+        <source>Help</source>
+        <translation type="unfinished">Aide</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layoutNew.py" line="165"/>
+        <source>Controls/Readback</source>
+        <translation type="unfinished">Contrôles/rétro-lecture</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layoutNew.py" line="168"/>
+        <source>File</source>
+        <translation type="unfinished">Fichier</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layoutNew.py" line="169"/>
+        <source>save</source>
+        <translation type="unfinished">enregistrer</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layoutNew.py" line="170"/>
         <source>save plot data</source>
-        <translation type="obsolete">enregistrer les données des courbes</translation>
+        <translation type="unfinished">enregistrer les données des courbes</translation>
     </message>
 </context>
 <context>
@@ -1016,7 +1040,7 @@
     </message>
     <message>
         <location filename="../experiments/data-logger.py" line="58"/>
-        <source>Voltage:	%s</source>
+        <source>Voltage:<byte value="x9"/>%s</source>
         <translation>Tension : %s</translation>
     </message>
     <message>

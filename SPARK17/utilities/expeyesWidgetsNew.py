@@ -883,7 +883,7 @@ class expeyesWidgets(object):
 		trignum = self.activeTriggerWidget.chanBox.currentIndex()
 		if trignum==-1 : #Index not found.
 			return
-		self.activeTriggerWidget.enable.setText(_translate("ewn",'Trigger Level: %s') %self.applySIPrefix(self.trigger_level,'V',1))
+		self.activeTriggerWidget.enable.setText(_translate("ewn",'Trigger Level: ')+self.applySIPrefix(self.trigger_level,'V',1))
 		self.p.configure_trigger(trignum,trigName,self.trigger_level,resolution=10,prescaler=5)
 
 
@@ -1240,7 +1240,7 @@ class expeyesWidgets(object):
 			neg = False
 			if value < 0.:
 				value *= -1; neg = True
-			elif value == 0.:  return '0 '  # Mantissa & exponent both 0
+			elif value == 0.: return '0 '  # Mantissa & exponent both 0
 			exponent = int(np.log10(value))
 			if exponent > 0:
 				exponent = (exponent // 3) * 3
