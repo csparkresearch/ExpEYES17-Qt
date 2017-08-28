@@ -30,6 +30,10 @@ install:
     - sh -e /etc/init.d/xvfb start
     - sudo apt-get install -y libqt4-dev
     - sudo apt-get install -y mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev
+    #Scipy
+    - SITE_PKG_DIR=$VIRTUAL_ENV/lib/python$TRAVIS_PYTHON_VERSION/site-packages
+    - rm -f $VIRTUAL_ENV/lib/python$TRAVIS_PYTHON_VERSION/no-global-site-packages.txt  
+    - sudo apt-get install -y python-numpy
     - sudo apt-get install -y python-scipy
     #- sudo apt-get install -y python3-sip python3-sip-dev python3-pyqt4 cmake
     # Qt4
