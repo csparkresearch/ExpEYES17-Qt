@@ -8,6 +8,7 @@ screencast2: "giffer"
 screencast2_imagebase: oscilloscope
 screencast2_title: "Animation : Introduction to the oscilloscope"
 
+section: EL
 
 ---
 

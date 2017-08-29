@@ -3,6 +3,7 @@ layout: e17page
 title: Filter Circuit
 date: 2017-08-13
 description:
+section: ELL
 ---
 
 ## Schematic

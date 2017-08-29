@@ -3,6 +3,7 @@ layout: e17page
 title: AM and FM modulation
 date: 2017-05-21
 description: "Capture the AM and FM signals and plot the power spectrum. Study sidebands in the AM signal"
+section: EL
 ---
 
 ![](images/schematics/amfm.png){: width="400px"}

@@ -3,6 +3,7 @@ layout: e17page
 title: Sound Generator
 date: 2017-08-13
 description: Observing resonance in a piezo disk
+section: PH
 ---
 
 ## Schematic

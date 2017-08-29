@@ -3,6 +3,7 @@ layout: e17page
 title: AC,DC separating
 date: 2017-05-21
 description: "Blocking the DC component of a waveform by using a capacitor"
+section: SC
 ---
 ## Schematic
 ___

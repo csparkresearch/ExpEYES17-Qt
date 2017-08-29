@@ -3,6 +3,7 @@ layout: e17page
 title: RL Circuits
 date: 2017-06-24
 description: Transient response of RL circuits
+section: EL
 ---
 
 # RL circuit, Transient response

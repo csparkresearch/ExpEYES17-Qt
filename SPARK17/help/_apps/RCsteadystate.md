@@ -3,6 +3,7 @@ layout: e17page
 title: RC Steady State
 date: 2017-08-18
 description: 
+section: ELL
 ---
 
 ## Schematic

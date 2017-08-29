@@ -3,6 +3,7 @@ layout: e17page
 title: RLC steady state
 date: 2017-05-21
 description: Steady state response of RLC circuits
+section: ELL
 ---
 
 ![](images/schematics/ac-circuits.svg){: width="700px"}

@@ -6,6 +6,7 @@ description: Measure hysterisis in IV characteristics of devices like memristors
 imagebase: ej_iv_hysterisis
 screencast: "ogv"
 screencast-title: "Screen recording of a 3.3V zener diode being used"
+section: EL
 ---
 
 ## Parameters

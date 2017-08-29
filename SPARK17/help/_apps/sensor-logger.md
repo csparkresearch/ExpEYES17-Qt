@@ -3,6 +3,7 @@ layout: e17page
 title: Sensor Logger
 date: 2017-06-26
 description: Log data from I2C sensors
+section: PH
 ---
 
 ## I2C Sensors supported by ExpEYES so far

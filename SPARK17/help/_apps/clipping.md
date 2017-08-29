@@ -9,5 +9,6 @@ screencast-title: "Clipping using a diode: Animation"
 screencast2: "giffer"
 screencast2_imagebase: clipping-negative
 screencast2_title: "Negative Clipping: Animation"
+section: EL
 
 ---

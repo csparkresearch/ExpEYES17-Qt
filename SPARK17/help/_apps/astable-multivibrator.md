@@ -4,6 +4,7 @@ title: Astable Multivibrator
 date: 2017-05-21
 description: Multivibrator circuit using a pair of transistors
 imagebase: astable-multivibrator
+section: EL
 ---
 
 

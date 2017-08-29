@@ -5,6 +5,7 @@ date: 2017-05-21
 description: Transient response of RLC circuits
 imagebase: RLCdischarge
 screencast: "yes"
+section: ELL
 ---
 
 ## Introduction

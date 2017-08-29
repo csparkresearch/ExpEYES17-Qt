@@ -9,6 +9,5 @@ screencast-title: "Clamping using a diode: Animation"
 screencast2: "giffer"
 screencast2_imagebase: clamping-negative
 screencast2_title: "Negative Clamping: Animation"
-
-
+section: EL
 ---

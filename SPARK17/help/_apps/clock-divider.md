@@ -3,6 +3,7 @@ layout: e17page
 title: Clock divider
 date: 2017-05-21
 description: Divide clock frequencies using flip flop
+section: EL
 ---
 ## Schematic
 ___		

@@ -3,6 +3,7 @@ layout: e17page
 title: AND Gate
 date: 2017-05-21
 description: "Logic Gates : Study of AND gates"
+section: EL
 ---
 
 ## Schematic

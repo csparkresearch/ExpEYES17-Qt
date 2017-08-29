@@ -3,6 +3,7 @@ layout: e17page
 title: Resistance of Human Body
 date: 2017-08-13
 description: Human Body resistance measurement
+section: SC
 ---
 ## Schematic
 ___

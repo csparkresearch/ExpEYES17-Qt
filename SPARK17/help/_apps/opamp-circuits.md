@@ -3,6 +3,7 @@ layout: e17page
 title: Op-Amp Circuits
 date: 2017-05-21
 description: Circuits using operational amplifiers
+section: EL
 ---
 
 Op-amp Circuits

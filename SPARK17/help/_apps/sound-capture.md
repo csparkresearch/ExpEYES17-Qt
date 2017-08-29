@@ -3,6 +3,7 @@ layout: e17page
 title: Sound Capture
 date: 2017-08-18
 description: 
+section: PH
 ---
 
 ## Schematic

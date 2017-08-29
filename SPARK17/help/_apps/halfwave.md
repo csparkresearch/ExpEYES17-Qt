@@ -6,5 +6,6 @@ description: Study a half-wave rectifier
 imagebase: halfwave
 screencast: "giffer"
 screencast-title: "Half-wave rectifier recording"
+section: EL
 ---
 

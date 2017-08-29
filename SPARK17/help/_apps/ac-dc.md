@@ -3,6 +3,7 @@ layout: e17page
 title: AC and DC
 date: 2017-05-21
 description: "Difference between AC and DC"
+section: SH
 ---
 ## Schematic
 ___

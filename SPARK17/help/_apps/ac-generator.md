@@ -6,6 +6,7 @@ description: Simple AC Generator
 screencast2: "giffer"
 screencast2_imagebase: ac-generator
 screencast2_title: "AC Generator: Screencast"
+section: ELL
 ---
 
 ## Schematic A : Single phase

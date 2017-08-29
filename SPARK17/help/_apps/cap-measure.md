@@ -3,6 +3,7 @@ layout: e17page
 title: Measure Capacitance
 date: 2017-05-21
 description: "Measure the values of capacitors"
+section: SC
 ---
 
 ## Schematic

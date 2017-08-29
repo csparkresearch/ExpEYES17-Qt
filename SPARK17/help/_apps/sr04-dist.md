@@ -8,6 +8,7 @@ screencast2: "giffer"
 screencast2_imagebase: sr04-dist
 screencast2_title: "Animation : Recording distance to an oscillating body"
 
+section: PH
 
 ---
 ## Schematic

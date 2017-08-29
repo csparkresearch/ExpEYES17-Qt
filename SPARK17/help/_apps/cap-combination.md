@@ -3,6 +3,7 @@ layout: e17page
 title: Capacitors - Advanced
 date: 2017-05-21
 description: "Study the effect of combining capacitors in series or in parallel"
+section: SC
 ---
 
 ## Make your own parallel plate capacitor

@@ -3,6 +3,7 @@ layout: e17page
 title: Light Dependent Resistor
 date: 2017-08-13
 description: Output Characteristics of an LDR under different Light Sources
+section: SC
 
 ---
 ## Schematic

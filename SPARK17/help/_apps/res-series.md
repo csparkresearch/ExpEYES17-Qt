@@ -3,6 +3,7 @@ layout: e17page
 title: Resistance in Series
 date: 2017-08-18
 description: Measurement of Resistance connected in Series
+section: SC
 ---
 
 ## Schematic

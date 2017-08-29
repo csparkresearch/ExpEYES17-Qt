@@ -3,6 +3,7 @@ layout: e17page
 title: Resistance comparison
 date: 2017-08-18
 description: 
+section: SC
 ---
 
 ## Schematic

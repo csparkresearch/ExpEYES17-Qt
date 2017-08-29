@@ -3,6 +3,7 @@ layout: e17page
 title: RLC Transient
 date: 2017-08-18
 description: 
+section: EL
 ---
 
 ## Schematic

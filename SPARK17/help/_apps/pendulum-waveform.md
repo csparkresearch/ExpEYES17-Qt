@@ -3,6 +3,7 @@ layout: e17page
 title: Pendulum waveform
 date: 2017-05-21
 description: "Pendulum waveform : Digitization "
+section: PH
 ---
 
 ## Using a DC motor as a velocity sensor
