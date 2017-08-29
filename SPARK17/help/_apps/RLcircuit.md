@@ -6,10 +6,12 @@ description: Transient response of RL circuits
 ---
 
 # RL circuit, Transient response
-
-A voltage step is applied to a series RL circuit and the voltage across
+___
+- A voltage step is applied to a series RL circuit and the voltage across
 the inductor is recorded.
 
+## Schematic
+___
 ![](images/schematics/RLcircuit.svg){: width="700px"}
 
 ## The following constant voltage charging/discharging transitions can be recorded with the above schematic
@@ -19,10 +21,12 @@ the inductor is recorded.
 ![](images/screenshots/RLcircuit.png){: width="700px"}
 
 ## Analysis
+___
 
-Drag the blue region using its handles on either side, and click on the 'Calculate RL' button . 
-The RL time constant of the last obtained data is calculated , and a new plot is overlaid on the original dataset
+- Drag the blue region using its handles on either side, and click on the 'Calculate RL' button . 
+- The RL time constant of the last obtained data is calculated , and a new plot is overlaid on the original dataset
 
 ## Photograph of the setup 
+___
 
 ![](images/photographs/RLcircuit.jpg){: width="700px"}

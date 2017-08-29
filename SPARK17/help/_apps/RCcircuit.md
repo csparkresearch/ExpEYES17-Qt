@@ -18,13 +18,13 @@ description: Transient response of RC circuits
 
 ![](images/screenshots/RCcircuit.png){: width="700px"}
 
-A voltage step is applied to a series RC circuit and the voltage across
++ A voltage step is applied to a series RC circuit and the voltage across
 the capacitor is recorded.
 
 ## Analysis
 
-Drag the blue region using its handles on either side, and click on the 'Calculate RC' button . 
-The RC time constant of the last obtained data is calculated , and a new plot is overlaid on the original dataset
+- Drag the blue region using its handles on either side, and click on the 'Calculate RC' button . 
+- The RC time constant of the last obtained data is calculated , and a new plot is overlaid on the original dataset
 
 ## Photograph of the setup for constant voltage charging
 

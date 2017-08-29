@@ -8,14 +8,14 @@ description: Circuits using operational amplifiers
 Op-amp Circuits
 ===============
 
-With the built-in Waveform generator, Oscilloscope and the +/- 6V DC supply,
+- With the built-in Waveform generator, Oscilloscope and the +/- 6V DC supply,
 we can study Op-amp circuits upto 100kHz range. 
 
-The amplitude of WG can be set to 3 volts, 1 volt or 80 mV.
+- The amplitude of WG can be set to 3 volts, 1 volt or 80 mV.
 
-For testing amplifier circuits, set the amplitude to 80 mV.
+- For testing amplifier circuits, set the amplitude to 80 mV.
 
-Input in monitored by A1 and the output is connected to A2.
+- Input in monitored by A1 and the output is connected to A2.
 
 Several examples are given below
 

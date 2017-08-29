@@ -13,7 +13,7 @@ screencast2_title: "Animation : Introduction to the oscilloscope"
 
 
 ## Specifications and features
-
+---
 * Simultaneous acquisition from up to 4-Channels
   * Maximum 2 million samples per second total.
   * Software Selectable amplification stages
@@ -31,4 +31,14 @@ screencast2_title: "Animation : Introduction to the oscilloscope"
   * Digital Outputs : SQR1, SQR2, OD1, CCS
   * Capacitance Measurement. pF to uF range
   * Resistance Measurement.
+
+## Instructions
+___
+- To test the Oscilloscope, Connect the wires  as shown in the figure.
+- Set PV1 using the slider or entering the value.
+- Graph of DC will be a horizontal line.
+- Number of cycles displayed can be changed by the Timebase slider.
+- You can explore other features on the right side panel.
+
+
 
