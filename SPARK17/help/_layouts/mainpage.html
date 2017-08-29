@@ -11,7 +11,7 @@
 	
 	<!-- core CSS -->
 	
-
+    <script src="{{base}}/js/jquery.min.js"></script>
 	<link href="{{base}}/css/bootstrap.min.css" rel="stylesheet">
 	<link href="{{base}}/css/main.css" rel="stylesheet">
 	<link href="{{base}}/css/highlight.css" rel="stylesheet">
@@ -28,8 +28,8 @@
 	    </div>
 	    <ul class="nav navbar-nav pull-left">
                         <li {% if page.active == "home" %}class="active"{% endif %}><a href="{{base}}/index.html">Home</a></li>
-                        <li {% if page.active == "utilities" %}class="active"{% endif %}><a href="{{base}}/utilities/index.html">Utilities</a></li>
-                        <li {% if page.active == "apps" %}class="active"{% endif %}><a href="{{base}}/apps/index.html">Experiments</a></li>
+                        <li {% if page.layout == "utilsPage" %}class="active"{% endif %}><a href="{{base}}/utilities/index.html">Utilities</a></li>
+                        <li {% if page.layout == "e17page" %}class="active"{% endif %}><a href="{{base}}/apps/index.html">Experiments</a></li>
 
 	    </ul>
 		<ul class="nav navbar-nav navbar-right">

@@ -1,0 +1,30 @@
+<div id="main">
+
+	<div class="center wow fadeInDown">
+		<br><h2>Experiment List</h2>
+		<p class="lead"> Select an experiment to view its documentation</p>
+	</div>    
+
+  <div align="center">
+      <button class="btn btn-default filter-button" data-filter="all">All</button>
+      <button class="btn btn-default filter-button" data-filter="EL">Electronics</button>
+      <button class="btn btn-default filter-button" data-filter="ELL">Electrical</button>
+      <button class="btn btn-default filter-button" data-filter="PH">Physics</button>
+      <button class="btn btn-default filter-button" data-filter="SC">School Level</button>
+  </div>
+  <br/>
+
+	{% for p in site.apps %}
+	  <div class="gallery_product col-lg-2 col-md-3 col-sm-4 col-xs-6 filter {{ p.section }}">
+        <div class="panel panel-primary my-panel" >
+		  <div class="panel-heading"><a href = "{{base}}{{ p.url }}" >{{ p.title }}</a></div>
+		  <div class="panel-body">
+			<!-- <img src="{{ p.img }}" class="img-responsive"> -->
+			<p>{{ p.description }}</p>
+		  </div>
+        </div>
+	  </div>
+	{% endfor %}
+
+</div>
+
