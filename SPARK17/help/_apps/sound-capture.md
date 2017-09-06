@@ -9,7 +9,7 @@ section: PH
 ## Schematic
 ___
 
-![](images/schematics/sound-capture.png)
+![](images/schematics/sound-capture.png){: width="400px"}
 
 ## Instructions
 ___
