@@ -6,6 +6,6 @@ description: Common Emitter characteristics of transistors
 imagebase: transistor-ce
 screencast: "giffer"
 screencast-title: "Screen recording of a 2N2222 transistor being characterised"
-section: PH
+section: EL
 ---
 

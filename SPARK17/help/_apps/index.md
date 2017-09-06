@@ -6,14 +6,17 @@ active: apps
 ---
 
 ```python
-#code snippet example
-import numpy as np
-x=np.linspace(0,np.pi*2,1000)
+#Example code to capture a trace and plot it
+from expeyes import eyes17
+p = eyes17.open()
 
+#Fetch 1000 points from A1 with 1uS between each consecutive point
+x,y = p.capture1('A1',1000,1)
 from pylab import *
-plot(x,np.sin(x))
+plot(x,y)
 show()
 ```
+
 
 {% include experiment_gallery.html %}
 

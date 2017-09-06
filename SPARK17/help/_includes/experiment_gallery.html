@@ -1,3 +1,4 @@
+{% include base_url.html %}
 <div id="main">
 
 	<div class="center wow fadeInDown">
@@ -19,7 +20,24 @@
         <div class="panel panel-primary my-panel" >
 		  <div class="panel-heading"><a href = "{{base}}{{ p.url }}" >{{ p.title }}</a></div>
 		  <div class="panel-body">
-			<!-- <img src="{{ p.img }}" class="img-responsive"> -->
+			  {% if p.imagebase %}
+			    {% assign myImg = "images/schematics/"| append: p.imagebase| append: ".png" %}
+			    {% capture pngImg %}{% file_exists {{ myImg| append: base }} %}{% endcapture %}
+			    
+			    {{ pngImg }}
+			    {{ myImg }}
+
+				{% if pngImg == "false" %}
+				  {% assign myImg= "images/schematics/"| append: p.imagebase| append: ".svg"  %}
+
+					{% capture svgImg %}{% file_exists {{ myImg }} %}{% endcapture %}
+					{% if svgImg == "false" %}
+					  {% assign myImg= "images/screenshots/"| append: p.imagebase| append: ".png"  %}
+					{% endif %}			    
+
+				{% endif %}			    
+			    <img src="{{ myImg }}" class="img-responsive" style="max-height:150px;">
+			  {% endif %}
 			<p>{{ p.description }}</p>
 		  </div>
         </div>

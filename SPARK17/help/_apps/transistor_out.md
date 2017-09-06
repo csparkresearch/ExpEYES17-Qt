@@ -3,7 +3,7 @@ layout: e17page
 title: Transistor output
 date: 2017-08-13
 description: Output Characteristics of transistors
-section: PH
+section: EL
 ---
 
 ## Schematic

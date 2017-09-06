@@ -1,13 +1,13 @@
 name: ExpEYES-17 documentation
 
-#exclude: []
+exclude: ['myapk','MD_HTML']
 include: ['apps','utilities']
 collections:
  apps:
-  permalink: /apps/:path
+  permalink: /apps/:path.html
   output: true
  utilities:
-  permalink: /utilities/:path
+  permalink: /utilities/:path.html
   output: true
 
 future: true
