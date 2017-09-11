@@ -15,7 +15,8 @@ Qt based toolkit for accessing [ExpEYES-17](http://expeyes.in)
 ### Dependencies
 
 + On Debian/Ubuntu
-  + sudo apt-get install python-pyqt4 , python-pyqtgraph, python-scipy, python-pyqt4.qtsvg, pyqt4-dev-tools, python-pyqt4.qtwebkit, python-serial
+  + sudo apt-get install python-pyqt4 python-pyqtgraph python-scipy python-pyqt4.qtsvg pyqt4-dev-tools python-pyqt4.qtwebkit, python-serial ruby
+  + gem install jekyll
   + make
 
 `python -m SPARK17.spark17`
@@ -26,7 +27,8 @@ Qt based toolkit for accessing [ExpEYES-17](http://expeyes.in)
 ### Installing Dependencies
 
 + On Debian/Ubuntu
-  + sudo apt-get install python3-pyqt5 , python3-pyqtgraph, python3-scipy, python3-pyqt5.qtsvg, pyqt5-dev-tools, python3-pyqt5.qtwebkit, python3-serial
+  + sudo apt-get install python3-pyqt5 python3-pyqtgraph python3-scipy python3-pyqt5.qtsvg pyqt5-dev-tools python3-pyqt5.qtwebkit python3-serial ruby
+  + gem install jekyll
   + make QT_VERSION=PyQt5
 
 `python3 -m SPARK17.spark17`
@@ -38,7 +40,7 @@ Qt based toolkit for accessing [ExpEYES-17](http://expeyes.in)
 
 + Work in progress. Currently segfaults under various scenarios.
 + On Debian/Ubuntu
-  + sudo apt-get install python-pyside , python-pyqtgraph, python-scipy, pyside-tools
+  + sudo apt-get install python-pyside python-pyqtgraph python-scipy pyside-tools
   + make QT_VERSION=PySide
 
 `python -m SPARK17.spark17`
