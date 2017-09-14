@@ -5,16 +5,29 @@
 		{% else %}
 		<h2 style="text-align:left;">Animation : Mouseover to play</h2><hr>
 		{% endif %}
-	<img class="img-responsive" style="bottom:0px;" src="{{include.poster}}" onmouseover="playGIF(this);" onmouseout="pauseGIF(this);">
-</div>
+	<!-- <img id="{{include.poster}}" class="img-responsive" style="bottom:0px;" src="{{include.poster}}" > -->
+
 <script>
-function playGIF(elm) {
-	elm.src = "{{include.url}}";
-}
-function pauseGIF(elm) {
-	elm.src = "{{include.poster}}";
-}
+var arrScripts = document.getElementsByTagName('script');
+var currScript = arrScripts[arrScripts.length - 1];
+
+var elem = $('<img id="dynamic">');
+
+elem.attr('src', '{{include.poster}}');
+elem.attr('class', 'img-responsive');
+
+elem.appendTo(currScript.parentNode);
+
+elem.mouseover(function () {
+	this.src = "{{include.url}}";
+}).mouseout( function (elm) {
+	this.src = "{{include.poster}}";
+});
+
 </script>		
+
+</div>
+
 {% else %}
 <div class=" col-xs-12 col-sm-12 col-md-12">
 	<h2 style="text-align:left;">Screencast : A recording of the experiment</h2><hr>

@@ -62,9 +62,9 @@ ___
 
 
 
-{% include giffer.html url="apps/images/screencasts/oscilloscope.gif"  title = "Oscilloscope Utility Introduction: Click to play"%}
+{% include animated_gif.html poster="apps/images/screenshots/oscilloscope_thumb.png" url="apps/images/screencasts/oscilloscope.gif"  title = "Oscilloscope Utility Introduction: Click to play"%}
 
-{% include giffer.html url="apps/images/screencasts/ac-circuits.gif"  title = "An example experiment: RLC phase shifts"%}
+{% include animated_gif.html poster="apps/images/screenshots/ac-circuits.png" url="apps/images/screencasts/ac-circuits.gif"  title = "An example experiment: RLC phase shifts"%}
 
-{% include giffer.html url="apps/images/screencasts/sensor-logger.gif"  title = "Directly record data from sensors"%}
+{% include animated_gif.html poster="apps/images/screenshots/sensor_logger_thumb.png" url="apps/images/screencasts/sensor-logger.gif"  title = "Directly record data from sensors"%}
 

@@ -50,7 +50,7 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 	sigExec = QtCore.pyqtSignal(str,object,object)
 	sigHelp = QtCore.pyqtSignal(str)
 	xmax = 20 #mS
-
+	online=True
 
 	def __init__(self, parent=None, path={}, **kwargs):
 		super(AppWindow, self).__init__(parent)
@@ -132,6 +132,12 @@ class AppWindow(QtWidgets.QMainWindow,expeyesWidgets, layoutNew.Ui_MainWindow):
 
 		self.fileBrowser = fileBrowser(thumbnail_directory = 'ExpEYES_thumbnails',app=kwargs.get('app',None))#,clickCallback = self.showNewPlot)
 		self.saveLayout.addWidget(self.fileBrowser)
+
+		if self.online:
+			from .utilities.onlineBrowser import onlineBrowser
+			self.onlineBrowser = onlineBrowser(save_directory = 'ExpEYES_Online',app=kwargs.get('app',None))#,clickCallback = self.showNewPlot)
+			self.onlineLayout.addWidget(self.onlineBrowser)
+
 
 		try:
 			from .utilities.helpBrowser import helpBrowser

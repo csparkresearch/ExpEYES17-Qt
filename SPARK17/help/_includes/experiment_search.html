@@ -3,17 +3,33 @@
 <script src="{{base}}/js/select2.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		var experiments = {'':'', {% for p in site.apps %}'{{ p.title }}':'{{base}}{{ p.url }}',{% endfor %} };
-		var myExptSelect = $("#expts").select2({
-		  data: Object.keys(experiments),
-		  placeholder: "Select Experiment"
-		});
-		
-		$("#launch").on("click", function () {
-		  var data = myExptSelect.select2('data')[0]['text'];
-		  window.location.href = experiments[data];
-		});
 
+		{% if site.nocrossorigin %}
+			var experiments = {'':'', {% for p in site.apps %}'{{ p.title }}':'{{base}}{{ p.url }}',{% endfor %} };
+			var myExptSelect = $("#expts").select2({
+			  data: Object.keys(experiments),
+			  placeholder: "Select Experiment"
+			});
+		
+			$("#launch").on("click", function () {
+			  var data = myExptSelect.select2('data')[0]['text'];
+			  window.location.href = experiments[data];
+			});
+		
+
+		{% else %}
+			$.get('{{base}}/utilities/applist.html.json', function (experiments) {
+				var myExptSelect = $("#expts").select2({
+				  data: Object.keys(experiments),
+				  placeholder: "Select Experiment"
+				});
+		
+				$("#launch").on("click", function () {
+				  var data = myExptSelect.select2('data')[0]['text'];
+				  window.location.href = experiments[data];
+				});
+			});
+		{% endif %}
 	});
 </script>
 	<select id="expts" style="width:280px;">

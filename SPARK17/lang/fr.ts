@@ -275,6 +275,16 @@
         <source>1V</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../utilities/templates/ui_onlineBrowser.py" line="78"/>
+        <source>SERVER : </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utilities/templates/ui_onlineBrowser.py" line="79"/>
+        <source>https://eyes-online.herokuapp.com/</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -334,7 +344,7 @@
         <translation type="unfinished">Enregistrer l&apos;image</translation>
     </message>
     <message>
-        <location filename="../templates/ui_layoutNew.py" line="156"/>
+        <location filename="../templates/ui_layoutNew.py" line="137"/>
         <source>ExpEYES - 17</source>
         <translation type="unfinished">ExpEYES - 17</translation>
     </message>
@@ -384,12 +394,12 @@
         <translation type="unfinished">WG</translation>
     </message>
     <message>
-        <location filename="../templates/ui_layoutNew.py" line="162"/>
+        <location filename="../templates/ui_layout.py" line="949"/>
         <source>OD1</source>
         <translation type="unfinished">OD1</translation>
     </message>
     <message>
-        <location filename="../templates/ui_layoutNew.py" line="164"/>
+        <location filename="../templates/ui_layout.py" line="951"/>
         <source>CCS</source>
         <translation type="unfinished">CCS</translation>
     </message>
@@ -504,7 +514,7 @@
         <translation type="unfinished">T</translation>
     </message>
     <message>
-        <location filename="../templates/ui_layoutNew.py" line="171"/>
+        <location filename="../templates/ui_layoutNew.py" line="150"/>
         <source>Ctrl+S</source>
         <translation type="unfinished">Ctrl+S</translation>
     </message>
@@ -609,22 +619,22 @@
         <translation type="unfinished">INTERVALLE D&apos;ENTRÉE SIMPLE</translation>
     </message>
     <message>
-        <location filename="../templates/ui_layoutNew.py" line="159"/>
+        <location filename="../templates/ui_layout.py" line="946"/>
         <source>Digital Inputs</source>
         <translation type="unfinished">Entrées numériques</translation>
     </message>
     <message>
-        <location filename="../templates/ui_layoutNew.py" line="160"/>
+        <location filename="../templates/ui_layout.py" line="947"/>
         <source>IN2</source>
         <translation type="unfinished">IN2</translation>
     </message>
     <message>
-        <location filename="../templates/ui_layoutNew.py" line="161"/>
+        <location filename="../templates/ui_layout.py" line="948"/>
         <source>SQR1</source>
         <translation type="unfinished">SQR1</translation>
     </message>
     <message>
-        <location filename="../templates/ui_layoutNew.py" line="163"/>
+        <location filename="../templates/ui_layout.py" line="950"/>
         <source>SEN</source>
         <translation type="unfinished">SEN</translation>
     </message>
@@ -634,17 +644,17 @@
         <translation type="unfinished">Mesures et contrôles</translation>
     </message>
     <message>
-        <location filename="../templates/ui_layoutNew.py" line="158"/>
+        <location filename="../templates/ui_layoutNew.py" line="140"/>
         <source>Experiments</source>
         <translation type="unfinished">Expériences</translation>
     </message>
     <message>
-        <location filename="../templates/ui_layoutNew.py" line="166"/>
+        <location filename="../templates/ui_layoutNew.py" line="142"/>
         <source>Saved plots</source>
         <translation type="unfinished">Courbes enregistrées</translation>
     </message>
     <message>
-        <location filename="../templates/ui_layoutNew.py" line="167"/>
+        <location filename="../templates/ui_layoutNew.py" line="143"/>
         <source>View saved plots. Click on them to load them to the plot window for analysis</source>
         <translation type="unfinished">Voir les courbes enregistrées. Cliquer dessus pour les charger dans la fenêtre pour analyse</translation>
     </message>
@@ -679,29 +689,50 @@
         <translation type="unfinished">Tests avancés</translation>
     </message>
     <message>
-        <location filename="../templates/ui_layoutNew.py" line="157"/>
+        <location filename="../templates/ui_layoutNew.py" line="138"/>
         <source>Help</source>
         <translation type="unfinished">Aide</translation>
     </message>
     <message>
         <location filename="../templates/ui_layoutNew.py" line="165"/>
         <source>Controls/Readback</source>
-        <translation type="unfinished">Contrôles/rétro-lecture</translation>
+        <translation type="obsolete">Contrôles/rétro-lecture</translation>
     </message>
     <message>
-        <location filename="../templates/ui_layoutNew.py" line="168"/>
+        <location filename="../templates/ui_layoutNew.py" line="147"/>
         <source>File</source>
         <translation type="unfinished">Fichier</translation>
     </message>
     <message>
-        <location filename="../templates/ui_layoutNew.py" line="169"/>
+        <location filename="../templates/ui_layoutNew.py" line="148"/>
         <source>save</source>
         <translation type="unfinished">enregistrer</translation>
     </message>
     <message>
-        <location filename="../templates/ui_layoutNew.py" line="170"/>
+        <location filename="../templates/ui_layoutNew.py" line="149"/>
         <source>save plot data</source>
         <translation type="unfinished">enregistrer les données des courbes</translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layoutNew.py" line="139"/>
+        <source>Tutorials and documentation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layoutNew.py" line="141"/>
+        <source>Experiment control panels are loaded in this tab</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layoutNew.py" line="144"/>
+        <source>Web</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../templates/ui_layoutNew.py" line="145"/>
+        <source>ExpEYES Online (beta) : Download new experiments
+from the online repository.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -855,27 +886,27 @@
         <translation>Niveau scolaire</translation>
     </message>
     <message>
-        <location filename="../spark17.py" line="142"/>
+        <location filename="../spark17.py" line="148"/>
         <source>System Status | Connecting to device...</source>
         <translation>Statut système | connexion à l&apos;appareil ...</translation>
     </message>
     <message>
-        <location filename="../spark17.py" line="145"/>
+        <location filename="../spark17.py" line="151"/>
         <source>failed to import help browser. check QtWebkit Version</source>
         <translation>Échec d&apos;importation du navigateur d&apos;aide. Vérifier la version de QtWebkit</translation>
     </message>
     <message>
-        <location filename="../spark17.py" line="185"/>
+        <location filename="../spark17.py" line="191"/>
         <source>Connection</source>
         <translation>Connexion</translation>
     </message>
     <message>
-        <location filename="../spark17.py" line="185"/>
+        <location filename="../spark17.py" line="191"/>
         <source>New Device Found. Connect?</source>
         <translation>Nouvel appareil trouvé. Connexion ?</translation>
     </message>
     <message>
-        <location filename="../spark17.py" line="193"/>
+        <location filename="../spark17.py" line="199"/>
         <source> : Not calibrated</source>
         <translation> : non calibré</translation>
     </message>
@@ -885,57 +916,57 @@
         <translation type="obsolete">Statut système | Connecté à l&apos;appareil. Version :%s</translation>
     </message>
     <message>
-        <location filename="../spark17.py" line="200"/>
+        <location filename="../spark17.py" line="206"/>
         <source>System Status | Device not found. Dummy mode.</source>
         <translation>Statut système | Appareil non trouvé. Mode factice.</translation>
     </message>
     <message>
-        <location filename="../spark17.py" line="204"/>
+        <location filename="../spark17.py" line="210"/>
         <source>System Status | Device disconnected.</source>
         <translation>Statut système | Appareil déconnecté.</translation>
     </message>
     <message>
-        <location filename="../spark17.py" line="215"/>
+        <location filename="../spark17.py" line="221"/>
         <source>Device Disconnected</source>
         <translation>Appareil déconnecté</translation>
     </message>
     <message>
-        <location filename="../spark17.py" line="215"/>
+        <location filename="../spark17.py" line="221"/>
         <source>A communication error occurred, or the device was unexpectedly removed. Please reconnect the hardware.</source>
         <translation>Une erreur de communication s&apos;est produite, ou l&apos;appareil a été retiré à l&apos;improviste. Veuillez reconnecter l&apos;appareil.</translation>
     </message>
     <message>
-        <location filename="../spark17.py" line="219"/>
+        <location filename="../spark17.py" line="225"/>
         <source>wrong save fnction. inheritance not working properly. save from expeyesWidgetsNew must be called. This is defined in expeyesWidgetsNew</source>
         <translation>fonction d&apos;enregistrement incorrecte. L&apos;héritage ne fonctionne pas correctement, il faut appeler &quot;save&quot; depuis expeyesWidgetsNew. Ceci est défini dans expeyesWidgetsNew</translation>
     </message>
     <message>
-        <location filename="../spark17.py" line="224"/>
+        <location filename="../spark17.py" line="230"/>
         <source>missing experiment</source>
         <translation>expérience manquante</translation>
     </message>
     <message>
-        <location filename="../spark17.py" line="253"/>
+        <location filename="../spark17.py" line="259"/>
         <source>help widget not loaded. install QtWebkit</source>
         <translation>Widget d&apos;aide non installé. Installez QtWebkit</translation>
     </message>
     <message>
-        <location filename="../spark17.py" line="267"/>
+        <location filename="../spark17.py" line="273"/>
         <source>Warning</source>
         <translation>Avertissement</translation>
     </message>
     <message>
-        <location filename="../spark17.py" line="267"/>
+        <location filename="../spark17.py" line="273"/>
         <source>Really quit?</source>
         <translation>Vraiment quitter ?</translation>
     </message>
     <message>
-        <location filename="../spark17.py" line="289"/>
+        <location filename="../spark17.py" line="295"/>
         <source>packet drop</source>
         <translation>perte de paquet</translation>
     </message>
     <message>
-        <location filename="../spark17.py" line="195"/>
+        <location filename="../spark17.py" line="201"/>
         <source>System Status | Connected to device. Version : </source>
         <translation>Statut système | Connecté à l&apos;appareil. Version : </translation>
     </message>
@@ -1332,7 +1363,7 @@ IF=%5.1f</translation>
     <message>
         <location filename="../utilities/expeyesWidgetsNew.py" line="886"/>
         <source>Trigger Level: %s</source>
-        <translation>Niveau du seuil : %s</translation>
+        <translation type="obsolete">Niveau du seuil : %s</translation>
     </message>
     <message>
         <location filename="../utilities/expeyesWidgetsNew.py" line="920"/>
@@ -1358,6 +1389,11 @@ IF=%5.1f</translation>
         <location filename="../utilities/expeyesWidgetsNew.py" line="291"/>
         <source>busy </source>
         <translation>occupé</translation>
+    </message>
+    <message>
+        <location filename="../utilities/expeyesWidgetsNew.py" line="886"/>
+        <source>Trigger Level: </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
