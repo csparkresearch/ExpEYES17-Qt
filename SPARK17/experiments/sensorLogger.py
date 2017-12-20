@@ -17,6 +17,7 @@ class AppWindow( QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		super(AppWindow, self).__init__(parent)
 		self.setupUi(self)
 		self.p = kwargs.get('handler',None)
+		self.p.I.I2C.config(100e3)
 		self.widgetLayout.setAlignment(QtCore.Qt.AlignTop)
 		self.widgets.setMinimumWidth(250)
 		#Constants
