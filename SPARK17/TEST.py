@@ -54,8 +54,10 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow):
 			self.scalers = [self.I.SOCKET_CAPACITANCE,1,1,1,1,1,1,1] #socket cap , C0,C1,C2,C3,PCS,SEN,CRRC
 
 		from expeyes.analyticsClass import analyticsClass
-
-		self.setWindowTitle(self.I.generic_name + ' : '+self.I.H.version_string.decode("utf-8")+' : '+self.I.timestamp)
+		if self.I.timestamp:
+			self.setWindowTitle(self.I.generic_name + ' : '+self.I.H.version_string.decode("utf-8")+' : '+self.I.timestamp)
+		else:
+			self.setWindowTitle(self.I.generic_name + ' : Uncalibrated')
 		for a in range(50):
 			for b in range(3):
 				item = QtGui.QTableWidgetItem();self.tbl.setItem(a,b,item);	item.setText('')
