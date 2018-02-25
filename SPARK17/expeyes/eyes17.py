@@ -967,14 +967,20 @@ class Interface():
 		data=b''
 		try:
 			for i in range(int(samples/self.data_splitting)):
+				#print (i )
+				#print('sending .. ')
 				self.H.__sendByte__(CP.ADC)
 				self.H.__sendByte__(CP.GET_CAPTURE_CHANNEL)
 				self.H.__sendByte__(channel_number-1)   #starts with A0 on PIC
 				self.H.__sendInt__(self.data_splitting)
 				self.H.__sendInt__(i*self.data_splitting)
+				#print('sent.. ')
+				L = len(data)
 				data+= self.H.fd.read(int(self.data_splitting*2))        #reading int by int sometimes causes a communication error. 
-				self.H.__get_ack__()
-
+				#print (len(data) - L , ' got. asked ',int(self.data_splitting*2),' ' )
+				abyte = self.H.__get_ack__()
+				#print (abyte,'\n\n')
+			#print ('remainder..')
 			if samples%self.data_splitting:
 				self.H.__sendByte__(CP.ADC)
 				self.H.__sendByte__(CP.GET_CAPTURE_CHANNEL)
@@ -984,6 +990,7 @@ class Interface():
 				data += self.H.fd.read(int(2*(samples%self.data_splitting)))         #reading int by int may cause packets to be dropped.
 				self.H.__get_ack__()
 		except Exception as ex:
+			print('something went wrong',ex)
 			self.raiseException(ex, "Communication Error , Function : "+inspect.currentframe().f_code.co_name)
 
 		try:

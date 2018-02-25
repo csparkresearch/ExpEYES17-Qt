@@ -86,6 +86,11 @@ class Handler():
 		fd = serial.Serial(portname, 9600, stopbits=1, timeout = 0.02)
 		fd.read(100);fd.close()
 		fd = serial.Serial(portname, self.BAUD, stopbits=1, timeout = 1.0)
+		#fd.timeout(1.0)
+		fd.dsrdtr = False
+		fd.xonxoff=True
+		fd.write_timeout=0.1
+		print (dir(fd))
 		if(fd.inWaiting()):
 			fd.setTimeout(0.1)
 			fd.read(1000)

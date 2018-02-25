@@ -26,6 +26,8 @@ class AppWindow( QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.POINTS=1000
 		self.updatepos=0
 		self.xdata=np.array(range(self.POINTS))
+		self.xtime = np.linspace(0,self.POINTS,self.POINTS)
+		self.axis_start_time = time.time()
 		self.fps=0;self.lastTime=time.time();self.updatepos=0
 
 		
@@ -53,7 +55,7 @@ class AppWindow( QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.PUSHBUTTON(_translate("sensorlogger",'Stop Logging') , self.stop)
 		
 
-		self.plot = self.newPlot([],detailedWidget=True,xMin=0,xMax = self.POINTS, disableAutoRange = 'y',bottomLabel = _translate("sensorlogger",'time'),bottomUnits=_translate("sensorlogger",'S'),enableMenu=False,legend=True)
+		self.plot = self.newPlot([],detailedWidget=True,xMin=0,xMax = self.POINTS/100., disableAutoRange = 'y',bottomLabel = _translate("sensorlogger",'time'),bottomUnits=_translate("sensorlogger",'S'),enableMenu=False,legend=True)
 		self.plot.setYRange(-1000,1000)
 
 
@@ -65,11 +67,12 @@ class AppWindow( QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		val = self.samplesBtn.value()
 		self.POINTS = val
 		self.xdata=range(self.POINTS)
+		self.xtime = np.linspace(0,self.POINTS/500.,self.POINTS)
 		for a in self.acquireList:
 			item = self.acquireList[a]
 			item.ydata = np.zeros((item.handle.NUMPLOTS,self.POINTS))
 		self.updatepos = 0
-		self.plot.setLimits(xMax = self.POINTS);self.plot.setXRange(0,self.POINTS)
+		self.plot.setLimits(xMax = self.POINTS/100.);self.plot.setXRange(0,self.POINTS/500.)
 
 
 	def autoScan(self):
@@ -156,16 +159,20 @@ class AppWindow( QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 			if need_data:			
 				vals=item.handle.getRaw()
 				if not vals:continue
+				self.xtime[self.updatepos] = time.time() - self.axis_start_time
+				#print (self.xtime[0],self.xtime[self.updatepos])
 				for X in range(len(item.curves)):
 					item.ydata[X][self.updatepos] = vals[X]
-				if self.updatepos%20==0:
+				if self.updatepos%50==0:
 					for a in range(len(item.curves)):
 						if item.curves[a].checked:
-							item.curves[a].setData(self.xdata,item.ydata[a])
+							item.curves[a].setData(self.xtime[:self.updatepos-1],item.ydata[a][:self.updatepos-1])
 		#N2.readADC(10)
 		if len(self.acquireList):
 			self.updatepos+=1
-			if self.updatepos>=self.POINTS:self.updatepos=0
+			if self.updatepos>=self.POINTS:
+				self.stop()
+				return
 		
 			now = time.time()
 			dt = now - self.lastTime
@@ -175,12 +182,12 @@ class AppWindow( QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 			else:
 				s = np.clip(dt*3., 0, 1)
 				self.fps = self.fps * (1-s) + (1.0/dt) * s
-			if not self.updatepos%100 :self.plot.setTitle(_translate("sensorlogger",'%0.2f fps') % (self.fps) )
+			if not self.updatepos%100 :self.plot.setTitle(_translate("sensorlogger",'%0.2f fps' % (self.fps)) )
 
 
 
 	def start(self):
-		self.start_time = time.time()
+		self.axis_start_time = time.time()
 		self.setInterval(self.timer,1,self.update)
 
 		#self.c1 = self.addCurve(self.plot, 'trace 1' ,'#FFF')
