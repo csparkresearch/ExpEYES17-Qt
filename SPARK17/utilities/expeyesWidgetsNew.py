@@ -582,23 +582,25 @@ class expeyesWidgets(object):
 			super(expeyesWidgets.tracesWidgetDetailed, self).__init__()
 			self.setupUi(self)
 			self.curveRefs={}
+			self.traceRows={}
 			self.plot = plot
 
 		def addCurve(self,name,c):
 			self.curveRefs[name] = c
 			row = self.traceRowWidget(name,c,self.plot.leg)
+			self.traceRows[c] = row
 			self.traceLayout.addWidget(row)
 
 		def removeCurve(self,c): #remove by curve reference
-			self.traceList.clear()
-			delItem=None
-			for a in self.curveRefs:
-				if self.curveRefs[a] == c:
-					delItem = a
-				else:
-					self.traceList.addItem(a)
-			self.plot.leg.removeItem(delItem.name())
-			self.curveRefs.pop(delItem,None)
+			try:
+				row = self.traceRows.pop(c)
+				row.removeTrace()
+			except Exception as e:
+				print ('error popping trace row using curve :',c,e)
+			#self.plot.leg.removeItem(delItem.name())
+			#print('remaining curvessss :',self.curveRefs)
+			self.curveRefs = { k:v for k, v in self.curveRefs.items() if v==c }
+			#print('remaining curves :',self.curveRefs)
 
 		def saveTrace(self):
 			from . import plotSaveWindow

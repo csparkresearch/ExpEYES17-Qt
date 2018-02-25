@@ -1817,24 +1817,30 @@ class Interface():
 
 	def tim_helper(self, cmd, src, dst,timeout = 2.5):
 		'''
-		Helper function for all Time measurement calls. Command, 
-		Source and destination pins are inputs.
+		Helper function for all Time measurement calls.
+		
+		cmd == 'multi_r2r':
+		  src = input pin
+		  dst = number of edges to detect. dst E {1,2,3,4,8,12,16,32,48}
+		cmd in ['r2r','r2f','f2r','f2f']
+		  Command, Source and destination pins are inputs.
+		
 		Returns time in microseconds, -1 on error.
 		'''
-		allowed_skips = [0,1,2,4,8,12,16,32,48]
+		allowed_edges = [1,2,3,4,8,12,16,32,48]
 
 		if cmd == 'multi_r2r':
 			if src not in self.digital_inputs:
 				print ('Pin should be digital input capable: 0,3,4,5,6 or 7')
 				self.msg = ('Pin should be digital input capable: 0,3,4,5,6 or 7')
 				return -1
-			if dst not in allowed_skips:
-				self.msg = ('skips allowed : %s'%allowed_skips)
-				print ('skip not in %s'%allowed_skips)
+			if dst not in allowed_edges:
+				self.msg = ('edges allowed : %s'%allowed_edges)
+				print ('edge count not in %s'%allowed_edges)
 				return -1
-			if dst in [0,1,2]:
+			if dst in [1,2,3]:
 				edge = 'rising'
-				count = dst+2
+				count = dst+1
 			elif dst in [4,8,12]:
 				edge = '4xrising'
 				count = [4,8,12].index(dst)+2
@@ -1923,13 +1929,13 @@ class Interface():
 		'''
 		return self.tim_helper('f2r', pin1, pin2)
 
-	def multi_r2rtime(self, pin, skip=0,timeout=1.0):
+	def multi_r2rtime(self, pin, edges=1,timeout=1.0):
 		'''
-		Time between rising edges, could skip desired number of edges in between.
-		(pin, 9) will give time required for
-		10 cycles of a squarewave, increases resolution.
+		Time between rising edges. You can specify the number of edges to count.
+		(pin, 3) will give time required for 3 cycles of the input. Increases measurement resolution.
+		valid edges = [1,2,3,4,8,12,16,32,48]
 		'''
-		return self.tim_helper('multi_r2r', pin, skip,timeout)
+		return self.tim_helper('multi_r2r', pin, edges,timeout)
 
 	def set2rtime(self, pin1, pin2):
 		'''
@@ -2594,6 +2600,9 @@ class Interface():
 		duty_cycle      Percentage of high time
 		==============  ============================================================================================
 		"""
+		if freq < 4:              
+			return self.set_sqr1_slow(freq, duty_cycle)
+
 		if freq==0:
 			self.set_state(SQR1=1)
 			return 0
