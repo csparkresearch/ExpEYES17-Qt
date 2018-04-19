@@ -26,7 +26,8 @@ class acquirer():
 		self.INPUTS = parent.INPUTS
 		self.paused = False
 		if self.I and len(sys.argv)==1: self.I.__ignoreCalibration__()  #provide any argument to skip calibration erase
-		print self.I.I2C.scan(verbose=True)
+		sensed = self.I.I2C.scan()
+		print 'sensed',sensed
 		self.DAC_CHAN = None
 		self.SECOND_DAC = None
 
@@ -104,17 +105,21 @@ class acquirer():
 
 		#DAC, IN1 , A1, A2, A3
 		try:
-				
-			self.parent.valueTable.item(0,0).setText('%.3f'%self.DAC_VALS[-1])
-			self.parent.valueTable.item(0,1).setText('%.3f'%self.ADC_VALUES['IN1'][0][-1])
-			self.parent.valueTable.item(0,2).setText('%.3f'%self.ADC_VALUES['A1'][0][-1])
-			self.parent.valueTable.item(0,3).setText('%.3f'%self.ADC_VALUES['A2'][0][-1])
-			self.parent.valueTable.item(0,4).setText('%.3f'%self.ADC_VALUES['A3'][0][-1])
+			#print dacval,ADC_ACTUAL,self.ADC_DIRECT2[-1],self.ADC_VALUES['IN1'][0][-1],self.ADC_VALUES['A1'][0][-1],self.DAC_VALS2[-1],self.ADC_DIRECT2[-1]
+			self.parent.valueTable.item(0,0).setText('%.3f'%dacval)
+			self.parent.valueTable.item(0,1).setText('%.3f'%ADC_ACTUAL)
+			self.parent.valueTable.item(0,2).setText('%.3f'%self.ADC_VALUES['IN1'][0][-1])
+			self.parent.valueTable.item(0,3).setText('%.3f'%self.ADC_VALUES['A1'][0][-1])
+			self.parent.valueTable.item(0,4).setText('%.3f'%self.ADC_VALUES['A2'][0][-1])
+			self.parent.valueTable.item(0,5).setText('%.3f'%self.ADC_VALUES['A3'][0][-1])
+			self.parent.valueTable.item(0,6).setText('%.3f'%self.DAC_VALS2[-1])
+			self.parent.valueTable.item(0,7).setText('%.3f'%self.ADC_DIRECT2[-1])
 
 		except Exception as e:
 			print (e)
 		self.numpoints+=1
 		#########################----UPDATE PLOTS AND TABLE----######################
+		#print np.array(self.DAC_VALS2),np.array(self.ADC_DIRECT2)
 		self.parent.curves['DAC'].setData(self.ADC_DIRECT,np.array(self.DAC_VALS)-np.array(self.ADC_DIRECT))
 		self.parent.curves['DAC2'].setData(self.ADC_DIRECT2,np.array(self.DAC_VALS2)-np.array(self.ADC_DIRECT2))
 
@@ -140,8 +145,10 @@ class acquirer():
 	def startCalibration(self):
 		self.Running = True
 		self.vv = 0.05
-		self.dv = 0.005
+		self.dv = 0.001
 		self.I.DAC.setVoltage(self.DAC_CHAN,self.vv)
+		self.I.DAC.setVoltage(self.SECOND_DAC,self.vv)
+		print 'STARTING',self.ADC.readADC_SingleEnded(self.CHANA)*1e-3, self.ADC.readADC_SingleEnded(self.CHANB)*1e-3
 		time.sleep(0.5)
 		self.DAC_VALS=[]
 		self.DAC_VALS2=[]
@@ -180,7 +187,7 @@ class AppWindow(QtGui.QMainWindow, calibrator.Ui_MainWindow):
 		self.INPUTS=['A1','A2','A3','IN1']
 		self.calibrateOnlyADC = True #DACs will have to calibrated against the ADCs later
 		self.type1text = 'invalid'
-		self.type2text = 'PV1->(A1 A2 A3 IN1)'
+		self.type2text = 'PV1->(A1 A2 A3 IN1)->A0, PV2-A1'
 		self.timers=[]
 		self.setType(0)
 		self.A = acquirer(self)
@@ -261,7 +268,7 @@ class AppWindow(QtGui.QMainWindow, calibrator.Ui_MainWindow):
 		print ('only option is to calibrate only ADCs. TODO')
 		self.calibrateOnlyADC = True
 		self.dirnameLabel.setText(self.type2text)
-		self.valueTable.setHorizontalHeaderLabels(['DAC', 'IN1' , 'A1', 'A2', 'A3'])
+		self.valueTable.setHorizontalHeaderLabels(['PV1','ADS0', 'IN1' , 'A1', 'A2', 'A3','PV2','ADS1'])
 
 	def addLabel(self,name,color=None):
 		item = QtGui.QListWidgetItem()

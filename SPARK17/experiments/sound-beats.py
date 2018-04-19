@@ -132,7 +132,7 @@ class AppWindow(QtGui.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		self.setTimeout(self.timer,100,self.update)
 
 	def popup(self):
-		if not self.fr:
+		if self.fr is None:
 		    return # no FFT data so far
 		plot,self.popupFFT = self.popupPlot(self.fr,self.tr)
 		plot.getAxis('bottom').setLabel(_translate("sound-beats",'Frequency'))

@@ -55,7 +55,7 @@ class AppWindow( QtWidgets.QWidget, plotTemplate.Ui_Form,expeyesWidgets):
 		if L>3:
 			self.activeCurve.setData(self.xdata,self.ydata)
 			if L%100==0:
-				self.valLabel.setText(_translate("data-logger",'Voltage:\t%s')%self.applySIPrefix(v,'V',2))
+				self.valLabel.setText(_translate("data-logger",'Voltage:\t%s'%self.applySIPrefix(v,'V',2)))
 
 		if t>self.endTime:
 			self.xmax=t+1
