@@ -69,7 +69,7 @@ class AppWindow(QtGui.QMainWindow, testing.Ui_MainWindow):
 		['CAP330',330e-12,self.CAP],
 		['WG-A1',1e3,self.WGA1],
 		['SQR1-IN2',5e3,self.SQR1IN2],
-		['SEN',5.564e3,self.SEN],
+		['SEN',1e3,self.SEN],
 		#['CCS',0.9976e3,self.CCS],
 		#group 2 begins
 		['SQR2-IN2',10e3,self.SQR2IN2],
